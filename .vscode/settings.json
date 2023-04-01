@@ -1,0 +1,8 @@
+{
+    "rewrap.autoWrap.enabled": true,
+    "rewrap.wrappingColumn": 80,
+    "cSpell.words": [
+        "chiselstrike",
+        "Deno"
+    ]
+}

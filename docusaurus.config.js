@@ -5,11 +5,27 @@ const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/plugin-content-docs').Options} */
-const aboutPluginOptions = {
+const homePluginOptions = {
   id: 'home',
   path: 'home',
   routeBasePath: '/',
   sidebarPath: require.resolve('./home/sidebars.js'),
+}
+
+/** @type {import('@docusaurus/plugin-content-docs').Options} */
+const tutorialsPluginOptions = {
+  id: 'tutorials',
+  path: 'tutorials',
+  routeBasePath: 'tutorials',
+  sidebarPath: require.resolve('./tutorials/sidebars.js'),
+}
+
+/** @type {import('@docusaurus/plugin-content-docs').Options} */
+const referencePluginOptions = {
+  id: 'reference',
+  path: 'reference',
+  routeBasePath: 'reference',
+  sidebarPath: require.resolve('./reference/sidebars.js'),
 }
 
 /** @type {import('@docusaurus/theme-common').UserThemeConfig} */
@@ -17,10 +33,10 @@ const themeConfig = {
   // Replace with your project's social card
   // image: 'img/docusaurus-social-card.jpg',
   navbar: {
-    title: 'Turso documentation',
+    title: 'Turso docs',
     logo: {
-      alt: 'My Site Logo',
-      src: 'img/logo.svg',
+      alt: 'Turso logo',
+      src: 'img/turso.png',
     },
     items: [
       {
@@ -29,6 +45,25 @@ const themeConfig = {
         docId: 'index',
         label: 'Home',
         position: 'left',
+      },
+      {
+        type: 'doc',
+        docsPluginId: 'tutorials',
+        docId: 'index',
+        label: 'Tutorials',
+        position: 'left',
+      },
+      {
+        type: 'doc',
+        docsPluginId: 'reference',
+        docId: 'index',
+        label: 'Reference',
+        position: 'left',
+      },
+      {
+        href: 'https://chiselstrike.com',
+        label: 'Website',
+        position: 'right',
       },
       {
         href: 'https://github.com/chiselstrike',
@@ -89,12 +124,18 @@ const themeConfig = {
     theme: lightCodeTheme,
     // @ts-ignore
     darkTheme: darkCodeTheme,
+    additionalLanguages: ['rust'],
   },
 };
 
 /** @type {import('@docusaurus/theme-classic').Options} */
 const themeOptions = {
   customCss: require.resolve('./src/css/custom.css'),
+}
+
+/** @type {import('@docusaurus/plugin-google-gtag').Options} */
+const gtagOptions = {
+  trackingID: 'G-YMMQC402S1',
 }
 
 /** @type {import('@docusaurus/types').Config} */
@@ -128,14 +169,13 @@ const config = {
   themeConfig: themeConfig,
 
   plugins: [
-    [ 'content-docs', aboutPluginOptions ],
-    // [ 'content-docs', tutorialsPluginOptions ],
-    // [ 'content-docs', examplesPluginOptions ],
-    // [ 'content-docs', referencePluginOptions ],
+    [ 'content-docs', homePluginOptions ],
+    [ 'content-docs', tutorialsPluginOptions ],
+    [ 'content-docs', referencePluginOptions ],
     [ '@docusaurus/theme-classic', themeOptions ],
     // [ '@docusaurus/plugin-client-redirects', redirectOptions ],
     // [ '@docusaurus/plugin-google-analytics', gaOptions ],
-    // [ '@docusaurus/plugin-google-gtag', gtagOptions ],
+    [ '@docusaurus/plugin-google-gtag', gtagOptions ],
   ],
 };
 
