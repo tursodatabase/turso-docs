@@ -3,8 +3,28 @@ const sidebars = {
   sidebar: [
     {
       type: 'doc',
-      label: 'Home',
+      label: 'Introduction',
       id: 'index',
+    },
+    {
+      type: 'doc',
+      label: 'Concepts',
+      id: 'concepts',
+    },
+    {
+      type: 'doc',
+      label: 'Beta limits',
+      id: 'beta-limits',
+    },
+    {
+      type: 'link',
+      label: 'Tutorials',
+      href: '/tutorials/'
+    },
+    {
+      type: 'link',
+      label: 'Reference',
+      href: '/reference/'
     },
   ],
 };
