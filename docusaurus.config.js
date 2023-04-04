@@ -75,13 +75,60 @@ const themeConfig = {
 
   footer: {
     style: 'dark',
+    logo: {
+      alt: 'Turso logo',
+      src: 'img/turso-by-chiselstrike.svg',
+    },
     links: [
       {
-        title: 'Docs',
+        title: 'Turso: SQLite* for the Edge',
         items: [
           {
-            label: 'Home',
-            to: '/',
+            html: `
+                <a href="https://api.turso.io/?website=true" target="_blank" rel="noreferrer noopener" aria-label="Turso Sign Up">
+                  <div class="footer__button signUp">
+                    <p>Sign Up</p>
+                    <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M17.0303 6.28033C17.3232 5.98744 17.3232 5.51256 17.0303 5.21967L12.2574 0.4467C11.9645 0.153807 11.4896 0.153807 11.1967 0.4467C10.9038 0.739593 10.9038 1.21447 11.1967 1.50736L15.4393 5.75L11.1967 9.99264C10.9038 10.2855 10.9038 10.7604 11.1967 11.0533C11.4896 11.3462 11.9645 11.3462 12.2574 11.0533L17.0303 6.28033ZM0.5 6.5L16.5 6.5L16.5 5L0.5 5L0.5 6.5Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              `,
+          },
+          {
+            html: `
+            <a href="https://github.com/libsql/libsql" target="_blank" rel="noreferrer noopener" aria-label="LibSQL Github repo">
+            <div class="footer__button github">
+              <p>Star Our Repo</p>
+              <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.0303 6.28033C17.3232 5.98744 17.3232 5.51256 17.0303 5.21967L12.2574 0.4467C11.9645 0.153807 11.4896 0.153807 11.1967 0.4467C10.9038 0.739593 10.9038 1.21447 11.1967 1.50736L15.4393 5.75L11.1967 9.99264C10.9038 10.2855 10.9038 10.7604 11.1967 11.0533C11.4896 11.3462 11.9645 11.3462 12.2574 11.0533L17.0303 6.28033ZM0.5 6.5L16.5 6.5L16.5 5L0.5 5L0.5 6.5Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </a>
+              `,
+          },
+        ]
+      },
+      {
+        title: 'Company',
+        items: [
+          {
+            label: 'About',
+            href: 'https://chiselstrike.com/about-us',
+          },
+          {
+            label: 'Investors',
+            href: 'https://chiselstrike.com/investors',
+          },
+          {
+            label: 'Blog',
+            href: 'https://blog.chiselstrike.com',
           },
         ],
       },
@@ -93,24 +140,45 @@ const themeConfig = {
           //   href: 'https://stackoverflow.com/questions/tagged/turso',
           // },
           {
-            label: 'Discord',
+            label: 'Join Our Discord',
             href: 'https://discord.gg/rKqhMfj9',
           },
           {
-            label: 'Twitter',
+            label: 'Follow us on Twitter',
             href: 'https://twitter.com/ChiselStrike',
+          },
+          {
+            label: 'Schedule a Zoom',
+            href: 'https://calendly.com/d/gt7-bfd-83n/meet-with-chiselstrike',
           },
         ],
       },
       {
-        title: 'More',
+        title: 'Open Source',
         items: [
           {
-            label: 'Blog',
-            href: 'https://blog.chiselstrike.com',
+            label: 'LibSQL Github',
+            href: 'https://github.com/libsql/libsql',
           },
           {
-            label: 'GitHub',
+            label: 'Join libSQL Discord',
+            href: 'https://discord.gg/TxwbQTWHSr',
+          },
+          {
+            label: 'ChiselStrike Github',
+            href: 'https://github.com/chiselstrike/chiselstrike',
+          },
+        ],
+      },
+      {
+        title: 'Legal',
+        items: [
+          {
+            label: 'Privacy Policy',
+            href: 'https://chiselstrike.com/privacy-policy',
+          },
+          {
+            label: 'Terms of Use',
             href: 'https://github.com/chiselstrike',
           },
         ],
@@ -126,6 +194,10 @@ const themeConfig = {
     darkTheme: darkCodeTheme,
     additionalLanguages: ['rust'],
   },
+
+  colorMode: {
+    defaultMode: 'dark',
+  }
 };
 
 /** @type {import('@docusaurus/theme-classic').Options} */
