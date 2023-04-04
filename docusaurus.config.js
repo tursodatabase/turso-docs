@@ -61,7 +61,7 @@ const themeConfig = {
         position: 'left',
       },
       {
-        href: 'https://chiselstrike.com',
+        href: 'https://turso.tech',
         label: 'Website',
         position: 'right',
       },

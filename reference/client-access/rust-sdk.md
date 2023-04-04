@@ -20,7 +20,7 @@ $ cargo add libsql-client --no-default-features -F workers_backend
 Call the new_client_from_config function to create a new Client object:
 
 ```rust
-use libsql_client::{new_client_from_config, Config}
+use libsql_client::{new_client_from_config, Config};
 
 let client = new_client_from_config(Config {
     url: "libsql://your-database.turso.io".try_into()?,

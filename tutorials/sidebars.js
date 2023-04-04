@@ -25,6 +25,11 @@ const sidebars = {
         'get-started-turso-cli/turso-cli-review',
       ]
     },
+    {
+      type: 'link',
+      label: "Using CloudFlare Workers and TypeScript",
+      href: 'https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/',
+    },
   ],
 };
 

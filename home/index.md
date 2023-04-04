@@ -19,7 +19,7 @@ documentation:
 - Learn how to access Turso using the [libSQL client libraries].
 
 
-[Turso]: https://chiselstrike.com/
+[Turso]: https://turso.tech/
 [libSQL]: https://libsql.org/
 [SQLite]: https://sqlite.org/
 [concepts]: /concepts

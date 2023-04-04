@@ -19,6 +19,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Client access',
+      collapsed: false,
       link: {
         type: 'doc',
         id: 'client-access/index',
