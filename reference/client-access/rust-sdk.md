@@ -20,7 +20,7 @@ $ cargo add libsql-client --no-default-features -F workers_backend
 Call the new_client_from_config function to create a new Client object:
 
 ```rust
-use libsql_client::{new_client_from_config, Config};
+use libsql_client::{new_client_from_config, Config, DatabaseClient};
 
 let client = new_client_from_config(Config {
     url: "libsql://your-database.turso.io".try_into()?,
@@ -58,20 +58,25 @@ insert into example_scores values ('uid1', 2, 95);
 ### SQL string argument
 
 ```rust
-let users = client.execute("select * from example_users").await?;
+let rs = client.execute("select * from example_users").await?;
+// rs is a ResultSet object containing rows and columns
 ```
 
 ### Positional placeholders
 
-```rust
-use libsql_client::{Statement, params};
+Create a new Statement using `Statement::with_args` and use the `args` macro to
+specify the values to bind to the placeholders.
 
-let also_users = client
-    .execute(Statement::with_params(
+```rust
+use libsql_client::{Statement, args};
+
+let rs = client
+    .execute(Statement::with_args(
         "select score from example_scores where uid = ? and level = ?",
-        params!("uid1", 2),
+        args!("uid1", 2),
     ))
     .await?;
+// rs is a ResultSet object containing rows and columns
 ```
 
 <!-- ### Named placeholders -->
@@ -86,17 +91,17 @@ their behavior.
 :::
 
 ```rust
-use libsql_client::{Statement, params};
+use libsql_client::{Statement, args};
 
 client
     .batch([
-        Statement::with_params(
+        Statement::with_args(
             "insert into example_users values (?, ?)",
-            params!("uid3", "uid3@turso.tech"),
+            args!("uid3", "uid3@turso.tech"),
         ),
-        Statement::with_params(
+        Statement::with_args(
             "insert into example_scores values (?, ?, ?)",
-            params!("uid3", 1, 200),
+            args!("uid3", 1, 200),
         ),
     ])
     .await?;
@@ -115,37 +120,57 @@ The following code uses an interactive transaction to update a user’s level
 score, but only if it’s greater than the one that currently exists:
 
 ```rust
-use libsql_client::{Statement, Value, params};
+use libsql_client::{Statement, args};
 
 let uid = "uid1";
 let level = 1;
-let new_score = 100;
-let mut transaction = client.transaction().await?;
+let new_score = 200;
+
+let transaction = client.transaction().await?;
 let rs = transaction
-    .execute(Statement::with_params(
+    .execute(Statement::with_args(
         "select score from example_scores where uid = ? and level = ?",
-        params!(uid, level),
+        args!(uid, level),
     ))
     .await?;
 
-let old_score = rs.rows.first().map(|row| &row[0]);
+let old_score = rs.rows.first().map(|row| &row.values[0]);
 let old_score = match old_score {
     Some(Value::Integer { value: i }) => *i,
     _ => 0,
 };
 if new_score > old_score {
     transaction
-        .execute(Statement::with_params(
+        .execute(Statement::with_args(
             "update example_scores set score = ? where uid = ? and level = ?",
-            params!(new_score, uid, level),
+            args!(new_score, uid, level),
         ))
         .await?;
 }
 transaction.commit().await?;
 ```
 
-<!-- ## ResultSet -->
+## ResultSet
 
+A ResultSet struct contains values for the rows and columns returned by a query.
+
+```rust
+pub struct ResultSet {
+    pub columns: Vec<String>,
+    pub rows: Vec<Row>,
+    pub rows_affected: u64,
+    pub last_insert_rowid: Option<i64>,
+}
+```
+
+Each row is contained in a Row struct that provides the values of the row
+available by column index.
+
+```rust
+pub struct Row {
+    pub values: Vec<Value>,
+}
+```
 
 [libsql-client crate]: https://crates.io/crates/libsql-client
 [common section on batches]: ../client-access#batches
