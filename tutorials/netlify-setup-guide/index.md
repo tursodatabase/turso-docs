@@ -65,7 +65,7 @@ create unique index idx_users_username on users(username);
 create unique index idx_links_userid_link on links(user_id, link);
 
 -- create user: "turso"
-insert into users(id, email, full_name, username) values(1, "no-reply@chiselstrike.com", "Turso by ChiseStrike", "turso");
+insert into users(id, email, full_name, username) values(1, "no-reply@chiselstrike.com", "Turso by ChiselStrike", "turso");
 
 -- add some links to "turso"
 insert into links(user_id, website, link) values(1, "Twitter", "https://twitter.com/ChiselStrike"),
