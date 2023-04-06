@@ -197,6 +197,7 @@ const themeConfig = {
 
   colorMode: {
     defaultMode: 'dark',
+    respectPrefersColorScheme: true,
   }
 };
 
