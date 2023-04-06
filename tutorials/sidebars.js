@@ -26,6 +26,11 @@ const sidebars = {
       ]
     },
     {
+      type: 'doc',
+      label: 'Netlify setup guide',
+      id: 'netlify-setup-guide/index',
+    },
+    {
       type: 'link',
       label: "Using CloudFlare Workers and TypeScript",
       href: 'https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/',
