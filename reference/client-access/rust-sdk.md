@@ -24,7 +24,7 @@ use libsql_client::{new_client_from_config, Config, DatabaseClient};
 
 let client = new_client_from_config(Config {
     url: "libsql://your-database.turso.io".try_into()?,
-    auth_token: "your-auth-token",
+    auth_token: Some(String::from("your-auth-token")),
 })
 .await?;
 ```
