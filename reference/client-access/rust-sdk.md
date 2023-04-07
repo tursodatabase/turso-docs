@@ -93,7 +93,7 @@ their behavior.
 ```rust
 use libsql_client::{Statement, args};
 
-client
+let rss = client
     .batch([
         Statement::with_args(
             "insert into example_users values (?, ?)",
@@ -105,6 +105,7 @@ client
         ),
     ])
     .await?;
+// rss is a Vec<ResultSet> containing results from all the queries
 ```
 
 ## Interactive transactions
@@ -169,6 +170,53 @@ available by column index.
 ```rust
 pub struct Row {
     pub values: Vec<Value>,
+}
+```
+
+Each Value can be one of the types supported by SQLite:
+
+```rust
+pub enum Value {
+    Null,
+    Integer {
+        value: i64,
+    },
+    Float {
+        value: f64,
+    },
+    Text {
+        value: String,
+    },
+    Blob {
+        value: Vec<u8>,
+    },
+}
+```
+
+Your code will need to make an assumption or a decision about the type of each
+value found in a Row.  The following code examines the first Value in the first
+Row of a ResultSet and sets up a match for how to interpret it:
+
+```rust
+let row = rs.rows.first().expect("one row");
+let value = &row.values[0];
+match value {
+    Value::Null => todo!(),
+    Value::Integer { value } => todo!(),
+    Value::Float { value } => todo!(),
+    Value::Text { value } => todo!(),
+    Value::Blob { value } => todo!(),
+};
+```
+
+If your code is expecting a Text type (containing a Rust `&String`), then you
+could express that assumption like this:
+
+```rust
+if let Value::Text { value } = value {
+    println!("Text value as &String: {value}");
+} else {
+    return Err("Expected a Text value".into());
 }
 ```
 
