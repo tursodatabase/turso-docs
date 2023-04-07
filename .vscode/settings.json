@@ -3,6 +3,7 @@
     "rewrap.wrappingColumn": 80,
     "cSpell.words": [
         "chiselstrike",
-        "Deno"
+        "Deno",
+        "struct"
     ]
 }
