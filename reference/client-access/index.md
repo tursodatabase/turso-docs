@@ -1,3 +1,13 @@
+---
+description: Technical reference for libSQL client libraries used to access Turso databases.
+keywords:
+  - turso
+  - libsql
+  - client
+  - sdk
+  - library
+---
+
 # Client access
 
 Client libraries for the following languages are available to query a Turso

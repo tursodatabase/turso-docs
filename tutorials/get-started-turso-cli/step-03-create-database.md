@@ -1,3 +1,13 @@
+---
+description: Create a logical database with the Turso CLI.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - database
+  - creation
+---
+
 # Step 3: Create a logical database
 
 When creating a logical database, Turso requires a [location] for the [primary

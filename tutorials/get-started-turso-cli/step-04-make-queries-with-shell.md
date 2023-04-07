@@ -1,3 +1,13 @@
+---
+description: Make queries using the Turso CLI shell.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - query
+  - shell
+---
+
 # Step 4: Make queries with the shell
 
 The output of `turso db create` in the last step shows a command to run to start

@@ -1,3 +1,14 @@
+---
+description: Technical reference documentation for Turso, including libSQL client library usage.
+keywords:
+  - turso
+  - technical
+  - reference
+  - libsql
+  - client
+  - library
+---
+
 # Turso technical reference
 
 This section of the documentation provides details on the tools, SDKs, and

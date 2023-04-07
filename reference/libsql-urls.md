@@ -1,3 +1,14 @@
+---
+description: Description of libSQL database URLs used to identify a Turso database and the network protocol.
+keywords:
+  - turso
+  - database
+  - libsql
+  - url
+  - websocket
+  - http
+---
+
 # libSQL database URLs
 
 Throughout this documentation, the [Turso CLI], and the [libSQL client
@@ -32,7 +43,10 @@ WebSocket protocol to manage round trip communications with a libSQL database.
 If your runtime environment doesn’t support WebSockets, or a client library is
 not available for your preferred language, you can replace the `libsql` scheme
 with `https` to invoke a stateless HTTP API similar to the WebSocket protocol.
-Documentation for this protocol is forthcoming.
+When using [sqld] locally, you can use `http` to access it without requiring an
+SSL certificate.
+
+Documentation for the libSQL HTTP protocol is forthcoming.
 
 
 [Turso CLI]: /reference/turso-cli

@@ -1,3 +1,15 @@
+---
+description: Technical reference for the libSQL TypeScript & JavaScript client libraries used to access Turso databases, including sample code.
+keywords:
+  - turso
+  - libsql
+  - rust
+  - client
+  - sdk
+  - library
+  - example
+---
+
 # Rust SDK
 
 ## Installation

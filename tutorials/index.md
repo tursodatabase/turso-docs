@@ -1,3 +1,11 @@
+---
+description: List of tutorials and guides for working with Turso using various languages and environments.
+keywords:
+  - turso
+  - tutorial
+  - guide
+---
+
 # Turso tutorials
 
 The following guides are available to help you learn how Turso works:

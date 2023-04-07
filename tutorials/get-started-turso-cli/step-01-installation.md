@@ -1,3 +1,14 @@
+---
+description: Installation of the Turso CLI using homebrew or script.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - installation
+  - homebrew
+  - script
+---
+
 # Step 1: Installation
 
 The Turso CLI has two installation options: Homebrew and scripted install.

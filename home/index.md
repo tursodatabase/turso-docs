@@ -1,3 +1,13 @@
+---
+description: Documentation for Turso, an edge-hosted, distributed database based on libSQL, an open-source and open-contribution fork of SQLite.
+keywords:
+  - turso
+  - database
+  - documentation
+  - libsql
+  - sqlite
+---
+
 # Turso documentation
 
 ## About Turso

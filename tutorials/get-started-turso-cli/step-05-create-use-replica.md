@@ -1,3 +1,13 @@
+---
+description: Create a database replica and query it using the Turso CLI.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - replicate
+  - query
+---
+
 # Step 5: Create and use a replica
 
 ## Create a replica
