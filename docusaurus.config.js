@@ -211,6 +211,12 @@ const gtagOptions = {
   trackingID: 'G-YMMQC402S1',
 }
 
+/** @type {import('@docusaurus/plugin-sitemap').Options} */
+const sitemapOptions = {
+  // @ts-ignore
+  changefreq: 'daily',
+}
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Turso',
@@ -249,6 +255,7 @@ const config = {
     // [ '@docusaurus/plugin-client-redirects', redirectOptions ],
     // [ '@docusaurus/plugin-google-analytics', gaOptions ],
     [ '@docusaurus/plugin-google-gtag', gtagOptions ],
+    [ '@docusaurus/plugin-sitemap', sitemapOptions ],
   ],
 };
 
