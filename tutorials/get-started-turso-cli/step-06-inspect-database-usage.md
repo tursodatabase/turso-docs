@@ -1,3 +1,13 @@
+---
+description: Inspect database using using for billing purposes using the Turso CLI.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - billing
+  - usage
+---
+
 # Step 6: Inspect database usage
 
 Turso bills you based on the usage of your database, including total size and

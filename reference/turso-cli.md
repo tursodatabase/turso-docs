@@ -1,3 +1,12 @@
+---
+description: Technical reference for the Turso CLI used to manage and access Turso databases.
+keywords:
+  - turso
+  - database
+  - cli
+  - reference
+---
+
 # Turso CLI
 
 The Turso CLI is the tool provided for managing Turso databases. If you are

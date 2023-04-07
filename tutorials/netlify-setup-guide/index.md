@@ -1,3 +1,13 @@
+---
+description: Setup guide for configuring Turso using environment variables in an application deployed to Netlify.
+keywords:
+  - turso
+  - tutorial
+  - guide
+  - netlify
+  - environment variable
+---
+
 # Netlify setup guide
 
 In this setup guide, you will deploy a web application that uses [Turso] as its

@@ -1,3 +1,15 @@
+---
+description: Concepts for understanding how Turso works, including location, logical database, primary, and replica instances.
+keywords:
+  - turso
+  - concepts
+  - database
+  - logical
+  - instance
+  - primary
+  - replica
+---
+
 # Concepts
 
 In order to better understand how Turso works, please read through the following

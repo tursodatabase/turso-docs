@@ -1,3 +1,13 @@
+---
+description: Log out of the Turso CLI.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - authentication
+  - logout
+---
+
 # Step 8: Log out of the CLI
 
 To log out, use the following command:

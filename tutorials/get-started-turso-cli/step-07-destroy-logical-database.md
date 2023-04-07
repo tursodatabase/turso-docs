@@ -1,3 +1,12 @@
+---
+description: Destroy a database using the Turso CLI.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - destroy
+---
+
 # Step 7: Destroy the logical database
 
 The CLI can destroy the entire [logical database], including the [primary] and

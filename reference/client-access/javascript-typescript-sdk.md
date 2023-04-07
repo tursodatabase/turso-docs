@@ -1,3 +1,16 @@
+---
+description: Technical reference for the libSQL TypeScript & JavaScript client libraries used to access Turso databases, including sample code.
+keywords:
+  - turso
+  - libsql
+  - javascript
+  - typescript
+  - client
+  - sdk
+  - library
+  - example
+---
+
 # JavaScript & TypeScript SDK
 
 The JavaScript SDK comes with TypeScript bindings and supports environments where either language can be used.  Both ESM and CJS modules are provided.

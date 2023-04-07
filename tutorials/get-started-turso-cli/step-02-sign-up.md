@@ -1,3 +1,14 @@
+---
+description: Sign up for Turso with the Turso CLI.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - authentication
+  - signup
+  - login
+---
+
 # Step 2: Sign up for Turso
 
 A GitHub account is required to sign up using the Turso CLI. Start the process

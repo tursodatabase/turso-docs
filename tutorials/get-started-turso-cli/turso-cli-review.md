@@ -1,3 +1,14 @@
+---
+description: The Turso CLI in review - a list of the most important commands.
+keywords:
+  - turso
+  - cli
+  - tutorial
+  - commands
+  - help
+pagination_next: null
+---
+
 # Turso CLI in review
 
 Congratulations, you’ve finished the Turso CLI tutorial! You should now be able

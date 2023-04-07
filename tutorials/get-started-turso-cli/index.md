@@ -1,3 +1,11 @@
+---
+description: Tutorial for getting started with the Turso CLI, which is used to manage and access Turso databases.
+keywords:
+  - turso
+  - tutorial
+  - cli
+---
+
 # Get started with the Turso CLI
 
 The [Turso CLI] is the main interface to work with Turso databases. You can use
