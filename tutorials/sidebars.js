@@ -31,6 +31,11 @@ const sidebars = {
       id: 'netlify-setup-guide/index',
     },
     {
+      type: 'doc',
+      label: 'Vercel setup guide',
+      id: 'vercel-setup-guide/index',
+    },
+    {
       type: 'link',
       label: "Using CloudFlare Workers and TypeScript",
       href: 'https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/',
