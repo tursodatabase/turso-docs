@@ -21,6 +21,12 @@ This guide illustrates how to use Netlify environment variables to provide
 values required by the [libSQL client library] used in a web application
 deployment.
 
+## [Vercel setup guide]
+
+This guide illustrates how to use Vercel environment variables to provide
+values required by the [libSQL client library] used in a web application
+deployment.
+
 ## [Using Turso with CloudFlare Workers and TypeScript]
 
 This tutorial guides you through the process of creating a CloudFlare Worker
