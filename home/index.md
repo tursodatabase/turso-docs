@@ -19,19 +19,16 @@ particular, it works well with edge functions provided by cloud platforms such
 as CloudFlare, Netlify, and Vercel, by putting your data geographically close to
 the code that accesses it.
 
-## Recommended reading
+## Getting started
 
-To learn about Turso quickly, we suggest the following path through this
-documentation:
-
-- Understand the [concepts] behind Turso.
-- Follow a [walkthrough of the Turso CLI] to experience how it works.
-- Learn how to access Turso using the [libSQL client libraries].
+- [Install and learn to use the Turso CLI]
+- [Access Turso using the libSQL client libraries]
+- Follow along with Turso [tutorials]
 
 
 [Turso]: https://turso.tech/
 [libSQL]: https://libsql.org/
 [SQLite]: https://sqlite.org/
-[concepts]: /concepts
-[walkthrough of the Turso CLI]: /tutorials/get-started-turso-cli
-[libSQL client libraries]: /reference/client-access
+[Install and learn to use the Turso CLI]: /tutorials/get-started-turso-cli
+[Access Turso using the libSQL client libraries]: /reference/client-access
+[tutorials]: /tutorials/
