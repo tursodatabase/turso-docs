@@ -13,8 +13,8 @@ keywords:
 Client libraries for the following languages are available to query a Turso
 database:
 
-- [JavaScript & TypeScript](javascript-typescript-sdk)
-- [Rust](rust-sdk)
+- [JavaScript & TypeScript](./javascript-typescript-sdk)
+- [Rust](./rust-sdk)
 
 The client libraries allow you to execute a single SQL statement, execute a
 batch of statements in an implied transaction, and perform an interactive
