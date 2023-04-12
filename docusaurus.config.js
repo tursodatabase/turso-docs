@@ -145,7 +145,7 @@ const themeConfig = {
           },
           {
             label: 'Follow us on Twitter',
-            href: 'https://twitter.com/ChiselStrike',
+            href: 'https://twitter.com/tursodatabase',
           },
           {
             label: 'Schedule a Zoom',
