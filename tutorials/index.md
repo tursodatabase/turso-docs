@@ -35,6 +35,7 @@ with TypeScript and using that to query a Turso database.
 
 [Get started with the Turso CLI]: get-started-turso-cli
 [Netlify setup guide]: netlify-setup-guide
+[Vercel setup guide]: vercel-setup-guide
 [Using Turso with CloudFlare Workers and TypeScript]: https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/
 
 [libSQL client library]: /reference/client-access
