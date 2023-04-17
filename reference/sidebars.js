@@ -17,6 +17,11 @@ const sidebars = {
       id: 'libsql-urls',
     },
     {
+      type: 'doc',
+      label: 'Data consistency',
+      id: 'data-consistency',
+    },
+    {
       type: 'category',
       label: 'Client access',
       collapsed: false,
