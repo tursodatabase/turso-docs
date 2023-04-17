@@ -1,5 +1,5 @@
 ---
-description: Technical reference for the libSQL TypeScript & JavaScript client libraries used to access Turso databases, including sample code.
+description: Technical reference for the libSQL Rust client library used to access Turso databases, including sample code.
 keywords:
   - turso
   - libsql
