@@ -64,8 +64,9 @@ client. They require a websocket-based client or local SQLite files.
 
 Interactive transactions effectively lock the entire database for writing when a
 write is first performed, and until the transaction is committed or rolled back.
-Transactions may negatively impact overall database performance when used on
-high latency connections or with busy databases.
+libSQL aborts transactions after a 5 second timeout. Transactions may negatively
+impact overall database performance when used on high latency connections or
+with busy databases.
 
 :::
 
