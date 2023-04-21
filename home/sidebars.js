@@ -17,6 +17,11 @@ const sidebars = {
       id: 'beta-limits',
     },
     {
+      type: 'doc',
+      label: '3p dev tools',
+      id: '3p-dev-tools',
+    },
+    {
       type: 'link',
       label: 'Tutorials',
       href: '/tutorials/'

@@ -4,6 +4,9 @@
     "cSpell.words": [
         "chiselstrike",
         "Deno",
+        "Hono",
+        "Kysely",
+        "sqld",
         "struct"
     ]
 }
