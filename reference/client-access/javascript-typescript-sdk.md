@@ -277,6 +277,7 @@ This object has the following properties:
 | `rows` | `Array<Row>` | An array of Row objects containing the row values |
 | `columns` | `Array<string>` | An array of strings with the names of the columns in the order they appear in each Row |
 | `rowsAffected` | `number` | The number of rows affected by write statement, 0 otherwise |
+| `lastInsertRowid` | <code>bigint &#124; undefined</code> | The rowid of a newly inserted row, or undefined if there is none for the statement |
 
 A Row object contains the values of a row in a ResultSet.  It can be indexed by
 column index or column name. Each element of a Row can have one of the following
