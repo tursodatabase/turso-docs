@@ -32,6 +32,7 @@ const sidebars = {
       items: [
         'client-access/javascript-typescript-sdk',
         'client-access/rust-sdk',
+        'client-access/python-sdk',
       ]
     },
   ],

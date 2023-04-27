@@ -15,6 +15,7 @@ database:
 
 - [JavaScript & TypeScript](/reference/client-access/javascript-typescript-sdk)
 - [Rust](/reference/client-access/rust-sdk)
+- [Python](/reference/client-access/python-sdk)
 
 The client libraries allow you to execute a single SQL statement, execute a
 batch of statements in an implied transaction, and perform an interactive

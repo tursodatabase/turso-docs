@@ -19,9 +19,11 @@ protocols used when working with Turso.
 | [Turso CLI] | https://github.com/chiselstrike/turso-cli/ |
 | [TypeScript SDK] | https://github.com/libsql/libsql-client-ts/ |
 | [Rust SDK] | https://github.com/libsql/libsql-client-rs/ |
+| [Python SDK] | https://github.com/libsql/libsql-client-py/ |
 | sqld | https://github.com/libsql/sqld/ |
 
 
 [Turso CLI]: turso-cli
 [TypeScript SDK]: client-access/javascript-typescript-sdk
 [Rust SDK]: client-access/rust-sdk
+[Python SDK]: client-access/python-sdk
