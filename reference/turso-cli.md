@@ -101,25 +101,38 @@ $ turso --token [YOUR-TOKEN] db locations
 
 ## Authentication tokens for client access
 
-[Client access] to Turso from your application requires an authentication token.
-This token should be long-lived, and different from the one you get when you log
-in to the CLI. To get an auth token suitable for your app that doesn’t expire,
-run the following command:
+[Client access] to Turso from your application requires a database
+authentication token. This token should be long-lived, and different from the
+token you get when you log in to the CLI. To get an auth token suitable for your
+app, run the following command:
 
 ```bash
-$ turso db tokens create $DBNAME --expiration none
+$ turso db tokens create $DBNAME
 ```
 
-`$DBNAME` is the name of your database. This command outputs a string that you
-can use in the configuration object passed to the SDK along with the database
-URL.
+`$DBNAME` is the name of your database. This command outputs an auth token
+string that you can use in the configuration object passed to the SDK along with
+the database URL. This token will never expire. If you want to put a limit on
+how much time a token is valid, use the `--expiration` flag to specify a
+duration in days. For example, for a 7-day token:
 
-Treat this string as a secret only for use by your application backend. If this
-token is ever leaked, you can invalidate all prior tokens for your database with
-the following command:
+```bash
+$ turso db tokens create $DBNAME --expiration 7d
+```
+
+Treat any auth token as a secret only for use by your application backend. If
+this token is ever leaked, you can invalidate all prior tokens for your database
+with the following command:
 
 ```bash
 $ turso db tokens invalidate $DBNAME
+```
+
+To generate a token that has read-only access to the database (can select, but
+can't update, insert or delete):
+
+```bash
+$ turso db tokens invalidate $DBNAME --read-only
 ```
 
 This command restarts all of your database instances in order to use a new
