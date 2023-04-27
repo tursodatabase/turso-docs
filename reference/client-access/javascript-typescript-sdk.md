@@ -13,7 +13,9 @@ keywords:
 
 # JavaScript & TypeScript SDK
 
-The JavaScript SDK comes with TypeScript bindings and supports environments where either language can be used.  Both ESM and CJS modules are provided.
+The JavaScript SDK comes with TypeScript bindings and supports environments
+where either language can be used.  Both ESM and CJS modules are provided.
+Example on this page show TypeScript.
 
 The following runtime environments are known to be compatible:
 
@@ -36,14 +38,14 @@ $ npm install @libsql/client
 There are two ways to import the client code. When running in a Node.js or
 compatible environment, use the standard import:
 
-```javascript
+```ts
 import { createClient } from "@libsql/client";
 ```
 
 Or, when running in a JavaScript environment without Node.js APIs (for example,
 CloudFlare Workers or browsers):
 
-```javascript
+```ts
 import { createClient } from "@libsql/client/web";
 ```
 
@@ -62,14 +64,15 @@ The alternate `@libsql/client/web` import does not support local file URLs or
 Call the `createClient` factory function and invoke it with your database URL
 and [long-lived authentication token] obtained using the Turso CLI:
 
-```javascript
+```ts
 const client = createClient({
     url: "libsql://your-database.turso.io",
     authToken: "your-auth-token"
 });
 ```
 
-The `authToken` property is only required when using a remote database instance managed by Turso.
+The `authToken` property is only required when using a remote database instance
+managed by Turso.
 
 With the returned libSQL Client object you can call:
 
@@ -114,11 +117,9 @@ object. `execute()` returns a promise that becomes resolved with a
 Pass a single string to `execute()` to invoke a SQL statement in the SQLite
 dialect.
 
-```javascript
+```ts
 try {
-    const rs = await client.execute(
-        "select * from example_users"
-    );
+    const rs = await client.execute("select * from example_users");
     // rs.columns == [ 'uid', 'email' ]
     // rs.rows[0] == [ 'uid1', 'foo@bar.com' ]
     // rs.rows[1] == [ 'uid2', 'baz@bar.com' ]
@@ -134,7 +135,7 @@ an object with `sql` and `args` properties to `execute()`. The `sql` property
 must be a string containing placeholders, and the `args` property must be an
 array of values to bind to the placeholders.
 
-```javascript
+```ts
 try {
     const rs = await client.execute({
     	sql: "select score from example_scores where uid = ? and level = ?",
@@ -152,9 +153,9 @@ try {
 libSQL supports named placeholders using the same syntax as SQLite. Pass an
 object with `sql` and `args` properties to `execute()`. `sql` must be a string
 containing placeholders, and `args` must be an object whose properties match the
-names of the placeholders, and whose will be bound to the placeholders.
+names of the placeholders, and whose values will be bound to the placeholders.
 
-```javascript
+```ts
 try {
     const rs = await client.execute({
     	sql: "insert into example_scores values (:uid, :level, :score)",
@@ -184,8 +185,9 @@ their behavior.
 
 :::
 
-Use the `batch()` method on the client object, passing it an array of
-statements. The array may contain any type of statement that is also accepted by
+To execute multiple statements in a transaction, use the `batch()` method on the
+client object, passing it an array of statements. The array may contain any type
+of statement that is also accepted by
 [`execute()`](#execute-a-single-statement). `batch()` returns a promise that
 becomes fulfilled with an array of [ResultSet](#resultset) objects (one for each
 statement), or an error.
@@ -193,7 +195,7 @@ statement), or an error.
 The following code inserts a row for uid3 in two different tables using a
 transaction that commits them both at the same time.
 
-```javascript
+```ts
 try {
     const rss = await client.batch([
         {
@@ -240,7 +242,7 @@ object to control the transaction. It provides the following methods:
 The following code uses an interactive transaction to update a user’s level
 score, but only if it’s greater than the one that currently exists:
 
-```javascript
+```ts
 try {
     const uid = "uid1";
     const level = 1;
@@ -254,7 +256,7 @@ try {
     // rs.columns == [ 'score' ]
     // rs.rows[0]['score'] == 1000
 
-const oldScore = rs.rows[0]["score"] as number;
+    const oldScore = rs.rows[0]["score"] as number;
     if (newScore > oldScore) {
         await transaction.execute({
             sql: "update example_scores set score = ? where uid = ? and level = ?",
@@ -269,26 +271,26 @@ const oldScore = rs.rows[0]["score"] as number;
 
 ## ResultSet
 
-`execute()` returns a promise that becomes resolved with a ResultSet object.
-This object has the following properties:
+Database queries always yield a ResultSet object. This object has the following
+properties:
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `rows` | `Array<Row>` | An array of Row objects containing the row values |
-| `columns` | `Array<string>` | An array of strings with the names of the columns in the order they appear in each Row |
-| `rowsAffected` | `number` | The number of rows affected by write statement, 0 otherwise |
+| `rows` | `Array<Row>` | An array of Row objects containing the row values, empty for write operations |
+| `columns` | `Array<string>` | An array of strings with the names of the columns in the order they appear in each Row, empty for write operations |
+| `rowsAffected` | `number` | The number of rows affected by a write statement, 0 otherwise |
 | `lastInsertRowid` | <code>bigint &#124; undefined</code> | The rowid of a newly inserted row, or undefined if there is none for the statement |
 
-A Row object contains the values of a row in a ResultSet.  It can be indexed by
-column index or column name. Each element of a Row can have one of the following
-types, depending on the source of data:
+A Row object contains the values of a row in a ResultSet. It can be indexed by
+either an integer column index or the name of the column. Each element of a Row
+can have one of the following types, depending on the source of data:
 
 - `null`
 - `string`
 - `number`
 - `ArrayBuffer` (for blobs)
 
-```javascript
+```ts
 const rs = await client.execute({
     sql: "select level, score from example_scores where uid = ?",
     args: [ "uid1" ]
@@ -306,11 +308,12 @@ for (const row of rs.rows) {
 
 :::warning
 
-Casting row values without first checking their types might result in errors at
-runtime. Check the type of any values before casting them unless you are
-absolutely certain of their type.
+With TypeScript, casting row values without first checking their types might
+result in errors at runtime. Check the type of any values before casting them
+unless you are absolutely certain of their type.
 
 :::
+
 
 [common section on batches]: ../client-access#batches
 [common section on interactive transactions]: ../client-access#interactive-transactions
