@@ -60,7 +60,7 @@ create unique index idx_frameworks_name on frameworks (name);
 create unique index idx_frameworks_url on frameworks (url);
 
 -- seed some data
-insert into frameworks(name, language, url, stars) values("Vue".js , "JavaScript", "<https://github.com/vuejs/vue>", 203000);
+insert into frameworks(name, language, url, stars) values("Vue.js" , "JavaScript", "<https://github.com/vuejs/vue>", 203000);
 insert into frameworks(name, language, url, stars) values("React", "JavaScript", "<https://github.com/facebook/react>", 206000);
 insert into frameworks(name, language, url, stars) values("Angular", "TypeScript", "<https://github.com/angular/angular>", 87400);
 insert into frameworks(name, language, url, stars) values("ASP.NET Core", "C#", "<https://github.com/dotnet/aspnetcore>", 31400);
