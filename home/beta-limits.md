@@ -28,8 +28,16 @@ You may use up to 8 GiB among all of your databases. This usage can be
 You may read up to 1 billion rows per month. This usage can be
 [inspected using the Turso CLI] per logical database.
 
+## 10 GiB data transferred per month
+
+You may transfer up to 10 GiB of data, including ingress and egress from all
+sources that connect to any database instance. This includes the [Turso CLI],
+the [client SDKs], and any other direct connections you manage.
+
 
 [instances]: ./concepts#instance
 [logical databases]: ./concepts#logical-database
 [replicas]: ./concepts#replica
 [inspected using the Turso CLI]: /reference/turso-cli#inspect-database-usage
+[Turso CLI]: /reference/turso-cli
+[client SDKs]: /reference/client-access/
