@@ -99,6 +99,101 @@ You can pass the token string on the command line with the `--token` flag:
 $ turso --token [YOUR-TOKEN] db locations
 ```
 
+## Creating, replicating, and destroying databases
+
+### Create a database
+
+To create a new [logical database] with an initial [primary instance] using a
+randomly generated name:
+
+```bash
+turso db create
+```
+
+To specify the name of the database:
+
+```bash
+turso db create $DB_NAME
+```
+
+#### Specify a primary location
+
+Turso chooses a [location] for the primary instance that is thought to be close
+to the machine running the command (using its IP address). To specify the
+location, use the `--location` flag:
+
+```bash
+turso db create $DB_NAME --location $LOCATION_CODE
+```
+
+:::info
+
+You can get a list of location codes with the command `turso db locations`.
+
+:::
+
+#### Create a database with a SQLite database file
+
+To create a new logical database and seed it with the contents of an existing
+[SQLite3-compatible database file][sqlite3-db-file], use the `--from-file` flag:
+
+```bash
+turso db create $DB_NAME --from-file $DB_FILE
+```
+
+### Create a replica
+
+To create a [replica] of a logical database in a specified location:
+
+```bash
+turso db replicate $DB_NAME $LOCATION_CODE
+```
+
+:::info
+
+The data from the primary instance is copied to the replica immediately after
+it's created. For applications using a [logical database URL], Turso routes the
+closest client traffic to the replica immediately after replication is complete.
+
+:::
+
+### Destroy a replica
+
+To destroy a replica, first find its randomly generated name using the output of
+`turso db show $DB_NAME`. Then, use the name on the command line:
+
+```bash
+turso db destroy --instance $INSTANCE_NAME
+```
+
+You can also destroy a replica using its location code:
+
+```bash
+turso db destroy --location $LOCATION_CODE
+```
+
+:::info
+
+Destruction of a replica is considered "safe" in that no data is lost in the
+process - the primary instance still contains a copy of everything.
+
+:::info
+
+### Destroy an entire logical database
+
+To destroy a logical database (a primary instance and all replicas):
+
+```bash
+turso db destroy $DB_NAME
+```
+
+:::warning
+
+Destruction of a logical database cannot be reversed. All copies of data are
+deleted. The command will prompt you to ensure this is really what you want.
+
+:::
+
 ## Authentication tokens for client access
 
 [Client access] to Turso from your application requires a database
@@ -107,7 +202,7 @@ token you get when you log in to the CLI. To get an auth token suitable for your
 app, run the following command:
 
 ```bash
-$ turso db tokens create $DBNAME
+$ turso db tokens create $DB_NAME
 ```
 
 `$DBNAME` is the name of your database. This command outputs an auth token
@@ -117,7 +212,7 @@ how much time a token is valid, use the `--expiration` flag to specify a
 duration in days. For example, for a 7-day token:
 
 ```bash
-$ turso db tokens create $DBNAME --expiration 7d
+$ turso db tokens create $DB_NAME --expiration 7d
 ```
 
 Treat any auth token as a secret only for use by your application backend. If
@@ -125,14 +220,14 @@ this token is ever leaked, you can invalidate all prior tokens for your database
 with the following command:
 
 ```bash
-$ turso db tokens invalidate $DBNAME
+$ turso db tokens invalidate $DB_NAME
 ```
 
 To generate a token that has read-only access to the database (can select, but
 can't update, insert or delete):
 
 ```bash
-$ turso db tokens invalidate $DBNAME --read-only
+$ turso db tokens invalidate $DB_NAME --read-only
 ```
 
 This command restarts all of your database instances in order to use a new
@@ -156,7 +251,7 @@ You can get more detailed data about the current usage of a logical database
 using the following command:
 
 ```bash
-$ turso db inspect $DBNAME
+$ turso db inspect $DB_NAME
 ```
 
 This reports the total space occupied by all user-created tables and indexes.
@@ -178,12 +273,18 @@ or subcommand. For example: `turso db --help`.
 
 ## Local storage
 
-The CLI stores persistent data, including your JWT, in a file on your computer.
-On macOS, the containing folder is `$HOME/Library/Application Support/turso`. On
-linux, it’s `$HOME/.turso`. It is safe to delete this folder, since it can be
-restored by logging in to the CLI again.
+The CLI stores persistent data, including your auth token, in a file on your
+computer. On macOS, the containing folder is `$HOME/Library/Application
+Support/turso`. On Linux, it’s `$HOME/.turso`. It is safe to delete this folder,
+since it can be restored by logging in to the CLI again.
 
 
 [Client access]: ./client-access
 [getting started tutorial]: /tutorials/get-started-turso-cli
 [free to use with limits]: /beta-limits
+[location]: /concepts#location
+[logical database]: /concepts#logical-database
+[logical database URL]: ./libsql-urls#logical-database-url
+[primary instance]: /concepts#primary
+[replica]: /concepts#replica
+[sqlite3-db-file]: https://www.sqlite.org/fileformat.html
