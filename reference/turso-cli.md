@@ -15,6 +15,17 @@ getting started for the first time, we recommend following along with the
 authentication, creating a database, replicating it, querying it, and destroying
 it.
 
+## Conventions
+
+The example commands on this page assume the following placeholders, expressed
+as shell variables:
+
+- `$DB_NAME`: The name of the database that was specified or assigned during
+  [creation](#create-a-database).
+- `$LOCATION_CODE`: A three-letter location code that indicate the physical
+  location of a database instance. The command `turso db locations` outputs a
+  full list of supported location codes.
+
 ## Installation
 
 The Turso CLI has two installation options.
@@ -99,15 +110,7 @@ $ export TURSO_API_TOKEN=[YOUR-TOKEN-STRING]
 $ turso db locations
 ```
 
-#### The `--token` flag on the command line
-
-You can pass the token string on the command line with the `--token` flag:
-
-```bash
-$ turso --token [YOUR-TOKEN] db locations
-```
-
-## Creating, replicating, and destroying databases
+## Manage database instances
 
 ### Create a database
 
@@ -115,30 +118,24 @@ To create a new [logical database] with an initial [primary instance] using a
 randomly generated name:
 
 ```bash
-turso db create
+$ turso db create
 ```
 
 To specify the name of the database:
 
 ```bash
-turso db create $DB_NAME
+$ turso db create $DB_NAME
 ```
 
 #### Specify a primary location
 
 Turso chooses a [location] for the primary instance that is thought to be close
 to the machine running the command (using its IP address). To specify the
-location, use the `--location` flag:
+location, use the `--location` flag with a location code:
 
 ```bash
-turso db create $DB_NAME --location $LOCATION_CODE
+$ turso db create $DB_NAME --location $LOCATION_CODE
 ```
-
-:::info
-
-You can get a list of location codes with the command `turso db locations`.
-
-:::
 
 #### Create a database with a SQLite database file
 
@@ -146,7 +143,7 @@ To create a new logical database and seed it with the contents of an existing
 [SQLite3-compatible database file][sqlite3-db-file], use the `--from-file` flag:
 
 ```bash
-turso db create $DB_NAME --from-file $DB_FILE
+$ turso db create $DB_NAME --from-file $DB_FILE
 ```
 
 ### Create a replica
@@ -154,7 +151,7 @@ turso db create $DB_NAME --from-file $DB_FILE
 To create a [replica] of a logical database in a specified location:
 
 ```bash
-turso db replicate $DB_NAME $LOCATION_CODE
+$ turso db replicate $DB_NAME $LOCATION_CODE
 ```
 
 :::info
@@ -171,13 +168,13 @@ To destroy a replica, first find its randomly generated name using the output of
 `turso db show $DB_NAME`. Then, use the name on the command line:
 
 ```bash
-turso db destroy --instance $INSTANCE_NAME
+$ turso db destroy --instance $INSTANCE_NAME
 ```
 
 You can also destroy a replica using its location code:
 
 ```bash
-turso db destroy --location $LOCATION_CODE
+$ turso db destroy --location $LOCATION_CODE
 ```
 
 :::info
@@ -192,7 +189,7 @@ process - the primary instance still contains a copy of everything.
 To destroy a logical database (a primary instance and all replicas):
 
 ```bash
-turso db destroy $DB_NAME
+$ turso db destroy $DB_NAME
 ```
 
 :::warning
@@ -201,6 +198,21 @@ Destruction of a logical database cannot be reversed. All copies of data are
 deleted. The command will prompt you to ensure this is really what you want.
 
 :::
+
+### Update a logical database
+
+To upgrade the version of sqld used for every instance in a logical database:
+
+```bash
+$ turso db update $DB_NAME
+```
+
+This command causes a brief moment of downtime for each instance as the upgrade
+happens. All existing connections are closed and must be reconnected. The libSQL
+client libraries do this automatically.
+
+You can check the version of sqld for each instance using `turso db show
+$DB_NAME`.
 
 ## Authentication tokens for client access
 
@@ -213,7 +225,7 @@ app, run the following command:
 $ turso db tokens create $DB_NAME
 ```
 
-`$DBNAME` is the name of your database. This command outputs an auth token
+`$DB_NAME` is the name of your database. This command outputs an auth token
 string that you can use the configure the libSQL client library, along with the
 database URL. This token never expires.
 
