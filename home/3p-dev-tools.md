@@ -16,12 +16,29 @@ keywords:
 There are a number of tools supported by third party organizations that work
 with Turso and libSQL.
 
+- [Migration tools](#migration-tools)
 - [ORMs](#orms)
 - [Query builders](#query-builders)
 - [Compatibility libraries](#compatibility-libraries)
 
 If you're interested in adding libSQL support to your own tool, please reach out
 to us to coordinate.
+
+## Migration tools
+
+### Atlas
+
+[Atlas] is an open-source tool for managing and migrating database schemas using
+modern DevOps principles. In order to work with a Turso database, you can simply
+provide it with a `libsql+wss://` URL for your logical database wherever URLs
+are accepted by the Atlas CLI. You must also provide an [auth token] in the URL.
+For example:
+
+```bash
+atlas schema inspect -u "libsql+wss://<db-host>?authToken=<token>"
+```
+
+[Go to Atlas documentation for Turso integration.][atlas-turso-docs]
 
 ## ORMs
 
@@ -79,6 +96,9 @@ used with [Knex.js](#knex-js).
 [Go to the libsql-node-sqlite3 repo on GitHub.][libsql-node-sqlite3]
 
 
+[Atlas]: https://atlasgo.io
+[auth token]: /reference/turso-cli#authentication-tokens-for-client-access
+[atlas-turso-docs]: https://atlasgo.io/guides/sqlite/turso
 [Drizzle ORM]: https://github.com/drizzle-team/drizzle-orm#readme
 [drizzle-libsql-example]: https://github.com/drizzle-team/drizzle-orm/tree/main/examples/libsql#readme
 [SQLAlchemy]: https://www.sqlalchemy.org/
