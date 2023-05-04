@@ -41,7 +41,7 @@ $ brew install chiselstrike/tap/turso
 The formula includes an executable with autocompletion scripts for bash, fish,
 and zsh.
 
-### Direct install
+### Scripted install
 
 If you prefer the manage the installation directly, run the following command to
 execute a shell script that downloads and installs the CLI:
@@ -61,6 +61,22 @@ Run the following command to make sure the Turso CLI is in your PATH:
 
 ```bash
 $ turso --version
+```
+
+### Upgrade the CLI
+
+If Homebrew was used to install the CLI, use the following commands to update
+it:
+
+```bash
+$ brew update
+$ brew upgrade
+```
+
+If you used the scripted install, use the CLI itself to update:
+
+```bash
+$ turso update
 ```
 
 ## Logging in to the CLI
