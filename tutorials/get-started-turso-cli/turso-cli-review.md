@@ -70,6 +70,9 @@ or the entire database.
 This removes the authentication token previously provided by `turso auth login`,
 requiring you to log in again to continue working with your databases.
 
+### `turso update`
+This updates the Turso CLI to the latest version.
+
 ### Built-in help
 
 The CLI has help available.  The following command summarizes the top-level
