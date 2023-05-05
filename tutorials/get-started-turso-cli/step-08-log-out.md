@@ -13,7 +13,7 @@ keywords:
 To log out, use the following command:
 
 ```bash
-$ turso auth logout
+turso auth logout
 ```
 
 This removes the persisted authentication token you received from the last

@@ -19,7 +19,7 @@ There is a Homebrew formula available that’s installed with the following
 command:
 
 ```bash
-$ brew install chiselstrike/tap/turso
+brew install chiselstrike/tap/turso
 ```
 
 The formula includes an executable with autocompletion scripts for bash, fish,
@@ -31,7 +31,7 @@ If you don’t use Homebrew, run the following command to execute a shell script
 that installs the CLI:
 
 ```bash
-$ curl -sSfL https://get.tur.so/install.sh | bash
+curl -sSfL https://get.tur.so/install.sh | bash
 ```
 
 The CLI is installed in a directory called `.turso` in your home directory. The
@@ -43,5 +43,5 @@ start a new shell to see the change, or add it manually to the current shell.
 Run the following command to make sure the Turso CLI is in your PATH:
 
 ```bash
-$ turso --version
+turso --version
 ```
