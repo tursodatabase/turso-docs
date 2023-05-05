@@ -16,7 +16,7 @@ location as suggested by your IP address.  To see all locations supported by
 Turso, run the following command:
 
 ```bash
-$ turso db locations
+turso db locations
 ```
 
 Your default location appears highlighted in the list.
@@ -24,7 +24,7 @@ Your default location appears highlighted in the list.
 To create a database using the default location with the name `my-db`:
 
 ```bash
-$ turso db create my-db
+turso db create my-db
 ```
 
 It takes a few moments to create the database, then generates output similar to
@@ -58,7 +58,7 @@ generated for you.
 As suggested by the output, you can view information about the database using:
 
 ```bash
-$ turso db show my-db
+turso db show my-db
 ```
 
 The output looks similar to the following:
@@ -89,7 +89,7 @@ To see a list of all logical databases associated with the account that's
 currently logged in:
 
 ```bash
-$ turso db list
+turso db list
 ```
 
 [location]: /concepts#location

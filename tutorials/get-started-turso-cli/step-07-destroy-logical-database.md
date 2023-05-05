@@ -13,7 +13,7 @@ The CLI can destroy the entire [logical database], including the [primary] and
 all of its [replicas] with the following command:
 
 ```bash
-$ turso db destroy my-db
+turso db destroy my-db
 ```
 
 This is a very dangerous command since it deletes all data in the database and

@@ -23,7 +23,7 @@ in how much data you can store, and how many databases you can have.
 You can check the usage using `turso db inspect`:
 
 ```bash
-$ turso db inspect my-db
+turso db inspect my-db
 ```
 
 The output looks similar to the following:

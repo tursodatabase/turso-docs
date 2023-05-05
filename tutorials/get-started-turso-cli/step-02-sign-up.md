@@ -15,7 +15,7 @@ A GitHub account is required to sign up using the Turso CLI. Start the process
 with the following command:
 
 ```bash
-$ turso auth signup
+turso auth signup
 ```
 
 The CLI launches your default browser and asks to log in with GitHub. The first

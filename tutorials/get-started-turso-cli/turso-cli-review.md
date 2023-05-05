@@ -76,15 +76,15 @@ The CLI has help available.  The following command summarizes the top-level
 commands available:
 
 ```bash
-$ turso help
+turso help
 ```
 
 For each specific command, you can add the `--help` flag to get details on all
 the sub-commands and flags. For example:
 
 ```
-$ turso db --help
-$ turso db create --help
+turso db --help
+turso db create --help
 ```
 
 

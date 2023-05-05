@@ -17,7 +17,7 @@ The CLI creates a [replica] of the database in a specified [location] with
 three-letter location code from the output of `turso db locations`:
 
 ```bash
-$ turso db replicate my-db nrt
+turso db replicate my-db nrt
 ```
 
 This generates output similar to the following:
@@ -67,7 +67,7 @@ generated one for it at the time it was created. You can find the names of all
 the replicas using the the following command:
 
 ```bash
-$ turso db show my-db
+turso db show my-db
 ```
 
 The output is similar to this:
@@ -89,7 +89,7 @@ named "sweeping-ultragirl". Use this command to destroy it (replacing the name
 of the replica with your own):
 
 ```bash
-$ turso db destroy my-db --instance sweeping-ultragirl
+turso db destroy my-db --instance sweeping-ultragirl
 ```
 ```
 Destroyed instance sweeping-ultragirl of database my-db.

@@ -14,7 +14,7 @@ The output of `turso db create` in the last step shows a command to run to start
 an interactive shell:
 
 ```bash
-$ turso db shell my-db
+turso db shell my-db
 ```
 
 ```
