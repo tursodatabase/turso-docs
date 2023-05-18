@@ -25,6 +25,15 @@ the code that accesses it.
 - [Access Turso using the libSQL client libraries]
 - Follow along with Turso [tutorials]
 
+## Learn more about Turso
+
+Watch this video presentation to learn more about the origin of Turso and
+libSQL, and the problems they were designed to solve. This presentation was
+given to collegiate level web development students, but is accessible to a wider
+audience.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ANuraQJTc7c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 
 [Turso]: https://turso.tech/
 [libSQL]: https://libsql.org/
