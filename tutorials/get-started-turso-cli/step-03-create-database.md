@@ -64,14 +64,15 @@ turso db show my-db
 The output looks similar to the following:
 
 ```
-Name:       my-db
-URL:        libsql://my-db-[my-github-name].turso.io
-ID:         [UUID]
-Locations:  [location]
+Name:           my-db
+URL:            libsql://my-db-[my-github-name].turso.io
+ID:             [UUID]
+Locations:      [location]
+Size:           0 B
 
 Database Instances:
-NAME            TYPE      LOCATION    VERSION   URL
-[random-name] 	primary   [location]  0.7.0     libsql://[random-string]-my-db-[my-github-name].turso.io
+NAME            TYPE      LOCATION    VERSION
+[random-name] 	primary   [location]  0.14.0
 ```
 
 Note the following in the above output:
@@ -82,8 +83,6 @@ Note the following in the above output:
   libraries] to query the database. This URL automatically forwards the client
   to the closest [instance].
 - The [primary] instance has a random name that was assigned by the CLI.
-- Each database instance also has its own [database instance URL] that connects
-  directly to it.
 
 To see a list of all logical databases associated with the account that's
 currently logged in:

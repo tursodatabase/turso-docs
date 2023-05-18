@@ -108,18 +108,20 @@ than the [auth tokens for client access][client-auth-tokens] received from the
 
 If you are running the CLI on your local machine, the CLI receives this token as
 part of the login flow and [stores it locally](#local-storage) for future use.
+You can retrieve the persisted token string using:
+
+```bash
+$ turso auth token
+```
 
 ### Running remotely
 
 If you are running the CLI on a remote machine, it might not be able to launch a
 browser. In that case, use the URL provided by `turso auth login` with a browser
 you have access to in order to authenticate. The process ends with a page
-showing your token. You can use this token with the remote CLI in two ways.
-
-#### The `TURSO_API_TOKEN` environment variable
-
-You can set the environment variable `TURSO_API_TOKEN` in a shell before running
-commands. For example:
+showing your token. You can put this string in the environment variable
+`TURSO_API_TOKEN` in a shell before running commands using a CLI that is not
+logged in. For example:
 
 ```bash
 $ export TURSO_API_TOKEN=[YOUR-TOKEN-STRING]
