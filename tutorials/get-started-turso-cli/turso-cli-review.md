@@ -87,8 +87,14 @@ turso db --help
 turso db create --help
 ```
 
+### Reference documentation
+
+To learn about additional the functionality of the CLI, consult its [reference
+documentation].
+
 
 [locations]: /concepts#location
 [logical database]: /concepts#logical-database
 [primary]: /concepts#primary
 [replica]: /concepts#replica
+[reference documentation]: /reference/turso-cli

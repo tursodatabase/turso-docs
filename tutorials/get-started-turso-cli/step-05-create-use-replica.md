@@ -25,13 +25,13 @@ This generates output similar to the following:
 ```
 Replicated database my-db to Tokyo, Japan (nrt) in [xx] seconds.
 
-URL:
+Client connections using libsql://[db-name]-[github-name].turso.io that are
+physically close to nrt will now be routed to this replica for lower latency.
 
-   libsql://[random-string]-my-db-[my-github-name].turso.io
+To see information about the database, including a connection URL specific to
+this location, run:
 
-You can start an interactive SQL shell with:
-
-   turso db shell libsql://[random string]-my-db-[my-github-name].turso.io
+        turso db show my-db2
 ```
 
 ## Query the replica
@@ -73,15 +73,16 @@ turso db show my-db
 The output is similar to this:
 
 ```
-Name:       my-db
-URL:        libsql://my-db-[my-github-name].turso.io
-ID:         [UUID]
-Locations:  nrt, [location]
+Name:           my-db
+URL:            libsql://my-db-[my-github-name].turso.io
+ID:             4a1fbed0-f580-11ed-9d02-f28bd1fbbb2c
+Locations:      nrt, [location]
+Size:           0 B
 
 Database Instances:
-NAME                TYPE        LOCATION     VERSION     URL
-Key-dazzler         primary     [location]   0.7.0       libsql://[random-string]-my-db-[my-github-name].turso.io
-sweeping-ultragirl  replica     nrt          0.7.0       libsql://[random-string]-my-db-[my-github-name].turso.io
+NAME                  TYPE        LOCATION     VERSION
+premium-triathlon     primary     [location]   0.14.0
+sweeping-ultragirl    replica     nrt          0.14.0
 ```
 
 On the last line, you can see the replica in the location "nrt" in this case is
