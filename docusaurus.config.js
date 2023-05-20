@@ -141,7 +141,7 @@ const themeConfig = {
           // },
           {
             label: 'Join Our Discord',
-            href: 'https://discord.gg/rKqhMfj9',
+            href: 'https://discord.com/invite/4B5D7hYwub',
           },
           {
             label: 'Follow us on Twitter',
