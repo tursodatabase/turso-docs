@@ -24,14 +24,14 @@ server mode). Databases managed by Turso provide two categories of URLs:
 
 This URL connects to an [instance] of the database closest to the machine making
 the connection. Most of the time, you will want to use this URL as shown in the
-output of `turso db list`.
+output of `turso db list` and `turso db show`.
 
 ### Database instance URL
 
 This URL always connects to a specific [instance] of a Turso database. You may
 want to use this in order to bypass the automatic routing provided by the
 logical database URL. Instance URLs appear for each instance in the output of
-`turso db show`.
+`turso db show $DBNAME --instance-urls`.
 
 ## WebSockets implementation
 
