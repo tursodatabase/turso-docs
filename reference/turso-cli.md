@@ -321,6 +321,29 @@ will be billed according to your usage.
 
 :::
 
+## Embedded sqld
+
+The Turso CLI comes with an embedded sqld that you can use for [local
+development] instead of a managed Turso database. To start the server on port
+8080, run:
+
+```bash
+$ turso dev
+```
+
+This starts sqld using an in-memory database. To persist data in a SQLite
+database file, specify the path of the file:
+
+```bash
+$ turso dev --db-file path/to/db-file
+```
+
+The CLI outputs a URL you can use to connect to the embedded sqld. Use this URL
+instead of the Turso database [libsql URL] when building locally. This URL can
+be used with `turso db shell` and the libSQL client libraries.
+
+You can change the port of the embedded sqld with the `--port` flag.
+
 ## Get help
 
 The CLI offers help for all commands and subcommands. Run `turso help` to get a
@@ -345,3 +368,5 @@ since it can be restored by logging in to the CLI again.
 [replica]: /concepts#replica
 [sqlite3-db-file]: https://www.sqlite.org/fileformat.html
 [client-auth-tokens]: #authentication-tokens-for-client-access
+[local development]: /reference/local-development
+[libsql URL]: /reference/libsql-urls

@@ -6,21 +6,10 @@ const sidebars = {
       label: 'Reference introduction',
       id: 'index',
     },
-    {
-      type: 'doc',
-      label: 'Turso CLI',
-      id: 'turso-cli',
-    },
-    {
-      type: 'doc',
-      label: 'libSQL database URLs',
-      id: 'libsql-urls',
-    },
-    {
-      type: 'doc',
-      label: 'Data consistency',
-      id: 'data-consistency',
-    },
+    'turso-cli',
+    'libsql-urls',
+    'local-development',
+    'data-consistency',
     {
       type: 'category',
       label: 'Client access',

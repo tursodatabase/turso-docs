@@ -31,15 +31,16 @@ line.
 
 ## Logical database
 
-A logical database is a collection of libSQL [instances](#instance) with one
-[primary](#primary) and zero or more [replicas](#replica). Running the `turso db
-create` command creates a new logical database with a primary instance.
+A logical database is a collection of [sqld] (libSQL server)
+[instances](#instance) with one [primary](#primary) and zero or more
+[replicas](#replica). Running the `turso db create` command creates a new
+logical database with a primary instance.
 
 <!-- TODO: diagram of a logical database with a primary and replicas -->
 
 ## Instance
 
-A database instance is an installation of libSQL running on a single machine
+A database instance is an installation of [sqld] running on a single machine
 that is part of a logical database. All instances contain data related only to
 that database, and automatically participate in replication of that data between
 the instances. There are two types of instances: [primary](#primary) and
@@ -65,3 +66,4 @@ isolation for read transactions.
 
 [26 locations around the world]: https://fly.io/docs/reference/regions/
 [Turso CLI]: /reference/turso-cli
+[sqld]: https://github.com/libsql/sqld
