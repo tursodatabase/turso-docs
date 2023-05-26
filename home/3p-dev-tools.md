@@ -38,6 +38,16 @@ to build a Hono server that:
 
 [Go to the example for libSQL on the Drizzle GitHub.][drizzle-libsql-example]
 
+### SQLAlchemy
+
+[SQLAlchemy] is the Python SQL toolkit and Object Relational Mapper that gives
+application developers the full power and flexibility of SQL. A dialect is
+provided for libSQL, which works with Turso. The only requirement for Turso is
+the construction of a URL in a special format that instructs SQLAlchemy to use
+this dialect, which is discussed in the README of the dialect repo.
+
+[Go to the SQLAlchemy libSQL dialect repo on GitHub.][sqlalchemy-libsql]
+
 ## Query builders
 
 ### Kysely {#kysely}
@@ -71,6 +81,8 @@ used with [Knex.js](#knex-js).
 
 [Drizzle ORM]: https://github.com/drizzle-team/drizzle-orm#readme
 [drizzle-libsql-example]: https://github.com/drizzle-team/drizzle-orm/tree/main/examples/libsql#readme
+[SQLAlchemy]: https://www.sqlalchemy.org/
+[sqlalchemy-libsql]: https://github.com/libsql/sqlalchemy-libsql#readme
 [Kysely]: https://github.com/kysely-org/kysely#readme
 [kysely-libsql]: https://github.com/libsql/kysely-libsql#readme
 [sqlite3 node module]: https://github.com/TryGhost/node-sqlite3#readme
