@@ -47,22 +47,22 @@ indexes, and sample data:
 ```sql
 -- users table
 create table users(
-    id integer primary key,
-    email varchar(255) not null,
-    full_name varchar(100) not null,
-    username varchar(50) not null,
-    created_at integer default (cast(iunixepoch() as int))
+  id integer primary key,
+  email varchar(255) not null,
+  full_name varchar(100) not null,
+  username varchar(50) not null,
+  created_at integer default (cast(unixepoch() as int))
 );
 
 -- links table
 create table links(
-    id integer primary key,
-    user_id integer not null,
-    website varchar(100) not null,
-    link text not null,
-    created_at integer default (cast(iunixepoch() as int)),
+  id integer primary key,
+  user_id integer not null,
+  website varchar(100) not null,
+  link text not null,
+  created_at integer default (cast(unixepoch() as int)),
 
-    foreign key(user_id) references users(id)
+  foreign key(user_id) references users(id)
 );
 
 -- unique index for the email row
@@ -75,12 +75,12 @@ create unique index idx_users_username on users(username);
 create unique index idx_links_userid_link on links(user_id, link);
 
 -- create user: "turso"
-insert into users(id, email, full_name, username) values(1, "no-reply@chiselstrike.com", "Turso by ChiselStrike", "turso");
+insert into users(id, email, full_name, username) values(1, "no-reply@turso.tech", "Turso by ChiselStrike", "turso");
 
 -- add some links to "turso"
-insert into links(user_id, website, link) values(1, "Twitter", "https://twitter.com/ChiselStrike"),
-(1, "Linkedin", "https://www.linkedin.com/company/chiselstrike"),
-(1, "GitHub", "https://github.com/chiselstrike/chiselstrike");
+insert into links(user_id, website, link) values(1, "Twitter", "https://twitter.com/tursodatabase"),
+(1, "Linkedin", "https://www.linkedin.com/company/turso/"),
+(1, "GitHub", "https://github.com/chiselstrike/");
 ```
 
 ### 1d. Quit the shell
@@ -132,7 +132,7 @@ Run the following CLI command:
 $ turso db show findmeon --url
 ```
 
-It outputs the URL for the database.  Copy that string into the
+It outputs the URL for the database. Copy that string into the
 `VITE_TURSO_DB_URL` variable.
 
 #### Get the value for `VITE_TURSO_DB_AUTH_TOKEN`
@@ -144,7 +144,7 @@ $ turso db tokens create findmeon -e none
 ```
 
 This creates a long-lived authentication token that allows the libSQL client
-library used by the app to connect to the database.  The `-e` flag in this
+library used by the app to connect to the database. The `-e` flag in this
 command is short for `--expiration`.
 
 Copy the string into the `VITE_TURSO_DB_AUTH_TOKEN` variable.
@@ -234,7 +234,7 @@ Run the following CLI command:
 $ turso db show findmeon --url
 ```
 
-It outputs the URL for the database.  Copy that string into the
+It outputs the URL for the database. Copy that string into the
 `VITE_TURSO_DB_URL` variable.
 
 #### 6b. Create an environment variable for `VITE_TURSO_DB_AUTH_TOKEN`
@@ -249,7 +249,7 @@ $ turso db tokens create findmeon -e none
 ```
 
 This creates a long-lived authentication token that allows the libSQL client
-library used by the app to connect to the database.  The `-e` flag in this
+library used by the app to connect to the database. The `-e` flag in this
 command is short for `--expiration`.
 
 Copy the string into the `VITE_TURSO_DB_AUTH_TOKEN` variable.
@@ -261,7 +261,6 @@ Copy the string into the `VITE_TURSO_DB_AUTH_TOKEN` variable.
 ### 8. Preview the site after deployment
 
 ![Screenshot of opening a preview in Netlify](11-netlify-open-preview.png)
-
 
 [Turso]: https://turso.tech
 [Turso CLI]: /reference/turso-cli
