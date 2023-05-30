@@ -321,6 +321,33 @@ will be billed according to your usage.
 
 :::
 
+## Database dump and load
+
+You can dump the entire contents of a Turso database using the following
+command:
+
+```bash
+$ turso db shell $DB_NAME .dump > dumpfile.sql
+```
+
+The file `dumpfile.sql` contains all of the SQL commands necessary to rebuild
+the database. libSQL and SQLite internal tables are not present.
+
+:::note
+
+`.dump` is a command you can run in the interactive shell, but you should
+consider running it on the command line so its output can be easily saved in a
+file.
+
+:::
+
+After creating a dump file, you can then load the dumped data into a new
+database using the following command:
+
+```bash
+$ turso db shell $NEW_DB_NAME < dumpfile.sql
+```
+
 ## Embedded sqld
 
 The Turso CLI comes with an embedded sqld that you can use for [local
