@@ -9,6 +9,7 @@ const sidebars = {
     'turso-cli',
     'libsql-urls',
     'local-development',
+    'extensions',
     'data-consistency',
     {
       type: 'category',
