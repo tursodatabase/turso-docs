@@ -81,7 +81,7 @@ Note the following in the above output:
   combination of the name of the database and your GitHub ID.
 - The first URL is the [logical database URL] that you provide to [libSQL client
   libraries] to query the database. This URL automatically forwards the client
-  to the closest [instance].
+  to the [instance] with the lowest latency.
 - The [primary] instance has a random name that was assigned by the CLI.
 
 To see a list of all logical databases associated with the account that's
