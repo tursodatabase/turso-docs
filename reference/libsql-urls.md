@@ -22,9 +22,19 @@ server mode). Databases managed by Turso provide two categories of URLs:
 
 ### Logical database URL
 
-This URL connects to an [instance] of the database closest to the machine making
-the connection. Most of the time, you will want to use this URL as shown in the
-output of `turso db list` and `turso db show`.
+This URL connects to an [instance] of the database with the lowest latency to
+the machine making the connection. Most of the time, you will want to use this
+URL as shown in the output of `turso db list` and `turso db show`.
+
+:::info
+
+Turso depends on the hosting service Fly.io to determine the lowest latency
+instance for a client connection. Typically, this will be the geographically
+closest instance to the machine running the client, though that may not always
+be the case. A client using a logical database URL might connect to different
+instances over time depending on how Fly.io observes network latency.
+
+:::
 
 ### Database instance URL
 

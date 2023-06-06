@@ -175,8 +175,10 @@ $ turso db replicate $DB_NAME $LOCATION_CODE
 :::info
 
 The data from the primary instance is copied to the replica immediately after
-it's created. For applications using a [logical database URL], Turso routes the
-closest client traffic to the replica immediately after replication is complete.
+it's created. After the replica is fully populated with data from the primary,
+client applications using a [logical database URL] may get routed to the new
+instance if it's observed to have the lowest latency among all available
+instances.
 
 :::
 
