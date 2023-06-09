@@ -285,7 +285,7 @@ signing key for any new tokens you create afterward.
 To generate an auth token that has read-only access to the database.
 
 ```bash
-$ turso db tokens invalidate $DB_NAME --read-only
+$ turso db tokens create $DB_NAME --read-only
 ```
 
 Read-only tokens enable a client to run queries with `select`, but disallow
