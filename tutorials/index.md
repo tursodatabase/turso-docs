@@ -32,6 +32,10 @@ deployment.
 This tutorial guides you through the process of creating a Cloudflare Worker
 with TypeScript and using that to query a Turso database.
 
+## More resources
+
+- [Working with GraphQL and Turso using Edge Resolvers]
+
 
 [Get started with the Turso CLI]: get-started-turso-cli
 [Netlify setup guide]: netlify-setup-guide
@@ -39,3 +43,5 @@ with TypeScript and using that to query a Turso database.
 [Using Turso with Cloudflare Workers and TypeScript]: https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/
 
 [libSQL client library]: /reference/client-access
+
+[Working with GraphQL and Turso using Edge Resolvers]: https://grafbase.com/guides/working-with-graphql-and-turso-using-edge-resolvers
