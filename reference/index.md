@@ -14,16 +14,18 @@ keywords:
 This section of the documentation provides details on the tools, SDKs, and
 protocols used when working with Turso.
 
-| Component | GitHub |
+| Component | Source code |
 | --- | --- |
-| [Turso CLI] | https://github.com/chiselstrike/turso-cli/ |
-| [TypeScript SDK] | https://github.com/libsql/libsql-client-ts/ |
-| [Rust SDK] | https://github.com/libsql/libsql-client-rs/ |
-| [Python SDK] | https://github.com/libsql/libsql-client-py/ |
-| sqld | https://github.com/libsql/sqld/ |
+| [Turso CLI] | [GitHub](https://github.com/chiselstrike/turso-cli/) |
+| [TypeScript SDK] | [GitHub](https://github.com/libsql/libsql-client-ts/) |
+| [Rust SDK] | [GitHub](https://github.com/libsql/libsql-client-rs/) |
+| [Python SDK] | [GitHub](https://github.com/libsql/libsql-client-py/) |
+| [Go SDK] | [GitHub](https://github.com/libsql/libsql-client-go/) |
+| sqld | [GitHub](https://github.com/libsql/sqld/) |
 
 
 [Turso CLI]: turso-cli
 [TypeScript SDK]: client-access/javascript-typescript-sdk
 [Rust SDK]: client-access/rust-sdk
 [Python SDK]: client-access/python-sdk
+[Go SDK]: client-access/go-sdk
