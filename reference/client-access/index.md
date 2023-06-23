@@ -16,6 +16,7 @@ database:
 - [JavaScript & TypeScript](/reference/client-access/javascript-typescript-sdk)
 - [Rust](/reference/client-access/rust-sdk)
 - [Python](/reference/client-access/python-sdk)
+- [Go](/reference/client-access/go-sdk)
 
 The client libraries allow you to execute a single SQL statement, execute a
 batch of statements in an implied transaction, and perform an interactive
@@ -29,12 +30,12 @@ The client libraries require two pieces of information for initialization.
 
 You must have a [libSQL database URL] that identifies the [logical database] or
 [instance] to connect with. You can get this using the [Turso CLI] by running
-`turso db list` or `turso db show`.
+`turso db show`.
 
 ### 2. Authentication token
 
 You must have an authentication token that authorizes your client application to
-access the database. It should be a long-live token with no expiration. You can
+access the database. It should be a long-lived token with no expiration. You can
 [get an auth token this using the Turso CLI] by running `turso db tokens create
 $DBNAME --expiration none`.
 
