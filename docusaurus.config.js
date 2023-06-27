@@ -192,7 +192,7 @@ const themeConfig = {
     theme: lightCodeTheme,
     // @ts-ignore
     darkTheme: darkCodeTheme,
-    additionalLanguages: ['rust'],
+    additionalLanguages: ['rust', 'toml'],
   },
 
   colorMode: {

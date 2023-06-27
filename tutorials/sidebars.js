@@ -27,13 +27,15 @@ const sidebars = {
     },
     {
       type: 'doc',
-      label: 'Netlify setup guide',
       id: 'netlify-setup-guide/index',
     },
     {
       type: 'doc',
-      label: 'Vercel setup guide',
       id: 'vercel-setup-guide/index',
+    },
+    {
+      type: 'doc',
+      id: 'fermyon-spin-rust-setup-guide/index',
     },
     {
       type: 'link',
