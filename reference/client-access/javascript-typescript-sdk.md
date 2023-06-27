@@ -176,7 +176,30 @@ are bound to each placeholder.
 libSQL supports the same named placeholder prefix characters as SQLite: `:`,
 `@`, and `$`.
 
-## Execute a batch of statements
+## Batches and interactive transactions
+
+Batches and interactive transactions provide a way to execute multiple
+statements atomically, internally using a [SQLite transaction]. They both
+require a mode to be specified to indicate what sort of operations can be
+executed. The mode is specified as a string in the first argument of the call to
+`batch()` or `transaction()`.
+
+| Mode | SQLite command | Description |
+| --- | --- | --- |
+| `write` | `BEGIN IMMEDIATE` | The transaction may execute statements that read and write data. Write transactions executed on a replica are forwarded to the primary instance, and can't operate in parallel. |
+| `read` | `BEGIN TRANSACTION READONLY` | The transaction may only execute statements that read data (select). Read transactions can occur on replicas, and can operate in parallel with other read transactions. |
+| `deferred` | `BEGIN DEFERRED` | The transaction starts in `read` mode, then changes to `write` as soon as a write statement is executed. *This mode change may fail if there is a write transaction currently executing on the primary.* |
+
+In general:
+
+- You should prefer to use a `read` batch or transaction when possible in order
+  to achieve the best latency with replicas, since they don't require
+  interaction with the primary instance.
+- You should be prepared to handle random failures with `deferred` transactions
+  when a change in mode is required. The probability of such an error becomes
+  more likely as the write load on the primary instance increases.
+
+### Execute a batch of statements
 
 :::info
 
@@ -186,18 +209,18 @@ their behavior.
 :::
 
 To execute multiple statements in a transaction, use the `batch()` method on the
-client object, passing it an array of statements. The array may contain any type
-of statement that is also accepted by
+client object, passing it a transaction mode and array of statements. The array
+may contain any type of statement that is also accepted by
 [`execute()`](#execute-a-single-statement). `batch()` returns a promise that
 becomes fulfilled with an array of [ResultSet](#resultset) objects (one for each
 statement), or an error.
 
-The following code inserts a row for uid3 in two different tables using a
-transaction that commits them both at the same time.
+The following code uses a write batch to insert a row for uid3 in two different
+tables using a transaction that commits them both at the same time.
 
 ```ts
 try {
-    const rss = await client.batch([
+    const rss = await client.batch("write", [
         {
             sql: "insert into example_users values (?, ?)",
             args: [ "uid3", "uid3@turso.tech" ]
@@ -220,7 +243,7 @@ try {
 }
 ```
 
-## Interactive transactions
+### Interactive transactions
 
 :::info
 
@@ -230,24 +253,8 @@ clients to understand their behavior.
 :::
 
 Use the `transaction()` method on the client object to start an interactive
-transaction. The transaction must declare one of three modes depending on the
-passed argument. The mode is specified as a string.
-
-| Mode | SQLite command | Description |
-| --- | --- | --- |
-| `write` | `BEGIN IMMEDIATE` | The transaction may execute statements that read and write data. Write transactions execute on a replica are forwarded to the primary instance, and can't operate in parallel. |
-| `read` | `BEGIN TRANSACTION READONLY` | The transaction may only execute statements that read data (select). Read transactions can occur on replicas, and can operate in parallel with other read transactions. |
-| `deferred` | `BEGIN DEFERRED` | The transaction starts in `read` mode, then changes to `write` as soon as a write statement is executed. *This mode change may fail if there is a write transaction currently executing on the primary.* |
-
-In general:
-
-- You should prefer to use a `read` transaction when possible in order to
-  achieve the best latency.
-- You should be prepared to handle random failures with `deferred` transactions,
-  more likely under load, when a change in mode is required.
-
-The Transaction object returned by `transaction()` provides the following
-methods:
+transaction, passing it the mode of the transaction. The returned Transaction
+object provides the following methods:
 
 | Method | Description |
 | --- | --- |
@@ -334,3 +341,4 @@ unless you are absolutely certain of their type.
 
 [common section on batches]: ../client-access#batches
 [common section on interactive transactions]: ../client-access#interactive-transactions
+[SQLite transaction]: https://www.sqlite.org/lang_transaction.html
