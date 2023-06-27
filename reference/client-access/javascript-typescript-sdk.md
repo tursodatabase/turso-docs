@@ -43,7 +43,7 @@ import { createClient } from "@libsql/client";
 ```
 
 Or, when running in a JavaScript environment without Node.js APIs (for example,
-CloudFlare Workers or browsers):
+Cloudflare Workers or browsers):
 
 ```ts
 import { createClient } from "@libsql/client/web";
@@ -229,8 +229,25 @@ clients to understand their behavior.
 
 :::
 
-Use the `transaction()` method on the client object to create a Transaction
-object to control the transaction. It provides the following methods:
+Use the `transaction()` method on the client object to start an interactive
+transaction. The transaction must declare one of three modes depending on the
+passed argument. The mode is specified as a string.
+
+| Mode | SQLite command | Description |
+| --- | --- | --- |
+| `write` | `BEGIN IMMEDIATE` | The transaction may execute statements that read and write data. Write transactions execute on a replica are forwarded to the primary instance, and can't operate in parallel. |
+| `read` | `BEGIN TRANSACTION READONLY` | The transaction may only execute statements that read data (select). Read transactions can occur on replicas, and can operate in parallel with other read transactions. |
+| `deferred` | `BEGIN DEFERRED` | The transaction starts in `read` mode, then changes to `write` as soon as a write statement is executed. *This mode change may fail if there is a write transaction currently executing on the primary.* |
+
+In general:
+
+- You should prefer to use a `read` transaction when possible in order to
+  achieve the best latency.
+- You should be prepared to handle random failures with `deferred` transactions,
+  more likely under load, when a change in mode is required.
+
+The Transaction object returned by `transaction()` provides the following
+methods:
 
 | Method | Description |
 | --- | --- |
@@ -239,8 +256,8 @@ object to control the transaction. It provides the following methods:
 | `rollback()` | Rolls back the entire transaction |
 | `close()` | Immediately stops the transaction - must be called if the transaction was not committed or rolled back in order to free resources |
 
-The following code uses an interactive transaction to update a user’s level
-score, but only if it’s greater than the one that currently exists:
+The following code uses a write transaction to update a user’s level score, but
+only if it’s greater than the one that currently exists:
 
 ```ts
 try {
@@ -248,7 +265,7 @@ try {
     const level = 1;
     const newScore = 200;
 
-    const transaction = await client.transaction();
+    const transaction = await client.transaction("write");
     const rs = await transaction.execute({
         sql: "select score from example_scores where uid = ? and level = ?",
         args: [ uid, level ]
