@@ -17,14 +17,19 @@ URLs are recognized by libSQL and Turso tools with the following meaning.
 
 ## Database endpoint identification
 
-A `libsql` URL identifies a libSQL database accessible through [sqld] (libSQL
-server mode). Databases managed by Turso provide two categories of URLs:
+A `libsql` URL identifies a libSQL database running [sqld] (libSQL server mode).
+Databases managed by Turso provide two categories of URLs:
 
 ### Logical database URL
 
-This URL connects to an [instance] of the database with the lowest latency to
-the machine making the connection. Most of the time, you will want to use this
-URL as shown in the output of `turso db list` and `turso db show`.
+This URL connects to an [instance] of the database (primary or replica) with the
+lowest latency to the machine making the connection. Most of the time, you will
+want to use this URL as shown in the output of `turso db list` and `turso db
+show`. Logical database URLs have the following format:
+
+```
+libsql://[DB-NAME]-[ORG-NAME].turso.io
+```
 
 :::info
 
@@ -41,22 +46,57 @@ instances over time depending on how Fly.io observes network latency.
 This URL always connects to a specific [instance] of a Turso database. You may
 want to use this in order to bypass the automatic routing provided by the
 logical database URL. Instance URLs appear for each instance in the output of
-`turso db show $DBNAME --instance-urls`.
+`turso db show $DBNAME --instance-urls`. Database instance URLs have the
+following format:
 
-## WebSockets implementation
+```
+libsql://[RANDOM-CHARS]-[DB-NAME]-[ORG-NAME].turso.io
+```
 
-A libsql URL is understood by [libSQL client libraries] to use a custom
-WebSocket protocol to manage round trip communications with a libSQL database.
+## Network protocol
 
-## HTTP URLs
+When provided with a libsql URL, libSQL client libraries are free to choose what
+they consider to be the best (or only) available protocol that works in the
+runtime environment where they are running. `sqld` supports both WebSockets and
+HTTP. Some cloud and edge function providers might not support WebSockets, with
+HTTP being the only working choice.
 
-If your runtime environment doesn’t support WebSockets, or a client library is
-not available for your preferred language, you can replace the `libsql` scheme
-with `https` to invoke a stateless HTTP API similar to the WebSocket protocol.
-When using [sqld] locally, you can use `http` to access it without requiring an
-SSL certificate.
+It's possible that some SDK features might not be available depending on the
+chosen protocol. You should consult the SDK documentation for details. In the
+future, each SDK will expose a way to find out which protocol was chosen by the
+client object.
 
-Documentation for the libSQL HTTP protocol is forthcoming.
+In order to optimize the latency of your application, or use `sqld` instances
+other than those managed by Turso, you might want to choose a protocol. The
+protocol is selected using the scheme of the URL. libSQL clients generally
+support the following schemes: `http`, `https`, `ws`, `wss`. If you want to
+specify the use HTTPS, you can replace the `libsql` scheme of the URL with
+`https`. For example, a logical database URL that specifies `https` has the
+following format:
+
+```
+https://[DB-NAME]-[ORG-NAME].turso.io
+```
+
+:::info
+
+Turso databases support only the secure `https` and `wss` schemes. `ws` and
+`http` are typically only used when developing against a sqld instance running
+locally that can't be configured with an SSL certificate.
+
+:::
+
+The underlying data sent using WebSockets or HTTP is expressed as JSON.
+Documentation for this protocol and the structure of its messages is
+forthcoming.
+
+### Latency optimization
+
+WebSockets tend to perform better when the client SDK can hold a socket open
+over time to handle multiple queries. However, HTTP tends to perform better for
+a single query since it requires fewer round trips between client and server.
+You should benchmark both options if there is any doubt which is better for your
+use case.
 
 
 [Turso CLI]: /reference/turso-cli
