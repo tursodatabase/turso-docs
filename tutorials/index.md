@@ -27,6 +27,11 @@ This guide illustrates how to use Vercel environment variables to provide
 values required by the [libSQL client library] used in a web application
 deployment.
 
+## [Fermyon Spin with Rust setup guide]
+
+This guide illustrates how to use Fermyon Spin variables to provide values
+required by the [libSQL client library] for Rust.
+
 ## [Using Turso with Cloudflare Workers and TypeScript]
 
 This tutorial guides you through the process of creating a Cloudflare Worker
@@ -40,6 +45,7 @@ with TypeScript and using that to query a Turso database.
 [Get started with the Turso CLI]: get-started-turso-cli
 [Netlify setup guide]: netlify-setup-guide
 [Vercel setup guide]: vercel-setup-guide
+[Fermyon Spin with Rust setup guide]: fermyon-spin-rust-setup-guide
 [Using Turso with Cloudflare Workers and TypeScript]: https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/
 
 [libSQL client library]: /reference/client-access
