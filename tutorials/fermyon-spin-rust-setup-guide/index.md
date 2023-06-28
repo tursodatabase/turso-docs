@@ -219,7 +219,7 @@ Add the following lines to `spin.toml` **above** the `[[component]]` table to de
 two variables whose values will be used later in code:
 
 ```toml
-# The [variables] section must occur above the [[component]] section
+# The [variables] table must occur above the [[component]] table
 [variables]
 turso_url = { default = "libsql://your-turso-database.turso.io" }
 turso_auth_token = { required = true, secret = true }
@@ -237,7 +237,7 @@ Add the following lines to `spin.toml` **below** the `[[component]]` table to ad
 the variables to the component config:
 
 ```toml
-# The [component.config] section must occur below the [[component]] section
+# The [component.config] table must occur below the [[component]] table
 [component.config]
 turso_url = "{{ turso_url }}"
 turso_auth_token = "{{ turso_auth_token }}"
@@ -254,7 +254,7 @@ allowed_http_hosts = ["your-turso-database.turso.io"]
 
 By default, Spin does not allow any outgoing network connections. In order to
 query your Turso database, `allowed_http_hosts` must contain the hostname of
-your database in order for Spin to allow network access to it.
+your database in order for Spin to [allow network access] to it.
 
 :::
 
@@ -459,6 +459,7 @@ following resources to learn more about how Turso and the libSQL Rust SDK work.
 [follow the Spin quickstart]: https://developer.fermyon.com/spin/quickstart
 [libsql-client crate]: https://crates.io/crates/libsql-client
 [Spin Application Variables and Secrets]: https://developer.fermyon.com/cloud/variables
+[allow network access]: https://developer.fermyon.com/spin/writing-apps#granting-networking-permissions-to-components
 [Turso documentation]: https://docs.turso.tech
 [Turso CLI reference]: https://docs.turso.tech/reference/turso-cli
 [libSQL Rust SDK reference]: https://docs.turso.tech/reference/client-access/rust-sdk
