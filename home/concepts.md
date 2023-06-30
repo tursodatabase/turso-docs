@@ -18,7 +18,7 @@ concepts that are used throughout this documentation.
 ## Location
 
 Turso databases are deployed using Fly.io, which allows Turso to host database
-instances in [26 locations around the world], each identified with a three
+instances in [many locations around the world], each identified with a three
 letter code. When creating a database with [replicas](#replica), you should
 consider which locations best support the code running any queries. In general,
 the physical distance between the code and the database determines the latency,
@@ -64,6 +64,6 @@ will then push that change to all replicas. The replicas provide snapshot
 isolation for read transactions.
 
 
-[26 locations around the world]: https://fly.io/docs/reference/regions/
+[many locations around the world]: https://fly.io/docs/reference/regions/
 [Turso CLI]: /reference/turso-cli
-[sqld]: https://github.com/libsql/sqld
+[sqld]: https://github.com/libsql/sqld#readme

@@ -143,12 +143,11 @@ It outputs the URL for the database. Copy that string into the
 Run the following CLI command:
 
 ```bash
-turso db tokens create topwebframeworks -e none
+turso db tokens create topwebframeworks
 ```
 
 It outputs a non-expiring authentication token that allows the libSQL client
-library used by the app to connect to the database. The `-e` flag in the command
-is the short for `--expiration`.
+library used by the app to connect to the database.
 
 Copy the resulting string into the `NUXT_TURSO_DB_AUTH_TOKEN` variable.
 

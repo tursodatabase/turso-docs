@@ -23,48 +23,22 @@ turso db replicate my-db nrt
 This generates output similar to the following:
 
 ```
-Replicated database my-db to Tokyo, Japan (nrt) in [xx] seconds.
+Replicated database my-db to Tokyo, Japan (nrt) in 8 seconds.
 
-Client connections using libsql://[db-name]-[github-name].turso.io that are
-physically close to nrt will now be routed to this replica for lower latency.
+To see information about the database my-db, run:
 
-To see information about the database, including a connection URL specific to
-this location, run:
+	turso db show my-db
 
-        turso db show my-db2
+To see a connection URL directly to the new replica, run:
+
+	turso db show my-db --instance-url [name-of-replica]
 ```
 
-## Query the replica
+## Find the replica
 
-The above output gives a suggestion for running the Turso CLI shell against the
-replica. Copy that command and run it to start the shell. The replica should
-contain the same table and row that you previously added to the primary:
-
-```
-→  select * from users;
-ID   EMAIL
-001  test@foo.com
-
-→  .quit
-```
-
-Some things to note about replicas:
-
-- It is possible to create replicas in any supported location, including the
-  location of the primary.
-- Creating more than one replica in a location is currently required for scaling
-  out support in that location. Automatic scaling based on current load is
-  something we hope to implement in the future.
-- The URL specific to the replica should only be used in situations where you
-  know you want to query that one replica directly. Most applications should
-  instead use the logical database URL for automatic location routing for the
-  lowest latency for read operations.
-
-## Destroy the replica
-
-To destroy the replica, you must know its unique name. The CLI randomly
-generated one for it at the time it was created. You can find the names of all
-the replicas using the the following command:
+To work with the replica directly, you must know its unique name. The CLI
+randomly generates one for it at the time it was created. You can find the names
+of all the replicas using the the following command:
 
 ```bash
 turso db show my-db
@@ -75,22 +49,45 @@ The output is similar to this:
 ```
 Name:           my-db
 URL:            libsql://my-db-[my-github-name].turso.io
-ID:             4a1fbed0-f580-11ed-9d02-f28bd1fbbb2c
+ID:             [UUID]
 Locations:      nrt, [location]
 Size:           0 B
 
 Database Instances:
-NAME                  TYPE        LOCATION     VERSION
-premium-triathlon     primary     [location]   0.14.0
-sweeping-ultragirl    replica     nrt          0.14.0
+NAME                  TYPE        LOCATION
+premium-triathlon     primary     [location]
+sweeping-ultragirl    replica     nrt
 ```
 
 On the last line, you can see the replica in the location "nrt" in this case is
-named "sweeping-ultragirl". Use this command to destroy it (replacing the name
-of the replica with your own):
+named "sweeping-ultragirl".
+
+## Query the replica
+
+You can query the instance directly using the shell. Copy the name of the
+replica from the output above into the following command as the last argument:
+
+```
+turso db shell my-db --instance [NAME-OF-INSTANCE]
+```
+
+Now you can query the contents of the replica like you did previously:
+
+```
+→  select * from users;
+ID   EMAIL
+001  test@foo.com
+
+→  .quit
+```
+
+## Destroy the replica
+
+Run the following command to destroy the replica, copying it name into the
+command as the last argument:
 
 ```bash
-turso db destroy my-db --instance sweeping-ultragirl
+turso db destroy my-db --instance [NAME-OF-REPLICA]
 ```
 ```
 Destroyed instance sweeping-ultragirl of database my-db.

@@ -71,15 +71,15 @@ Locations:      [location]
 Size:           0 B
 
 Database Instances:
-NAME            TYPE      LOCATION    VERSION
-[random-name] 	primary   [location]  0.14.0
+NAME            TYPE      LOCATION
+[random-name] 	primary   [location]
 ```
 
 Note the following in the above output:
 
 - [Database URLs] use a custom `libsql` scheme, and are composed using a
   combination of the name of the database and your GitHub ID.
-- The first URL is the [logical database URL] that you provide to [libSQL client
+- The URL is the [logical database URL] that you provide to [libSQL client
   libraries] to query the database. This URL automatically forwards the client
   to the [instance] with the lowest latency.
 - The [primary] instance has a random name that was assigned by the CLI.
