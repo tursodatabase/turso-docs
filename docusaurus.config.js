@@ -66,6 +66,11 @@ const themeConfig = {
         position: 'right',
       },
       {
+        href: 'https://turso.tech/app',
+        label: 'Dashboard',
+        position: 'right',
+      },
+      {
         href: 'https://github.com/chiselstrike',
         label: 'GitHub',
         position: 'right',

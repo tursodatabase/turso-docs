@@ -291,11 +291,116 @@ $ turso db tokens create $DB_NAME --read-only
 Read-only tokens enable a client to run queries with `select`, but disallow
 `update`, `insert`, and `delete` commands.
 
+## Team collaboration with organizations
+
+Turso allows you to manage team database access and billing using a grouping
+mechanism called "organizations". By default, the CLI assumes a personal
+organization with the same name as your GitHub username.
+
+### Create an organization
+
+You can create a new organization using the CLI with the command:
+
+```bash
+$ turso org create $ORG_NAME
+```
+
+When the organization is created with the CLI:
+
+- The organization is assigned a "slug" string which uniquely identifies it,
+  based on the provided name.
+- Your account is assigned the "owner" role. Only one owner per organization is
+  supported.
+- The new organization becomes the current organization for future CLI commands.
+  You can [switch to another organization](#switch-organizations) as needed.
+
+:::note
+
+Organization slugs are globally unique. Creation of an organization will fail in
+case its assigned slug already exists.
+
+:::
+
+### List organizations
+
+To list organizations of which you are the owner or a member:
+
+```bash
+$ turso org list
+```
+
+### Switch organizations
+
+To change the current organization for future CLI commands, including those that
+work with logical databases, provide its unique slug to the following command:
+
+```bash
+$ turso org switch $ORG_SLUG
+```
+
+The current organization is persisted in [local storage].
+
+### Delete an organization
+
+To delete an organization and all of its associated databases and billing
+information:
+
+```bash
+$ turso org destroy $ORG_SLUG
+```
+
+Your personal organization can't be destroyed.
+
+The CLI doesn't allow destroying an organization that is also the current
+organization. You must [switch organizations](#switch-organizations) if
+necessary.
+
+### Manage members of an organization
+
+Members of an organization are able to fully control all databases contained
+within that organization. Only the owner is allow to access billing information.
+
+To add a member to the current organization:
+
+```bash
+$ turso org members add $GITHUB_USERNAME
+```
+
+To list existing members:
+
+```bash
+$ turso org members list
+```
+
+To remove a member from the current organization:
+
+```bash
+$ turso org members rm $GITHUB_USERNAME
+```
+
+## Manage billing
+
+The owner of an organization may manage billing information for the current
+organization using the following commands:
+
+| Command | Action |
+| --- | --- |
+| `turso plan show` | Shows the current payment plan and usage |
+| `turso plan upgrade` | Upgrade the current plan (from starter to scaler) |
+| `turso plan select` | Select a specific payment plan |
+| `turso org billing` | Update credit card information |
+
+A credit card is required to switch to the scaler plan. Credit card information
+is entered on a per-organization basis. The CLI launches a web browser to manage
+credit card information for the current organization.
+
+See the website for [Turso pricing information].
+
 ## Inspect database usage
 
-Total database usage, measured for the purpose of billing, is aggregated across
-all [logical databases] associated with an account. Depending on your payment
-plan, limits are applied to the following usage stats:
+Total database usage, measured for the purpose of [billing], is aggregated
+across all [logical databases] associated with an account. Depending on your
+payment plan, limits are applied to the following usage stats:
 
 - Total amount of storage
 - Number of rows read
@@ -309,15 +414,20 @@ To see a summary for all databases for your account, use the following command:
 $ turso plan show
 ```
 
-You can get more detailed data about the current usage of a single logical
-database using the following command:
+You can get more detailed data about the current monthly usage of a single
+logical database using the following command:
 
 ```bash
 $ turso db inspect $DB_NAME
 ```
 
-For a more detailed breakdown by location, table, and index, add the
-`--verbose` flag.
+It might take up to one minute for the output to reflect recent operations.
+
+You can show usage grouped per instance by running:
+
+```bash
+$ turso db inspect $DB_NAME --verbose
+```
 
 ## Database dump and load
 
@@ -394,3 +504,5 @@ since it can be restored by logging in to the CLI again.
 [client-auth-tokens]: #authentication-tokens-for-client-access
 [local development]: /reference/local-development
 [libsql URL]: /reference/libsql-urls
+[Turso pricing information]: https://turso.tech/pricing
+[billing]: /billing-details
