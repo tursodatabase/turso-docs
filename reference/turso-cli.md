@@ -294,34 +294,30 @@ Read-only tokens enable a client to run queries with `select`, but disallow
 ## Inspect database usage
 
 Total database usage, measured for the purpose of billing, is aggregated across
-all [logical databases] associated with an account. The billable metrics are:
+all [logical databases] associated with an account. Depending on your payment
+plan, limits are applied to the following usage stats:
 
 - Total amount of storage
 - Number of rows read
+- Number of rows written
+- Total number of database instances (primary and replicas)
+- Total number of database locations used
 
-To see a summary for your account, use the following command:
+To see a summary for all databases for your account, use the following command:
 
 ```bash
-$ turso account show
+$ turso plan show
 ```
 
-You can get more detailed data about the current usage of a logical database
-using the following command:
+You can get more detailed data about the current usage of a single logical
+database using the following command:
 
 ```bash
 $ turso db inspect $DB_NAME
 ```
 
-This reports the total space occupied by all user-created tables and indexes.
-For a more detailed breakdown by location, table, and index, pass the
+For a more detailed breakdown by location, table, and index, add the
 `--verbose` flag.
-
-:::info
-
-During the public beta, Turso is [free to use with limits]. In the future, you
-will be billed according to your usage.
-
-:::
 
 ## Database dump and load
 
@@ -389,7 +385,6 @@ since it can be restored by logging in to the CLI again.
 
 [Client access]: ./client-access
 [getting started tutorial]: /tutorials/get-started-turso-cli
-[free to use with limits]: /beta-limits
 [location]: /concepts#location
 [logical database]: /concepts#logical-database
 [logical database URL]: ./libsql-urls#logical-database-url

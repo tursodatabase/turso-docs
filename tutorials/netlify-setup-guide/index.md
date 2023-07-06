@@ -140,12 +140,11 @@ It outputs the URL for the database. Copy that string into the
 Run the following CLI command:
 
 ```bash
-$ turso db tokens create findmeon -e none
+$ turso db tokens create findmeon
 ```
 
 This creates a long-lived authentication token that allows the libSQL client
-library used by the app to connect to the database. The `-e` flag in this
-command is short for `--expiration`.
+library used by the app to connect to the database.
 
 Copy the string into the `VITE_TURSO_DB_AUTH_TOKEN` variable.
 

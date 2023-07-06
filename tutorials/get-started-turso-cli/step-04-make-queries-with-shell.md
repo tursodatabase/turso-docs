@@ -22,7 +22,7 @@ Connected to my-db at libsql://my-db-[my-github-name].turso.io
 
 Welcome to Turso SQL shell!
 
-Type ".quit" to exit the shell, ".tables" to list all tables, and ".schema" to show table schemas.
+Type ".quit" to exit the shell and ".help" to list all available commands.
 
 →
 ```
@@ -63,16 +63,14 @@ ID   EMAIL
 001  test@foo.com
 ```
 
-The shell reminds you of some the commands `.tables` and `.schema` to inspect
-the structure of the database:
+Run `.help` to see a list of shell commands. You can see the commands `.tables`
+and `.schema` and use them to inspect the structure of the database:
 
 ```
 →  .tables
-NAME
 users
 
 →  .schema
-SQL
 CREATE TABLE users (id text, email text)
 ```
 

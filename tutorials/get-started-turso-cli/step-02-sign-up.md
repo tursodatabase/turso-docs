@@ -28,7 +28,7 @@ and stores it in a local file.  On macOS, the file is located in
 `$HOME/Library/Application Support/turso`. On Linux, it’s `$HOME/.config/turso`.
 Some things to note about this token:
 
-- Do not share this token with anyone you don’t trust fully as they can use it
+- Do not share this token with anyone you don’t trust fully, as they can use it
   to work with Turso on your behalf.
 - The token is passed along with all backend API requests made by the CLI while
   logged in.
