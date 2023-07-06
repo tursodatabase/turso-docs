@@ -198,6 +198,17 @@ const themeConfig = {
   colorMode: {
     defaultMode: 'dark',
     respectPrefersColorScheme: true,
+  },
+
+  algolia: {
+    // The application ID provided by Algolia
+    appId: 'EEBD8P3V4D',
+
+    // Public API key: it is safe to commit it
+    apiKey: 'da17bdeb96dabdb6db1643b86f907595',
+
+    indexName: 'turso',
+
   }
 };
 
@@ -222,6 +233,7 @@ const config = {
   title: 'Turso',
   tagline: 'The edge database based on libSQL',
   favicon: 'img/favicon.ico',
+  themes: ['@docusaurus/theme-search-algolia'],
 
   // Set the production url of your site here
   url: 'https://docs.turso.tech',
