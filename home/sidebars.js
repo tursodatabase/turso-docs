@@ -13,8 +13,8 @@ const sidebars = {
     },
     {
       type: 'doc',
-      label: 'Beta limits',
-      id: 'beta-limits',
+      label: 'Billing details',
+      id: 'billing-details',
     },
     {
       type: 'doc',
