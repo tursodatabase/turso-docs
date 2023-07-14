@@ -86,6 +86,7 @@ const sidebars = {
             'platform-rest-api/database/destroy-database-in-org',
             'platform-rest-api/database/mint-token-for-database-in-org',
             'platform-rest-api/database/invalidate-all-tokens-for-database-in-org',
+            'platform-rest-api/database/get-usage-database-in-org',
           ]
         },
         {

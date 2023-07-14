@@ -44,13 +44,35 @@ All operations require [authentication].
 | `Hostname` | string | The DNS hostname used for client connections; used to build libsql and https URLs |
 | `IssuedCertLimit` | number |  |
 | `IssuedCertCount` | number |  |
-| `DbId` | string | UUID for the database |
-| `regions` | string array | List location codes of all instances of this logical database |
+| `DbId` | string | UUID of the logical database |
+| `regions` | string array | List of location codes for all instances of this logical database |
 | `primaryRegion` | string | Location code for the primary instance |
 | `type` | string | "logical" |
 
 Any `username` and `password` values associated with a database are deprecated
 and should not be used by consumers of this API.
+
+### Logical database usage object
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `uuid` | string | UUID of the logical database |
+| `instances` | array | List of [database instance usage objects](#database-instance-usage-object) of instances contributing usage for the current month |
+
+### Database instance usage object
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `uuid` | string | UUID of the database instance |
+| `usage` | object | [Usage object](#usage-object) describing the usage of this instance for the current month |
+
+### Usage object
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `rows_read` | number | The number of row reads incurred during a monthly billing period |
+| `rows_written` | number | The number of row writes incurred during a monthly billing period |
+| `storage_bytes` | number | The total amount of storage used |
 
 
 [logical databases]: /concepts#logical-database
