@@ -42,6 +42,7 @@ enabled.
 | [SQLean Crypto] | Hashing, message digest, encoding, and decoding |
 | [SQLean Fuzzy] | Fuzzy string matching and phonetics |
 | [SQLean Math] | Advanced mathematical calculations |
+| [SQLean Regexp] | Regular expressions |
 | [SQLean Stats] | Common statistical functions |
 | [SQLean Text] | String manipulation (reverse, split) |
 | [SQLean Unicode] | Case-insensitive string comparison for Unicode strings |
@@ -59,6 +60,7 @@ SQLite maintains three official extensions that are enabled by default in Turso:
 [SQLean Crypto]: https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md
 [SQLean Fuzzy]: https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md
 [SQLean Math]: https://github.com/nalgeon/sqlean/blob/main/docs/math.md
+[SQLean Regexp]: https://github.com/nalgeon/sqlean/blob/main/docs/regexp.md
 [SQLean Stats]: https://github.com/nalgeon/sqlean/blob/main/docs/stats.md
 [SQLean Text]: https://github.com/nalgeon/sqlean/blob/main/docs/text.md
 [SQLean Unicode]: https://github.com/nalgeon/sqlean/blob/main/docs/unicode.md
