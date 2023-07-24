@@ -97,11 +97,11 @@ are not suitable for use with non-interactive applications.
 
 ### Provide a token to the API
 
-All HTTP requests must include the token string in the `Authentication` header.
+All HTTP requests must include the token string in the `Authorization` header.
 The header takes the following form:
 
 ```
-Authentication: Bearer [token]
+Authorization: Bearer [token]
 ```
 
 `[token]` is is a placeholder for either a platform or user token.
