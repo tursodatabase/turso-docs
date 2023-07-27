@@ -70,11 +70,6 @@ const themeConfig = {
         label: 'Dashboard',
         position: 'right',
       },
-      {
-        href: 'https://github.com/chiselstrike',
-        label: 'GitHub',
-        position: 'right',
-      },
     ],
   },
 
@@ -86,7 +81,7 @@ const themeConfig = {
     },
     links: [
       {
-        title: 'Turso: SQLite* for the Edge',
+        title: 'Turso: SQLite for the Edge',
         items: [
           {
             html: `
@@ -125,15 +120,15 @@ const themeConfig = {
         items: [
           {
             label: 'About',
-            href: 'https://chiselstrike.com/about-us',
+            href: 'https://turso.tech/about-us',
           },
           {
             label: 'Investors',
-            href: 'https://chiselstrike.com/investors',
+            href: 'https://turso.tech/investors',
           },
           {
             label: 'Blog',
-            href: 'https://blog.chiselstrike.com',
+            href: 'https://blog.turso.tech',
           },
         ],
       },
@@ -145,8 +140,12 @@ const themeConfig = {
           //   href: 'https://stackoverflow.com/questions/tagged/turso',
           // },
           {
-            label: 'Join Our Discord',
+            label: 'Turso Discord',
             href: 'https://discord.com/invite/4B5D7hYwub',
+          },
+          {
+            label: 'libSQL Discord',
+            href: 'https://discord.gg/TxwbQTWHSr',
           },
           {
             label: 'Follow us on Twitter',
@@ -162,16 +161,16 @@ const themeConfig = {
         title: 'Open Source',
         items: [
           {
-            label: 'LibSQL Github',
-            href: 'https://github.com/libsql/libsql',
+            label: 'Turso GitHub',
+            href: 'https://github.com/tursodatabase/',
           },
           {
-            label: 'Join libSQL Discord',
-            href: 'https://discord.gg/TxwbQTWHSr',
+            label: 'Turso extended GitHub',
+            href: 'https://github.com/turso-extended/',
           },
           {
-            label: 'ChiselStrike Github',
-            href: 'https://github.com/chiselstrike/chiselstrike',
+            label: 'libSQL GitHub',
+            href: 'https://github.com/libsql/',
           },
         ],
       },
@@ -180,11 +179,11 @@ const themeConfig = {
         items: [
           {
             label: 'Privacy Policy',
-            href: 'https://chiselstrike.com/privacy-policy',
+            href: 'https://turso.tech/privacy-policy',
           },
           {
             label: 'Terms of Use',
-            href: 'https://github.com/chiselstrike',
+            href: 'https://turso.tech/terms-of-use',
           },
         ],
       },
