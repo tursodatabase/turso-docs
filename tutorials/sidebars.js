@@ -42,6 +42,11 @@ const sidebars = {
       label: "Using CloudFlare Workers and TypeScript",
       href: 'https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/',
     },
+    {
+      type: 'link',
+      label: "Example apps and more",
+      href: 'https://github.com/turso-extended/',
+    },
   ],
 };
 
