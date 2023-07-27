@@ -39,6 +39,7 @@ with TypeScript and using that to query a Turso database.
 
 ## More resources
 
+- [Example apps and more on github.com/turso-extended]
 - [Working with GraphQL and Turso using Edge Resolvers]
 
 
@@ -50,4 +51,5 @@ with TypeScript and using that to query a Turso database.
 
 [libSQL client library]: /reference/client-access
 
+[Example apps and more on github.com/turso-extended]: https://github.com/turso-extended
 [Working with GraphQL and Turso using Edge Resolvers]: https://grafbase.com/guides/working-with-graphql-and-turso-using-edge-resolvers
