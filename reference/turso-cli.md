@@ -545,6 +545,14 @@ The CLI outputs a URL you can use to connect to the embedded sqld. Use this URL
 instead of the Turso database [libsql URL] when building locally. This URL can
 be used with `turso db shell` and the libSQL client libraries.
 
+If the `--db-file` argument points to a file that does not exist, it will create a new db file at that path.
+
+:::warning
+
+The database file tha you use should be created from a [Turso DB dump].  Database files created by libsql directly, or sqlite3 will not be able to load successfully when served through `turso dev`.
+
+:::
+
 You can change the port of the embedded sqld with the `--port` flag.
 
 ## Get help
@@ -575,3 +583,4 @@ since it can be restored by logging in to the CLI again.
 [libsql URL]: /reference/libsql-urls
 [Turso pricing information]: https://turso.tech/pricing
 [billing]: /billing-details
+[Turso DB dump]: #database-dump-and-load
