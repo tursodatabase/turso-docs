@@ -70,11 +70,6 @@ const themeConfig = {
         label: 'Dashboard',
         position: 'right',
       },
-      {
-        href: 'https://github.com/chiselstrike',
-        label: 'GitHub',
-        position: 'right',
-      },
     ],
   },
 
@@ -86,37 +81,37 @@ const themeConfig = {
     },
     links: [
       {
-        title: 'Turso: SQLite* for the Edge',
+        title: 'Turso: SQLite for the Edge',
         items: [
           {
             html: `
-                <a href="https://api.turso.io/?website=true" target="_blank" rel="noreferrer noopener" aria-label="Turso Sign Up">
-                  <div class="footer__button signUp">
-                    <p>Sign Up</p>
-                    <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M17.0303 6.28033C17.3232 5.98744 17.3232 5.51256 17.0303 5.21967L12.2574 0.4467C11.9645 0.153807 11.4896 0.153807 11.1967 0.4467C10.9038 0.739593 10.9038 1.21447 11.1967 1.50736L15.4393 5.75L11.1967 9.99264C10.9038 10.2855 10.9038 10.7604 11.1967 11.0533C11.4896 11.3462 11.9645 11.3462 12.2574 11.0533L17.0303 6.28033ZM0.5 6.5L16.5 6.5L16.5 5L0.5 5L0.5 6.5Z"
-                        fill="black"
-                      />
-                    </svg>
-                  </div>
-                </a>
-              `,
+              <a href="https://api.turso.io/?website=true" target="_blank" rel="noreferrer noopener" aria-label="Turso Sign Up">
+                <div class="footer__button signUp">
+                  <p>Sign Up</p>
+                  <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.0303 6.28033C17.3232 5.98744 17.3232 5.51256 17.0303 5.21967L12.2574 0.4467C11.9645 0.153807 11.4896 0.153807 11.1967 0.4467C10.9038 0.739593 10.9038 1.21447 11.1967 1.50736L15.4393 5.75L11.1967 9.99264C10.9038 10.2855 10.9038 10.7604 11.1967 11.0533C11.4896 11.3462 11.9645 11.3462 12.2574 11.0533L17.0303 6.28033ZM0.5 6.5L16.5 6.5L16.5 5L0.5 5L0.5 6.5Z"
+                      fill="black"
+                    />
+                  </svg>
+                </div>
+              </a>
+            `,
           },
           {
             html: `
-            <a href="https://github.com/libsql/libsql" target="_blank" rel="noreferrer noopener" aria-label="LibSQL Github repo">
-            <div class="footer__button github">
-              <p>Star Our Repo</p>
-              <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M17.0303 6.28033C17.3232 5.98744 17.3232 5.51256 17.0303 5.21967L12.2574 0.4467C11.9645 0.153807 11.4896 0.153807 11.1967 0.4467C10.9038 0.739593 10.9038 1.21447 11.1967 1.50736L15.4393 5.75L11.1967 9.99264C10.9038 10.2855 10.9038 10.7604 11.1967 11.0533C11.4896 11.3462 11.9645 11.3462 12.2574 11.0533L17.0303 6.28033ZM0.5 6.5L16.5 6.5L16.5 5L0.5 5L0.5 6.5Z"
-                  fill="white"
-                />
-              </svg>
-            </div>
-          </a>
-              `,
+              <a href="https://github.com/libsql/libsql" target="_blank" rel="noreferrer noopener" aria-label="LibSQL Github repo">
+                <div class="footer__button github">
+                  <p>Star Our Repo</p>
+                  <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.0303 6.28033C17.3232 5.98744 17.3232 5.51256 17.0303 5.21967L12.2574 0.4467C11.9645 0.153807 11.4896 0.153807 11.1967 0.4467C10.9038 0.739593 10.9038 1.21447 11.1967 1.50736L15.4393 5.75L11.1967 9.99264C10.9038 10.2855 10.9038 10.7604 11.1967 11.0533C11.4896 11.3462 11.9645 11.3462 12.2574 11.0533L17.0303 6.28033ZM0.5 6.5L16.5 6.5L16.5 5L0.5 5L0.5 6.5Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+              </a>
+            `,
           },
         ]
       },
@@ -125,15 +120,15 @@ const themeConfig = {
         items: [
           {
             label: 'About',
-            href: 'https://chiselstrike.com/about-us',
+            href: 'https://turso.tech/about-us',
           },
           {
             label: 'Investors',
-            href: 'https://chiselstrike.com/investors',
+            href: 'https://turso.tech/investors',
           },
           {
             label: 'Blog',
-            href: 'https://blog.chiselstrike.com',
+            href: 'https://blog.turso.tech',
           },
         ],
       },
@@ -145,8 +140,12 @@ const themeConfig = {
           //   href: 'https://stackoverflow.com/questions/tagged/turso',
           // },
           {
-            label: 'Join Our Discord',
+            label: 'Turso Discord',
             href: 'https://discord.com/invite/4B5D7hYwub',
+          },
+          {
+            label: 'libSQL Discord',
+            href: 'https://discord.gg/TxwbQTWHSr',
           },
           {
             label: 'Follow us on Twitter',
@@ -162,16 +161,16 @@ const themeConfig = {
         title: 'Open Source',
         items: [
           {
-            label: 'LibSQL Github',
-            href: 'https://github.com/libsql/libsql',
+            label: 'Turso GitHub',
+            href: 'https://github.com/tursodatabase/',
           },
           {
-            label: 'Join libSQL Discord',
-            href: 'https://discord.gg/TxwbQTWHSr',
+            label: 'Turso extended GitHub',
+            href: 'https://github.com/turso-extended/',
           },
           {
-            label: 'ChiselStrike Github',
-            href: 'https://github.com/chiselstrike/chiselstrike',
+            label: 'libSQL GitHub',
+            href: 'https://github.com/libsql/',
           },
         ],
       },
@@ -180,11 +179,11 @@ const themeConfig = {
         items: [
           {
             label: 'Privacy Policy',
-            href: 'https://chiselstrike.com/privacy-policy',
+            href: 'https://turso.tech/privacy-policy',
           },
           {
             label: 'Terms of Use',
-            href: 'https://github.com/chiselstrike',
+            href: 'https://turso.tech/terms-of-use',
           },
         ],
       },
@@ -208,12 +207,9 @@ const themeConfig = {
   algolia: {
     // The application ID provided by Algolia
     appId: 'EEBD8P3V4D',
-
     // Public API key: it is safe to commit it
     apiKey: 'da17bdeb96dabdb6db1643b86f907595',
-
     indexName: 'turso',
-
   }
 };
 
