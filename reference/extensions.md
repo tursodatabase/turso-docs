@@ -47,6 +47,7 @@ enabled.
 | [SQLean Text] | String manipulation (reverse, split) |
 | [SQLean Unicode] | Case-insensitive string comparison for Unicode strings |
 | [SQLean UUID] | Limited support for RFC 4122 compliant UUIDs |
+| [SQLean Regex] | Regular Expressions |
 | [Vector Similarity Search] | Vector search capabilities based on [Faiss]. |
 
 :::note
@@ -65,6 +66,7 @@ SQLite maintains three official extensions that are enabled by default in Turso:
 [SQLean Text]: https://github.com/nalgeon/sqlean/blob/main/docs/text.md
 [SQLean Unicode]: https://github.com/nalgeon/sqlean/blob/main/docs/unicode.md
 [SQLean UUID]: https://github.com/nalgeon/sqlean/blob/main/docs/uuid.md
+[SQLean Regex]: https://github.com/nalgeon/sqlean/blob/main/docs/regexp.md
 [Vector Similarity Search]: https://github.com/asg017/sqlite-vss
 [Faiss]: https://faiss.ai/
 [JSON]: https://www.sqlite.org/json1.html
