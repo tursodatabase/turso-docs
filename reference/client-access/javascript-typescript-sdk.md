@@ -56,8 +56,7 @@ the SDK. Use a `file:` URL to direct the SDK to a local SQLite database file.
 
 :::note
 
-The alternate `@libsql/client/web` import does not support local file URLs or
-[interactive transactions](#interactive-transactions).
+The alternate `@libsql/client/web` import does not support local file URLs.
 
 :::
 
@@ -220,7 +219,7 @@ tables using a transaction that commits them both at the same time.
 
 ```ts
 try {
-    const rss = await client.batch("write", [
+    const rss = await client.batch([
         {
             sql: "insert into example_users values (?, ?)",
             args: [ "uid3", "uid3@turso.tech" ]
@@ -229,7 +228,7 @@ try {
             sql: "insert into example_scores values (?, ?, ?)",
             args: [ "uid3", 1, 200 ]
         }
-    ]);
+    ], "write");
 
     // rss[0].columns = []
     // rss[0].rows = []
