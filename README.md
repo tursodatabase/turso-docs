@@ -15,7 +15,7 @@ Source code for Turso documentation hosted at https://docs.turso.tech.
 1. Make sure your fork's upstream remote is set
 
    ```bash
-   git remote add upstream git@github.com:chiselstrike/turso-docs.git
+   git remote add upstream git@github.com:tursodatabase/turso-docs.git
    ```
 
 1. Switch to the main branch and sync with upstream
