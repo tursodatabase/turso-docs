@@ -35,7 +35,7 @@ The Turso CLI has two installation options.
 There is a Homebrew formula that's installed with the following command:
 
 ```bash
-$ brew install chiselstrike/tap/turso
+$ brew install tursodatabase/tap/turso
 ```
 
 The formula includes an executable with autocompletion scripts for bash, fish,

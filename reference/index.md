@@ -16,7 +16,7 @@ protocols used when working with Turso.
 
 | Component | Source code |
 | --- | --- |
-| [Turso CLI] | [GitHub](https://github.com/chiselstrike/turso-cli/) |
+| [Turso CLI] | [GitHub](https://github.com/tursodatabase/turso-cli/) |
 | [TypeScript SDK] | [GitHub](https://github.com/libsql/libsql-client-ts/) |
 | [Rust SDK] | [GitHub](https://github.com/libsql/libsql-client-rs/) |
 | [Python SDK] | [GitHub](https://github.com/libsql/libsql-client-py/) |
