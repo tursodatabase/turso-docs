@@ -55,14 +55,14 @@ The following tab will be opened on our browser after running the last command.
 
 Click on “Allow” on the resulting permissions page to proceed.
 
-Then, on the terminal run `wrangler secret put TURSO_BD_AUTH_TOKEN` , and paste
+Then, on the terminal run `wrangler secret put TURSO_DB_AUTH_TOKEN` , and paste
 the database auth token we obtained above when prompted.
 
 For local development, create a `.dev.vars` file at the project’s root directory
-and add the `TURSO_BD_AUTH_TOKEN` key assigning it the obtained token.
+and add the `TURSO_DB_AUTH_TOKEN` key assigning it the obtained token.
 
 ```sh title=".dev.vars"
-TURSO_BD_AUTH_TOKEN = "YOUR-DATABASE-TOKEN"
+TURSO_DB_AUTH_TOKEN = "YOUR-DATABASE-TOKEN"
 ```
 
 Next up, we'll be setting up Drizzle for simplified database queries within the
