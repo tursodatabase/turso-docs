@@ -111,7 +111,7 @@ const themeConfig = {
                   </svg>
                 </div>
                 <!-- tracking pixel -->
-                <img style="display: block" referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=8c62883f-5506-4b33-8006-ea2cfbfd4523" />
+                <img style="display: block" referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=a20ba3e6-4dfe-46d1-8e1b-6ea070776d14" />
               </a>
             `,
           },
