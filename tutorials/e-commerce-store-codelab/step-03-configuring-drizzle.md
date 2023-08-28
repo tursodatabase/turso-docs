@@ -34,7 +34,7 @@ obtained in the previous section.
 
 ```sh title=".env"
 TURSO_DB_URL=<OBTAINED-TURSO-DB-URL>
-TURSO_BD_AUTH_TOKEN=<OBTAINED-TURSO-DB-TOKEN>
+TURSO_DB_AUTH_TOKEN=<OBTAINED-TURSO-DB-TOKEN>
 ```
 
 _**Note:** Do not stage `.env` files to your version control systems._
