@@ -389,6 +389,8 @@ To add a member to the current organization:
 $ turso org members add $GITHUB_USERNAME
 ```
 
+Use the `-a` flag to add with the admin role.
+
 To list existing members:
 
 ```bash
@@ -400,6 +402,22 @@ To remove a member from the current organization:
 ```bash
 $ turso org members rm $GITHUB_USERNAME
 ```
+
+### Invite members to an organization
+
+The owner of an organization can invite others to join. Sending an invitation
+requires an email address. It can be any email address, not necessarily linked
+to a GitHub account. To send the invitation:
+
+```bash
+$ turso org members invite $EMAIL
+```
+
+The recipient will be asked to sign in to GitHub and accept the invitation to
+complete the process. Turso then uses the GitHub account's address for further
+email notifications.
+
+Use the `-a` flag to invite with the admin role.
 
 ## Manage billing
 
