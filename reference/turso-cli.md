@@ -202,13 +202,13 @@ To destroy a replica, first find its randomly generated name using the output of
 `turso db show $DB_NAME`. Then, use the name on the command line:
 
 ```bash
-$ turso db destroy --instance $INSTANCE_NAME
+$ turso db destroy $DB_NAME --instance $INSTANCE_NAME
 ```
 
 You can also destroy a replica using its location code:
 
 ```bash
-$ turso db destroy --location $LOCATION_CODE
+$ turso db destroy $DB_NAME --location $LOCATION_CODE
 ```
 
 :::info
