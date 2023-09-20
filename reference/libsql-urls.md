@@ -11,9 +11,9 @@ keywords:
 
 # libSQL database URLs
 
-Throughout this documentation, the [Turso CLI], and the [libSQL client
-libraries], you will notice examples of URLs that start with `libsql://`. These
-URLs are recognized by libSQL and Turso tools with the following meaning.
+Throughout this documentation, the [Turso CLI], and the [libSQL client SDKs],
+you will notice examples of URLs that start with `libsql://`. These URLs are
+recognized by libSQL and Turso tools with the following meaning.
 
 ## Database endpoint identification
 
@@ -100,6 +100,6 @@ use case.
 
 
 [Turso CLI]: /reference/turso-cli
-[libSQL client libraries]: /reference/client-access/
+[libSQL client SDKs]: /libsql/client-access/
 [sqld]: https://github.com/libsql/sqld/
 [instance]: /concepts#instance

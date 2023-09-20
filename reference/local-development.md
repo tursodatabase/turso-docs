@@ -124,10 +124,10 @@ should first stop that process in order to avoid `SQLITE_BUSY` errors.
 [libSQL]: https://github.com/libsql/libsql
 [Turso CLI]: /reference/turso-cli
 [embedded sqld documentation]: /reference/turso-cli#embedded-sqld
-[client SDKs]: /reference/client-access
+[client SDKs]: /libsql/client-access
 [libsql URL]: /reference/libsql-urls
-[Python SDK]: /reference/client-access/python-sdk
-[JavaScript SDK]: /reference/client-access/javascript-typescript-sdk
+[Python SDK]: /libsql/client-access/python-sdk
+[JavaScript SDK]: /libsql/client-access/javascript-typescript-sdk
 [documentation to build and run sqld]: https://github.com/libsql/sqld/blob/main/docs/BUILD-RUN.md
 [documented file format]: https://www.sqlite.org/fileformat.html
 [command line shell]: https://www.sqlite.org/cli.html

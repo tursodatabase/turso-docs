@@ -28,8 +28,13 @@ const sidebars = {
     },
     {
       type: 'link',
-      label: 'Reference',
+      label: 'Turso reference',
       href: '/reference/'
+    },
+    {
+      type: 'link',
+      label: 'libSQL reference',
+      href: '/libsql/'
     },
   ],
 };

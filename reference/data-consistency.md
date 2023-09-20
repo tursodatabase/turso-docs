@@ -100,5 +100,5 @@ During a transaction:
 [replica]: /concepts#replica
 [primary]: /concepts#primary
 [SQLite transaction]: https://www.sqlite.org/lang_transaction.html
-[batch]: ./client-access#batches
-[interactive transaction]: ./client-access#interactive-transactions
+[batch]: /libsql/client-access#batches
+[interactive transaction]: /libsql/client-access#interactive-transactions

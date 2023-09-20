@@ -579,7 +579,7 @@ Support/turso`. On Linux, it's `$HOME/.turso`. It's safe to delete this folder,
 since it can be restored by logging in to the CLI again.
 
 
-[Client access]: ./client-access
+[Client access]: /libsql/client-access
 [getting started tutorial]: /tutorials/get-started-turso-cli
 [location]: /concepts#location
 [logical database]: /concepts#logical-database

@@ -96,4 +96,4 @@ turso db list
 [logical database URL]: /reference/libsql-urls#logical-database-url
 [instance]: /concepts#instance
 [primary]: /concepts#primary
-[libSQL client libraries]: /reference/client-access
+[libSQL client libraries]: /libsql/client-access

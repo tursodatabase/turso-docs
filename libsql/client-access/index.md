@@ -13,10 +13,10 @@ keywords:
 Client libraries for the following languages are available to query a Turso
 database:
 
-- [JavaScript & TypeScript](/reference/client-access/javascript-typescript-sdk)
-- [Rust](/reference/client-access/rust-sdk)
-- [Python](/reference/client-access/python-sdk)
-- [Go](/reference/client-access/go-sdk)
+- [JavaScript & TypeScript](/libsql/client-access/javascript-typescript-sdk)
+- [Rust](/libsql/client-access/rust-sdk)
+- [Python](/libsql/client-access/python-sdk)
+- [Go](/libsql/client-access/go-sdk)
 
 The client libraries allow you to execute a single SQL statement, execute a
 batch of statements in an implied transaction, and perform an interactive
@@ -37,7 +37,7 @@ You must have a [libSQL database URL] that identifies the [logical database] or
 You must have an authentication token that authorizes your client application to
 access the database. It should be a long-lived token with no expiration. You can
 [get an auth token this using the Turso CLI] by running `turso db tokens create
-$DBNAME --expiration none`.
+$DBNAME`.
 
 ## Batches
 
@@ -73,7 +73,7 @@ with busy databases.
 :::
 
 
-[libSQL database URL]: ../libsql-urls
+[libSQL database URL]: /reference/libsql-urls
 [logical database]: /concepts#logical-database
 [instance]: /concepts#instance
 [Turso CLI]: /reference/turso-cli

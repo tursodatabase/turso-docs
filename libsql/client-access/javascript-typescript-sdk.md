@@ -338,6 +338,6 @@ unless you are absolutely certain of their type.
 :::
 
 
-[common section on batches]: ../client-access#batches
-[common section on interactive transactions]: ../client-access#interactive-transactions
+[common section on batches]: /libsql/client-access#batches
+[common section on interactive transactions]: /libsql/client-access#interactive-transactions
 [SQLite transaction]: https://www.sqlite.org/lang_transaction.html

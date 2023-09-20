@@ -25,7 +25,7 @@ protocols used when working with Turso.
 
 
 [Turso CLI]: turso-cli
-[TypeScript SDK]: client-access/javascript-typescript-sdk
-[Rust SDK]: client-access/rust-sdk
-[Python SDK]: client-access/python-sdk
-[Go SDK]: client-access/go-sdk
+[TypeScript SDK]: /libsql/client-access/javascript-typescript-sdk
+[Rust SDK]: /libsql/client-access/rust-sdk
+[Python SDK]: /libsql/client-access/python-sdk
+[Go SDK]: /libsql/client-access/go-sdk
