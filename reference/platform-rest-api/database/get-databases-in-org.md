@@ -31,13 +31,15 @@ creation.
 
 **Method**: `GET`
 
-## Output
+## Inputs
 
 **Path parameters**:
 
 | Parameter | Description |
 | --- | --- |
 | `org_slug`| Slug of the organization containing the databases |
+
+## Output
 
 **JSON body properties**:
 

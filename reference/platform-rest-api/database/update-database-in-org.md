@@ -32,7 +32,7 @@ creation.
 
 **Analogous CLI command**: `turso db update [db_name]`
 
-**Path**: `/v1/organizations/:org_slug/databases/:db_name`
+**Path**: `/v1/organizations/:org_slug/databases/:db_name/update`
 
 **Method**: `POST`
 

@@ -32,7 +32,7 @@ creation.
 
 **Method**: `GET`
 
-## Output
+## Inputs
 
 **Path parameters**:
 
@@ -40,6 +40,8 @@ creation.
 | --- | --- |
 | `org_slug`| Slug of the organization containing the databases |
 | `db_name`| Name of the logical database to get |
+
+## Output
 
 **JSON body properties**:
 
