@@ -8,6 +8,13 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'libSQL server',
+      items: [
+        'server/setup',
+      ]
+    },
+    {
+      type: 'category',
       label: 'Client access',
       collapsed: false,
       link: {
