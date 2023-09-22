@@ -35,6 +35,8 @@ $ npm install @libsql/client
 
 ## Initialization
 
+### Choose the correct import for your environment
+
 There are two ways to import the client code. When running in a Node.js or
 compatible environment, use the standard import:
 
@@ -60,8 +62,11 @@ The alternate `@libsql/client/web` import does not support local file URLs.
 
 :::
 
-Call the `createClient` factory function and invoke it with your database URL
-and [long-lived authentication token] obtained using the Turso CLI:
+### Create a database client object for local and remote access
+
+For local and remote access, call the `createClient` factory function and invoke
+it with your database URL and [database client authentication token] obtained using
+the Turso CLI:
 
 ```ts
 const client = createClient({
@@ -73,13 +78,44 @@ const client = createClient({
 The `authToken` property is only required when using a remote database instance
 managed by Turso.
 
+### Create a database client object for hybrid access (embedded replica)
+
+:::info
+
+Support for hybrid access with embedded replicas requires version 0.3.5 or later
+of the SDK.
+
+:::
+
+For hybrid access using an embedded replica, call the `createClient` factory
+function and invoke it with your database URL, [database client authentication
+token] obtained using the Turso CLI, and local database replica file:
+
+```ts
+const client = createClient({
+    url: "file:path/to/db-file",
+    syncUrl: "libsql://your-database.turso.io",
+    authToken: "your-auth-token"
+});
+
+// Synchronize the embedded replica with the remote database
+await client.sync();
+```
+
+For additional information about how embedded replicas work with the SDKs
+provided for all languages, see the [common section on embedded replicas].
+
+
+### Client capability summary
+
 With the returned libSQL Client object you can call:
 
 | Method | Description |
 | --- | --- |
-| `execute()` | [execute a single statement](#execute-a-single-statement) |
-| `batch()` | [execute a batch of statements](#execute-a-batch-of-statements) |
-| `transaction()` | perform an [interactive transaction](#interactive-transactions) |
+| `execute()` | [Execute a single statement](#execute-a-single-statement) |
+| `batch()` | [Execute a batch of statements](#execute-a-batch-of-statements) |
+| `transaction()` | Start an [interactive transaction](#interactive-transactions) |
+| `sync()` | Synchronize the embedded replica from the remote database (hybrid access only) |
 
 
 ## Example data set
@@ -338,6 +374,8 @@ unless you are absolutely certain of their type.
 :::
 
 
+[database client authentication token]: /reference/turso-cli#database-client-authentication-tokens
+[common section on embedded replicas]: /libsql/client-access#embedded-replicas
 [common section on batches]: /libsql/client-access#batches
 [common section on interactive transactions]: /libsql/client-access#interactive-transactions
 [SQLite transaction]: https://www.sqlite.org/lang_transaction.html
