@@ -41,18 +41,6 @@ instances over time depending on how Fly.io observes network latency.
 
 :::
 
-### Database instance URL
-
-This URL always connects to a specific [instance] of a Turso database. You may
-want to use this in order to bypass the automatic routing provided by the
-logical database URL. Instance URLs appear for each instance in the output of
-`turso db show $DBNAME --instance-urls`. Database instance URLs have the
-following format:
-
-```
-libsql://[RANDOM-CHARS]-[DB-NAME]-[ORG-NAME].turso.io
-```
-
 ## Network protocol
 
 When provided with a libsql URL, libSQL client libraries are free to choose what

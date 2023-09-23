@@ -31,15 +31,20 @@ It takes a few moments to create the database, then generates output similar to
 the following (with replacements for the parts that may vary):
 
 ```
-Created database my-db in [Your Location] in [xx] seconds.
+Created group default at [your location] in 9 seconds.
+Created database my-db at group default in 6 seconds.
 
-You can start an interactive SQL shell with:
+Start an interactive SQL shell with:
 
    turso db shell my-db
 
 To see information about the database, including a connection URL, run:
 
    turso db show my-db
+
+To get an authentication token for the database, run:
+
+   turso db tokens create my-db
 ```
 
 :::note
@@ -50,8 +55,9 @@ You can override the default location using the `--location` flag.
 
 :::note
 
-If you don’t provide a database name on the command line, a random name is
-generated for you.
+You'll see that Turso created both a "group" and a "database" for you. All
+databases exist within a container called a "placement group". It's not
+important to understand right now, but we'll come back to that later.
 
 :::
 
@@ -67,12 +73,14 @@ The output looks similar to the following:
 Name:           my-db
 URL:            libsql://my-db-[my-github-name].turso.io
 ID:             [UUID]
+Group:          default
+Version:        [version]
 Locations:      [location]
-Size:           0 B
+Size:           8.2 kB
 
 Database Instances:
-NAME            TYPE      LOCATION
-[random-name] 	primary   [location]
+NAME     TYPE        LOCATION
+[loc]    primary     [loc]
 ```
 
 Note the following in the above output:

@@ -21,7 +21,7 @@ cannot be reversed. The CLI will interactively prompt you to ask if it’s OK to
 do so:
 
 ```
-Database my-db, all its replicas, and data will be destroyed.
+Database my-db, and all its data will be destroyed.
 Are you sure you want to do this? [y/n]:
 ```
 
