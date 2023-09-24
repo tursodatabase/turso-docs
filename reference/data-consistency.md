@@ -14,21 +14,21 @@ keywords:
 
 Turso is built on top of [libSQL], which is a fork of [SQLite]. SQLite, as an
 embedded database, offers a strictly serializable consistency model. However,
-libSQL, as a network-accessible and replicated database provided by [sqld], can
-not offer such a strong guarantee.
+libSQL, as a network-accessible and replicated database provided by [libSQL
+server], can not offer such a strong guarantee.
 
 ## Connections
 
-There are two types of connections involved with libSQL:
+There are two types of connections involved with libSQL server:
 
-- The HTTP or websocket connection a client makes to a sqld instance.
-- The underlying [SQLite database connection] established within sqld.
+- The HTTP or websocket connection a client makes to a server instance.
+- The underlying [SQLite database connection] established within the server.
 
 For the purpose of this documentation, a SQLite database connection is referred
 to as a *process*, which issues an ordered sequence of queries with results.
-Each database operation exposed by sqld (execute a statement, [batch], or
-[interactive transaction]) is executed within a dedicated process, isolated from
-all other processes running concurrently.
+Each database operation exposed by libSQL server (execute a statement, [batch],
+or [interactive transaction]) is executed within a dedicated process, isolated
+from all other processes running concurrently.
 
 ## Read and write behavior
 
@@ -79,8 +79,8 @@ to yield data older than a prior read on the same instance.
 
 ## Transactional consistency
 
-A sqld transaction ([batch] or [interactive transaction]) is equivalent to a
-[SQLite transaction] and observes its semantics.
+A transaction ([batch] or [interactive transaction]) is equivalent to a [SQLite
+transaction] and observes its semantics.
 
 During a transaction:
 
@@ -94,7 +94,7 @@ During a transaction:
 
 [libSQL]: https://libsql.org
 [SQLite]: https://sqlite.org
-[sqld]: https://github.com/libsql/sqld/
+[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
 [SQLite database connection]: https://www.sqlite.org/c3ref/open.html
 [libSQL url]: ./libsql-urls
 [replica]: /concepts#replica

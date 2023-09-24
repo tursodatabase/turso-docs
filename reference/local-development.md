@@ -1,7 +1,7 @@
 # Local development
 
-A Turso database [instance] runs an open-source server called [sqld]. This
-server:
+A Turso database [instance] runs an open-source server called [libSQL server].
+This server:
 
 - Handles incoming client connections over HTTP and websockets
 - Offers a JSON-based wire protocol for clients
@@ -10,7 +10,7 @@ server:
 - Manages the underlying database data in a [SQLite database
   file](#about-sqlite-database-files)
 
-Turso adds additional features and configurations on top of sqld:
+Turso adds additional features and configurations on top of libSQL server:
 
 - DNS and secure sockets with SSL
 - Client authentication with database tokens provided by the [Turso CLI]
@@ -19,14 +19,14 @@ Turso adds additional features and configurations on top of sqld:
 - Automatic replication between instances
 
 For daily development, you might be satisfied with the core features provided by
-sqld, without the additional features offered by Turso. You might also want to
-avoid any costs incurred by working with sqld instances managed by Turso. For
-these cases, you have three supported options for building and testing client
-code written with the [libSQL client SDKs]:
+libSQL server, without the additional features offered by Turso. You might also
+want to avoid any costs incurred by working with server instances managed by
+Turso. For these cases, you have three supported options for building and
+testing client code written with the [libSQL client SDKs]:
 
 - [Read and write local SQLite data files directly](#use-local-sqlite-database-files)
-- [Run sqld locally using the Turso CLI](#run-sqld-using-the-turso-cli)
-- [Build and run an instance of sqld locally](#build-and-run-sqld-separately)
+- [Run libSQL server locally using the Turso CLI](#run-libsql-server-using-the-turso-cli)
+- [Build and run an instance of libSQL server locally](#build-and-run-libsql-server-separately)
 
 ## Use local SQLite database files
 
@@ -76,9 +76,9 @@ You can also use relative file paths in the form `file:relative/path/to/file`.
 Note that no `authToken` is required when connecting to a file URL. You may
 provide one, but it will have no effect on the client.
 
-## Run sqld using the Turso CLI
+## Run libSQL server using the Turso CLI
 
-The Turso CLI comes with an embedded sqld that you can run with the following
+The Turso CLI can invoke libSQL server on your machine with the following
 command:
 
 ```bash
@@ -86,24 +86,25 @@ $ turso dev
 ```
 
 It provides a URL that you can use to connect the Turso CLI shell and client
-code. Learn more about `turso dev` in the [embedded sqld documentation].
+code. Learn more about `turso dev` in the [Turso CLI documentation].
 
-## Build and run sqld separately
+## Build and run libSQL server separately
 
-You can build and run an instance of sqld on your local machine. There are
-multiple ways to do this, and they are covered in the [documentation to build
-and run sqld].
+You can build and run an instance of libSQL server on your local machine. There
+are multiple ways to do this, and they are covered in the [documentation to
+build and run libSQL server].
 
-## Using a local sqld instead of Turso
+## Using a local libSQL server instead of Turso
 
-Once you have a local sqld running, you can use an `http` or `ws` URL in place
-of your libsql URL to connect to it. For example, sqld runs by default on port
-8080, so the URL for that is `ws://127.0.0.1:8080`. This URL replaces the
-[libsql URL] you get from the Turso CLI for the purpose of local development.
+Once you have a local libSQL server running, you can use an `http` or `ws` URL
+in place of your libsql URL to connect to it. For example, libSQL server runs by
+default on port 8080, so the URL for that is `ws://127.0.0.1:8080`. This URL
+replaces the [libsql URL] you get from the Turso CLI for the purpose of local
+development.
 
-sqld uses a dedicated directory to manage a [SQLite database
+libSQL server uses a dedicated directory to manage a [SQLite database
 file](#about-sqlite-database-files) along with other metadata. By default, the
-file lives in the relative path `data.sqld/data` where sqld was started.
+file lives in the relative path `data.sqld/data` where the server was started.
 
 ## About SQLite database files
 
@@ -115,20 +116,21 @@ to create and populate a database for your local development without having to
 use a client SDK.
 
 SQLite does not have very flexible [support for multiple processes]. If you want
-to write to a database file manged by sqld or some other running process, you
-should first stop that process in order to avoid `SQLITE_BUSY` errors.
+to write to a database file manged by libSQL server or some other running
+process, you should first stop that process in order to avoid `SQLITE_BUSY`
+errors.
 
 
 [instance]: /concepts#instance
-[sqld]: https://github.com/libsql/sqld
+[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
 [libSQL]: https://github.com/libsql/libsql
 [Turso CLI]: /reference/turso-cli
-[embedded sqld documentation]: /reference/turso-cli#embedded-sqld
+[Turso CLI documentation]: /reference/turso-cli#use-libsql-server-locally
 [client SDKs]: /libsql/client-access
 [libsql URL]: /reference/libsql-urls
 [Python SDK]: /libsql/client-access/python-sdk
 [JavaScript SDK]: /libsql/client-access/javascript-typescript-sdk
-[documentation to build and run sqld]: https://github.com/libsql/sqld/blob/main/docs/BUILD-RUN.md
+[documentation to build and run libSQL server]: https://github.com/tursodatabase/libsql-server/blob/main/docs/BUILD-RUN.md
 [documented file format]: https://www.sqlite.org/fileformat.html
 [command line shell]: https://www.sqlite.org/cli.html
 [support for multiple processes]: https://sqlite.org/faq.html#q5

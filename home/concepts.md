@@ -69,9 +69,10 @@ operations.
 ## Instance
 
 A database instance is one component of a logical database in specific location.
-An instance is serviced by a managed installation of [sqld] running on a single
-machine. Database instances of multiple logical databases in the same placement
-group are handled by the same sqld process in the same hardware.
+An instance is serviced by a managed installation of [libSQL server] running on
+a single machine. Database instances of multiple logical databases in the same
+placement group are handled by the same libSQL server process in the same
+hardware.
 
 There are two types of instances: [primary](#primary) and [replica](#replica).
 
@@ -94,5 +95,5 @@ replicas provide snapshot isolation for read transactions.
 
 [many locations around the world]: https://fly.io/docs/reference/regions/
 [Turso CLI]: /reference/turso-cli
-[sqld]: https://github.com/libsql/sqld#readme
+[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
 [group]: /reference/turso-cli#manage-placement-groups-and-logical-databases

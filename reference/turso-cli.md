@@ -276,9 +276,10 @@ To destroy an existing placement group:
 $ turso group destroy $GROUP_NAME
 ```
 
-### Update the sqld version of a placement group
+### Update the libSQL server version of a placement group
 
-To upgrade the version of sqld used for every logical database in a placement group:
+To upgrade the version of libSQL server used for every logical database in a
+placement group:
 
 ```bash
 $ turso group update $GROUP_NAME
@@ -288,7 +289,7 @@ This command causes a brief moment of downtime for each instance as the update
 happens. All existing connections are closed and must be reconnected. The libSQL
 client libraries do this automatically.
 
-To check the version of sqld for a logical database:
+To check the version of libSQL server for a logical database:
 
 ```bash
 $ turso db show $DB_NAME
@@ -585,28 +586,28 @@ database using the following command:
 $ turso db shell $NEW_DB_NAME < dumpfile.sql
 ```
 
-## Embedded sqld
+## Use libSQL server locally
 
-The Turso CLI comes with an embedded sqld that you can use for [local
-development] instead of a managed Turso database. To start the server on port
-8080, run:
+The Turso CLI can invoke [libSQL server] for use during [local development]
+instead of a managed Turso database. You must have the `sqld` binary in your
+shell PATH. To start the server on port 8080, run:
 
 ```bash
 $ turso dev
 ```
 
-This starts sqld using an in-memory database. To persist data in a SQLite
-database file, specify the path of the file:
+This starts libSQL server using an in-memory database. To persist data in a
+SQLite database file, specify the path of the file:
 
 ```bash
 $ turso dev --db-file path/to/db-file
 ```
 
-The CLI outputs a URL you can use to connect to the embedded sqld. Use this URL
+The CLI outputs a URL you can use to connect to the local server. Use this URL
 instead of the Turso database [libsql URL] when building locally. This URL can
 be used with `turso db shell` and the libSQL client libraries.
 
-You can change the port of the embedded sqld with the `--port` flag.
+You can change the client access port with the `--port` flag.
 
 ## Get help
 

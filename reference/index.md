@@ -21,7 +21,7 @@ protocols used when working with Turso.
 | [Rust SDK] | [GitHub](https://github.com/libsql/libsql-client-rs/) |
 | [Python SDK] | [GitHub](https://github.com/libsql/libsql-client-py/) |
 | [Go SDK] | [GitHub](https://github.com/libsql/libsql-client-go/) |
-| sqld | [GitHub](https://github.com/libsql/sqld/) |
+| [libSQL server] | [GitHub](https://github.com/tursodatabase/libsql-server) |
 
 
 [Turso CLI]: turso-cli
@@ -29,3 +29,4 @@ protocols used when working with Turso.
 [Rust SDK]: /libsql/client-access/rust-sdk
 [Python SDK]: /libsql/client-access/python-sdk
 [Go SDK]: /libsql/client-access/go-sdk
+[libSQL server]: /libsql/server/setup

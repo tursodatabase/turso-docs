@@ -17,8 +17,8 @@ recognized by libSQL and Turso tools with the following meaning.
 
 ## Database endpoint identification
 
-A `libsql` URL identifies a libSQL database running [sqld] (libSQL server mode).
-Databases managed by Turso provide two categories of URLs:
+A `libsql` URL identifies a libSQL database running [libSQL server]. Databases
+managed by Turso provide two categories of URLs:
 
 ### Logical database URL
 
@@ -45,21 +45,21 @@ instances over time depending on how Fly.io observes network latency.
 
 When provided with a libsql URL, libSQL client libraries are free to choose what
 they consider to be the best (or only) available protocol that works in the
-runtime environment where they are running. `sqld` supports both WebSockets and
-HTTP. Some cloud and edge function providers might not support WebSockets, with
-HTTP being the only working choice.
+runtime environment where they are running. libSQL server supports both
+WebSockets and HTTP. Some cloud and edge function providers might not support
+WebSockets, with HTTP being the only working choice.
 
 It's possible that some SDK features might not be available depending on the
 chosen protocol. You should consult the SDK documentation for details. In the
 future, each SDK will expose a way to find out which protocol was chosen by the
 client object.
 
-In order to optimize the latency of your application, or use `sqld` instances
-other than those managed by Turso, you might want to choose a protocol. The
-protocol is selected using the scheme of the URL. libSQL clients generally
-support the following schemes: `http`, `https`, `ws`, `wss`. If you want to
-specify the use HTTPS, you can replace the `libsql` scheme of the URL with
-`https`. For example, a logical database URL that specifies `https` has the
+In order to optimize the latency of your application, or use libSQL server
+instances other than those managed by Turso, you might want to choose a
+protocol. The protocol is selected using the scheme of the URL. libSQL clients
+generally support the following schemes: `http`, `https`, `ws`, `wss`. If you
+want to specify the use HTTPS, you can replace the `libsql` scheme of the URL
+with `https`. For example, a logical database URL that specifies `https` has the
 following format:
 
 ```
@@ -69,8 +69,8 @@ https://[DB-NAME]-[ORG-NAME].turso.io
 :::info
 
 Turso databases support only the secure `https` and `wss` schemes. `ws` and
-`http` are typically only used when developing against a sqld instance running
-locally that can't be configured with an SSL certificate.
+`http` are typically only used when developing against a libSQL server instance
+running locally that can't be configured with an SSL certificate.
 
 :::
 
@@ -89,5 +89,5 @@ use case.
 
 [Turso CLI]: /reference/turso-cli
 [libSQL client SDKs]: /libsql/client-access/
-[sqld]: https://github.com/libsql/sqld/
+[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
 [instance]: /concepts#instance

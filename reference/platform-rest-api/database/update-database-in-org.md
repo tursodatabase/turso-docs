@@ -16,9 +16,10 @@ keywords:
 
 **Description**:
 
-Updates the version of sqld of all instances of a logical database in an
-organization. This operation causes some amount of downtime to occur during the
-update process. The version of sqld is taken from the latest built docker image.
+Updates the version of libSQL server of all instances of a logical database in
+an organization. This operation causes some amount of downtime to occur during
+the update process. The version of libSQL server is taken from the latest built
+docker image.
 
 **Requirements**:
 
