@@ -58,7 +58,7 @@ SQLite maintains three official extensions that are enabled by default in Turso:
 :::
 
 
-[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
+[libSQL server]: https://github.com/libsql/libsql#readme
 [Turso CLI]: /reference/turso-cli
 [SQLean Crypto]: https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md
 [SQLean Fuzzy]: https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md

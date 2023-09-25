@@ -17,16 +17,12 @@ protocols used when working with Turso.
 | Component | Source code |
 | --- | --- |
 | [Turso CLI] | [GitHub](https://github.com/tursodatabase/turso-cli/) |
-| [TypeScript SDK] | [GitHub](https://github.com/libsql/libsql-client-ts/) |
-| [Rust SDK] | [GitHub](https://github.com/libsql/libsql-client-rs/) |
-| [Python SDK] | [GitHub](https://github.com/libsql/libsql-client-py/) |
-| [Go SDK] | [GitHub](https://github.com/libsql/libsql-client-go/) |
-| [libSQL server] | [GitHub](https://github.com/tursodatabase/libsql-server) |
+| [Platform REST API] | Not open source |
+
+Turso is built upon libSQL, which provides open source, open contribution client
+and server [components].
 
 
 [Turso CLI]: turso-cli
-[TypeScript SDK]: /libsql/client-access/javascript-typescript-sdk
-[Rust SDK]: /libsql/client-access/rust-sdk
-[Python SDK]: /libsql/client-access/python-sdk
-[Go SDK]: /libsql/client-access/go-sdk
-[libSQL server]: /libsql/server/setup
+[Platform REST API]: platform-rest-API
+[components]: /libsql/
