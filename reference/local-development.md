@@ -122,7 +122,7 @@ errors.
 
 
 [instance]: /concepts#instance
-[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
+[libSQL server]: https://github.com/libsql/libsql#readme
 [libSQL]: https://github.com/libsql/libsql
 [Turso CLI]: /reference/turso-cli
 [Turso CLI documentation]: /reference/turso-cli#use-libsql-server-locally

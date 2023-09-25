@@ -89,5 +89,5 @@ use case.
 
 [Turso CLI]: /reference/turso-cli
 [libSQL client SDKs]: /libsql/client-access/
-[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
+[libSQL server]: https://github.com/libsql/libsql#readme
 [instance]: /concepts#instance

@@ -95,5 +95,5 @@ replicas provide snapshot isolation for read transactions.
 
 [many locations around the world]: https://fly.io/docs/reference/regions/
 [Turso CLI]: /reference/turso-cli
-[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
+[libSQL server]: https://github.com/libsql/libsql#readme
 [group]: /reference/turso-cli#manage-placement-groups-and-logical-databases
