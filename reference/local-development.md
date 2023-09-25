@@ -130,7 +130,7 @@ errors.
 [libsql URL]: /reference/libsql-urls
 [Python SDK]: /libsql/client-access/python-sdk
 [JavaScript SDK]: /libsql/client-access/javascript-typescript-sdk
-[documentation to build and run libSQL server]: https://github.com/tursodatabase/libsql-server/blob/main/docs/BUILD-RUN.md
+[documentation to build and run libSQL server]: https://github.com/libsql/sqld/blob/main/docs/BUILD-RUN.md
 [documented file format]: https://www.sqlite.org/fileformat.html
 [command line shell]: https://www.sqlite.org/cli.html
 [support for multiple processes]: https://sqlite.org/faq.html#q5

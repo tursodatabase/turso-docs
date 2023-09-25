@@ -139,7 +139,7 @@ Note the expiration date on the certificates in the output.
 With these files, you can start the primary instance with additional flags to add TLS to the GRPC replication channel:
 
 ```bash
-libsql-server \
+sqld \
   --http-listen-addr $SQLD_PRIMARY_HTTP_ADDR \
   --grpc-listen-addr $SQLD_PRIMARY_GRPC_ADDR \
   --db-path $SQLD_PRIMARY_DB_PATH \
@@ -152,7 +152,7 @@ libsql-server \
 And start a replica instance similarly:
 
 ```bash
-libsql-server \
+sqld \
   --http-listen-addr $SQLD_REPLICA1_HTTP_ADDR \
   --primary-grpc-url http://$SQLD_PRIMARY_GRPC_ADDR \
   --db-path $SQLD_REPLICA1_DB_PATH \

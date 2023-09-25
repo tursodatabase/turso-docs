@@ -245,6 +245,8 @@ const redirectOptions = {
     { from: '/reference/client-access/javascript-typescript-sdk', to: '/libsql/client-access/javascript-typescript-sdk' },
     { from: '/reference/client-access/python-sdk', to: '/libsql/client-access/python-sdk' },
     { from: '/reference/client-access/rust-sdk', to: '/libsql/client-access/rust-sdk' },
+    // CLI change with placement groups
+    { from: '/tutorials/get-started-turso-cli/step-05-create-use-replica', to: '/tutorials/get-started-turso-cli/step-05-replicate-database-another-location' },
   ],
 }
 

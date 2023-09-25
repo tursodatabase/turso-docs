@@ -94,7 +94,7 @@ During a transaction:
 
 [libSQL]: https://libsql.org
 [SQLite]: https://sqlite.org
-[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
+[libSQL server]: https://github.com/libsql/libsql#readme
 [SQLite database connection]: https://www.sqlite.org/c3ref/open.html
 [libSQL url]: ./libsql-urls
 [replica]: /concepts#replica
