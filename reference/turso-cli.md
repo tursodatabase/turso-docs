@@ -20,6 +20,7 @@ it.
 The example commands on this page assume the following placeholders, expressed
 as shell variables:
 
+- `$GROUP_NAME`: The name of a [placement group] to work with
 - `$DB_NAME`: The name of the database that was specified or assigned during
   [creation](#create-a-database).
 - `$LOCATION_CODE`: A three-letter location code that indicate the physical
@@ -129,30 +130,40 @@ $ export TURSO_API_TOKEN=[YOUR-TOKEN-STRING]
 $ turso db locations
 ```
 
-## Manage database instances
+## Manage placement groups and logical databases
 
-### Create a logical database
+:::info
 
-To create a new [logical database] with an initial [primary instance] using a
-randomly generated name:
+When working with [placement groups], note that they count toward the maximum
+database allowance in your billing plan, even if you haven’t yet created a
+database within the group. A placement group requires one database "unit" for
+each location in the group, and you must have that capacity available in your
+organization when you create a placement group or expand it to another location.
+
+:::
+
+### Create a placement group
+
+To create a new placement group using a primary location with the lowest latency
+to the machine where the command is run:
 
 ```bash
-$ turso db create
+$ turso group create $GROUP_NAME
 ```
 
-To specify the name of the database:
-
-```bash
-$ turso db create $DB_NAME
-```
-
-The Turso CLI chooses a default [location] for the primary instance that is
-thought to be close to the machine running the command (using its IP address).
-The primary cannot be changed or removed after a data is created.
+You can specify the location using the `--location` flag, providing the
+location's three letter code.
 
 :::note
 
-Every logical database is grouped within an
+It costs one database from your billing plan’s allowance to create a placement
+group.
+
+:::
+
+:::note
+
+Every placement group is assigned to an
 [organization](#team-collaboration-with-organizations) which is used for
 collaboration and billing. When you create a database, the CLI uses the current
 organization as the container. By default, the CLI assumes a personal
@@ -160,71 +171,82 @@ organization with the same name as your GitHub username.
 
 :::
 
-#### Specify a primary location
+### Create a logical database within a group
 
-To specify the location of the primary instance when creating a logical
-database, use the `--location` flag with a location code:
+To create a new [logical database] with a random name in the named placement
+group:
 
 ```bash
-$ turso db create $DB_NAME --location $LOCATION_CODE
+$ turso db create --group $GROUP_NAME
 ```
 
-#### Create a database with a SQLite database file
+To specify the name of the database:
+
+```bash
+$ turso db create $DB_NAME --group $GROUP_NAME
+```
+
+If you omit the `--group` flag:
+
+- If you have only one placement group, it will be used.
+- If you don't have any placement groups, one will be created using the name
+  "default".
+
+#### Create a logical database using a SQLite database file
 
 To create a new logical database and seed it with the contents of an existing
 [SQLite3-compatible database file][sqlite3-db-file], use the `--from-file` flag:
 
 ```bash
-$ turso db create $DB_NAME --from-file $DB_FILE
+$ turso db create $DB_NAME --group $GROU_NAME --from-file $DB_FILE
 ```
 
-### Create a replica
+### Replicate a database by adding a location to a group
 
-To create a [replica] of a logical database in a specified location:
+You can replicate a logical database by adding a location to its placement
+group. To add a location:
 
 ```bash
-$ turso db replicate $DB_NAME $LOCATION_CODE
+$ turso group locations add $GROUP_NAME $LOCATION_CODE
 ```
 
 :::info
 
-The data from the primary instance is copied to the replica immediately after
-it's created. After the replica is fully populated with data from the primary,
-client applications using a [logical database URL] may get routed to the new
-instance if it's observed to have the lowest latency among all available
-instances.
+It costs one database from your billing plan’s allowance to add a location to a
+placement group, no matter how many logical databases are contained within that
+group.
 
 :::
 
-### Destroy a replica
+Adding a replica location to a group effectively replicates all logical
+databases in that group, since they each share the same deployment and
+replication behavior on the same hardware.
 
-To destroy a replica, first find its randomly generated name using the output of
-`turso db show $DB_NAME`. Then, use the name on the command line:
+Client applications using a [logical database URL] will be routed to the new
+location if it's observed to have the lowest latency among all available
+locations in the group.
+
+Similarly, you can remove a replica location from a placement group:
 
 ```bash
-$ turso db destroy $DB_NAME --instance $INSTANCE_NAME
-```
-
-You can also destroy a replica using its location code:
-
-```bash
-$ turso db destroy $DB_NAME --location $LOCATION_CODE
+$ turso group locations remove $GROUP_NAME $LOCATION_CODE
 ```
 
 :::info
 
-Destruction of a replica is considered "safe" in that no data is lost in the
-process - the primary instance still contains a copy of everything.
+Removing a replica location is considered "safe" in that doesn't eliminate any
+of the data in any logical database. The primary location always retains a copy
+of everything.
 
 :::
 
-### Destroy an entire logical database
-
-To destroy a logical database (a primary instance and all replicas):
+You can list the locations of a placement group using the `list` subcommand:
 
 ```bash
-$ turso db destroy $DB_NAME
+$ turso group locations list $GROUP_NAME
 ```
+
+### Destroy a logical database
 
 :::warning
 
@@ -233,19 +255,41 @@ deleted. The command will prompt you to ensure this is really what you want.
 
 :::
 
-### Update a logical database
-
-To upgrade the version of sqld used for every instance in a logical database:
+To destroy a logical database (from all locations, including the primary):
 
 ```bash
-$ turso db update $DB_NAME
+$ turso db destroy $DB_NAME
 ```
 
-This command causes a brief moment of downtime for each instance as the upgrade
+### Destroy a placement group
+
+:::warning
+
+Destroying a placement group permanently deletes all copies of all databases in
+the group.
+
+:::
+
+To destroy an existing placement group:
+
+```bash
+$ turso group destroy $GROUP_NAME
+```
+
+### Update the libSQL server version of a placement group
+
+To upgrade the version of libSQL server used for every logical database in a
+placement group:
+
+```bash
+$ turso group update $GROUP_NAME
+```
+
+This command causes a brief moment of downtime for each instance as the update
 happens. All existing connections are closed and must be reconnected. The libSQL
 client libraries do this automatically.
 
-You can check the version of sqld for each instance using:
+To check the version of libSQL server for a logical database:
 
 ```bash
 $ turso db show $DB_NAME
@@ -542,28 +586,28 @@ database using the following command:
 $ turso db shell $NEW_DB_NAME < dumpfile.sql
 ```
 
-## Embedded sqld
+## Use libSQL server locally
 
-The Turso CLI comes with an embedded sqld that you can use for [local
-development] instead of a managed Turso database. To start the server on port
-8080, run:
+The Turso CLI can invoke [libSQL server] for use during [local development]
+instead of a managed Turso database. You must have the `sqld` binary in your
+shell PATH. To start the server on port 8080, run:
 
 ```bash
 $ turso dev
 ```
 
-This starts sqld using an in-memory database. To persist data in a SQLite
-database file, specify the path of the file:
+This starts libSQL server using an in-memory database. To persist data in a
+SQLite database file, specify the path of the file:
 
 ```bash
 $ turso dev --db-file path/to/db-file
 ```
 
-The CLI outputs a URL you can use to connect to the embedded sqld. Use this URL
+The CLI outputs a URL you can use to connect to the local server. Use this URL
 instead of the Turso database [libsql URL] when building locally. This URL can
 be used with `turso db shell` and the libSQL client libraries.
 
-You can change the port of the embedded sqld with the `--port` flag.
+You can change the client access port with the `--port` flag.
 
 ## Get help
 
@@ -579,12 +623,13 @@ Support/turso`. On Linux, it's `$HOME/.turso`. It's safe to delete this folder,
 since it can be restored by logging in to the CLI again.
 
 
-[Client access]: ./client-access
+[Client access]: /libsql/client-access
 [getting started tutorial]: /tutorials/get-started-turso-cli
+[placement group]: /concepts#placement-group
+[placement groups]: /concepts#placement-group
 [location]: /concepts#location
 [logical database]: /concepts#logical-database
 [logical database URL]: ./libsql-urls#logical-database-url
-[primary instance]: /concepts#primary
 [replica]: /concepts#replica
 [sqlite3-db-file]: https://www.sqlite.org/fileformat.html
 [database-auth-tokens]: #database-client-authentication-tokens

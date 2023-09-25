@@ -28,6 +28,14 @@ const referencePluginOptions = {
   sidebarPath: require.resolve('./reference/sidebars.js'),
 }
 
+/** @type {import('@docusaurus/plugin-content-docs').Options} */
+const libsqlPluginOptions = {
+  id: 'libsql',
+  path: 'libsql',
+  routeBasePath: 'libsql',
+  sidebarPath: require.resolve('./libsql/sidebars.js'),
+}
+
 /** @type {import('@docusaurus/theme-common').UserThemeConfig} */
 const themeConfig = {
   // Replace with your project's social card
@@ -58,6 +66,13 @@ const themeConfig = {
         docsPluginId: 'reference',
         docId: 'index',
         label: 'Reference',
+        position: 'left',
+      },
+      {
+        type: 'doc',
+        docsPluginId: 'libsql',
+        docId: 'index',
+        label: 'libSQL',
         position: 'left',
       },
       {
@@ -206,6 +221,7 @@ const themeConfig = {
     respectPrefersColorScheme: true,
   },
 
+  // @ts-ignore
   algolia: {
     // The application ID provided by Algolia
     appId: 'EEBD8P3V4D',
@@ -218,6 +234,18 @@ const themeConfig = {
 /** @type {import('@docusaurus/theme-classic').Options} */
 const themeOptions = {
   customCss: require.resolve('./src/css/custom.css'),
+}
+
+/** @type {import('@docusaurus/plugin-client-redirects').Options} */
+const redirectOptions = {
+  redirects: [
+    // Required with move of client SDK docs to libsql collection
+    { from: '/reference/client-access', to: '/libsql/client-access' },
+    { from: '/reference/client-access/go-sdk', to: '/libsql/client-access/go-sdk' },
+    { from: '/reference/client-access/javascript-typescript-sdk', to: '/libsql/client-access/javascript-typescript-sdk' },
+    { from: '/reference/client-access/python-sdk', to: '/libsql/client-access/python-sdk' },
+    { from: '/reference/client-access/rust-sdk', to: '/libsql/client-access/rust-sdk' },
+  ],
 }
 
 /** @type {import('@docusaurus/plugin-google-gtag').Options} */
@@ -266,8 +294,9 @@ const config = {
     [ 'content-docs', homePluginOptions ],
     [ 'content-docs', tutorialsPluginOptions ],
     [ 'content-docs', referencePluginOptions ],
+    [ 'content-docs', libsqlPluginOptions ],
     [ '@docusaurus/theme-classic', themeOptions ],
-    // [ '@docusaurus/plugin-client-redirects', redirectOptions ],
+    [ '@docusaurus/plugin-client-redirects', redirectOptions ],
     // [ '@docusaurus/plugin-google-analytics', gaOptions ],
     [ '@docusaurus/plugin-google-gtag', gtagOptions ],
     [ '@docusaurus/plugin-sitemap', sitemapOptions ],

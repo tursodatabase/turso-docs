@@ -45,3 +45,5 @@ Run the following command to make sure the Turso CLI is in your PATH:
 ```bash
 turso --version
 ```
+
+You will need Turso CLI version 0.85.0 or later for this tutorial.

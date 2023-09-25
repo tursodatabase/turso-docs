@@ -18,8 +18,9 @@ feedback are welcome on our Discord.
 :::
 
 SQLite extensions add optional features, supported by the SQLite community, that
-can be used in queries handled by the SQLite query engine. The instances of sqld
-managed by Turso can be configured to enable a select few extensions.
+can be used in queries handled by the SQLite query engine. The instances of
+[libSQL server] managed by Turso can be configured to enable a select few
+extensions.
 
 ## Enabling extensions
 
@@ -34,8 +35,8 @@ Extensions can't be enabled for existing databases.
 
 ## List of extensions
 
-The following extensions are loaded into sqld for databases that have extensions
-enabled.
+The following extensions are loaded into libSQL server for databases that have
+extensions enabled.
 
 | Extension | Purpose |
 | --- | --- |
@@ -56,6 +57,8 @@ SQLite maintains three official extensions that are enabled by default in Turso:
 
 :::
 
+
+[libSQL server]: https://github.com/tursodatabase/libsql-server#readme
 [Turso CLI]: /reference/turso-cli
 [SQLean Crypto]: https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md
 [SQLean Fuzzy]: https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md

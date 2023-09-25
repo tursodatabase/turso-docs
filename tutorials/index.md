@@ -52,8 +52,7 @@ with TypeScript and using that to query a Turso database.
 [Netlify setup guide]: netlify-setup-guide
 [Vercel setup guide]: vercel-setup-guide
 [Fermyon Spin with Rust setup guide]: fermyon-spin-rust-setup-guide
-[Creating an e-commerce store with Remix, Turso, Drizzle, and Cloudflare
-    Workers]: e-commerce-store-codelab
+[Creating an e-commerce store with Remix, Turso, Drizzle, and Cloudflare Workers]: e-commerce-store-codelab
 [Remix]: https://remix.run
 [Drizzle]: https://orm.drizzle.team
 [Cloudflare Workers]: https://workers.cloudflare.com
@@ -61,7 +60,7 @@ with TypeScript and using that to query a Turso database.
 
 [Using Turso with Cloudflare Workers and TypeScript]: https://developers.cloudflare.com/workers/tutorials/connect-to-turso-using-workers/
 
-[libSQL client library]: /reference/client-access
+[libSQL client library]: /libsql/client-access
 
 [Example apps and more on github.com/turso-extended]: https://github.com/turso-extended
 [Working with GraphQL and Turso using Edge Resolvers]: https://grafbase.com/guides/working-with-graphql-and-turso-using-edge-resolvers

@@ -111,4 +111,4 @@ Authorization: Bearer [token]
 [Using the Authentication API]: /reference/platform-rest-api/auth
 [Using the Turso CLI]: /reference/turso-cli#platform-api-auth-tokens
 [log in to the Turso CLI]: /reference/turso-cli#logging-in-to-the-cli
-[client application access]: /reference/client-access
+[client application access]: /libsql/client-access

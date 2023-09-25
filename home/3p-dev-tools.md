@@ -79,7 +79,7 @@ features of Kysely.
 
 [Knex.js] is a "batteries included" SQL query builder for a variety of
 databases, designed to be flexible, portable, and fun to use. It supports use of
-libSQL sqld instances in the same way that it supports local SQLite files by
+libSQL server instances in the same way that it supports local SQLite files by
 swapping the sqlite3 module with [libsql-node-sqlite3](#libsql-node-sqlite3).
 
 [Go to example code in the libsql-node-sqlite3 README.][libsql-node-sqlite3-knex]
@@ -90,7 +90,7 @@ swapping the sqlite3 module with [libsql-node-sqlite3](#libsql-node-sqlite3).
 
 The [sqlite3 node module] is commonly used to access SQLite database files.
 libSQL provides a drop-in replacement module for this that exposes the same API,
-accessing a libSQL sqld instance instead. This replacement module can also be
+accessing a libSQL server instance instead. This replacement module can also be
 used with [Knex.js](#knex-js).
 
 [Go to the libsql-node-sqlite3 repo on GitHub.][libsql-node-sqlite3]

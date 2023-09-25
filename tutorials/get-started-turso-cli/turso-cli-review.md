@@ -32,13 +32,13 @@ This lists all supported [locations], highlighting your current default location
 
 ### `turso db create`
 
-This creates a new [logical database] with a [primary] instance. You choose the
-location for the primary, or accept the default near you.
+This creates a new [logical database] in a placement group. A default placement
+group is created if one doesn't yet exist.
 
 ### `turso db show`
 
-This shows details for a specific logical database, including its URL, all of
-the instances in all locations, and their URLs as well.
+This shows details for a specific logical database, including its URL and all of
+the instances in all locations.
 
 ### `turso db list`
 
@@ -51,10 +51,10 @@ This starts an interactive shell to issue SQL statements against your database.
 By default it uses the primary, and you can also point it to a replica using its
 URL.
 
-### `turso db replicate`
+### `turso group locations add`
 
-This creates a [replica] of the primary in a location you choose. Use this to
-put data closer to the source of queries and get lower latency on the results.
+This adds a new location to a placement group, replicating all of the databases
+in that group to that location.
 
 ### `turso db inspect`
 

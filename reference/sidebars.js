@@ -13,21 +13,6 @@ const sidebars = {
     'data-consistency',
     {
       type: 'category',
-      label: 'Client access',
-      collapsed: false,
-      link: {
-        type: 'doc',
-        id: 'client-access/index',
-      },
-      items: [
-        'client-access/javascript-typescript-sdk',
-        'client-access/rust-sdk',
-        'client-access/python-sdk',
-        'client-access/go-sdk',
-      ]
-    },
-    {
-      type: 'category',
       label: 'Turso Platform REST API',
       link: {
         type: 'doc',
