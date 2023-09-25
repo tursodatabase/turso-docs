@@ -92,7 +92,7 @@ const themeConfig = {
     style: 'dark',
     logo: {
       alt: 'Turso logo',
-      src: 'img/turso-by-chiselstrike.svg',
+      src: 'img/turso.svg',
     },
     links: [
       {
@@ -162,7 +162,7 @@ const themeConfig = {
           },
           {
             label: 'libSQL Discord',
-            href: 'https://discord.gg/TxwbQTWHSr',
+            href: 'https://discord.gg/VzbXemj6Rg',
           },
           {
             label: 'Follow us on Twitter',
@@ -187,7 +187,7 @@ const themeConfig = {
           },
           {
             label: 'libSQL GitHub',
-            href: 'https://github.com/libsql/',
+            href: 'http://github.com/tursodatabase/libsql',
           },
         ],
       },
@@ -205,7 +205,7 @@ const themeConfig = {
         ],
       },
     ],
-    copyright: `Copyright © ${new Date().getFullYear()} ChiselStrike, Inc. Built with Docusaurus.`,
+    copyright: `Copyright © ${new Date().getFullYear()} Turso, Inc. Built with Docusaurus.`,
   },
 
   prism: {
