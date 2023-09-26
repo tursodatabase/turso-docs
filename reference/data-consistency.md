@@ -92,7 +92,7 @@ During a transaction:
   transactions. As such, libSQL transactions are considered serializable.
 
 
-[libSQL]: https://libsql.org
+[libSQL]: https://github.com/libsql/libsql#readme
 [SQLite]: https://sqlite.org
 [libSQL server]: https://github.com/libsql/libsql#readme
 [SQLite database connection]: https://www.sqlite.org/c3ref/open.html

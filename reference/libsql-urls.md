@@ -17,15 +17,11 @@ recognized by libSQL and Turso tools with the following meaning.
 
 ## Database endpoint identification
 
-A `libsql` URL identifies a libSQL database running [libSQL server]. Databases
-managed by Turso provide two categories of URLs:
-
-### Logical database URL
-
-This URL connects to an [instance] of the database (primary or replica) with the
-lowest latency to the machine making the connection. Most of the time, you will
-want to use this URL as shown in the output of `turso db list` and `turso db
-show`. Logical database URLs have the following format:
+A `libsql` URL identifies a libSQL logical database running [libSQL server]. A
+logical database URL connects to an [instance] of the database (primary or
+replica) with the lowest latency to the machine making the connection. You can
+get the URL for a logical database using `turso db list` and `turso db show`.
+Logical database URLs have the following format:
 
 ```
 libsql://[DB-NAME]-[ORG-NAME].turso.io

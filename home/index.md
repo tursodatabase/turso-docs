@@ -36,7 +36,7 @@ audience.
 
 
 [Turso]: https://turso.tech/
-[libSQL]: https://libsql.org/
+[libSQL]: https://github.com/libsql/libsql#readme
 [SQLite]: https://sqlite.org/
 [Install and learn to use the Turso CLI]: /tutorials/get-started-turso-cli
 [Access Turso using the libSQL client libraries]: /libsql/client-access
