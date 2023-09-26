@@ -92,7 +92,7 @@ Cloudflare Workers.
 [found on GitHub]: https://github.com/turso-extended/app-the-mug-store
 [Remix]: https://github.com/turso-extended/app-the-mug-store
 [Turso]: https://turso.tech
-[libSQL]: https://libsql.org/
+[libSQL]: https://github.com/libsql/libsql#readme
 [Drizzle]: https://orm.drizzle.team
 [libSQL client library]: https://github.com/libsql/libsql-client-ts
 [Setting up the project]: step-01-setting-up-the-project

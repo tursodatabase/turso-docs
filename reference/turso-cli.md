@@ -22,7 +22,7 @@ as shell variables:
 
 - `$GROUP_NAME`: The name of a [placement group] to work with
 - `$DB_NAME`: The name of the database that was specified or assigned during
-  [creation](#create-a-database).
+  creation.
 - `$LOCATION_CODE`: A three-letter location code that indicate the physical
   location of a database instance. The command `turso db locations` outputs a
   full list of supported location codes.
@@ -52,9 +52,8 @@ $ curl -sSfL https://get.tur.so/install.sh | bash
 ```
 
 The CLI is installed in a directory called `.turso` in your home directory. The
-shell script will attempt to add that to your shell’s PATH configuration. You
-will need to start a new shell to see the change, or add it manually to the
-current shell.
+shell script attempts to add that to your shell’s PATH configuration. You must
+start a new shell to see the change, or add it manually to the current shell.
 
 ### Verify the installation
 
@@ -188,8 +187,8 @@ $ turso db create $DB_NAME --group $GROUP_NAME
 
 If you omit the `--group` flag:
 
-- If you have only one placement group, it will be used.
-- If you don't have any placement groups, one will be created using the name
+- If you have only one placement group, it is used.
+- If you don't have any placement groups, one is created using the name
   "default".
 
 #### Create a logical database using a SQLite database file
@@ -198,7 +197,7 @@ To create a new logical database and seed it with the contents of an existing
 [SQLite3-compatible database file][sqlite3-db-file], use the `--from-file` flag:
 
 ```bash
-$ turso db create $DB_NAME --group $GROU_NAME --from-file $DB_FILE
+$ turso db create $DB_NAME --group $GROUP_NAME --from-file $DB_FILE
 ```
 
 ### Replicate a database by adding a location to a group
@@ -222,7 +221,7 @@ Adding a replica location to a group effectively replicates all logical
 databases in that group, since they each share the same deployment and
 replication behavior on the same hardware.
 
-Client applications using a [logical database URL] will be routed to the new
+Client applications using a [logical database URL] are routed to the new
 location if it's observed to have the lowest latency among all available
 locations in the group.
 
@@ -251,7 +250,7 @@ $ turso group locations list $GROUP_NAME
 :::warning
 
 Destruction of a logical database cannot be reversed. All copies of data are
-deleted. The command will prompt you to ensure this is really what you want.
+deleted. The command prompts you to ensure this is really what you want.
 
 :::
 
@@ -383,7 +382,7 @@ When the organization is created with the CLI:
 
 :::note
 
-Organization slugs are globally unique. Creation of an organization will fail in
+Organization slugs are globally unique. Creation of an organization fails in
 case its assigned slug already exists.
 
 :::
@@ -457,7 +456,7 @@ to a GitHub account. To send the invitation:
 $ turso org members invite $EMAIL
 ```
 
-The recipient will be asked to sign in to GitHub and accept the invitation to
+The recipient is asked to sign in to GitHub and accept the invitation to
 complete the process. Turso then uses the GitHub account's address for further
 email notifications.
 
