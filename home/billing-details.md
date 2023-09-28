@@ -168,7 +168,7 @@ If there is a question or problem with your bill or its accounting, contact
 [inspect usage statistics]: /reference/turso-cli#inspect-database-usage
 [aggregate functions]: https://www.sqlite.org/lang_aggfunc.html
 [SQLite query planner]: https://www.sqlite.org/queryplanner.html
-[might not cause a full table scan]: https://www.sqlite.org/lang_altertable.html
+[might not cause a full-table scan]: https://www.sqlite.org/lang_altertable.html
 [EXPLAIN QUERY PLAN statement]: https://www.sqlite.org/eqp.html
 [page]: https://www.sqlite.org/fileformat.html#pages
 [how SQLite works for different types of alterations]: https://www.sqlite.org/lang_altertable.html#how_it_works

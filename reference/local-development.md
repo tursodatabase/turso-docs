@@ -124,6 +124,7 @@ errors.
 [instance]: /concepts#instance
 [libSQL server]: https://github.com/libsql/libsql#readme
 [libSQL]: https://github.com/libsql/libsql
+[libSQL client SDKs]: /libsql/client-access
 [Turso CLI]: /reference/turso-cli
 [Turso CLI documentation]: /reference/turso-cli#use-libsql-server-locally
 [client SDKs]: /libsql/client-access

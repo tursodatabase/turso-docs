@@ -404,7 +404,7 @@ work with logical databases, provide its unique slug to the following command:
 $ turso org switch $ORG_SLUG
 ```
 
-The current organization is persisted in [local storage].
+The current organization is persisted in [local storage](#local-storage).
 
 ### Delete an organization
 
@@ -628,6 +628,7 @@ since it can be restored by logging in to the CLI again.
 [placement groups]: /concepts#placement-group
 [location]: /concepts#location
 [logical database]: /concepts#logical-database
+[logical databases]: /concepts#logical-database
 [logical database URL]: ./libsql-urls#logical-database-url
 [replica]: /concepts#replica
 [sqlite3-db-file]: https://www.sqlite.org/fileformat.html
@@ -637,3 +638,4 @@ since it can be restored by logging in to the CLI again.
 [libsql URL]: /reference/libsql-urls
 [Turso pricing information]: https://turso.tech/pricing
 [billing]: /billing-details
+[libSQL server]: https://github.com/libsql/libsql#readme
