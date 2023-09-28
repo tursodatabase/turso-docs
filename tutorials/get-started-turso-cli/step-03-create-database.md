@@ -10,8 +10,8 @@ keywords:
 
 # Step 3: Create a logical database
 
-When creating a logical database, Turso requires a [location] for the [primary
-instance]. By default, it will select a default location based on your physical
+When creating a logical database, Turso requires a [location] for the [primary]
+instance. By default, it will select a default location based on your physical
 location as suggested by your IP address.  To see all locations supported by
 Turso, run the following command:
 

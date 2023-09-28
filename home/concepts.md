@@ -97,3 +97,5 @@ replicas provide snapshot isolation for read transactions.
 [Turso CLI]: /reference/turso-cli
 [libSQL server]: https://github.com/libsql/libsql#readme
 [group]: /reference/turso-cli#manage-placement-groups-and-logical-databases
+[libSQL URL]: /reference/libsql-urls
+[libSQL client SDKs]: /libsql/client-access
