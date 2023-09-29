@@ -129,6 +129,16 @@ $ export TURSO_API_TOKEN=[YOUR-TOKEN-STRING]
 $ turso db locations
 ```
 
+## Creating a logical database
+
+To create a logical database, run:
+
+```bash
+$ turso db create
+```
+
+The command creates a database in your default placement group.
+
 ## Manage placement groups and logical databases
 
 :::info
