@@ -9,13 +9,15 @@ keywords:
 
 # Step 5: Replicate the database to another location
 
-## Understand placement groups
+:::note
 
 In step 3, you created a database in a [placement group] named "default" with a
 primary [location] near you. The placement group defines the set of locations
 where the database is replicated. When you create additional databases in this
 group it will also exist in the same set of locations, all hosted by the same
 hardware at those locations.
+
+:::
 
 ## Replicate a database by adding a location to its placement group
 
