@@ -100,7 +100,7 @@ const themeConfig = {
         items: [
           {
             html: `
-              <a href="https://api.turso.io/?website=true" target="_blank" rel="noreferrer noopener" aria-label="Turso Sign Up">
+              <a href="https://api.turso.tech/?webui=true&type=signup" target="_blank" rel="noreferrer noopener" aria-label="Turso Sign Up">
                 <div class="footer__button signUp">
                   <p>Sign Up</p>
                   <svg width="16" height="16" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
