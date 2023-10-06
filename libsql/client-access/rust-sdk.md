@@ -29,7 +29,7 @@ $ cargo add libsql-client --no-default-features -F workers_backend
 
 ## Initialization
 
-Call the new_client_from_config function to create a new Client object:
+Call the `Client::from_config` function to create a new Client object:
 
 ```rust
 let db = libsql_client::Client::from_config(libsql_client::Config {
