@@ -69,6 +69,8 @@ property.
 | --- | --- | --- |
 | `name` | yes | Slug of the logical database to create; must be unique among all of the user's databases |
 | `image` | no | Type of database image to use; `latest` (default) or `canary` |
+| `location` | yes | Location of the logical database to create |
+| `group` | yes | Group of the logical database to create; example: `default` |
 
 ## Output
 
@@ -85,7 +87,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TURSO_TOKEN" \
   "$TURSO_BASE_URL/v1/organizations/my-org/databases" \
-  -d '{"name": "my-db", "image": "latest"}'
+  -d '{"name": "my-db", "image": "latest", "location": "cdg", "group": "defaut"}'
 ```
 
 ```json
