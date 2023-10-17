@@ -32,7 +32,7 @@ $ cargo add libsql-client --no-default-features -F workers_backend
 Call the `Client::from_config` function to create a new Client object:
 
 ```rust
-let db = libsql_client::Client::from_config(libsql_client::Config {
+let client = libsql_client::Client::from_config(libsql_client::Config {
     url: url::Url::parse("libsql://localhost:8080").unwrap(),
     auth_token: None,
 })
