@@ -25,18 +25,25 @@ brew install tursodatabase/tap/turso
 The formula includes an executable with autocompletion scripts for bash, fish,
 and zsh.
 
-## Option 2: Scripted install
+## Option 2: Scripted install (macOS, Linux, and WSL)
 
-If you don’t use Homebrew, run the following command to execute a shell script
+If you can't use Homebrew, run the following command to execute a shell script
 that installs the CLI:
 
 ```bash
 curl -sSfL https://get.tur.so/install.sh | bash
 ```
 
+:::info
+
+If you are on Windows, please make sure you have installed [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). You run the scripted install within a WSL shell, which you can start by running the `wsl` command in PowerShell, for example.
+
+:::
+
 The CLI is installed in a directory called `.turso` in your home directory. The
 shell script will attempt to add that to your shell’s PATH. You will need to
-start a new shell to see the change, or add it manually to the current shell.
+start a new shell to see the change, or add it manually to the current shell by
+running the `source` command printed by the installer.
 
 ## Verify the installation
 
