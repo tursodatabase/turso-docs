@@ -246,7 +246,9 @@ const redirectOptions = {
     { from: '/reference/client-access/python-sdk', to: '/libsql/client-access/python-sdk' },
     { from: '/reference/client-access/rust-sdk', to: '/libsql/client-access/rust-sdk' },
     // CLI change with placement groups
-    { from: '/tutorials/get-started-turso-cli/step-05-create-use-replica', to: '/tutorials/get-started-turso-cli/step-05-replicate-database-another-location' },
+    { from: '/tutorials/get-started-turso-cli/step-05-create-use-replica', to: '/get-started-turso-cli/step-05-replicate-database-another-location' },
+    // Getting started moved to front page
+    { from: '/tutorials/get-started-turso-cli', to: '/get-started-turso-cli' },
   ],
 }
 

@@ -7,6 +7,25 @@ const sidebars = {
       id: 'index',
     },
     {
+      type: 'category',
+      label: 'Getting Started',
+      link: {
+        type: 'doc',
+        id: 'get-started-turso-cli/index',
+      },
+      items: [
+        'get-started-turso-cli/step-01-installation',
+        'get-started-turso-cli/step-02-sign-up',
+        'get-started-turso-cli/step-03-create-database',
+        'get-started-turso-cli/step-04-make-queries-with-shell',
+        'get-started-turso-cli/step-05-replicate-database-another-location',
+        'get-started-turso-cli/step-06-inspect-database-usage',
+        'get-started-turso-cli/step-07-destroy-logical-database',
+        'get-started-turso-cli/step-08-log-out',
+        'get-started-turso-cli/turso-cli-review',
+      ],
+    },
+    {
       type: 'doc',
       label: 'Concepts',
       id: 'concepts',

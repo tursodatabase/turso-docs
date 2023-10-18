@@ -6,7 +6,7 @@ keywords:
   - cli
 ---
 
-# Get started with the Turso CLI
+# Getting Started
 
 The [Turso CLI] is the main interface to work with Turso databases. You can use
 it to create, destroy, replicate, and query a database.
