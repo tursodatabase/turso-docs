@@ -297,7 +297,7 @@ task.
 "migrate": "tsx drizzle/migrate",
 ```
 
-Then, Run the migration task npm `run migrate`.
+Then, Run the migration task `npm run migrate`.
 
 If everything went well, you should see the following log output.
 
