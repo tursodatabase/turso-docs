@@ -37,16 +37,16 @@ turso group locations add default nrt
 
 ## Understand billing for placement groups
 
-Adding a location to a placement group incurs the cost of one "database" for the
+Adding a location to a placement group incurs the cost of one location for the
 purpose of billing. On the free starter plan, you have an allowance of three
-databases to use for creating multiple placement groups or adding replica
+locations to use for creating multiple placement groups or adding replica
 locations to a group. Right now, your "default" placement group costs two
-"databases": one for the primary location near you, and one for the replica
+locations: one for the primary location near you, and one for the replica
 location in Tokyo.
 
 If you add a new logical database to this placement group, it will **not** incur
-the cost of another database for billing. All of the databases in a placement
-group are hosted together on the same hardware.
+the cost of another location for billing. All of the databases in a placement
+group are hosted together on the same hardware. On the free starter plan, you have an allowance of 500 logical databases.
 
 ## Viewing replica information
 
