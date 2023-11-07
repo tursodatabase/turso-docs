@@ -24,5 +24,5 @@ and server [components].
 
 
 [Turso CLI]: turso-cli
-[Platform REST API]: platform-rest-API
+[Platform REST API]: platform-rest-api
 [components]: /libsql/
