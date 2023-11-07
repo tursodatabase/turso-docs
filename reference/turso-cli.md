@@ -223,7 +223,7 @@ organization:
 $ turso db create $DB_NAME --group $GROUP_NAME --from-db $OTHER_DB_NAME
 ```
 
-#### Create a logical database by copying another logical database at a point in time
+#### Create a logical database by copying another logical database at a point in time (restoring a backup)
 
 To create a new database with the same contents as an existing database in your
 organization, with contents specified from a specific point in time, use the
@@ -515,12 +515,12 @@ Use the `-a` flag to invite with the admin role.
 The owner of an organization may manage billing information for the current
 organization using the following commands:
 
-| Command | Action |
-| --- | --- |
-| `turso plan show` | Shows the current payment plan and usage |
+| Command              | Action                                            |
+| -------------------- | ------------------------------------------------- |
+| `turso plan show`    | Shows the current payment plan and usage          |
 | `turso plan upgrade` | Upgrade the current plan (from starter to scaler) |
-| `turso plan select` | Select a specific payment plan |
-| `turso org billing` | Update credit card information |
+| `turso plan select`  | Select a specific payment plan                    |
+| `turso org billing`  | Update credit card information                    |
 
 A credit card is required to switch to the scaler plan. Credit card information
 is entered on a per-organization basis. The CLI launches a web browser to manage
@@ -662,7 +662,7 @@ You can change the client access port with the `--port` flag.
 ## Get help
 
 The CLI offers help for all commands and subcommands. Run `turso help` to get a
-list of all commands.  Use the `--help` flag to get help for a specific command
+list of all commands. Use the `--help` flag to get help for a specific command
 or subcommand. For example: `turso db --help`.
 
 ## Local storage
@@ -671,7 +671,6 @@ The CLI stores persistent data, including your auth token, in a file on your
 computer. On macOS, the containing folder is `$HOME/Library/Application
 Support/turso`. On Linux, it's `$HOME/.turso`. It's safe to delete this folder,
 since it can be restored by logging in to the CLI again.
-
 
 [Client access]: /libsql/client-access
 [getting started tutorial]: /tutorials/get-started-turso-cli
