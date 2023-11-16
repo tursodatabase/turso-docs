@@ -11,7 +11,7 @@ keywords:
 
 # Groups API
 
-The Groups API lets you create a group for a collection of databases that share the same locations.
+The Groups API lets you create a group for a collection of databases that share the same location(s).
 
 ## Operations
 
