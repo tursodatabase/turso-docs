@@ -16,6 +16,8 @@ keywords:
 The Authentication API allows you to work with platform authentication tokens
 for use with all of the Turso Platform APIs.
 
+The minted tokens never expire, they can only be revoked.
+
 ## Operations
 
 All operations require [authentication].
