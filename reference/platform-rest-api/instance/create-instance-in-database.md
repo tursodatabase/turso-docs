@@ -31,7 +31,7 @@ Get a list of location codes using the [Location API].
 - The named logical database must already exist in the named organization.
 
 The organization is identified by the unique slug string it was assigned during
-creation. The logical database is identified by the name it was given at
+creation.  The logical database is identified by the name it was given at
 creation.
 
 **Analogous CLI command**: `turso db replicate [db_name] [location]`
@@ -44,25 +44,24 @@ creation.
 
 **Path parameters**:
 
-| Parameter  | Description                                              |
-| ---------- | -------------------------------------------------------- |
-| `org_slug` | Slug of the organization containing the logical database |
-| `db_name`  | Name of the logical database to contain the new instance |
+| Parameter | Description |
+| --- | --- |
+| `org_slug`| Slug of the organization containing the logical database |
+| `db_name` | Name of the logical database to contain the new instance |
 
 **JSON body properties**:
 
-| Property   | Required | Description                                                          |
-| ---------- | -------- | -------------------------------------------------------------------- |
-| `location` | yes      | The location code for the location of the instance                   |
-| `image`    | no       | Type of database image to use; `latest` (default) or `canary`        |
-| `group`    | no       | The name of the group to add this database to. Defaults to `default` |
+| Property | Required | Description |
+| --- | --- | --- |
+| `location` | yes | The location code for the location of the instance |
+| `image` | no | Type of database image to use; `latest` (default) or `canary` |
 
 ## Output
 
 **JSON body properties**:
 
-| Property   | Type   | Description                                                             |
-| ---------- | ------ | ----------------------------------------------------------------------- |
+| Property | Type | Description |
+| --- | --- | --- |
 | `instance` | object | A [database instance object] that describes the newly created instance. |
 
 ## Example

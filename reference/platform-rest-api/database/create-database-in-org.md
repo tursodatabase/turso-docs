@@ -69,6 +69,7 @@ property.
 | --- | --- | --- |
 | `name` | yes | Slug of the logical database to create; must be unique among all of the user's databases |
 | `image` | no | Type of database image to use; `latest` (default) or `canary` |
+| `group` | no | The name of the group to add this database to. Defaults to `default` |
 
 ## Output
 
