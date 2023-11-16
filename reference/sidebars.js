@@ -88,6 +88,22 @@ const sidebars = {
             'platform-rest-api/instance/destroy-instance-in-database',
           ]
         },
+        {
+          type: 'category',
+          label: 'Groups API',
+          link: {
+            type: 'doc',
+            id: 'platform-rest-api/groups/index',
+          },
+          items: [
+            'platform-rest-api/groups/list-groups',
+            'platform-rest-api/groups/create-group',
+            'platform-rest-api/groups/retrieve-group',
+            'platform-rest-api/groups/delete-group',
+            'platform-rest-api/groups/add-location',
+            'platform-rest-api/groups/remove-location',
+          ]
+        },
       ]
     },
     'postgres-integration',
