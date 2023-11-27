@@ -19,8 +19,7 @@ managed by Turso. The following groups of operations are available:
 - [Location discovery](/reference/platform-rest-api/location/)
 - [Manage logical databases](/reference/platform-rest-api/database/)
 - [Manage database instances](/reference/platform-rest-api/instance/)
-- [Manage groups](/reference/platform-rest-api/instance/)
-- [Manage groups](/reference/platform-rest-api/groups/)
+- [Manage database groups](/reference/platform-rest-api/groups/)
 
 The API is served using HTTPS from the host `api.turso.tech`.
 
