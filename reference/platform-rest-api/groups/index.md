@@ -46,4 +46,4 @@ All operations require [authentication].
 [locations]: /reference/platform-rest-api/location/get-locations#example
 [location]: /reference/platform-rest-api/location/get-locations#example
 [Mint token]: /reference/platform-rest-api/groups/mint-token
-[Invalidate tokens]: /reference/platform-rest-api/groups/rotate-tokens
+[Invalidate tokens]: /reference/platform-rest-api/groups/invalidate-tokens
