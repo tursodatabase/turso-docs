@@ -23,6 +23,8 @@ All operations require [authentication].
 - [Delete group]
 - [Add location]
 - [Remove location]
+- [Mint token]
+- [Invalidate tokens]
 
 ## Objects
 
@@ -43,3 +45,5 @@ All operations require [authentication].
 [authentication]: /reference/platform-rest-api/#authentication
 [locations]: /reference/platform-rest-api/location/get-locations#example
 [location]: /reference/platform-rest-api/location/get-locations#example
+[Mint token]: /reference/platform-rest-api/groups/mint-token
+[Invalidate tokens]: /reference/platform-rest-api/groups/invalidate-tokens

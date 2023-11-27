@@ -19,6 +19,7 @@ managed by Turso. The following groups of operations are available:
 - [Location discovery](/reference/platform-rest-api/location/)
 - [Manage logical databases](/reference/platform-rest-api/database/)
 - [Manage database instances](/reference/platform-rest-api/instance/)
+- [Manage database groups](/reference/platform-rest-api/groups/)
 
 The API is served using HTTPS from the host `api.turso.tech`.
 
@@ -44,12 +45,12 @@ property named "error".
 
 ### Universal HTTP response codes
 
-| Code | Meaning |
-| --- | --- |
-| 200 | OK - operation completed successfully |
-| 401 | Unauthorized - ensure that the [auth token](#authentication) is present and valid |
-| 402 | Payment required - organization feature is not part of account plan |
-| 409 | Conflict - resource already exists |
+| Code | Meaning                                                                           |
+| ---- | --------------------------------------------------------------------------------- |
+| 200  | OK - operation completed successfully                                             |
+| 401  | Unauthorized - ensure that the [auth token](#authentication) is present and valid |
+| 402  | Payment required - organization feature is not part of account plan               |
+| 409  | Conflict - resource already exists                                                |
 
 ## About the examples in this documentation
 
@@ -105,7 +106,6 @@ Authorization: Bearer [token]
 ```
 
 `[token]` is is a placeholder for either a platform or user token.
-
 
 [Turso CLI]: /reference/turso-cli
 [Using the Authentication API]: /reference/platform-rest-api/auth
