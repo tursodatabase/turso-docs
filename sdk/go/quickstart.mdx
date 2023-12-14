@@ -1,0 +1,75 @@
+---
+title: Quickstart
+description: Get started with Turso and Go using the LibSQL client in a few simple steps
+---
+
+In this Go quickstart we will learn how to:
+
+- Install the Go LibSQL client
+- Connect to a remote Turso database
+- Execute a query using SQL
+
+<Steps>
+  <Step title="Install libsql-client-go">
+
+First begin by installing the `libsql-client-go`:
+
+```bash
+go get github.com/libsql/libsql-client-go
+```
+
+  </Step>
+
+  <Step title="Initialize a new client">
+
+Next add your database URL and auth token:
+
+```go
+package main
+
+import (
+  "database/sql"
+  "fmt"
+  "os"
+
+  _ "github.com/libsql/libsql-client-go/libsql"
+)
+
+func main() {
+  var dbUrl = "libsql://[DATABASE].turso.io?authToken=[TOKEN]"
+
+  db, err := sql.Open("libsql", dbUrl)
+  if err != nil {
+    fmt.Fprintf(os.Stderr, "failed to open db %s: %s", dbUrl, err)
+    os.Exit(1)
+  }
+  defer db.Close()
+
+  ctx := context.Background()
+}
+```
+
+You can also connect to a local SQLite file by passing `file:` path instead, [learn
+more](/sdk/go/local-development).
+
+  </Step>
+
+  <Step title="Execute a query using SQL">
+
+You can execute a SQL query against your existing database by calling `execute()`:
+
+```go
+func main() {
+  // ...
+
+  rows, err := db.QueryContext(ctx, "SELECT * FROM users")
+  if err != nil {
+    fmt.Fprintf(os.Stderr, "failed to execute query: %v\n", err)
+    os.Exit(1)
+  }
+  defer rows.Close()
+}
+```
+
+  </Step>
+</Steps>

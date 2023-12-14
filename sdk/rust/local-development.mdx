@@ -1,0 +1,12 @@
+---
+title: Local Development
+description:
+---
+
+```rust
+let db = libsql_client::local::Client::from_env()?;
+let response = db
+    .execute("SELECT * FROM table WHERE key = 'key1'")
+    .await?;
+(...)
+```

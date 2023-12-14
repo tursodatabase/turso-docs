@@ -1,0 +1,25 @@
+---
+title: Remove Location to Group
+sidebarTitle: Remove Location
+openapi: "DELETE /v1/organizations/{organizationName}/groups/{groupName}/locations/{location}"
+---
+
+<RequestExample>
+
+```bash cURL
+curl -L -X DELETE 'https://api.turso.tech/v1/organization/{organizationName}/groups/{groupName}/locations/{location}' \
+-H 'Authorization: Bearer TOKEN'
+```
+
+```ts Node.js
+import { createClient } from "@turso/api";
+
+const turso = createClient({
+  organization: "...",
+  token: "",
+});
+
+const group = await turso.groups.removeLocation("default", "ams");
+```
+
+</RequestExample>

@@ -1,0 +1,92 @@
+---
+title: Quickstart
+description: Get started with Turso and JavaScript using the LibSQL client in a few simple steps
+---
+
+In this JavaScript quickstart we will learn how to:
+
+- Install the JavaScript LibSQL client
+- Connect to a remote Turso database
+- Execute a query using SQL
+
+<Steps>
+  <Step title="Install @libsql/client">
+
+First begin by installing the `@libsql/client`:
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm install @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+  </Step>
+  <Step title="Initialize a new client">
+    Next add your database URL and auth token:
+
+<CodeGroup>
+
+```ts Node.js
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "libsql://",
+  authToken: "...",
+});
+```
+
+```ts Edge Runtimes
+import { createClient } from "@libsql/client/web";
+
+const client = createClient({
+  url: "libsql://",
+  authToken: "...",
+});
+```
+
+</CodeGroup>
+
+You can also connect to a local SQLite file by passing `file:` instead of a URL when using Node.js, [learn
+more](/sdk/js/local-development).
+
+  </Step>
+  <Step title="Execute a query using SQL">
+
+You can execute a SQL query against your existing database by calling `execute()`:
+
+```ts
+const result = await client.execute("SELECT * FROM users");
+```
+
+If you need to use placeholders for values, you can do that:
+
+<CodeGroup>
+
+```ts Positional
+const result = await client.execute({
+  sql: "SELECT * FROM users WHERE id = ?",
+  args: [1],
+});
+```
+
+```ts Named
+const result = await client.execute({
+  sql: "INSERT INTO users VALUES (:name)",
+  args: { name: "Iku" },
+});
+```
+
+</CodeGroup>
+
+  </Step>
+</Steps>

@@ -1,0 +1,81 @@
+---
+title: Databases API
+sidebarTitle: Attributes
+---
+
+All databases belong to a group. Turso automatically manages replicas of your database for each location in your [group](/api-reference/groups).
+
+#### Attributes
+
+<ParamField path="Name" type="string">
+  The database name, **unique** across your organization.
+</ParamField>
+
+<ParamField path="DbId" type="string">
+  The database universal unique identifier (UUID).
+</ParamField>
+
+<ParamField path="hostname" type="string">
+  The DNS hostname used for client LibSQL and HTTP connections
+</ParamField>
+
+<ParamField path="IssuedCertLimit" type="number">
+  Todo
+</ParamField>
+
+<ParamField path="IssuedCertCount" type="number">
+  Todo
+</ParamField>
+
+<ParamField path="regions" type="string[]">
+  An array of location codes the database.
+</ParamField>
+
+<ParamField path="primaryRegion" type="string">
+  The primary region location code.
+</ParamField>
+
+<ParamField path="version" type="string">
+  The current libSQL version this database is running.
+</ParamField>
+
+<ParamField path="group" type="string">
+  The name of the group this database belongs to.
+</ParamField>
+
+<ParamField path="type" type="string" default="logical">
+  The string representing the object type.
+</ParamField>
+
+<ResponseExample>
+
+```json
+{
+  "databases": [
+    {
+      "Name": "database-one",
+      "DbId": "3924498d-8482-11ee-9f96-3a45cc8ba6f0",
+      "Hostname": "database-one-organization-slug.turso.io",
+      "regions": ["lhr"],
+      "primaryRegion": "lhr",
+      "type": "logical",
+      "hostname": "database-one-organization-slug.turso.io",
+      "version": "0.22.4",
+      "group": "default"
+    },
+    {
+      "Name": "database-two",
+      "DbId": "f45e7f1c-87bf-11ee-900d-6e06c15c53b9",
+      "Hostname": "database-two-organization-slug.turso.io",
+      "regions": ["lhr"],
+      "primaryRegion": "lhr",
+      "type": "logical",
+      "hostname": "database-two-organization-slug.turso.io",
+      "version": "0.22.4",
+      "group": "default"
+    }
+  ]
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,44 @@
+---
+title: Local Development
+description:
+---
+
+Developers can build locally with Turso using either of the following methods;
+
+## SQLite file
+
+- Great for existing projects using SQLite
+- Great for testing environments
+- Works with non-serverless based Turso SDKs
+- Doesn't have all the features of libSQL
+- When going from dev to prod you can create a db from sqlite file
+
+<CodeGroup>
+
+```ts JavaScript
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "file:///path/to/file",
+});
+```
+
+```python Python
+import libsql_client
+
+client = libsql_client.create_client_sync(
+    url="file:///path/to/file"
+)
+```
+
+</CodeGroup>
+
+## Turso CLI
+
+- Simulate the
+- Avoid platform costs
+- Is libSQL
+
+```bash
+turso dev
+```

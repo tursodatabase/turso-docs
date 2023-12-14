@@ -1,0 +1,283 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Turso",
+  "logo": {
+    "dark": "/logo/turso-dark.svg",
+    "light": "/logo/turso-light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#529687",
+    "light": "#4ff8d2",
+    "dark": "#4ff8d2",
+    "anchors": {
+      "from": "#121b22",
+      "to": "#4ff8d2"
+    },
+    "background": {
+      "dark": "#121b22"
+    }
+  },
+  "modeToggle": {
+    "isHidden": true,
+    "default": "dark"
+  },
+  "topbarLinks": [
+    {
+      "name": "Discord",
+      "url": "https://discord.com/invite/4B5D7hYwub"
+    },
+    {
+      "name": "Website",
+      "url": "https://turso.tech"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://turso.tech/app"
+  },
+  "tabs": [
+    {
+      "name": "CLI",
+      "url": "cli"
+    },
+    {
+      "name": "SDK",
+      "url": "sdk"
+    },
+    {
+      "name": "Platform API",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "/"
+    },
+    {
+      "name": "Tutorials",
+      "icon": "newspaper",
+      "url": "https://blog.turso.tech"
+    },
+    {
+      "name": "Status",
+      "icon": "signal-bars",
+      "url": "https://status.turso.tech"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/tursodatabase"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Turso",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "concepts",
+        "local-development",
+        "data-and-connections",
+        "locations",
+        "extensions",
+        "support"
+      ]
+    },
+    {
+      "group": "Features",
+      "pages": [
+        "features/libsql",
+        "features/platform-api",
+        "features/multitenancy",
+        "features/embedded-databases",
+        "features/branching",
+        "features/ai",
+        "features/point-in-time-recovery"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "integrations/cloudflare-workers",
+        "integrations/hasura",
+        "integrations/val-town",
+        "integrations/deno-deploy"
+      ]
+    },
+    {
+      "group": "CLI",
+      "pages": [
+        "cli/introduction",
+        "cli/installation",
+        "cli/authentication",
+        "cli/upgrading"
+      ]
+    },
+    {
+      "group": "SDKs",
+      "pages": ["sdk/introduction", "sdk/authentication"]
+    },
+    {
+      "group": "JavaScript",
+      "pages": [
+        "sdk/js/quickstart",
+        "sdk/js/reference",
+        "sdk/js/local-development",
+        {
+          "group": "Examples",
+          "pages": [
+            "sdk/js/cloudflare-workers",
+            "sdk/js/deno-deploy",
+            "sdk/js/bun",
+            "sdk/js/aws-lambda",
+            "sdk/js/netlify-functions",
+            "sdk/js/vercel-functions"
+          ]
+        },
+        {
+          "group": "Integrations",
+          "pages": [
+            "sdk/js/drizzle",
+            "sdk/js/prisma",
+            "sdk/js/knex",
+            "sdk/js/kysley"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Rust",
+      "pages": [
+        "sdk/rust/quickstart",
+        "sdk/rust/reference",
+        "sdk/rust/local-development"
+      ]
+    },
+    {
+      "group": "Go",
+      "pages": [
+        "sdk/go/quickstart",
+        "sdk/go/reference",
+        "sdk/go/local-development"
+      ]
+    },
+    {
+      "group": "Python",
+      "pages": [
+        "sdk/python/quickstart",
+        "sdk/python/reference",
+        "sdk/python/local-development"
+      ]
+    },
+    {
+      "group": "HTTP",
+      "pages": ["sdk/http/quickstart", "sdk/http/reference"]
+    },
+    {
+      "group": "API",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/quickstart",
+        "api-reference/authentication",
+        "api-reference/response-codes",
+        "api-reference/rate-limits"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        {
+          "icon": "database",
+          "group": "Databases",
+          "pages": [
+            "api-reference/databases/list",
+            "api-reference/databases/create",
+            "api-reference/databases/retrieve",
+            "api-reference/databases/usage",
+            "api-reference/databases/delete",
+            "api-reference/databases/update-version",
+            "api-reference/databases/create-token",
+            "api-reference/databases/invalidate-tokens"
+          ]
+        },
+        {
+          "icon": "sitemap",
+          "group": "Groups",
+          "pages": [
+            "api-reference/groups/list",
+            "api-reference/groups/create",
+            "api-reference/groups/retrieve",
+            "api-reference/groups/delete",
+            "api-reference/groups/add-location",
+            "api-reference/groups/remove-location",
+            "api-reference/groups/create-token",
+            "api-reference/groups/invalidate-tokens"
+          ]
+        },
+        {
+          "icon": "location-dot",
+          "group": "Locations",
+          "pages": [
+            "api-reference/locations/list",
+            "api-reference/locations/closest-region"
+          ]
+        },
+        {
+          "icon": "user-group",
+          "group": "Organizations",
+          "pages": [
+            "api-reference/organizations/list",
+            "api-reference/organizations/update",
+            "api-reference/organizations/delete",
+            {
+              "icon": "user",
+              "group": "Members",
+              "pages": [
+                "api-reference/organizations/members/list",
+                "api-reference/organizations/members/add",
+                "api-reference/organizations/members/remove"
+              ]
+            },
+            {
+              "icon": "envelope",
+              "group": "Invites",
+              "pages": [
+                "api-reference/organizations/invites/list",
+                "api-reference/organizations/invites/create"
+              ]
+            },
+            {
+              "icon": "credit-card",
+              "group": "Subscription",
+              "pages": ["api-reference/organizations/subscription/retrieve"]
+            }
+          ]
+        },
+        {
+          "icon": "key",
+          "group": "Tokens",
+          "pages": [
+            "api-reference/tokens/list",
+            "api-reference/tokens/create",
+            "api-reference/tokens/validate",
+            "api-reference/tokens/revoke"
+          ]
+        }
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/tursodatabase",
+    "github": "https://github.com/tursodatabase",
+    "linkedin": "https://www.linkedin.com/company/turso"
+  },
+  "api": {
+    "baseUrl": "https://api.turso.tech",
+    "playground": {
+      "mode": "hide"
+    }
+  }
+}

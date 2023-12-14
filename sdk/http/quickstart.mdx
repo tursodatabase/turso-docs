@@ -1,0 +1,109 @@
+---
+title: Quickstart
+description: Get started with Turso over HTTP in a few simple steps.
+---
+
+In this HTTP quickstart we will learn how to:
+
+- Connect to a remote Turso database
+- Execute a query using SQL over HTTP
+
+<Steps>
+  <Step title="Create HTTP Database URL">
+
+Using the [Turso CLI](/cli) or [Platform API](/api-reference), fetch your database URL:
+
+```bash
+turso db show [databaseName] --url
+```
+
+Now replace `libsql://` with `https://` and you have your Database URL:
+
+```bash
+https://[databaseName]-[organizationName].turso.io
+```
+
+  </Step>
+
+  <Step title="Create Database Auth Token">
+
+Using the Turso CLI or Platform API, create a new auth token for your database:
+
+```bash
+turso db tokens create [databaseName]
+```
+
+  </Step>
+
+  <Step title="Create JSON Request Payload">
+
+We'll be sending the query using JSON, so let's create a JSON payload:
+
+```json
+{
+  "statements": ["SELECT * FROM users"]
+}
+```
+
+<Info>
+
+Make sure to update the statement to match your own database.
+
+</Info>
+
+  </Step>
+
+  <Step title="Execute HTTP Request">
+
+Depending on your language, you can use a HTTP client library to send the request to the URL you created as well as the `Authorization` header set to the token you created, and the request body as JSON with your SQL statement:
+
+<CodeGroup>
+
+```ts JavaScript (Fetch)
+const url = "https://[databaseName]-[organizationName].turso.io";
+const authToken = "...";
+
+fetch(url, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${authToken}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    statements: ["SELECT * FROM todos"],
+  }),
+})
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+```
+
+```ruby Ruby
+require 'net/http'
+require 'json'
+require 'uri'
+
+url = "https://[databaseName]-[organizationName].turso.io"
+auth_token = "..."
+
+uri = URI(url)
+request = Net::HTTP::Post.new(uri)
+request["Authorization"] = "Bearer #{auth_token}"
+request["Content-Type"] = "application/json"
+request.body = JSON.generate({ statements: ["SELECT * FROM todos"] })
+
+begin
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+    http.request(request)
+  end
+
+  puts JSON.parse(response.body)
+rescue => e
+  puts e.message
+end
+```
+
+</CodeGroup>
+
+  </Step>
+</Steps>

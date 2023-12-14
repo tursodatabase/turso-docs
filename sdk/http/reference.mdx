@@ -1,0 +1,156 @@
+---
+title: Reference
+description:
+---
+
+Turso Databases can be accessed via HTTP. The API enable developers to perform SQL operations, retrieve server version information, and monitor the health status.
+
+<Info>
+
+The HTTP API is stateless, which means you cannot perform any interactive or transactional transactions. Use a [native SDK](/sdk) where possible.
+
+</Info>
+
+## Base URL
+
+Simply replace your database URL protocol `libsql://` with `https://`:
+
+```bash
+https://[databaseName]-[organizationName].turso.io
+```
+
+## Authentication
+
+Turso uses Bearer authentication, and requires your API token to be passed with all protected requests in the `Authorization` header:
+
+```bash
+Authorization: Bearer TOKEN
+```
+
+## Endpoints
+
+Your database has the endpoints available below:
+
+### `POST /`
+
+The request body should be JSON with one or more `statements`:
+
+<CodeGroup>
+
+```json Request
+{
+  "statements": ["SELECT * FROM todos"]
+}
+```
+
+```json Response
+[
+  {
+    "results": {
+      "columns": ["ID", "text", "completed"],
+      "rows": [
+        [1, "Document how to use Turso's HTTP API", 1],
+        [2, "Add a section for using parameters", 1]
+      ]
+    }
+  }
+]
+```
+
+</CodeGroup>
+
+#### Data Types
+
+The response body will contain `results` or an `error` in the following format:
+
+```ts
+type Error = {
+  error: string;
+};
+
+type QueryResult = {
+  results: {
+    columns: Array<string>;
+    rows: Array<Array<Value>>;
+  };
+};
+
+type Response<T> = T | Error;
+
+type BatchResponse = Array<QueryResult> | Error;
+```
+
+The `Value` type represents an SQLite value. It has 4 variants:
+
+- Text: a UTF-8 encoded string
+- Integer: a 64-bit signed integer
+- Real: a 64-bits floating number
+- Blob: some binary data, encoded in base64
+- Null: the null value.
+
+#### Placeholders
+
+If you need to use placeholders for values, you can do that:
+
+<CodeGroup>
+
+```json Positional
+{
+  "statements": [
+    {
+      "q": "INSERT INTO todos (text, completed) VALUES (?, ?)",
+      "params": ["Add a section for using positional args", 1]
+    }
+  ]
+}
+```
+
+```json Named
+{
+  "statements": [
+    {
+      "q": "INSERT INTO todos (text, completed) VALUES (:text, $completed)",
+      "params": {
+        ":text": "Add a section for using parameters",
+        "$completed": 1
+      }
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+### `GET /version`
+
+To obtain the current version of the server running your database you can use the `/version` endpoint:
+
+<CodeGroup>
+
+```bash Request
+curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/version' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```text 200
+sqld 0.21.9 (67f3ea5d 2023-10-26)
+```
+
+</CodeGroup>
+
+### `GET /health`
+
+To check the health of your database, you can use the `/health` endpoint which returns an empty body with an HTTP status:
+
+<CodeGroup>
+
+```bash Request
+curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/health' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```text 200
+This response has no body data.
+```
+
+</CodeGroup>

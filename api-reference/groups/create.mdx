@@ -1,0 +1,29 @@
+---
+sidebarTitle: Create
+openapi: "POST /v1/organizations/{organizationName}/groups"
+---
+
+<RequestExample>
+
+```bash cURL
+curl -L -X POST 'https://api.turso.tech/v1/organization/{name}/groups' \
+-H 'Authorization: Bearer TOKEN' \
+-H 'Content-Type: application/json' \
+-d '{
+    "name": "new-group",
+    "location": "lhr"
+}'
+```
+
+```ts Node.js
+import { createClient } from "@turso/api";
+
+const turso = createClient({
+  organization: "...",
+  token: "",
+});
+
+const group = await turso.groups.create("new-group", "lhr");
+```
+
+</RequestExample>

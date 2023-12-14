@@ -1,0 +1,24 @@
+---
+sidebarTitle: List
+openapi: "GET /v1/organizations/{organizationName}/members"
+---
+
+<RequestExample>
+
+```bash cURL
+curl -L https://api.turso.tech/v1/organizations/{organizationName}/members \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```ts Node.js
+import { createClient } from "@turso/api";
+
+const turso = createClient({
+  organization: "...",
+  token: "",
+});
+
+const members = await turso.organizations.members("mycompany");
+```
+
+</RequestExample>

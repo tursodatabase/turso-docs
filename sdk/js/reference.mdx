@@ -1,0 +1,176 @@
+---
+title: Reference
+description: LibSQL JavaScript and TypeScript Reference
+---
+
+Hello world
+
+## Installing
+
+Install the package in your project using the following command:
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm install @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+## Initializing
+
+Import `createClient` to initialize a client that you can use to query your database:
+
+<CodeGroup>
+
+```ts Node.js
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "libsql://",
+  authToken: "...",
+});
+```
+
+```ts Edge Runtimes
+import { createClient } from "@libsql/client/web";
+
+const client = createClient({
+  url: "libsql://",
+  authToken: "...",
+});
+```
+
+```ts Deno
+import { createClient } from "https://esm.sh/@libsql/client@0.3.5/web";
+
+const config = {
+  url: Deno.env.get("TURSO_API_URL"),
+  authToken: Deno.env.get("TURSO_AUTH_TOKEN"),
+};
+
+const client = createClient(config);
+```
+
+</CodeGroup>
+
+<br />
+
+<Info>
+
+The `@libsql/client/web` does not support local file URLs.
+
+</Info>
+
+## TypeScript Support
+
+The `@libsql/client` comes with TypeScript support built-in.
+
+## Usage
+
+### `execute()`
+
+You can pass a string or object to `execute()` to invoke a SQL statement:
+
+```ts
+const result = await client.execute("SELECT * FROM users");
+```
+
+### `batch()`
+
+```ts
+
+```
+
+### `transaction()`
+
+### `sync`()
+
+## Placeholders
+
+LibSQL supports the use of positional and named placeholders within SQL statements:
+
+<CodeGroup>
+
+```ts Positional
+const result = await client.execute({
+  sql: "SELECT * FROM users WHERE id = ?",
+  args: [1],
+});
+
+const result = await client.batch(
+  [
+    {
+      sql: "INSERT INTO users VALUES (?)",
+      args: ["Iku"],
+    },
+  ],
+  "write"
+);
+```
+
+```ts Named
+const result = await client.execute({
+  sql: "INSERT INTO users VALUES (:name)",
+  args: { name: "Iku" },
+});
+
+const result = await client.batch(
+  [
+    {
+      sql: "INSERT INTO users VALUES (:name)",
+      args: { name: "Iku" },
+    },
+  ],
+  "write"
+);
+```
+
+</CodeGroup>
+
+LibSQL supports the same named placeholder characters as SQLite &mdash: `:`, `@` and `$`.
+
+## Batch Transactions
+
+A batch consists of multiple SQL statements executed sequentially within an implicit transaction. The backend handles the transaction: success commits all changes, while any failure results in a full rollback with no modifications.
+
+```ts
+const result = await client.batch(
+  [
+    {
+      sql: "INSERT INTO users VALUES (?)",
+      args: ["Iku"],
+    },
+    {
+      sql: "INSERT INTO users VALUES (?)",
+      args: ["Iku 2"],
+    },
+  ],
+  "write"
+);
+```
+
+## Interactive Transactions
+
+Interactive transactions in SQLite ensure the consistency of a series of read and write operations within a transaction's scope. These transactions give you control over when to commit or roll back changes, isolating them from other client activity.
+
+| Method       | Description                                                         |
+| ------------ | ------------------------------------------------------------------- |
+| `execute()`  | Similar to `execute()` except within the context of the transaction |
+| `commit()`   | Commits all write statements in the transaction                     |
+| `rollback()` | Rolls back the entire transaction                                   |
+| `close()`    | Immediately stops the transaction                                   |
+
+<Warning>
+  Interactive transactions in libSQL lock the database for writing until
+  committed or rolled back, with a 5-second timeout. They can impact performance
+  on high-latency or busy databases.
+</Warning>

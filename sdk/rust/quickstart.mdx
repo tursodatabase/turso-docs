@@ -1,0 +1,72 @@
+---
+title: Quickstart
+description: Get started with Turso and Rust using the LibSQL client in a few simple steps
+---
+
+In this Rust quickstart we will learn how to:
+
+- Install the Rust LibSQL client
+- Connect to a remote Turso database
+- Execute a query using SQL
+
+<Steps>
+  <Step title="Install libsql-client">
+
+First begin by installing the `libsql-client` [crate](https://crates.io/crates/libsql-client):
+
+```bash
+cargo add libsql-client
+```
+
+  </Step>
+
+  <Step title="Set environment variables">
+    Next export your `LIBSQL_CLIENT_URL` and `LIBSQL_CLIENT_TOKEN`:
+
+    ```bash
+      export LIBSQL_CLIENT_URL="libsql://"
+      export LIBSQL_CLIENT_TOKEN="..."
+    ```
+
+  </Step>
+
+  <Step title="Initialize a new client">
+
+Next initialize a new `db` client using `libsql_client`:
+
+```rust
+let db = libsql_client::Client::from_config(libsql_client::Config {
+  url: url::Url::parse("libsql://").unwrap(),
+  auth_token: None,
+})
+.await
+.unwrap();
+```
+
+You can also connect to a local SQLite file by passing `file:` path instead, [learn
+more](/sdk/rust/local-development).
+
+  </Step>
+
+  <Step title="Execute a query using SQL">
+
+You can execute a SQL query against your existing database by calling `execute()`:
+
+```rust
+let result = client.execute("SELECT * FROM users").await?;
+```
+
+If you need to use placeholders for values, you can do that:
+
+```rust
+use libsql_client::{Statement, args};
+
+let result = client.execute(Statement::with_args(
+  "SELECT * FROM users WHERE id = ?",
+  args!(1),
+))
+.await?;
+```
+
+  </Step>
+</Steps>
