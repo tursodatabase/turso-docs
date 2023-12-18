@@ -1581,7 +1581,7 @@
           },
           "archived": {
             "type": "boolean",
-            "description": "A boolean representing whether the group is archived or not.",
+            "description": "Groups on the free tier go to sleep after some inactivity.",
             "example": false
           }
         }
