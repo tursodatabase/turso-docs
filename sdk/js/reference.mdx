@@ -66,7 +66,46 @@ const client = createClient(config);
 
 <Info>
 
+If you're using libsql locally or an sqlite file, you can ignore passing `authToken`.
+
+</Info>
+
+## Local Development
+
+You can work locally using an SQLite file and passing the path to `createClient`:
+
+```ts
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "file:path/to/db-file.dev",
+  authToken: "...",
+});
+```
+
+<Warning>
+
 The `@libsql/client/web` does not support local file URLs.
+
+</Warning>
+
+## Embedded Replicas
+
+You can work with embedded replicas by passing your Turso Database URL to `syncUrl`:
+
+```ts
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "file:path/to/db-file.dev",
+  syncUrl: "libsql://your-database.turso.io",
+  authToken: "...",
+});
+```
+
+<Info>
+
+Make sure to call [`.sync()`](#sync) to synchronize the embedded replica with the remote database.
 
 </Info>
 
@@ -74,7 +113,18 @@ The `@libsql/client/web` does not support local file URLs.
 
 The `@libsql/client` comes with TypeScript support built-in.
 
+TODO
+
 ## Usage
+
+Each method listed below returns a `Promise<ResultSet>`:
+
+| Property          | Type                          | Description                                                                                                        |
+| ----------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `rows`            | `Array<Row>`                  | An array of Row objects containing the row values, empty for write operations                                      |
+| `columns`         | `Array<string>`               | An array of strings with the names of the columns in the order they appear in each Row, empty for write operations |
+| `rowsAffected`    | `number`                      | The number of rows affected by a write statement, 0 otherwise                                                      |
+| `lastInsertRowid` | `bigint         \| undefined` | The rowid of a newly inserted row, or undefined if there is none for the statement                                 |
 
 ### `execute()`
 
@@ -86,13 +136,31 @@ const result = await client.execute("SELECT * FROM users");
 
 ### `batch()`
 
+TODO
+
 ```ts
 
 ```
 
 ### `transaction()`
 
-### `sync`()
+TODO
+
+### `sync()`
+
+The `sync()` method can be called when [Embedded Replicas](/embedded-replicas) are configured to sync changes.
+
+You should call `.sync()` in the background whenever your application wants to sync the remote and local (embedded replica) database.
+
+```ts
+await client.sync();
+```
+
+<Warning>
+
+Embedded Replicas only works where you have access the file system.
+
+</Warning>
 
 ## Placeholders
 
@@ -138,6 +206,16 @@ const result = await client.batch(
 
 LibSQL supports the same named placeholder characters as SQLite &mdash: `:`, `@` and `$`.
 
+## Transaction Modes
+
+TODO
+
+| Mode       | SQLite command               | Description                                                                                                                                                                                        |
+| ---------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `write`    | `BEGIN IMMEDIATE`            | The transaction may execute statements that read and write data. Write transactions executed on a replica are forwarded to the primary instance, and can't operate in parallel.                    |
+| `read`     | `BEGIN TRANSACTION READONLY` | The transaction may only execute statements that read data (select). Read transactions can occur on replicas, and can operate in parallel with other read transactions.                            |
+| `deferred` | `BEGIN DEFERRED`             | The transaction starts in read mode, then changes to write as soon as a write statement is executed. This mode change may fail if there is a write transaction currently executing on the primary. |
+
 ## Batch Transactions
 
 A batch consists of multiple SQL statements executed sequentially within an implicit transaction. The backend handles the transaction: success commits all changes, while any failure results in a full rollback with no modifications.
@@ -168,6 +246,98 @@ Interactive transactions in SQLite ensure the consistency of a series of read an
 | `commit()`   | Commits all write statements in the transaction                     |
 | `rollback()` | Rolls back the entire transaction                                   |
 | `close()`    | Immediately stops the transaction                                   |
+
+<CodeGroup>
+
+```ts Rollback Usage
+try {
+  const userId = "user123";
+  const withdrawalAmount = 500;
+
+  const transaction = await client.transaction("write");
+
+  const balanceResult = await transaction.execute({
+    sql: "SELECT balance FROM accounts WHERE userId = ?",
+    args: [userId],
+  });
+
+  const currentBalance = balanceResult.rows[0]["balance"] as number;
+
+  if (currentBalance >= withdrawalAmount) {
+    await transaction.execute({
+      sql: "UPDATE accounts SET balance = balance - ? WHERE userId = ?",
+      args: [withdrawalAmount, userId],
+    });
+  } else {
+    console.log("Insufficient funds");
+    await transaction.rollback();
+    return;
+  }
+
+  await transaction.commit();
+} catch (e) {
+  console.error(e);
+}
+```
+
+```ts Batch Usage
+try {
+  const records = [
+    { name: "Alice", age: 30 },
+    { name: "Bob", age: 25 },
+    { name: "Charlie", age: 35 },
+  ];
+
+  const transaction = await client.transaction("write");
+
+  for (const record of records) {
+    await transaction.execute({
+      sql: "INSERT INTO people (name, age) VALUES (?, ?)",
+      args: [record.name, record.age],
+    });
+  }
+
+  await transaction.commit();
+} catch (e) {
+  console.error(e);
+  await transaction.rollback();
+}
+```
+
+```ts Conditional Usage
+try {
+  const productId = "prod456";
+  const newPrice = 150;
+
+  const transaction = await client.transaction("write");
+
+  const productResult = await transaction.execute({
+    sql: "SELECT price FROM products WHERE productId = ?",
+    args: [productId],
+  });
+
+  const currentPrice = productResult.rows[0]["price"] as number;
+
+  if (currentPrice > newPrice) {
+    await transaction.execute({
+      sql: "UPDATE products SET price = ? WHERE productId = ?",
+      args: [newPrice, productId],
+    });
+  } else {
+    console.log("New price is not lower than current price");
+    await transaction.rollback();
+    return;
+  }
+
+  await transaction.commit();
+} catch (e) {
+  console.error(e);
+}
+```
+
+</CodeGroup>
+
+<br />
 
 <Warning>
   Interactive transactions in libSQL lock the database for writing until

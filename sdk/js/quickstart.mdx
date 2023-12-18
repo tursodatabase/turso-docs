@@ -40,7 +40,7 @@ yarn add @libsql/client
 import { createClient } from "@libsql/client";
 
 const client = createClient({
-  url: "libsql://",
+  url: "libsql://...",
   authToken: "...",
 });
 ```
@@ -49,15 +49,21 @@ const client = createClient({
 import { createClient } from "@libsql/client/web";
 
 const client = createClient({
-  url: "libsql://",
+  url: "libsql://...",
   authToken: "...",
 });
 ```
 
 </CodeGroup>
 
+<br />
+
+<Info>
+
 You can also connect to a local SQLite file by passing `file:` instead of a URL when using Node.js, [learn
-more](/sdk/js/local-development).
+more](/sdk/js/reference#local-development).
+
+</Info>
 
   </Step>
   <Step title="Execute a query using SQL">

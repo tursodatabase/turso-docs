@@ -113,7 +113,8 @@
         "cli/introduction",
         "cli/installation",
         "cli/authentication",
-        "cli/upgrading"
+        "cli/upgrading",
+        "cli/headless-mode"
       ]
     },
     {
@@ -125,7 +126,6 @@
       "pages": [
         "sdk/js/quickstart",
         "sdk/js/reference",
-        "sdk/js/local-development",
         {
           "group": "Examples",
           "pages": [
@@ -150,27 +150,7 @@
     },
     {
       "group": "Rust",
-      "pages": [
-        "sdk/rust/quickstart",
-        "sdk/rust/reference",
-        "sdk/rust/local-development"
-      ]
-    },
-    {
-      "group": "Go",
-      "pages": [
-        "sdk/go/quickstart",
-        "sdk/go/reference",
-        "sdk/go/local-development"
-      ]
-    },
-    {
-      "group": "Python",
-      "pages": [
-        "sdk/python/quickstart",
-        "sdk/python/reference",
-        "sdk/python/local-development"
-      ]
+      "pages": ["sdk/rust/quickstart", "sdk/rust/reference"]
     },
     {
       "group": "HTTP",
