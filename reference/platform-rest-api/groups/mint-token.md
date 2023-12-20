@@ -63,10 +63,10 @@ curl \
 
 ### Query String Parameters
 
-| Parameter       | Type | Description                                                                                                                                                     |
-| --------------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `expiration`    | no   | Duration of the token until expiration as parsed by [go-str2duration], or `never` (default); for example: `1w2d6h3ns` (1 week 2 days 6 hours and 3 nanoseconds) |
-| `authorization` | no   | Level of access granted to the bearer of the token; `read-only` or `full-access` (default)                                                                      |
+| Parameter       | Required | Description                                                                                                                                                     |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `expiration`    | no       | Duration of the token until expiration as parsed by [go-str2duration], or `never` (default); for example: `1w2d6h3ns` (1 week 2 days 6 hours and 3 nanoseconds) |
+| `authorization` | no       | Level of access granted to the bearer of the token; `read-only` or `full-access` (default)                                                                      |
 
 ### Example
 
