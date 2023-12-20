@@ -13,6 +13,11 @@ keywords:
 
 Create an auth token for a group.
 
+The returned token:
+
+- Can't be retrieved again; there is no record kept of it by Turso
+- Can't be revoked individually.
+
 ## User Groups
 
 `POST /v1/groups/:group/auth/tokens`
