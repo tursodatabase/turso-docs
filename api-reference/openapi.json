@@ -719,6 +719,29 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/groups/{groupName}/update": {
+      "post": {
+        "summary": "Update Databases in a Group",
+        "description": "Updates all databases in the grooup to the latest libSQL version.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "$ref": "#/components/parameters/groupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response (No Content)"
+          },
+          "404": {
+            "$ref": "#/components/responses/GroupNotFoundResponse"
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/groups/{groupName}/auth/tokens": {
       "post": {
         "summary": "Generate Group Auth Token",
