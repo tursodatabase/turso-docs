@@ -1571,7 +1571,7 @@
               },
               "url": {
                 "type": "string",
-                "description": "The URL to the dump file.",
+                "description": "The URL to the dump file when `dump` is used as a seed type.",
                 "example": "https://some-bucket.com/my-db.db"
               },
               "timestamp": {
