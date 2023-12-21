@@ -1549,11 +1549,37 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the new database."
+            "description": "The name of the new database. Must contain only lowercase letters, numbers, dashes. No longer than 32 characters."
           },
           "group": {
             "type": "string",
             "description": "The name of the group where the database should be created. **The group must already exist.**"
+          },
+          "seed": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["database", "dump"],
+                "description": "The type of seed to be used to create a new database.",
+                "example": "database"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the existing database when `database` is used as a seed type.",
+                "example": "my-db"
+              },
+              "url": {
+                "type": "string",
+                "description": "The URL to the dump file.",
+                "example": "https://some-bucket.com/my-db.db"
+              },
+              "timestamp": {
+                "type": "string",
+                "description": "A formatted [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) recovery point to create a database from. This must be within the last 24 hours, or 30 days on the scaler plan.",
+                "example": "2023-12-20T09:46:08Z"
+              }
+            }
           }
         },
         "required": ["name", "group"]
