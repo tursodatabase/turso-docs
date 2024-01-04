@@ -24,6 +24,16 @@ turso auth login
 
 </Step>
 
+<Step title="Retrieve your account or organization slug">
+
+The Platform API can be used with your personal account or with an organization. You'll need the obtain the `slug` of your account or organization using using the Turso CLI:
+
+```bash
+turso org list
+```
+
+</Step>
+
 <Step title="Create a new Platform API Token">
 
 Now create a new API Token using the Turso CLI:
@@ -164,9 +174,19 @@ const group = await turso.groups.addLocation("default", "ams");
 
 </Step>
 
-<Step title="That's it!">
+<Step title="Connect to your database">
 
-You now have your first database, distributed across multiple regions.
+You now have a database, distributed across multiple regions that you can connect to using one of the official or experimental SDKs:
+
+<Snippet file="official-sdks.mdx" />
+
+<Snippet file="experimental-sdks.mdx" />
+
+<CardGroup cols={2}>
+
+<Snippet file="http-sdk.mdx" />
+
+</CardGroup>
 
 </Step>
 

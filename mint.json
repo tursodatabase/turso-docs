@@ -238,11 +238,6 @@
                 "api-reference/organizations/invites/list",
                 "api-reference/organizations/invites/create"
               ]
-            },
-            {
-              "icon": "credit-card",
-              "group": "Subscription",
-              "pages": ["api-reference/organizations/subscription/retrieve"]
             }
           ]
         },
@@ -264,5 +259,127 @@
     "playground": {
       "mode": "hide"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/reference/platform-rest-api",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/reference/platform-rest-api/auth",
+      "destination": "/api-reference/tokens"
+    },
+    {
+      "source": "/reference/platform-rest-api/auth/get-tokens-for-user",
+      "destination": "/api-reference/tokens/list"
+    },
+    {
+      "source": "/reference/platform-rest-api/auth/mint-token-for-user",
+      "destination": "/api-reference/tokens/create"
+    },
+    {
+      "source": "/reference/platform-rest-api/auth/revoke-token-for-user",
+      "destination": "/api-reference/tokens/revoke"
+    },
+    {
+      "source": "/reference/platform-rest-api/auth/validate-token-for-user",
+      "destination": "/api-reference/tokens/validate"
+    },
+    {
+      "source": "/reference/platform-rest-api/organization",
+      "destination": "/api-reference/organizations"
+    },
+    {
+      "source": "/reference/platform-rest-api/organization/get-organizations-for-user",
+      "destination": "/api-reference/organizations/list"
+    },
+    {
+      "source": "/reference/platform-rest-api/organization/get-organization-members",
+      "destination": "/api-reference/organizations/members/list"
+    },
+    {
+      "source": "/reference/platform-rest-api/location",
+      "destination": "/api-reference/locations"
+    },
+    {
+      "source": "/reference/platform-rest-api/location/get-locations",
+      "destination": "/api-reference/locations"
+    },
+    {
+      "source": "/reference/platform-rest-api/database",
+      "destination": "/api-reference/databases"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/get-databases-in-org",
+      "destination": "/api-reference/databases/list"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/get-database-in-org",
+      "destination": "/api-reference/databases/retrieve"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/create-database-in-org",
+      "destination": "/api-reference/databases/create"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/destroy-database-in-org",
+      "destination": "/api-reference/databases/delete"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/mint-token-for-database-in-org",
+      "destination": "/api-reference/databases/create-token"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/invalidate-all-tokens-for-database-in-org",
+      "destination": "/api-reference/databases/invalidate-tokens"
+    },
+    {
+      "source": "/reference/platform-rest-api/database/get-usage-database-in-org",
+      "destination": "/api-reference/databases/usage"
+    },
+    {
+      "source": "/reference/platform-rest-api/instance/get-instances-in-database",
+      "destination": "/api-reference/databases/list-instances"
+    },
+    {
+      "source": "/reference/platform-rest-api/instance/get-instance-in-database",
+      "destination": "/api-reference/databases/retrieve-instance"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups",
+      "destination": "/api-reference/groups"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/list-groups",
+      "destination": "/api-reference/groups/list"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/create-group",
+      "destination": "/api-reference/groups/create"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/retrieve-group",
+      "destination": "/api-reference/groups/retrieve"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/delete-group",
+      "destination": "/api-reference/groups/delete"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/add-location",
+      "destination": "/api-reference/groups/add-location"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/remove-location",
+      "destination": "/api-reference/groups/remove-location"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/mint-token",
+      "destination": "/api-reference/groups/create-token"
+    },
+    {
+      "source": "/reference/platform-rest-api/groups/invalidate-tokens",
+      "destination": "/api-reference/groups/invalidate-tokens"
+    }
+  ]
 }
