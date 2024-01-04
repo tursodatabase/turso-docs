@@ -255,10 +255,7 @@
     "linkedin": "https://www.linkedin.com/company/turso"
   },
   "api": {
-    "baseUrl": "https://api.turso.tech",
-    "playground": {
-      "mode": "hide"
-    }
+    "baseUrl": "https://api.turso.tech"
   },
   "redirects": [
     {
