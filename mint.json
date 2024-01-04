@@ -92,7 +92,7 @@
         "features/libsql",
         "features/platform-api",
         "features/multitenancy",
-        "features/embedded-databases",
+        "features/embedded-replicas",
         "features/branching",
         "features/ai",
         "features/point-in-time-recovery"
@@ -261,6 +261,15 @@
     }
   },
   "redirects": [
+    {
+      "source": "/tutorials",
+      "destination": "https://blog.turso.tech"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli",
+      "destination": "/quickstart"
+    },
+
     {
       "source": "/reference/platform-rest-api",
       "destination": "/api-reference/introduction"
