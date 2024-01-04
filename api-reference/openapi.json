@@ -939,20 +939,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "summary": "Delete Organization",
-        "description": "Delete an organization you own, and cancels the active subscription.",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/organizationName"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response (No Content)"
-          }
-        }
       }
     },
 
