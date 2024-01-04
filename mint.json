@@ -162,8 +162,7 @@
         "api-reference/introduction",
         "api-reference/quickstart",
         "api-reference/authentication",
-        "api-reference/response-codes",
-        "api-reference/rate-limits"
+        "api-reference/response-codes"
       ]
     },
     {
@@ -223,7 +222,6 @@
           "pages": [
             "api-reference/organizations/list",
             "api-reference/organizations/update",
-            "api-reference/organizations/delete",
             {
               "icon": "user",
               "group": "Members",
