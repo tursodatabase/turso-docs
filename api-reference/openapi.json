@@ -1335,6 +1335,31 @@
                       "items": {
                         "$ref": "#/components/schemas/AuditLog"
                       }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "description": "The current page number.",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "type": "integer",
+                          "description": "The number of items per page.",
+                          "example": 10
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "description": "The total number of pages.",
+                          "example": 1
+                        },
+                        "total_rows": {
+                          "type": "integer",
+                          "description": "The total number of items.",
+                          "example": 1
+                        }
+                      }
                     }
                   }
                 }
@@ -1512,7 +1537,7 @@
           },
           "message": {
             "type": "string",
-            "description": "",
+            "description": "Additional context from the performed action.",
             "example": ""
           },
           "origin": {
@@ -1527,8 +1552,8 @@
           },
           "created_at": {
             "type": "string",
-            "description": "",
-            "example": "iku"
+            "description": "A formatted [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp this action was performed.",
+            "example": "2023-12-20T09:46:08Z"
           },
           "data": {
             "type": "object",
