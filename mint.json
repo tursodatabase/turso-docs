@@ -261,7 +261,42 @@
       "source": "/tutorials/get-started-turso-cli",
       "destination": "/quickstart"
     },
-
+    {
+      "source": "/tutorials/get-started-turso-cli/step-01-installation",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-02-sign-up",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-03-create-database",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-04-make-queries-with-shell",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-05-replicate-database-another-location",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-06-inspect-database-usage",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-07-destroy-logical-database",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/step-08-log-out",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/tutorials/get-started-turso-cli/turso-cli-review",
+      "destination": "/quickstart"
+    },
     {
       "source": "/reference/platform-rest-api",
       "destination": "/api-reference/introduction"
@@ -304,7 +339,7 @@
     },
     {
       "source": "/reference/platform-rest-api/location/get-locations",
-      "destination": "/api-reference/locations"
+      "destination": "/api-reference/locations/list"
     },
     {
       "source": "/reference/platform-rest-api/database",
@@ -341,6 +376,22 @@
     {
       "source": "/reference/platform-rest-api/instance/get-instances-in-database",
       "destination": "/api-reference/databases/list-instances"
+    },
+    {
+      "source": "/reference/platform-rest-api/instance",
+      "destination": "/api-reference/databases/list-instances"
+    },
+    {
+      "source": "/reference/platform-rest-api/instance/create-instance-in-database",
+      "destination": "/api-reference/groups/add-location"
+    },
+    {
+      "source": "/reference/platform-rest-api/instance/destroy-instance-in-database",
+      "destination": "/api-reference/groups/add-location"
+    },
+    {
+      "source": "/reference/platform-rest-api/instance/wait-instance-ready-in-database",
+      "destination": "/api-reference/databases"
     },
     {
       "source": "/reference/platform-rest-api/instance/get-instance-in-database",
@@ -435,6 +486,22 @@
     {
       "source": "/libsql/client-access/go-sdk",
       "destination": "/sdk"
+    },
+    {
+      "source": "/3p-dev-tools",
+      "destination": "/"
+    },
+    {
+      "source": "/billing-details",
+      "destination": "/"
+    },
+    {
+      "source": "/concepts",
+      "destination": "/"
+    },
+    {
+      "source": "/search",
+      "destination": "/"
     }
   ]
 }
