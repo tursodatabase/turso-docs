@@ -29,7 +29,7 @@ Authorization: Bearer TOKEN
 
 ## Querying a database
 
-Clients can interact with the Turso server with the Hrana-over-http protocol. The full protocol is specified [here](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md). In the following example, we'll see how to perform a basic query, as well explain the core concepts of the protocol.
+Clients can interact with the Turso server with the [Hrana over HTTP](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md) protocol. In the following example, we'll see how to perform a basic query, as well explain the core concepts of the protocol.
 
 To perform a basic query, one can use the `POST /v2/pipeline` endpoint. This endpoint accepts a series of operation to perform against a Turso database connection. We are specifically interested in the following operations:
 - `execute`: execute a statement on the connection.
@@ -137,7 +137,7 @@ We have successfully opened a transaction. We can see that we have received a `b
     "requests": [
         { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
         { "type": "execute", "stmt": { "sql": "INSERT INTO users VALUES (\"adhoc\")" } },
-        { "type": "execute", "stmt": { "sql": "COMMIT } },
+        { "type": "execute", "stmt": { "sql": "COMMIT" } },
         { "type": "close" }
     ]
 }
