@@ -1694,12 +1694,6 @@
           "Hostname": {
             "$ref": "#/components/schemas/Database/properties/Hostname"
           },
-          "IssuedCertCount": {
-            "type": "integer"
-          },
-          "IssuedCertLimit": {
-            "type": "integer"
-          },
           "Name": {
             "$ref": "#/components/schemas/Database/properties/Name"
           }

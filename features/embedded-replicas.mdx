@@ -6,6 +6,13 @@ Turso's embedded replicas are a game-changer for SQLite, making it more flexible
 
 Embedded replicas provide a smooth switch between local and remote database operations, allowing the same database to adapt to various scenarios effortlessly. They also ensure speedy data access by syncing local copies with the remote database, enabling microsecond-level read operations &mdash; a significant advantage for scenarios demanding quick data retrieval.
 
+## How it works
+
+1. You configure a local file to be your main database.
+2. Reads are always served from the local database file.
+3. If you call `sync()` it will sync with the remote database configured at `syncUrl`.
+4. When you write to database, `sync()` is called automatically so you can read your writes.
+
 ## Usage
 
 To use embedded replicas, you need to create a client with a `syncUrl` parameter. This parameter specifies the URL of the remote Turso database that the client will sync with:

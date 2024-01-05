@@ -78,33 +78,25 @@
       "pages": [
         "introduction",
         "quickstart",
-        "concepts",
         "local-development",
         "data-and-connections",
         "locations",
         "extensions",
-        "support"
+        "support",
+        "libsql"
       ]
     },
     {
       "group": "Features",
       "pages": [
-        "features/libsql",
         "features/platform-api",
         "features/multitenancy",
         "features/embedded-replicas",
         "features/branching",
         "features/ai",
-        "features/point-in-time-recovery"
-      ]
-    },
-    {
-      "group": "Integrations",
-      "pages": [
-        "integrations/cloudflare-workers",
-        "integrations/hasura",
-        "integrations/val-town",
-        "integrations/deno-deploy"
+        "features/point-in-time-recovery",
+        "features/database-sleeping",
+        "features/organizations"
       ]
     },
     {
@@ -389,6 +381,60 @@
     {
       "source": "/reference/platform-rest-api/groups/invalidate-tokens",
       "destination": "/api-reference/groups/invalidate-tokens"
+    },
+
+    {
+      "source": "/reference",
+      "destination": "/cli"
+    },
+    {
+      "source": "/reference/turso-cli",
+      "destination": "/cli"
+    },
+    {
+      "source": "/reference/postgres-integration",
+      "destination": "/"
+    },
+    {
+      "source": "/reference/data-consistency",
+      "destination": "/data-and-connections"
+    },
+    {
+      "source": "/reference/extensions",
+      "destination": "/extensions"
+    },
+    {
+      "source": "/reference/local-development",
+      "destination": "/local-development"
+    },
+    {
+      "source": "/reference/libsql-urls",
+      "destination": "/local-development"
+    },
+
+    {
+      "source": "/libsql/server/setup",
+      "destination": "/local-development/#libsql-server"
+    },
+    {
+      "source": "/libsql/client-access/",
+      "destination": "/sdk"
+    },
+    {
+      "source": "/libsql/client-access/javascript-typescript-sdk",
+      "destination": "/sdk/js"
+    },
+    {
+      "source": "/libsql/client-access/rust-sdk",
+      "destination": "/sdk/rust"
+    },
+    {
+      "source": "/libsql/client-access/python-sdk",
+      "destination": "/sdk"
+    },
+    {
+      "source": "/libsql/client-access/go-sdk",
+      "destination": "/sdk"
     }
   ]
 }
