@@ -105,8 +105,7 @@
         "cli/introduction",
         "cli/installation",
         "cli/authentication",
-        "cli/upgrading",
-        "cli/headless-mode"
+        "cli/upgrading"
       ]
     },
     {

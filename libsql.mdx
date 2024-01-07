@@ -1,4 +1,46 @@
 ---
 title: libSQL
-description:
+description: libSQL is SQLite for modern applications.
 ---
+
+Turso is a distributed database built on [libSQL](https://github.com/tursodatabase/libsql/), a fork of SQLite. It's optimized for low query latency, making it suitable for global applications.
+
+Postgres and MySQL have long vied for SQL dominance, while SQLite remains a favored choice due to its simplicity and reliability, often dubbed the "hello world" of databases.
+
+libSQL is a fork of SQLite that aims to be a modern database, with a focus on low query latency and high availability. It's designed to be a drop-in replacement for SQLite, and scales globally with Turso over HTTP.
+
+<CardGroup cols={2}>
+
+<Card title="tursodatabase/libsql" icon="github" href="https://github.com/tursodatabase/libsql/">
+
+Browse the libSQL source code on GitHub, report issues, feature requests and contribute using pull requests.
+
+</Card>
+
+<Card title="Discord" href="https://discord.com/invite/4B5D7hYwub" icon="discord">
+
+Join the community on Discord to talk about the development of libSQL.
+
+</Card>
+
+</CardGroup>
+
+## Why fork SQLite?
+
+SQLite is [open-source, not open-contribution](https://www.sqlite.org/copyright.html), which makes it difficult to innovate and evolve with it.
+
+Turso is committed to the open-source community, and we welcome contributions to libSQL. We're also committed to keeping libSQL free and open-source, as well rejoining core SQLIte if their policy changes.
+
+Read the [libSQL Manifesto](https://turso.tech/libsql-manifesto) for more details.
+
+## Turso vs. libSQL
+
+Turso manages the distribution of libSQL instances, and provides a global HTTP API for querying and managing databases. It also provides a CLI, Web UI and HTTP API for managing databases, replicas using groups, and team management.
+
+When you use Turso, you don't need to worry about managing libSQL instances, or configuring replication. You can focus on building your application, and let Turso handle the rest.
+
+[SDKs](/sdk) are fully compatible with libSQL, whether you use self-hosted or Turso-hosted libSQL.
+
+## SQLite Compatibility
+
+libSQL will remain SQLite compatible by providing the same API and file format, but with additional features and optimizations.
