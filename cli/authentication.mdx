@@ -2,10 +2,12 @@
 title: Authentication
 ---
 
+## `login`
+
 The Turso CLI uses an access token to authenticate with Turso. You can login using the command:
 
 ```bash
-turso auth token
+turso auth login
 ```
 
 This will open a browser window, asking you to log into your account with GitHub.
@@ -21,3 +23,35 @@ turso
 The Turso CLI requires you to reauthenticate after one week. Don't share your token.
 
 </Info>
+
+## `signup`
+
+If you're new to Turso, you can create an account using the Turso CLI:
+
+```bash
+turso auth signup
+```
+
+## `whoami`
+
+You can get the username of the currently logged in user using the Turso CLI:
+
+```bash
+turso auth whoami
+```
+
+## `logout`
+
+You can logout of the Turso CLI using the `logout` command:
+
+```bash
+turso auth logout
+```
+
+## `token`
+
+You can obtain the current access token used to authenticate Turso:
+
+```bash
+turso auth token
+```

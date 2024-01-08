@@ -100,12 +100,106 @@
       ]
     },
     {
-      "group": "CLI",
+      "group": "Turso CLI",
       "pages": [
         "cli/introduction",
         "cli/installation",
         "cli/authentication",
-        "cli/upgrading"
+        "cli/upgrading",
+        "cli/help"
+      ]
+    },
+    {
+      "group": "Commands",
+      "pages": [
+        {
+          "group": "auth",
+          "pages": [
+            {
+              "group": "api-tokens",
+              "pages": [
+                "cli/auth/api-tokens/list",
+                "cli/auth/api-tokens/mint",
+                "cli/auth/api-tokens/revoke"
+              ]
+            },
+            "cli/auth/login",
+            "cli/auth/logout",
+            "cli/auth/signup",
+            "cli/auth/token",
+            "cli/auth/whoami"
+          ]
+        },
+        {
+          "group": "contact",
+          "pages": ["cli/contact/bookmeeting", "cli/contact/feedback"]
+        },
+        {
+          "group": "db",
+          "pages": [
+            "cli/db/create",
+            "cli/db/destroy",
+            "cli/db/inspect",
+            "cli/db/list",
+            "cli/db/locations",
+            "cli/db/shell",
+            "cli/db/show",
+            {
+              "group": "tokens",
+              "pages": ["cli/db/tokens/create", "cli/db/tokens/invalidate"]
+            }
+          ]
+        },
+        "cli/dev",
+        {
+          "group": "group",
+          "pages": [
+            "cli/group/create",
+            "cli/group/destroy",
+            "cli/group/list",
+            {
+              "group": "locations",
+              "pages": [
+                "cli/group/locations/add",
+                "cli/group/locations/list",
+                "cli/group/locations/remove"
+              ]
+            },
+            "cli/group/update",
+            "cli/group/wakeup"
+          ]
+        },
+        {
+          "group": "org",
+          "pages": [
+            "cli/org/billing",
+            "cli/org/create",
+            "cli/org/db-transfer",
+            "cli/org/list",
+            {
+              "group": "members",
+              "pages": [
+                "cli/org/members/add",
+                "cli/org/members/invite",
+                "cli/org/members/list",
+                "cli/org/members/rm"
+              ]
+            },
+            "cli/org/switch"
+          ]
+        },
+        {
+          "group": "plan",
+          "pages": [
+            {
+              "group": "overages",
+              "pages": ["cli/plan/overages/disable", "cli/plan/members/enable"]
+            },
+            "cli/plan/select",
+            "cli/plan/show",
+            "cli/plan/upgrade"
+          ]
+        }
       ]
     },
     {

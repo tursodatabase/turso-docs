@@ -1,0 +1,18 @@
+---
+title: db tokens create
+sidebarTitle: create
+---
+
+You can create a new token that can be used with the provided database using the following command:
+
+```bash
+turso db tokens create <database-name> [flags]
+```
+
+## Flags
+
+| Flag                 | Description                                                                     |
+| -------------------- | ------------------------------------------------------------------------------- |
+| `-e`, `--expiration` | The expiration time for a token, can be `never` or a value in days, e.g. `7d` . |
+| `--group`            | Grant this token access to all databases in the group.                          |
+| `-r`, `--read-only`  | Restrict the token to read only access.                                         |

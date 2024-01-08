@@ -1,0 +1,39 @@
+---
+title: db create
+sidebarTitle: create
+---
+
+You can create a new database in a specific group using the following command:
+
+```bash
+turso db create [database-name]
+```
+
+<Info>
+
+The `[database-name]` argument is optional. If you don't provide a name, the Turso team will use the name of your project.
+
+</Info>
+
+<Info>
+
+If you have more than one group, you will need to pass the `--group` flag.
+
+</Info>
+
+## Flags
+
+| Flag                  | Description                                                                                                                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--canary`            | Use database canary build.                                                                                                                                                           |
+| `--csv-table-name`    | Name of the table in the csv file.                                                                                                                                                   |
+| `--enable-extensions` | Enables experimental support for SQLite extensions.                                                                                                                                  |
+| `--from-csv`          | Create the database from a csv file.                                                                                                                                                 |
+| `--from-db`           | Select another database to copy data from.<br /><br />To use data from a past version of a database, pass a value to `--timestamp`.                                                  |
+| `--from-dump`         | Create the database from a local SQLite dump.                                                                                                                                        |
+| `--from-dump-url`     | Create the database from a remote SQLite dump.                                                                                                                                       |
+| `--from-file`         | Create the database from a local SQLite3-compatible file.                                                                                                                            |
+| `--group`             | Create the database in the specified group.                                                                                                                                          |
+| `-h`, `--help`        | Get help for create.                                                                                                                                                                 |
+| `--timestamp`         | Set a point in time in the past to copy data from the selected database.<br /><br />Must be used with the 'from-db' flag. Must be in RFC3339 format like '2023-09-29T10:16:13-03:00' |
+| `-w`, `--wait`        | Wait for the database to be ready to receive requests.                                                                                                                               |

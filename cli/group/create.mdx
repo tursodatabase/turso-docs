@@ -1,0 +1,24 @@
+---
+title: group create
+sidebarTitle: create
+---
+
+You can create a new group of databases. Groups belong to a primary region and can be replicated to other regions.
+
+```bash
+turso group create <group-name> [flags]
+```
+
+<Info>
+
+Turso will automatically detect the closest region and use that as the primary region. You can override this by specifying the `--location` flag.
+
+</Info>
+
+## Flags
+
+| Flag           | Description                                                                 |
+| -------------- | --------------------------------------------------------------------------- |
+| `--canary`     | Use database canary build.                                                  |
+| `--location`   | Create the group in the specified priary location using a three-digit code. |
+| `-w`, `--wait` | Wait for group to be ready before exiting.                                  |
