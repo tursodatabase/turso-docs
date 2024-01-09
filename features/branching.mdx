@@ -2,3 +2,60 @@
 title: Branching
 description:
 ---
+
+A branch is a separate database instance that is created from an existing database. You can also create a branch from a [point-in-time](/features/point-in-time-recovery) snapshot of a database. Branches are useful for development and testing, because they allow you to make changes to the database without affecting the original database.
+
+## How it works
+
+1. You create a new database from an existing database using the CLI or API.
+2. You connect to the new database using the group API token.
+3. Make changes to the new schema using a migration tool (optional).
+4. Apply the changes to the original database using a migration tool when merging using a GitHub Action (optional).
+5. Delete the database when you no longer need it.
+
+## Usage
+
+You can create a new database from an existing database using the CLI or API:
+
+<CodeGroup>
+
+```bash CLI
+turso db create my-new-database-branch --from-db my-existing-database
+```
+
+```bash Platform API
+curl -L -X POST 'https://api.turso.tech/v1/organization/{name}/databases' \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "name": "new-database",
+      "group": "default".,
+      "seed": {
+        "type:": "database",
+        "name": "my-existing-database"
+      }
+  }'
+```
+
+</CodeGroup>
+
+Refer to the following references for more details about all arguments:
+
+<CardGroup>
+
+<Card title="CLI Reference" icon="terminal" href="/cli/db/create">
+
+</Card>
+
+<Card title="API Reference" icon="code" href="/api-reference/databases/create">
+
+</Card>
+
+</CardGroup>
+
+## Limitations
+
+- Database branches are completely separate from the original database. This means that you need to handle merging any schema changes or data manually using a migration tool.
+- You will need to [create a new token](/cli/db/tokens/create) (or use a group token) to connect to the new database.
+- You will need to manually delete the database branch when you no longer need it.
+- Branches count towards your plan's database quota.

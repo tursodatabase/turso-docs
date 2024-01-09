@@ -6,7 +6,7 @@ SDKs connect to Turso using the `libsql://` protocol, unless using the [HTTP API
 
 ## Database URL
 
-You can find your database URL using the [Turso CLI](/cli) or [Platform API](/api-reference/databases/retrieve), it looks something like this:
+You can find your database URL using the [Turso CLI](/cli/db/show) or [Platform API](/api-reference/databases/retrieve), it looks something like this:
 
 <CodeGroup>
 
@@ -20,7 +20,13 @@ https://[DB-NAME]-[ORG-NAME].turso.io
 
 </CodeGroup>
 
-WebSockets generally offer better performance when maintaining an open socket for multiple queries, whereas HTTP is typically more efficient for single queries due to reduced client-server round trips; it's advisable to benchmark both to ascertain the best option for your specific needs.
+<br />
+
+<Info>
+
+WebSockets generally offer better performance when maintaining an open socket for multiple queries, whereas HTTP is typically more efficient for single queries due to reduced client-server round trips &mdash; it's advisable to benchmark both to ascertain the best option for your specific needs.
+
+</Info>
 
 ## Auth Tokens
 

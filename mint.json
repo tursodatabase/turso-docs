@@ -74,7 +74,7 @@
   ],
   "navigation": [
     {
-      "group": "Turso",
+      "group": "Get Started",
       "pages": [
         "introduction",
         "quickstart",
@@ -90,12 +90,10 @@
       "group": "Features",
       "pages": [
         "features/platform-api",
-        "features/multitenancy",
         "features/embedded-replicas",
         "features/branching",
         "features/ai",
         "features/point-in-time-recovery",
-        "features/database-sleeping",
         "features/organizations"
       ]
     },
