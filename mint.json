@@ -74,7 +74,7 @@
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Turso",
       "pages": [
         "introduction",
         "quickstart",
@@ -92,7 +92,6 @@
         "features/platform-api",
         "features/embedded-replicas",
         "features/branching",
-        "features/ai",
         "features/point-in-time-recovery",
         "features/organizations"
       ]
@@ -113,6 +112,11 @@
         {
           "group": "auth",
           "pages": [
+            "cli/auth/login",
+            "cli/auth/logout",
+            "cli/auth/signup",
+            "cli/auth/token",
+            "cli/auth/whoami",
             {
               "group": "api-tokens",
               "pages": [
@@ -120,12 +124,7 @@
                 "cli/auth/api-tokens/mint",
                 "cli/auth/api-tokens/revoke"
               ]
-            },
-            "cli/auth/login",
-            "cli/auth/logout",
-            "cli/auth/signup",
-            "cli/auth/token",
-            "cli/auth/whoami"
+            }
           ]
         },
         {
@@ -135,13 +134,13 @@
         {
           "group": "db",
           "pages": [
+            "cli/db/list",
             "cli/db/create",
+            "cli/db/show",
             "cli/db/destroy",
             "cli/db/inspect",
-            "cli/db/list",
-            "cli/db/locations",
             "cli/db/shell",
-            "cli/db/show",
+            "cli/db/locations",
             {
               "group": "tokens",
               "pages": ["cli/db/tokens/create", "cli/db/tokens/invalidate"]
@@ -152,9 +151,10 @@
         {
           "group": "group",
           "pages": [
-            "cli/group/create",
-            "cli/group/destroy",
             "cli/group/list",
+            "cli/group/create",
+            "cli/group/update",
+            "cli/group/destroy",
             {
               "group": "locations",
               "pages": [
@@ -163,39 +163,38 @@
                 "cli/group/locations/remove"
               ]
             },
-            "cli/group/update",
             "cli/group/wakeup"
           ]
         },
         {
           "group": "org",
           "pages": [
-            "cli/org/billing",
-            "cli/org/create",
-            "cli/org/db-transfer",
+            "cli/org/switch",
             "cli/org/list",
+            "cli/org/create",
+            "cli/org/billing",
+            "cli/org/db-transfer",
             {
               "group": "members",
               "pages": [
-                "cli/org/members/add",
-                "cli/org/members/invite",
                 "cli/org/members/list",
+                "cli/org/members/invite",
+                "cli/org/members/add",
                 "cli/org/members/rm"
               ]
-            },
-            "cli/org/switch"
+            }
           ]
         },
         {
           "group": "plan",
           "pages": [
+            "cli/plan/show",
+            "cli/plan/select",
+            "cli/plan/upgrade",
             {
               "group": "overages",
               "pages": ["cli/plan/overages/disable", "cli/plan/members/enable"]
-            },
-            "cli/plan/select",
-            "cli/plan/show",
-            "cli/plan/upgrade"
+            }
           ]
         }
       ]
@@ -205,28 +204,29 @@
       "pages": ["sdk/introduction", "sdk/authentication"]
     },
     {
-      "group": "JavaScript",
+      "group": "TypeScript / JS",
       "pages": [
-        "sdk/js/quickstart",
-        "sdk/js/reference",
+        "sdk/ts/quickstart",
+        "sdk/ts/reference",
         {
           "group": "Examples",
           "pages": [
-            "sdk/js/cloudflare-workers",
-            "sdk/js/deno-deploy",
-            "sdk/js/bun",
-            "sdk/js/aws-lambda",
-            "sdk/js/netlify-functions",
-            "sdk/js/vercel-functions"
+            "sdk/ts/examples/cloudflare-workers",
+            "sdk/ts/examples/deno-deploy",
+            "sdk/ts/examples/bun",
+            "sdk/ts/examples/aws-lambda",
+            "sdk/ts/examples/netlify-functions",
+            "sdk/ts/examples/vercel-functions",
+            "sdk/ts/examples/nextjs"
           ]
         },
         {
           "group": "Integrations",
           "pages": [
-            "sdk/js/drizzle",
-            "sdk/js/prisma",
-            "sdk/js/knex",
-            "sdk/js/kysley"
+            "sdk/ts/integrations/drizzle",
+            "sdk/ts/integrations/prisma",
+            "sdk/ts/integrations/knex",
+            "sdk/ts/integrations/kysley"
           ]
         }
       ]

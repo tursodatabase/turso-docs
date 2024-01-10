@@ -59,3 +59,31 @@ Refer to the following references for more details about all arguments:
 - You will need to [create a new token](/cli/db/tokens/create) (or use a group token) to connect to the new database.
 - You will need to manually delete the database branch when you no longer need it.
 - Branches count towards your plan's database quota.
+
+## CI/CD
+
+Automating branching is useful for creating a new database for each pull request. This allows you to test changes without affecting the original database.
+
+Here's an example of what that might look like using the [Platform API](/api-reference/databases/create):
+
+```yml .github/workflows/create-database-branch.yml
+name: Create Database
+on: create
+
+jobs:
+  triggerAPI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Branch Name
+        id: branch_name
+        run: |
+          BRANCH_NAME=$(echo "${{ github.ref_name }}" | tr -cd '[:alnum:]' | sed 's/./\L&/g' | cut -c 1-32)
+          echo "::set-output name=branch_name::$BRANCH_NAME"
+      - name: Create Database
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{"name": "${{ steps.branch_name.outputs.branch_name }}", "group": "default", "seed": {"type": "database", "name": "${{ secrets.DATABASE_NAME }}"} }' \
+          "https://api.turso.tech/v1/organizations/${{ secrets.ORGANIZATION_NAME }}/databases"
+```
