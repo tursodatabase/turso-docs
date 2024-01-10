@@ -204,6 +204,14 @@
       "pages": ["sdk/introduction", "sdk/authentication"]
     },
     {
+      "group": "Deployment Guides",
+      "pages": [
+        "deployment-guides/vercel",
+        "deployment-guides/netlify",
+        "deployment-guides/fermyon-spin"
+      ]
+    },
+    {
       "group": "TypeScript / JS",
       "pages": [
         "sdk/ts/quickstart",
