@@ -57,7 +57,7 @@ Before we can create a group or database in a specific region, we'll need to fet
 <CodeGroup>
 
 ```bash cURL
-curl -L 'https://api.turso.tech/v1/organization/{organizationName}/locations' \
+curl -L 'https://api.turso.tech/v1/organizations/{organizationName}/locations' \
   -H 'Authorization: Bearer TOKEN' \
 ```
 
@@ -93,7 +93,7 @@ Begin by creating a group, giving it a `name` and primary `location`:
 <CodeGroup>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organization/{organizationName}/groups' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -124,7 +124,7 @@ Now create your first database in the group you created above:
 <CodeGroup>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organization/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -155,7 +155,7 @@ Add another location to your group to replicate your database to another region:
 <CodeGroup>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organization/{organizationName}/groups/{groupName}/locations/{location}' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}' \
   -H 'Authorization: Bearer TOKEN'
 ```
 
