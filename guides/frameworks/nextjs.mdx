@@ -1,3 +1,113 @@
 ---
-title: Next.js
+title: Nextjs
+description: Set up turso in your Nextjs project in minutes
 ---
+
+![Next.js banner](/images/guides/nextjs-banner.png)
+
+## Prerequisites
+
+To get the most out of this guide, you'll need to:
+
+- [Install the Turso CLI and create a database].
+- [Have a Next.js app].
+
+<Steps>
+
+<Step title="Install the libSQL JavaScript SDK">
+
+<CodeGroup>
+
+```bash npm
+npm run qwik add turso
+```
+
+```bash pnpm
+pnpm qwik add turso
+```
+
+```bash yarn
+yarn qwik add turso
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Set up the database credentials.">
+
+Get the database URL.
+
+```bash
+turso db show --url my-database
+```
+Get the database authentication token.
+
+```bash
+turso db tokens create my-database
+```
+
+Assign acquired credentials to the environment variables inside `.env.local`.
+
+```bash
+TURSO_DB_URL=<DB-URL>
+TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+```
+</Step>
+
+<Step title="Initiate a LibSQL Client.">
+
+```javascript lib/turso
+'server-only';
+
+import { type Client, createClient } from '@libsql/client/http';
+
+export function tursoClient(): Client {
+  const url = process.env.TURSO_DB_URL?.trim();
+  if (url === undefined) {
+    throw new Error('TURSO_DB_URL is not defined');
+  }
+
+  const authToken = process.env.TURSO_DB_AUTH_TOKEN?.trim();
+  if (authToken === undefined) {
+    throw new Error('TURSO_DB_AUTH_TOKEN is not defined');
+  }
+
+  return createClient({
+    url,
+    authToken,
+  });
+}
+```
+</Step>
+
+<Step title="Fetch data from Turso.">
+
+```javascript
+import { tursoClient } from '@/lib/turso';
+
+async function getArticles() {
+  const db = tursoClient();
+
+  const response = await db.exec("select * from my-table"));
+
+  return {
+    items: response.rows
+  };
+}
+```
+</Step>
+
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="A frameworks listing website" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-turso-nextjs-starter">
+    See the full source code
+  </Card>
+</CardGroup>
+
+
+[Install the Turso CLI and create a database]: /cli/installation
+[Have a Next.js app]: https://nextjs.org/docs/getting-started/installation#automatic-installation
