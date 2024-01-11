@@ -3,7 +3,7 @@ title: Qwik
 description: Set up Turso in your Qwik project in minutes
 ---
 
-![Qwik Quickstart](/images/guides/qwik-banner.png)
+![Qwik banner](/images/guides/qwik-banner.png)
 
 ## Prerequisites
 
@@ -61,7 +61,8 @@ PRIVATE_TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
 import { tursoClient } from '~/utils/turso';
 
 export const useFrameworks = routeLoader$(async (requestEvent: RequestEventBase) => {
-  const response = await tursoClient(requestEvent["env"]).execute("select * from my-table");
+  const db = tursoClient(requestEvent["env"]);
+  const response = await db.execute("select * from my-table");
 
   return {
     items: response.rows,
@@ -75,10 +76,10 @@ export const useFrameworks = routeLoader$(async (requestEvent: RequestEventBase)
 ## Try it yourself
 
 <CardGroup cols={2}>
-  <Card title="Social links listing app" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-find-me-on">
+  <Card title="Social links listing website" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-find-me-on">
     See the full source code
   </Card>
-  <Card title="Shopping cart" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-turqw-store">
+  <Card title="Qwik shopping cart" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-turqw-store">
     See the full source code
   </Card>
 </CardGroup>
