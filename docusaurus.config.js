@@ -263,6 +263,10 @@ const redirectOptions = {
       to: "/tutorials/get-started-turso-cli/step-05-replicate-database-another-location",
     },
     { from: "/reference/postgres-integration", to: "/" },
+    {
+      from: "/quickstart",
+      to: "/tutorials/get-started-turso-cli/",
+    },
   ],
 };
 
