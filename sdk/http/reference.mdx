@@ -1,13 +1,14 @@
 ---
-title: Reference
+title: Hrana Reference
+sidebarTitle: Reference
 description:
 ---
 
-Turso Databases can be accessed via HTTP. The API enable developers to perform SQL operations, retrieve server version information, and monitor the health status.
+Turso Databases can be accessed via HTTP. The API enable developers to perform SQL operations using the [Hrana over HTTP](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md) protocol, retrieve server version information, and monitor the health status.
 
 <Info>
 
-The HTTP API is stateless, which means you cannot perform any interactive or transactional transactions. Use a [native SDK](/sdk) where possible.
+It's recommended you use a [native SDK](/sdk).
 
 </Info>
 
@@ -19,6 +20,16 @@ Simply replace your database URL protocol `libsql://` with `https://`:
 https://[databaseName]-[organizationName].turso.io
 ```
 
+You can obtain your database base URL from the Turso CLI:
+
+<Accordion title="Obtain HTTP URL using Turso CLI">
+
+```bash
+turso db show [databaseName] --http-url
+```
+
+</Accordion>
+
 ## Authentication
 
 Turso uses Bearer authentication, and requires your API token to be passed with all protected requests in the `Authorization` header:
@@ -27,129 +38,154 @@ Turso uses Bearer authentication, and requires your API token to be passed with 
 Authorization: Bearer TOKEN
 ```
 
-## Querying a database
+<Accordion title="Create token using Turso CLI">
 
-Clients can interact with the Turso server with the [Hrana over HTTP](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md) protocol. In the following example, we'll see how to perform a basic query, as well explain the core concepts of the protocol.
-
-To perform a basic query, one can use the `POST /v2/pipeline` endpoint. This endpoint accepts a series of operation to perform against a Turso database connection. We are specifically interested in the following operations:
-- `execute`: execute a statement on the connection.
-- `close`: close the connection.
-
-By default a connection is left open until it timeouts. Every request on the connection bumps the timeout. Clients are expected to close their connection when it's not needed anymore.
-
-### Simple query
-Let's make a simple query:
-```json Body
-{
-    "requests": [
-        { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
-        { "type": "close" }
-    ]
-}
+```bash
+turso db tokens create [databaseName]
 ```
 
-If everything goes well, we get this response:
-```json Response
-{
-    "baton": null,
-    "base_url": null,
-    "results": [
-        {
-            "type": "ok",
-            "response": {
-                "type": "execute",
-                "result": {
-                    "cols": [],
-                    "rows": [],
-                    "affected_row_count": 0,
-                    "last_insert_rowid": null,
-                    "replication_index": "1"
-                }
-            }
-        },
-        {
-            "type": "ok",
-            "response": {
-                "type": "close"
-            }
-        }
-    ]
-}
-```
-
-Let's walk through our response fields:
-- `baton`: the `baton` identifies a connection with the server so that it can be reused. In our case we closed the connection so the baton is `null`.
-- `base_url`: this is returned by the server that handled the request. This url can be reused for subsequent request to force routing the that server.
-- `results`: this is a array with the results for each of the requests we made in the pipeline. We can see that our table got created successfully, and that the connection what then closed.
-
-In each of our results, the `"type": "ok"` signify he success of the step, and the response is the payload for that step.
-
-In the response payload for on execute request, we have:
-- `cols`: the list of columns for the returned rows. Here no rows were returned, to it's empty.
-- `rows`: the rows returned for our query, still nothing for us.
-- `affected_row_count`: the number of rows affected by our query.
-- `last_inserted_rowid`: the id of the last inserted row.
-- `replication_index`: this is the replication timestamps at which this query was executed.
-
-### Interactive query
-
-Sometimes, it may be desirable to perform multiple operation on the same connection, in multiple rountrips. This may be the case for interactive transactions for example. This is supported by Hrana-over-http. Let's see how this is done.
-
-Still on the `POST /v2/pipeline` endpoint:
-```json Body
-{
-    "requests": [
-        { "type": "execute", "stmt": { "sql": "BEGIN" } },
-    ]
-}
-```
-
-We send an `execute` request that starts a transaction (`BEGIN`), but unlike in our previous example, we don't close the connection right away. Let's see our response:
-
-```json Response
-{
-    "baton": "m7lVVgEvknpf1P1irxHsHqrAqH7BLiwO4DQIAwr93PdZWGvdBNugLSokSsCZNkry",
-    "base_url": null,
-    "results": [
-        {
-            "type": "ok",
-            "response": {
-                "type": "execute",
-                "result": {
-                    "cols": [],
-                    "rows": [],
-                    "affected_row_count": 0,
-                    "last_insert_rowid": null,
-                    "replication_index": "1"
-                }
-            }
-        }
-    ]
-}
-```
-
-We have successfully opened a transaction. We can see that we have received a `baton` back. This is because we haven't closed the connection. We can now use this baton to perform more queries on the same connection:
-
-
-```json Body
-{
-    "baton": "m7lVVgEvknpf1P1irxHsHqrAqH7BLiwO4DQIAwr93PdZWGvdBNugLSokSsCZNkry",
-    "requests": [
-        { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
-        { "type": "execute", "stmt": { "sql": "INSERT INTO users VALUES (\"adhoc\")" } },
-        { "type": "execute", "stmt": { "sql": "COMMIT" } },
-        { "type": "close" }
-    ]
-}
-```
-
-We perform more queries in our transaction, commit, and then close the connection.
-
-Note that both transactions and connections have timeouts. Transaction have a 5 seconds window to complete, while connections get closed after 10 seconds of idle time.
+</Accordion>
 
 ## Endpoints
 
 Your database has the endpoints available below:
+
+### `POST /v2/pipeline`
+
+You can use the `/v2/pipeline` endpoint to query a database. The endpoint accepts a series of operations to perform against a database connection. The supported operation types are:
+
+- `execute`: execute a statement on the connection.
+- `close`: close the connection.
+
+#### Simple query
+
+<CodeGroup>
+
+```json Request
+{
+  "requests": [
+    { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
+    { "type": "close" }
+  ]
+}
+```
+
+```json Response
+{
+  "baton": null,
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [],
+          "rows": [],
+          "affected_row_count": 0,
+          "last_insert_rowid": null,
+          "replication_index": "1"
+        }
+      }
+    },
+    {
+      "type": "ok",
+      "response": {
+        "type": "close"
+      }
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+<br />
+
+<Info>
+
+Connections are left open until they timeout, unless you close them explicitly in the request (as shown above). Every request made on a connection bumps the timeout. You should close the connection when it's no longer needed.
+
+</Info>
+
+#### Interactive query
+
+Sometimes, it may be desirable to perform multiple operation on the same connection, in multiple roundtrips. We can do this by not closing the connection right away:
+
+<CodeGroup>
+
+```json Body
+{
+  "requests": [{ "type": "execute", "stmt": { "sql": "BEGIN" } }]
+}
+```
+
+```json Response
+{
+  "baton": "m7lVVgEvknpf1P1irxHsHqrAqH7BLiwO4DQIAwr93PdZWGvdBNugLSokSsCZNkry",
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [],
+          "rows": [],
+          "affected_row_count": 0,
+          "last_insert_rowid": null,
+          "replication_index": "1"
+        }
+      }
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+We can see that we have received a `baton` back. This is because we haven't closed the connection. We can now use this baton to perform more queries on the same connection:
+
+```json Body
+{
+  "baton": "m7lVVgEvknpf1P1irxHsHqrAqH7BLiwO4DQIAwr93PdZWGvdBNugLSokSsCZNkry",
+  "requests": [
+    { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
+    {
+      "type": "execute",
+      "stmt": { "sql": "INSERT INTO users VALUES (\"iku\")" }
+    },
+    { "type": "execute", "stmt": { "sql": "COMMIT" } },
+    { "type": "close" }
+  ]
+}
+```
+
+<Info>
+
+Note that both transactions and connections have timeouts. Transaction have a 5 seconds window to complete, while connections get closed after 10 seconds of idle time.
+
+</Info>
+
+#### Response types
+
+The response from Hrana contains the following fields:
+
+| Field      | Type   | Description                                                                                                                          |
+| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `baton`    | string | The baton is used to identify a connection with the server so that it can be reused.                                                 |
+| `base_url` | string | The base URL of the server that handled the request. This URL can be reused for subsequent requests to force routing to that server. |
+| `results`  | array  | The results for each of the requests made in the pipeline.                                                                           |
+
+The `results` array contains the results for each of the requests made in the pipeline. Each result has the following fields:
+
+| Field                | Type    | Description                                                 |
+| -------------------- | ------- | ----------------------------------------------------------- |
+| `cols`               | array   | The list of columns for the returned rows.                  |
+| `rows`               | array   | The rows returned for the query.                            |
+| `affected_row_count` | integer | The number of rows affected by the query.                   |
+| `last_insert_rowid`  | integer | The ID of the last inserted row.                            |
+| `replication_index`  | string  | The replication timestamp at which this query was executed. |
 
 ### `GET /version`
 
