@@ -106,7 +106,6 @@ const sidebars = {
         },
       ],
     },
-    "postgres-integration",
   ],
 };
 
