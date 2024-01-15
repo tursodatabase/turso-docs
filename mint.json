@@ -193,7 +193,7 @@
             "cli/plan/upgrade",
             {
               "group": "overages",
-              "pages": ["cli/plan/overages/disable", "cli/plan/members/enable"]
+              "pages": ["cli/plan/overages/disable", "cli/plan/overages/enable"]
             }
           ]
         }
@@ -205,35 +205,15 @@
     },
     {
       "group": "TypeScript / JS",
-      "pages": [
-        "sdk/ts/quickstart",
-        "sdk/ts/reference",
-        {
-          "group": "Examples",
-          "pages": [
-            "sdk/ts/examples/cloudflare-workers",
-            "sdk/ts/examples/deno-deploy",
-            "sdk/ts/examples/bun",
-            "sdk/ts/examples/aws-lambda",
-            "sdk/ts/examples/netlify-functions",
-            "sdk/ts/examples/vercel-functions",
-            "sdk/ts/examples/nextjs"
-          ]
-        },
-        {
-          "group": "Integrations",
-          "pages": [
-            "sdk/ts/integrations/drizzle",
-            "sdk/ts/integrations/prisma",
-            "sdk/ts/integrations/knex",
-            "sdk/ts/integrations/kysley"
-          ]
-        }
-      ]
+      "pages": ["sdk/ts/quickstart", "sdk/ts/reference", "sdk/ts/examples"]
     },
     {
       "group": "Rust",
-      "pages": ["sdk/rust/quickstart", "sdk/rust/reference"]
+      "pages": [
+        "sdk/rust/quickstart",
+        "sdk/rust/reference",
+        "sdk/rust/examples"
+      ]
     },
     {
       "group": "HTTP",
@@ -389,6 +369,14 @@
       "destination": "/quickstart"
     },
     {
+      "source": "/tutorials/vercel-setup-guide",
+      "destination": "https://blog.turso.tech/vercel-setup-guide-1c72f65b"
+    },
+    {
+      "source": "/tutorials/netlify-setup-guide",
+      "destination": "https://blog.turso.tech/netlify-setup-guide-9f7338fa"
+    },
+    {
       "source": "/reference/platform-rest-api",
       "destination": "/api-reference/introduction"
     },
@@ -535,7 +523,7 @@
     },
     {
       "source": "/reference/postgres-integration",
-      "destination": "/"
+      "destination": "/introduction"
     },
     {
       "source": "/reference/data-consistency",
@@ -580,19 +568,19 @@
     },
     {
       "source": "/3p-dev-tools",
-      "destination": "/"
+      "destination": "/introduction"
     },
     {
       "source": "/billing-details",
-      "destination": "/"
+      "destination": "/introduction"
     },
     {
       "source": "/concepts",
-      "destination": "/"
+      "destination": "/introduction"
     },
     {
       "source": "/search",
-      "destination": "/"
+      "destination": "/introduction"
     }
   ]
 }
