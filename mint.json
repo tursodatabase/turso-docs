@@ -92,8 +92,7 @@
         "features/platform-api",
         "features/embedded-replicas",
         "features/branching",
-        "features/point-in-time-recovery",
-        "features/organizations"
+        "features/point-in-time-recovery"
       ]
     },
     {
