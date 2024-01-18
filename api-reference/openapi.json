@@ -1577,7 +1577,7 @@
           },
           "Hostname": {
             "type": "string",
-            "description": "The DNS hostname used for client LibSQL and HTTP connections.",
+            "description": "The DNS hostname used for client libSQL and HTTP connections.",
             "example": "[databaseName]-[organizationName].turso.io"
           },
           "regions": {
@@ -1638,7 +1638,7 @@
           },
           "hostname": {
             "type": "string",
-            "description": "The DNS hostname used for client LibSQL and HTTP connections (specific to this instance only).",
+            "description": "The DNS hostname used for client libSQL and HTTP connections (specific to this instance only).",
             "example": "[databaseName]-[organizationName].turso.io"
           }
         }

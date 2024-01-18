@@ -215,6 +215,14 @@
       ]
     },
     {
+      "group": "Go",
+      "pages": ["sdk/go/quickstart", "sdk/go/reference", "sdk/go/examples"]
+    },
+    {
+      "group": "Python",
+      "pages": ["sdk/python/reference", "sdk/python/examples"]
+    },
+    {
       "group": "HTTP",
       "pages": ["sdk/http/quickstart", "sdk/http/reference"]
     },
