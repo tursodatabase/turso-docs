@@ -1,0 +1,124 @@
+---
+title: Nuxt
+description: Set up turso in your Nuxt project in minutes
+---
+
+![Nuxt Quickstart](/images/guides/nuxt-banner.png)
+
+To get the most out of this guide, you'll need to:
+
+- [Install the Turso CLI and create a database].
+- [Have a Nuxt project].
+
+<Steps>
+
+<Step title="Install the libSQL JavaScript SDK">
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm add @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Set up the database credentials.">
+
+Get the database URL.
+
+```bash
+turso db show --url my-database
+```
+Get the database authentication token.
+
+```bash
+turso db tokens create my-database
+```
+
+Assign acquired credentials to the environment variables inside `.env`.
+
+```bash
+NUXT_TURSO_DB_URL=<DB-URL>
+NUXT_TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+```
+</Step>
+
+<Step title="Add variables to Nuxt's runTime config.">
+
+```javascript nuxt.config.js
+export default defineNuxtConfig({
+  runtimeConfig: {
+    turso: {
+      dbUrl: "",
+      dbAuthToken: "",
+    },
+  },
+});
+```
+
+</Step>
+
+<Step title="Initiate a LibSQL Client.">
+
+```javascript server/utils/turso.ts
+
+import { createClient } from "@libsql/client";
+
+export function useTurso() {
+  const tursoConfig = useRuntimeConfig().turso;
+
+  if (!tursoConfig.dbUrl || !tursoConfig.dbAuthToken) {
+    throw new Error(
+      "Please fill the NUXT_TURSO_DB_URL and NUXT_TURSO_DB_AUTH_TOKEN env variables"
+    );
+  }
+  return createClient({
+    url: tursoConfig.dbUrl,
+    authToken: tursoConfig.dbAuthToken,
+  });
+}
+```
+</Step>
+
+<Step title="Fetch data from Turso.">
+
+```javascript server/api/items.get.ts
+
+export default defineEventHandler(async (event) => {
+  const client = useTurso();
+  const result = await client.execute(
+    "select * from my-table"
+  );
+
+  return {
+    data: {
+      items: result.rows
+    },
+  };
+});
+```
+</Step>
+
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="A framework listing website" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app-top-web-frameworks">
+    See the full source code
+  </Card>
+</CardGroup>
+
+
+[Install the Turso CLI and create a database]: /cli/installation
+[Have a Nuxt project]: https://nuxt.com/docs/getting-started/installation#new-project
