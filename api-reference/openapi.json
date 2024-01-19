@@ -1373,6 +1373,36 @@
 
   "components": {
     "schemas": {
+      "Extensions": {
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": ["all"],
+            "description": "Set to `all` to enable all extensions."
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "vector",
+                "vss",
+                "crypto",
+                "fuzzy",
+                "math",
+                "stats",
+                "text",
+                "unicode",
+                "uuid",
+                "regexp"
+              ]
+            },
+            "description": "Array of extensions to enable."
+          }
+        ],
+        "description": "The extensions to enable for new databases created in this group."
+      },
+
       "Organization": {
         "type": "object",
         "properties": {
@@ -1680,6 +1710,9 @@
                 "example": "2023-12-20T09:46:08Z"
               }
             }
+          },
+          "extensions": {
+            "$ref": "#/components/schemas/Extensions"
           }
         },
         "required": ["name", "group"]
@@ -1821,9 +1854,7 @@
             "description": "The location key for the new group."
           },
           "extensions": {
-            "type": "string",
-            "enum": ["all"],
-            "description": "The extensions to enable for new databases created in this group."
+            "$ref": "#/components/schemas/Extensions"
           }
         },
         "required": ["name", "location"],
