@@ -89,7 +89,7 @@ import { tursoClient } from '@/lib/turso';
 async function getArticles() {
   const db = tursoClient();
 
-  const response = await db.exec("select * from my-table"));
+  const response = await db.execute('select * from my-table'));
 
   return {
     items: response.rows
