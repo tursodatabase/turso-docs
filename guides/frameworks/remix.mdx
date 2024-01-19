@@ -1,3 +1,118 @@
 ---
 title: Remix
 ---
+
+![Remix banner](/images/guides/remix-banner.png)
+
+## Prerequisites
+
+To get the most out of this guide, you'll need to:
+
+- [Install the Turso CLI and create a database].
+- [Have a Remix app].
+
+<Steps>
+
+<Step title="Install the libSQL JavaScript SDK">
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm add @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Set up the database credentials.">
+
+Get the database URL.
+
+```bash
+turso db show --url my-database
+```
+Get the database authentication token.
+
+```bash
+turso db tokens create my-database
+```
+
+Assign acquired credentials to the environment variables inside `.env`.
+
+```bash
+TURSO_DB_URL=<DB-URL>
+TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+```
+</Step>
+
+<Step title="Initiate a LibSQL Client.">
+
+```javascript app/lib/turso.ts
+import { createClient } from "@libsql/client/http";
+import { AppLoadContext } from "@remix-run/node";
+
+interface Env {
+  TURSO_DB_AUTH_TOKEN?: string;
+  TURSO_DB_URL?: string;
+}
+
+export function turso(serverContext: AppLoadContext) {
+  const url = (serverContext.env as unknown as Env).TURSO_DB_URL?.trim();
+  if (url === undefined) {
+    throw new Error("TURSO_DB_URL is not defined");
+  }
+
+  const authToken = (
+    serverContext.env as unknown as Env
+  ).TURSO_DB_AUTH_TOKEN?.trim();
+  if (authToken === undefined) {
+    throw new Error("TURSO_DB_AUTH_TOKEN is not defined");
+  }
+
+  return createClient({ url, authToken });
+}
+```
+</Step>
+
+<Step title="Fetch data from Turso.">
+
+```javascript app/routes/_index.ts
+import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
+import { buildDbClient } from "~/lib/turso";
+
+export const loader: LoaderFunction = async ({ context }: LoaderArgs) => {
+  const db = turso(context);
+
+  const result = await db.execute("select * from my-table");
+
+  return {
+    items: result.rows
+  }
+}
+```
+</Step>
+
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="An e-commerce store" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app-the-mug-store">
+    See the full source code
+  </Card>
+  <Card title="A Customer Relationship Management website" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app-turso-crm">
+    See the full source code
+  </Card>
+</CardGroup>
+
+[Install the Turso CLI and create a database]: /cli/installation
+[Have a Remix app]: https://remix.run/docs/en/main/start/quickstart#quick-start
