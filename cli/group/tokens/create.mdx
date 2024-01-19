@@ -1,12 +1,12 @@
 ---
-title: db tokens create
+title: group tokens create
 sidebarTitle: create
 ---
 
-You can create a new token that can be used to connect to one database using the command:
+You can create a new token that can be used to connect to any database in the group using the command:
 
 ```bash
-turso db tokens create <database-name> [flags]
+turso group tokens create <group-name> [flags]
 ```
 
 ## Flags
@@ -18,20 +18,20 @@ turso db tokens create <database-name> [flags]
 
 ## Examples
 
-The examples below outline the most common use cases for the `db tokens create` command.
+The examples below outline the most common use cases for the `group tokens create` command.
 
 ### Create a token with read only access
 
-You can create a token with read only access to a database using the following command:
+You can create a token with read only access using the command:
 
 ```bash
-turso db tokens create <database-name> --read-only
+turso group tokens create <group-name> --read-only
 ```
 
 ### Create a token with a specific expiration time
 
-You can create a token with a specific expiration time using the following command:
+You can create a token with a specific expiration time using the command:
 
 ```bash
-turso db tokens create <database-name> --expiration 7d3h2m1s
+turso group tokens create <group-name> --expiration 7d3h2m1s
 ```

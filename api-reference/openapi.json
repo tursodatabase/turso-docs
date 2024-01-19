@@ -1710,9 +1710,6 @@
                 "example": "2023-12-20T09:46:08Z"
               }
             }
-          },
-          "extensions": {
-            "$ref": "#/components/schemas/Extensions"
           }
         },
         "required": ["name", "group"]

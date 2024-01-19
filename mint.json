@@ -162,6 +162,13 @@
                 "cli/group/locations/remove"
               ]
             },
+            {
+              "group": "tokens",
+              "pages": [
+                "cli/group/tokens/create",
+                "cli/group/tokens/invalidate"
+              ]
+            },
             "cli/group/wakeup"
           ]
         },
