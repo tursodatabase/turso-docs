@@ -1,0 +1,113 @@
+---
+title: Flask
+description: Set up Turso in your Flask project in minutes
+---
+
+![Flask banner](/images/guides/flask-banner.png)
+
+## Prerequisites
+
+To get the most out of this guide, you'll need to:
+
+- [Install the Turso CLI and create a database].
+- [Have a Flask app].
+
+<Steps>
+
+<Step title="Install the libSQL dialect for SQLAlchemy and other dependencies">
+
+```bash npm
+pip install sqlalchemy-libsql python-dotenv
+```
+
+</Step>
+
+<Step title="Set up the database credentials.">
+
+Get the database URL.
+
+```bash
+turso db show --url my-database
+```
+Get the database authentication token.
+
+```bash
+turso db tokens create my-database
+```
+
+Assign acquired credentials to the environment variables inside `.env`.
+
+```bash
+TURSO_DB_URL=<DB-URL>
+TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+```
+</Step>
+
+<Step title="Create your database models.">
+
+```python models.py
+from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+
+class Base(DeclarativeBase):
+    pass
+
+class Item(Base):
+    __tablename__ = "items"
+    id: Mapped[str] = mapped_column(primary_key=True)
+    foo: Mapped[str] = mapped_column(String(255))
+    bar: Mapped[str] = mapped_column(String(100))
+    def __repr__(self) -> str:
+        return f"Item(id={self.id!r}, foo={self.foo!r}, bar={self.bar!r})"
+
+```
+</Step>
+
+<Step title="Fetch data from Turso.">
+
+```python app.py
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from models import Item
+
+load_dotenv()
+
+# Get environment variables
+TURSO_DB_URL = os.environ.get("TURSO_DB_URL")
+TURSO_DB_AUTH_TOKEN = os.environ.get("TURSO_DB_AUTH_TOKEN")
+
+engine = create_engine(dbUrl, connect_args={'check_same_thread': False}, echo=True)
+
+# construct special SQLAlchemy URL
+dbUrl = f"sqlite+{TURSO_DB_URL}/?authToken={TURSO_DB_AUTH_TOKEN}&secure=true"
+
+@app.route("/items", methods=(["GET"]))
+def home():
+    session = Session(engine)
+
+    # get & print items
+    stmt = select(Item)
+
+    for item in session.scalars(stmt):
+        print(item)
+
+```
+</Step>
+
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="A social links listing website" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-find-me-on-python-htmx/tree/master">
+    See the full source code
+  </Card>
+</CardGroup>
+
+
+[Install the Turso CLI and create a database]: /cli/installation
+[Have a Flask app]: https://flask.palletsprojects.com/en/3.0.x/installation/#create-an-environment
