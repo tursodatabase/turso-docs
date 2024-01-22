@@ -596,5 +596,10 @@
       "source": "/search",
       "destination": "/introduction"
     }
-  ]
+  ],
+  "analytics": {
+    "gtm": {
+      "tagId": "G-YMMQC402S1"
+    }
+  }
 }
