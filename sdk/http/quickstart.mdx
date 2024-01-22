@@ -1,0 +1,156 @@
+---
+title: HTTP Quickstart
+sidebarTitle: Quickstart
+description: Get started with Turso over HTTP in a few simple steps.
+---
+
+In this HTTP quickstart we will learn how to:
+
+- Obtain HTTP URL for a Turso database
+- Create a database auth token
+- Connect to a remote Turso database
+- Execute a SQL using the [Hrana over HTTP](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md) protocol
+
+<Steps>
+  <Step title="Create HTTP Database URL">
+
+Using the [Turso CLI](/cli) or [Platform API](/api-reference), fetch your database URL:
+
+```bash
+turso db show <database-name> --http-url
+```
+
+  </Step>
+
+  <Step title="Create Database Auth Token">
+
+Using the Turso CLI or Platform API, create a new auth token for your database:
+
+```bash
+turso db tokens create <database-name>
+```
+
+  </Step>
+
+  <Step title="Create JSON Request Payload">
+
+We'll be sending the query using JSON, so let's create a JSON payload that executes a SQL statement and closes the connection immediately:
+
+```json
+{
+  "requests": [
+    { "type": "execute", "stmt": { "sql": "SELECT * FROM users" } },
+    { "type": "close" }
+  ]
+}
+```
+
+<Info>
+
+Make sure to update the `stmt.sql` to select from a table you already have.
+
+</Info>
+
+  </Step>
+
+  <Step title="Execute HTTP Request">
+
+Depending on your language, you can use a HTTP client library to send the request to the URL you created as well as the `Authorization` header set to the token you created, and the request body as JSON with your SQL statement.
+
+You must append to the Base URL the actual pipeline URL that accepts requests &mdash; `/v2/pipeline`.
+
+<CodeGroup>
+
+```ts JavaScript (Fetch)
+const url = "https://[databaseName]-[organizationName].turso.io/v2/pipeline";
+const authToken = "...";
+
+fetch(url, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${authToken}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    requests: [
+      { type: "execute", stmt: { sql: "SELECT * FROM users" } },
+      { type: "close" },
+    ],
+  }),
+})
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+```
+
+```ruby Ruby
+require 'net/http'
+require 'json'
+require 'uri'
+
+url = "https://[databaseName]-[organizationName].turso.io/v2/pipeline"
+auth_token = "..."
+
+uri = URI(url)
+request = Net::HTTP::Post.new(uri)
+request["Authorization"] = "Bearer #{auth_token}"
+request["Content-Type"] = "application/json"
+request.body = JSON.generate({
+  "requests": [
+    { "type": "execute", "stmt": { "sql": "SELECT * FROM users" } },
+    { "type": "close" }
+  ]
+})
+
+begin
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+    http.request(request)
+  end
+
+  puts JSON.parse(response.body)
+rescue => e
+  puts e.message
+end
+```
+
+</CodeGroup>
+
+<br />
+
+<Accordion title="Response">
+
+The response will be a JSON object with a `results` array containing the results of your query that looks something like this:
+
+```json
+{
+  "baton": null,
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [],
+          "rows": [],
+          "affected_row_count": 0,
+          "last_insert_rowid": null,
+          "replication_index": "1"
+        }
+      }
+    },
+    {
+      "type": "ok",
+      "response": {
+        "type": "close"
+      }
+    }
+  ]
+}
+```
+
+</Accordion>
+
+  </Step>
+
+</Steps>

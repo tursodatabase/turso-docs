@@ -1,0 +1,29 @@
+---
+title: Data & Connections
+description:
+---
+
+Turso, an extension of [libSQL](/libsql) (a SQLite fork), modifies the consistency model due to its network-accessible and replicated nature, deviating from SQLite's strictly serializable standard.
+
+Database operations begin with a client establishing either an [HTTP or websocket connection](/sdk/connecting) to a server instance. Following this, an internal SQLite database connection is set up within the server to facilitate the operations.
+
+Database operations are tightly controlled to maintain order and data integrity, with primary instances handling all writes in a serialized manner and replicas managing local reads.
+
+- **On the primary database:**
+
+  - All operations are linearizable, forming an ordered history.
+  - Writes are fully serialized; other writes wait for a transaction to complete.
+  - Caution with long-running or abandoned transactions as they block other writes.
+
+- **On the replicas:**
+
+  - Writes are forwarded to the primary and applied there.
+  - Changes from the primary are eventually pulled by each replica.
+  - No guarantees on the time for replicas to reflect primary's changes.
+  - Reads are local and not globally ordered; data might differ across replicas.
+  - Monotonic reads are maintained, ensuring that any read operation will not return data older than previously read data on the same instance.
+
+- **Transactional consistency**:
+
+  - Transactions in libSQL, both batch and interactive, adhere to SQLite's transaction semantics.
+  - Transactions in libSQL provide snapshot isolation for read operations and immediate visibility of writes to the same process, ensuring serializability and isolation from other transactions.

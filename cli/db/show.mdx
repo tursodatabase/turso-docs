@@ -1,0 +1,18 @@
+---
+title: db show
+sidebarTitle: show
+---
+
+You can obtain details about the database, including the name, ID, version, group, size and locations. You can also obtain the different URLs for the database using the following command:
+
+```bash
+turso db show <database-name> [flags]
+```
+
+## Flags
+
+| Flag              | Description                                                      |
+| ----------------- | ---------------------------------------------------------------- |
+| `--url`           | Show URL for the database HTTP API.                              |
+| `--http-url`      | Show HTTP URL for the database HTTP API.                         |
+| `--instance-urls` | Show individual instance URLS for primary and replica instances. |

@@ -1,0 +1,55 @@
+---
+title: Embedded Replicas
+---
+
+Turso's embedded replicas are a game-changer for SQLite, making it more flexible and suitable for various environments. This feature shines especially for those using VMs or VPS, as it lets you replicate a Turso database right within your applications without needing to relying on Turso's [edge network](https://turso.tech/edge). For mobile applications, where stable connectivity is a challenge, embedded replicas are invaluable as they allow uninterrupted access to the local database.
+
+Embedded replicas provide a smooth switch between local and remote database operations, allowing the same database to adapt to various scenarios effortlessly. They also ensure speedy data access by syncing local copies with the remote database, enabling microsecond-level read operations &mdash; a significant advantage for scenarios demanding quick data retrieval.
+
+## How it works
+
+1. You configure a local file to be your main database.
+2. Reads are always served from the local database file.
+3. If you call `sync()` it will sync with the remote database configured at `syncUrl`.
+4. When you write to database, `sync()` is called automatically so you can read your writes.
+
+## Usage
+
+To use embedded replicas, you need to create a client with a `syncUrl` parameter. This parameter specifies the URL of the remote Turso database that the client will sync with:
+
+<CodeGroup>
+
+```ts Node.js
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "file:replica.db",
+  syncUrl: "libsql://...",
+  authToken: "...",
+});
+```
+
+</CodeGroup>
+
+You can sync changes from the remote database to the local replica by calling `sync()`:
+
+<CodeGroup>
+
+```ts Node.js
+await client.sync();
+```
+
+</CodeGroup>
+
+<br />
+
+<Note>
+You should call `.sync()` in the background whenever your application wants to sync the remote and local embedded replica. For example, you can call it every 5 minutes or every time the application starts.
+
+</Note>
+
+## Limitations
+
+1. Managing backups is your responsibility.
+2. Scaling up and integrating additional servers can be challenging without implementing a custom replication protocol.
+3. In certain contexts, such as serverless environments without a filesystem, you can't use embedded replicas.

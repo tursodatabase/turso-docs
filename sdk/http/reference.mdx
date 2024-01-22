@@ -1,0 +1,222 @@
+---
+title: Hrana Reference
+sidebarTitle: Reference
+description:
+---
+
+Turso Databases can be accessed via HTTP. The API enable developers to perform SQL operations using the [Hrana over HTTP](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md) protocol, retrieve server version information, and monitor the health status.
+
+<Info>
+
+It's recommended you use a [native SDK](/sdk).
+
+</Info>
+
+## Base URL
+
+Simply replace your database URL protocol `libsql://` with `https://`:
+
+```bash
+https://[databaseName]-[organizationName].turso.io
+```
+
+You can obtain your database base URL from the Turso CLI:
+
+<Accordion title="Obtain HTTP URL using Turso CLI">
+
+```bash
+turso db show <database-name> --http-url
+```
+
+</Accordion>
+
+## Authentication
+
+Turso uses Bearer authentication, and requires your API token to be passed with all protected requests in the `Authorization` header:
+
+```bash
+Authorization: Bearer TOKEN
+```
+
+<Accordion title="Create token using Turso CLI">
+
+```bash
+turso db tokens create <database-name>
+```
+
+</Accordion>
+
+## Endpoints
+
+Your database has the endpoints available below:
+
+### `POST /v2/pipeline`
+
+You can use the `/v2/pipeline` endpoint to query a database. The endpoint accepts a series of operations to perform against a database connection. The supported operation types are:
+
+- `execute`: execute a statement on the connection.
+- `close`: close the connection.
+
+#### Simple query
+
+<CodeGroup>
+
+```json Request
+{
+  "requests": [
+    { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
+    { "type": "close" }
+  ]
+}
+```
+
+```json Response
+{
+  "baton": null,
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [],
+          "rows": [],
+          "affected_row_count": 0,
+          "last_insert_rowid": null,
+          "replication_index": "1"
+        }
+      }
+    },
+    {
+      "type": "ok",
+      "response": {
+        "type": "close"
+      }
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+<br />
+
+<Info>
+
+Connections are left open until they timeout, unless you close them explicitly in the request (as shown above). Every request made on a connection bumps the timeout. You should close the connection when it's no longer needed.
+
+</Info>
+
+#### Interactive query
+
+Sometimes, it may be desirable to perform multiple operation on the same connection, in multiple roundtrips. We can do this by not closing the connection right away:
+
+<CodeGroup>
+
+```json Body
+{
+  "requests": [{ "type": "execute", "stmt": { "sql": "BEGIN" } }]
+}
+```
+
+```json Response
+{
+  "baton": "m7lVVgEvknpf1P1irxHsHqrAqH7BLiwO4DQIAwr93PdZWGvdBNugLSokSsCZNkry",
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [],
+          "rows": [],
+          "affected_row_count": 0,
+          "last_insert_rowid": null,
+          "replication_index": "1"
+        }
+      }
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+We can see that we have received a `baton` back. This is because we haven't closed the connection. We can now use this baton to perform more queries on the same connection:
+
+```json Body
+{
+  "baton": "m7lVVgEvknpf1P1irxHsHqrAqH7BLiwO4DQIAwr93PdZWGvdBNugLSokSsCZNkry",
+  "requests": [
+    { "type": "execute", "stmt": { "sql": "CREATE TABLE users (name)" } },
+    {
+      "type": "execute",
+      "stmt": { "sql": "INSERT INTO users VALUES (\"iku\")" }
+    },
+    { "type": "execute", "stmt": { "sql": "COMMIT" } },
+    { "type": "close" }
+  ]
+}
+```
+
+<Info>
+
+Note that both transactions and connections have timeouts. Transaction have a 5 seconds window to complete, while connections get closed after 10 seconds of idle time.
+
+</Info>
+
+#### Response types
+
+The response from Hrana contains the following fields:
+
+| Field      | Type   | Description                                                                                                                          |
+| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `baton`    | string | The baton is used to identify a connection with the server so that it can be reused.                                                 |
+| `base_url` | string | The base URL of the server that handled the request. This URL can be reused for subsequent requests to force routing to that server. |
+| `results`  | array  | The results for each of the requests made in the pipeline.                                                                           |
+
+The `results` array contains the results for each of the requests made in the pipeline. Each result has the following fields:
+
+| Field                | Type    | Description                                                 |
+| -------------------- | ------- | ----------------------------------------------------------- |
+| `cols`               | array   | The list of columns for the returned rows.                  |
+| `rows`               | array   | The rows returned for the query.                            |
+| `affected_row_count` | integer | The number of rows affected by the query.                   |
+| `last_insert_rowid`  | integer | The ID of the last inserted row.                            |
+| `replication_index`  | string  | The replication timestamp at which this query was executed. |
+
+### `GET /version`
+
+To obtain the current version of the server running your database you can use the `/version` endpoint:
+
+<CodeGroup>
+
+```bash Request
+curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/version' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```text 200
+sqld 0.21.9 (67f3ea5d 2023-10-26)
+```
+
+</CodeGroup>
+
+### `GET /health`
+
+To check the health of your database, you can use the `/health` endpoint which returns an empty body with an HTTP status:
+
+<CodeGroup>
+
+```bash Request
+curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/health' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```text 200
+This response has no body data.
+```
+
+</CodeGroup>
