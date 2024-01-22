@@ -189,6 +189,51 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/databases/{databaseName}/dumps": {
+      "post": {
+        "summary": "Upload Dump",
+        "description": "Upload a SQL dump to be used when [creating a new database](/api-reference/databases/create) from seed.",
+        "requestBody": {
+          "description": "Database dump file to be uploaded.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Database dump file."
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful upload of the database dump.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "dump_url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URL of the uploaded database dump."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/databases/{databaseName}/instances": {
       "get": {
         "summary": "List Database Instances",
@@ -1701,8 +1746,8 @@
               },
               "url": {
                 "type": "string",
-                "description": "The URL to the dump file when `dump` is used as a seed type.",
-                "example": "https://some-bucket.com/my-db.db"
+                "description": "The URL returned by [upload dump](/api-reference/databases/upload-dump) can be used with the `dump` seed type.",
+                "example": "https://api.turso.tech/v1/{organizationName}/databases/dumps/{dumpId}"
               },
               "timestamp": {
                 "type": "string",

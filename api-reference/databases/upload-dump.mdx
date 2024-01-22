@@ -1,0 +1,14 @@
+---
+sidebarTitle: Upload Dump
+openapi: "POST /v1/organizations/{organizationName}/databases/{databaseName}/dumps"
+---
+
+<RequestExample>
+
+```bash cURL
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}/auth/tokens?expiration=2w&authorization=full-access' \
+  -H 'Authorization: Bearer TOKEN' \
+  -F 'file=@"~/Downloads/dump.sql"'
+```
+
+</RequestExample>

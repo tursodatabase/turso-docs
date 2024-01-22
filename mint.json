@@ -267,7 +267,8 @@
             "api-reference/databases/list-instances",
             "api-reference/databases/retrieve-instance",
             "api-reference/databases/create-token",
-            "api-reference/databases/invalidate-tokens"
+            "api-reference/databases/invalidate-tokens",
+            "api-reference/databases/upload-dump"
           ]
         },
         {
