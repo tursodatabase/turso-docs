@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Upload Dump
-openapi: "POST /v1/organizations/{organizationName}/databases/{databaseName}/dumps"
+openapi: "POST /v1/organizations/{organizationName}/databases/dumps"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}/dumps' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases//dumps' \
   -H 'Authorization: Bearer TOKEN' \
   -F 'file=@"~/Downloads/dump.sql"'
 ```

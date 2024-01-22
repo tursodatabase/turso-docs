@@ -189,7 +189,7 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/dumps": {
+    "/v1/organizations/{organizationName}/databases/dumps": {
       "post": {
         "summary": "Upload Dump",
         "description": "Upload a SQL dump to be used when [creating a new database](/api-reference/databases/create) from seed.",
