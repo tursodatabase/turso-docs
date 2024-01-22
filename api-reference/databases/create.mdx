@@ -6,7 +6,7 @@ openapi: "POST /v1/organizations/{organizationName}/databases"
 <RequestExample>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organization/{name}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organization/{organizationName}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -19,11 +19,13 @@ curl -L -X POST 'https://api.turso.tech/v1/organization/{name}/databases' \
 import { createClient } from "@tursodatabase/api";
 
 const turso = createClient({
-  organization: "...",
+  org: "...",
   token: "",
 });
 
-const database = await turso.databases.create("new-database", "default");
+const database = await turso.databases.create("new-database", {
+  group: "default",
+});
 ```
 
 </RequestExample>
