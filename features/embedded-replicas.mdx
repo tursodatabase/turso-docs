@@ -29,6 +29,12 @@ const client = createClient({
 });
 ```
 
+```rust Rust
+use libsql::{Database};
+
+let client = Database::open_with_remote_sync("file:replica.db", "libsql://...", "...").await?;
+```
+
 </CodeGroup>
 
 You can sync changes from the remote database to the local replica by calling `sync()`:
@@ -37,6 +43,10 @@ You can sync changes from the remote database to the local replica by calling `s
 
 ```ts Node.js
 await client.sync();
+```
+
+```rust Rust
+client.sync().await?;
 ```
 
 </CodeGroup>
