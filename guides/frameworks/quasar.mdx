@@ -1,0 +1,123 @@
+---
+title: Quasar
+description: Set up Turso in your Quasar project in minutes
+---
+
+![Quasar banner](/images/guides/quasar-banner.png)
+
+## Prerequisites
+
+To get the most out of this guide, you'll need to:
+
+- [Install the Turso CLI and create a database].
+- [Have a Quasar project].
+
+<Steps>
+
+<Step title="Install the libSQL JavaScript SDK">
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm add @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Set up the database credentials.">
+
+Get the database URL.
+
+```bash
+turso db show --url my-database
+```
+Get the database authentication token.
+
+```bash
+turso db tokens create my-database
+```
+
+Assign acquired credentials to the environment variables inside `.env.local`.
+
+```bash
+VITE_TURSO_DB_URL=<DB-URL>
+VITE_TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+```
+</Step>
+
+<Step title="Initiate a LibSQL Client.">
+
+```javascript IndexPage.vue
+import {createClient} from '@libsql/client/web';
+
+const db = createClient({
+  url: import.meta.env.VITE_TURSO_URL,
+  authToken: import.meta.env.VITE_TURSO_AUTH_TOKEN,
+});
+}
+```
+
+<Warning>
+To avoid running into a [gotcha moment], modify the Quasar app's configuration by adding the following settings to the build object.
+</Warning>
+```javascript quasar.config.js
+...
+build: {
+  target: {
+    browser: [
+      'es2020', 'edge88', 'firefox78', 'chrome87', 'safari13.1'
+    ],
+    node: 'node16'
+  },
+
+  extendViteConf(config) {
+    config.optimizeDeps = {
+      esbuildOptions: {
+        target: 'es2020',
+      },
+    };
+  },
+  ...
+}
+...
+```
+
+</Step>
+
+<Step title="Fetch data from Turso.">
+
+```javascript IndexPage.vue
+import {ref} from 'vue';
+
+const items = ref();
+
+const result = await db.execute('select * from my-table');
+items.value = result.rows;
+```
+
+</Step>
+
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="Quasar todo list" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/quasar-todo-list">
+    See the full source code
+  </Card>
+</CardGroup>
+
+
+[Install the Turso CLI and create a database]: /cli/installation
+[Have a Quasar project]: https://quasar.dev/start/quick-start#step-1-create-a-project
+[gotcha moment]: https://github.com/quasarframework/quasar/discussions/16071
