@@ -1,0 +1,99 @@
+---
+title: Flutter
+description: Set up Turso in your Flutter project in minutes
+---
+
+![Flutter banner](/images/guides/flutter-banner.png)
+
+## Prerequisites
+
+To get the most out of this guide, you'll need to:
+
+- [Install the Turso CLI and create a database].
+- [Have a Flutter project].
+
+<Steps>
+
+<Step title="Install the Dart HTTP package.">
+
+```bash
+dart pub add http
+```
+
+</Step>
+
+<Step title="Set up the database credentials.">
+
+Get the database URL.
+
+```bash
+turso db show --url my-database
+```
+Get the database authentication token.
+
+```bash
+turso db tokens create my-database
+```
+
+Pass the acquired credentials to the flutter app by using the `--dart-define` flags:
+
+```bash
+flutter run --debug \
+  --dart-define=TURSO_URL=[issued-db-url] \
+  --dart-define=TURSO_AUTH_TOKEN=[issued-db-token]
+```
+
+<Warning>
+Make sure that the `TURSO_URL` passed above should be modified to use the `https` protocol instead of `libsql`. (e.g "https://[db-name].turso.io")
+</Warning>
+
+</Step>
+
+<Step title="Fetch data from Turso.">
+
+```dart lib/main.dart
+import 'package:http/http.dart' as http;
+
+const String tursoDbUrl =
+    String.fromEnvironment("TURSO_URL", defaultValue: "");
+const String tursoAuthToken =
+    String.fromEnvironment("TURSO_AUTH_TOKEN", defaultValue: "");
+
+late Future<List<T>> itemResults;
+
+Future<List<T>> getItems() async {
+  final response = await http.post(Uri.parse(tursoDbUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $tursoAuthToken",
+        HttpHeaders.acceptHeader: "application/json"
+      },
+      body: json.encode({
+        "statements": ["select * from my-table"]
+      }));
+
+  var itemList = List<T>.from(jsonDecode(response.body)[0]["results"]
+          ["rows"]
+      .map((dynamic item) => item[0]));
+  return itemList;
+}
+
+itemResults = getItems();
+```
+</Step>
+
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="Recipe book app" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app_recipe_book">
+    See the full source code
+  </Card>
+  <Card title="Todo list app" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/flutter_todo_list">
+    See the full source code
+  </Card>
+</CardGroup>
+
+
+[Install the Turso CLI and create a database]: /cli/installation
+[Have a Flutter project]: https://docs.flutter.dev/get-started/codelab
