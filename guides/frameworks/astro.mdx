@@ -62,12 +62,12 @@ TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
 import { createClient } from '@libsql/client/web';
 
 export const turso = tursoClient() {
-  const url = import.meta.env.VITE_TURSO_DB_URL?.trim();
+  const url = import.meta.env.TURSO_DB_URL?.trim();
   if (url === undefined) {
     throw new Error('TURSO_DB_URL is not defined');
   }
 
-  const authToken = import.meta.env.VITE_TURSO_DB_AUTH_TOKEN?.trim();
+  const authToken = import.meta.env.TURSO_DB_AUTH_TOKEN?.trim();
   if (authToken === undefined) {
     throw new Error('TURSO_DB_AUTH_TOKEN is not defined');
   }
