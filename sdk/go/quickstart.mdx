@@ -18,22 +18,9 @@ In this Go quickstart we will learn how to:
 
 First begin by adding libSQL to your project:
 
-<AccordionGroup>
-  <Accordion title="Local / Embedded Replicas">
-    ```bash
-    go get github.com/libsql/go-libsql
-    ```
-
-  </Accordion>
-
-  <Accordion title="Remote only">
-    ```bash
-    go get github.com/libsql/libsql-client-go
-    ```
-
-  </Accordion>
- 
-</AccordionGroup>
+```bash
+go get github.com/libsql/go-libsql
+```
 
   </Step>
 
@@ -118,20 +105,18 @@ Now connect to your local or remote database using the libSQL connector:
       "fmt"
       "os"
 
-      _ "github.com/libsql/libsql-client-go"
+      _ "github.com/libsql/go-libsql"
     )
 
     func main() {
-      url := "libsql://[DATABASE].turso.io?authToken=[TOKEN]"
+      primaryUrl := "libsql://[DATABASE].turso.io"
+      authToken := "..."
 
-      db, err := sql.Open("libsql", url)
+      db, err := sql.Open("libsql", primaryUrl+"?authToken="+authToken)
       if err != nil {
-        fmt.Fprintf(os.Stderr, "failed to open db %s: %s", url, err)
-        os.Exit(1)
+        t.Fatal(err)
       }
       defer db.Close()
-
-      ctx := context.Background()
     }
     ```
 
