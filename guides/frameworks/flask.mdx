@@ -1,5 +1,6 @@
 ---
 title: Flask
+sidebarTitle: Flask
 description: Set up Turso in your Flask project in minutes
 ---
 
@@ -7,10 +8,11 @@ description: Set up Turso in your Flask project in minutes
 
 ## Prerequisites
 
-To get the most out of this guide, you'll need to:
+Before you start, make sure you:
 
-- [Install the Turso CLI and create a database].
-- [Have a Flask app].
+- [Install the Turso CLI]
+- [Sign up or login to Turso]
+- Have a Flask app &mdash; [learn more]
 
 <Steps>
 
@@ -22,28 +24,28 @@ pip install sqlalchemy-libsql python-dotenv
 
 </Step>
 
-<Step title="Set up the database credentials.">
+<Step title="Comfigure database credentials.">
 
 Get the database URL.
 
 ```bash
-turso db show --url my-database
+turso db show --url <database-name>
 ```
 Get the database authentication token.
 
 ```bash
-turso db tokens create my-database
+turso db tokens create <database-name>
 ```
 
-Assign acquired credentials to the environment variables inside `.env`.
+Assign credentials to the environment variables inside `.env`.
 
 ```bash
-TURSO_DB_URL=<DB-URL>
-TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+TURSO_DB_URL="..."
+TURSO_DB_AUTH_TOKEN="..."
 ```
 </Step>
 
-<Step title="Create your database models.">
+<Step title="Create database models">
 
 ```python models.py
 from sqlalchemy import String
@@ -65,7 +67,7 @@ class Item(Base):
 ```
 </Step>
 
-<Step title="Fetch data from Turso.">
+<Step title="Execute SQL">
 
 ```python app.py
 from dotenv import load_dotenv
@@ -100,14 +102,19 @@ def home():
 
 </Steps>
 
-## Try it yourself
+## Examples
 
 <CardGroup cols={2}>
-  <Card title="A social links listing website" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-find-me-on-python-htmx/tree/master">
+  <Card
+   title="A social links listing website"
+   icon="arrow-up-right-from-square"
+   href="https://github.com/turso-extended/app-find-me-on-python-htmx/tree/master"
+  >
     See the full source code
   </Card>
 </CardGroup>
 
 
-[Install the Turso CLI and create a database]: /cli/installation
-[Have a Flask app]: https://flask.palletsprojects.com/en/3.0.x/installation/#create-an-environment
+[Install the Turso CLI]: /cli/installation
+[Sign up or login to Turso]: /cli/authentication#signup
+[learn more]: https://flask.palletsprojects.com/en/3.0.x/installation/#create-an-environment

@@ -1,18 +1,20 @@
 ---
 title: Nuxt
+sidebarTitle: Nuxt
 description: Set up Turso in your Nuxt project in minutes
 ---
 
 ![Nuxt banner](/images/guides/nuxt-banner.png)
 
-To get the most out of this guide, you'll need to:
+Before you start, make sure you:
 
-- [Install the Turso CLI and create a database].
-- [Have a Nuxt project].
+- [Install the Turso CLI]
+- [Sign up or login to Turso]
+- Have a Nuxt app &mdash; [learn more]
 
 <Steps>
 
-<Step title="Install the libSQL JavaScript SDK">
+<Step title="Install the libSQL SDK">
 
 <CodeGroup>
 
@@ -32,28 +34,28 @@ yarn add @libsql/client
 
 </Step>
 
-<Step title="Set up the database credentials.">
+<Step title="Configure database credentials.">
 
 Get the database URL.
 
 ```bash
-turso db show --url my-database
+turso db show --url <database-name>
 ```
 Get the database authentication token.
 
 ```bash
-turso db tokens create my-database
+turso db tokens create <database-name>
 ```
 
-Assign acquired credentials to the environment variables inside `.env`.
+Assign credentials to the environment variables inside `.env`.
 
 ```bash
-NUXT_TURSO_DB_URL=<DB-URL>
-NUXT_TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+NUXT_TURSO_DB_URL=<"..."
+NUXT_TURSO_DB_AUTH_TOKEN="..."
 ```
 </Step>
 
-<Step title="Add variables to Nuxt's runTime config.">
+<Step title="Configure variables inside Nuxt's runTime config.">
 
 ```javascript nuxt.config.js
 export default defineNuxtConfig({
@@ -68,41 +70,32 @@ export default defineNuxtConfig({
 
 </Step>
 
-<Step title="Initiate a LibSQL Client.">
+<Step title="Configure LibSQL Client.">
 
 ```javascript server/utils/turso.ts
 
 import { createClient } from "@libsql/client";
 
-export function useTurso() {
-  const tursoConfig = useRuntimeConfig().turso;
-
-  if (!tursoConfig.dbUrl || !tursoConfig.dbAuthToken) {
-    throw new Error(
-      "Please fill the NUXT_TURSO_DB_URL and NUXT_TURSO_DB_AUTH_TOKEN env variables"
-    );
-  }
-  return createClient({
-    url: tursoConfig.dbUrl,
-    authToken: tursoConfig.dbAuthToken,
-  });
-}
+export const turso = createClient({
+  url: tursoConfig.dbUrl,
+  authToken: tursoConfig.dbAuthToken,
+});
 ```
 </Step>
 
-<Step title="Fetch data from Turso.">
+<Step title="Execute SQL">
 
 ```javascript server/api/items.get.ts
 
 export default defineEventHandler(async (event) => {
   const client = useTurso();
-  const result = await client.execute(
-    "select * from my-table"
+  const { rows } = await client.execute(
+    "select * from table_name"
   );
 
   return {
     data: {
-      items: result.rows
+      items: rows
     },
   };
 });
@@ -111,14 +104,19 @@ export default defineEventHandler(async (event) => {
 
 </Steps>
 
-## Try it yourself
+## Examples
 
 <CardGroup cols={2}>
-  <Card title="A framework listing website" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app-top-web-frameworks">
+  <Card
+    title="A framework listing website"
+    icon="arrow-up-right-from-square"
+    href="https://github.com/tursodatabase/examples/tree/master/app-top-web-frameworks"
+  >
     See the full source code
   </Card>
 </CardGroup>
 
 
-[Install the Turso CLI and create a database]: /cli/installation
-[Have a Nuxt project]: https://nuxt.com/docs/getting-started/installation#new-project
+[Install the Turso CLI]: /cli/installation
+[Sign up or login to Turso]: /cli/authentication#signup
+[learn more]: https://nuxt.com/docs/getting-started/installation#new-project
