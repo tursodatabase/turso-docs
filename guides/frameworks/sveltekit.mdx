@@ -1,5 +1,6 @@
 ---
 title: SvelteKit
+sidebarTitle: SvelteKit
 description: Set up Turso in your SvelteKit project in minutes
 ---
 
@@ -7,14 +8,15 @@ description: Set up Turso in your SvelteKit project in minutes
 
 ## Prerequisites
 
-To get the most out of this guide, you'll need to:
+Before you start, make sure you:
 
-- [Install the Turso CLI and create a database].
-- [Have a SvelteKit project].
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a SvelteKit app &mdash; [learn more]
 
 <Steps>
 
-<Step title="Install the libSQL JavaScript SDK">
+<Step title="Install the libSQL SDK">
 
 <CodeGroup>
 
@@ -34,79 +36,66 @@ yarn add @libsql/client
 
 </Step>
 
-<Step title="Set up the database credentials.">
+<Step title="Configure database credentials.">
 
 Get the database URL.
 
 ```bash
-turso db show --url my-database
+turso db show --url <database-name>
 ```
 Get the database authentication token.
 
 ```bash
-turso db tokens create my-database
+turso db tokens create <database-name>
 ```
 
-Assign acquired credentials to the environment variables inside `.env.local`.
+Assign credentials to the environment variables inside `.env.local`.
 
 ```bash
-VITE_TURSO_DB_URL=<DB-URL>
-VITE_TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+VITE_TURSO_DB_URL="..."
+VITE_TURSO_DB_AUTH_TOKEN="..."
 ```
 </Step>
 
-<Step title="Initiate a LibSQL Client.">
+<Step title="Configure LibSQL Client.">
 
 ```javascript src/turso.ts
 
 import { createClient } from '@libsql/client/web';
 
-export const turso = tursoClient() {
-  const url = import.meta.env.VITE_TURSO_DB_URL?.trim();
-  if (url === undefined) {
-    throw new Error('TURSO_DB_URL is not defined');
-  }
-
-  const authToken = import.meta.env.VITE_TURSO_DB_AUTH_TOKEN?.trim();
-  if (authToken === undefined) {
-    throw new Error('TURSO_DB_AUTH_TOKEN is not defined');
-  }
-
-  return createClient({
-    url,
-    authToken,
-  });
-}
+export const turso = createClient({
+  url: process.env.TURSO_DB_URL!,
+  authToken: process.env.TURSO_DB_AUTH_TOKEN,
+})
 ```
 </Step>
 
-<Step title="Fetch data from Turso.">
+<Step title="Execute SQL">
 
 ```javascript
 ---
 import { turso } from '../../turso'
 
-const { rows } = await tursoClient.execute('SELECT * FROM posts')
+const { rows } = await tursoClient.execute('SELECT * FROM table_name')
 ---
-
-<ul>
-  {rows.map((post) => (
-    <li>{post.title}</li>
-  ))}
-</ul>
 ```
 </Step>
 
 </Steps>
 
-## Try it yourself
+## Examples
 
 <CardGroup cols={2}>
-  <Card title="Astro SSR blog" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app-at-the-polls">
+  <Card
+   title="Astro SSR blog"
+   icon="arrow-up-right-from-square"
+   href="https://github.com/tursodatabase/examples/tree/master/app-at-the-polls"
+  >
     See the full source code
   </Card>
 </CardGroup>
 
 
-[Install the Turso CLI and create a database]: /cli/installation
-[Have a SvelteKit project]: https://kit.svelte.dev/docs/creating-a-project
+[Install the Turso CLI]: /cli/installation
+[Sign up or login to Turso]: /cli/authentication#signup
+[learn more]: https://kit.svelte.dev/docs/creating-a-project

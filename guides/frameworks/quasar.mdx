@@ -1,5 +1,6 @@
 ---
 title: Quasar
+sidebarTitle: Quasar
 description: Set up Turso in your Quasar project in minutes
 ---
 
@@ -7,14 +8,15 @@ description: Set up Turso in your Quasar project in minutes
 
 ## Prerequisites
 
-To get the most out of this guide, you'll need to:
+Before you start, make sure you:
 
-- [Install the Turso CLI and create a database].
-- [Have a Quasar project].
+- [Install the Turso CLI]
+- [Sign up or login to Turso]
+- Have a Quasar app &mdash; [learn more]
 
 <Steps>
 
-<Step title="Install the libSQL JavaScript SDK">
+<Step title="Install the libSQL SDK">
 
 <CodeGroup>
 
@@ -34,33 +36,33 @@ yarn add @libsql/client
 
 </Step>
 
-<Step title="Set up the database credentials.">
+<Step title="Configure database credentials.">
 
 Get the database URL.
 
 ```bash
-turso db show --url my-database
+turso db show --url <database-name>
 ```
 Get the database authentication token.
 
 ```bash
-turso db tokens create my-database
+turso db tokens create <database-name>
 ```
 
-Assign acquired credentials to the environment variables inside `.env.local`.
+Assign credentials to the environment variables inside `.env.local`.
 
 ```bash
-VITE_TURSO_DB_URL=<DB-URL>
-VITE_TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
+VITE_TURSO_DB_URL="..."
+VITE_TURSO_DB_AUTH_TOKEN="..."
 ```
 </Step>
 
-<Step title="Initiate a LibSQL Client.">
+<Step title="Configure LibSQL Client">
 
 ```javascript IndexPage.vue
 import {createClient} from '@libsql/client/web';
 
-const db = createClient({
+const turso = createClient({
   url: import.meta.env.VITE_TURSO_URL,
   authToken: import.meta.env.VITE_TURSO_AUTH_TOKEN,
 });
@@ -101,23 +103,28 @@ import {ref} from 'vue';
 
 const items = ref();
 
-const result = await db.execute('select * from my-table');
-items.value = result.rows;
+const { rows } = await turso.execute('select * from my-table');
+items.value = rows;
 ```
 
 </Step>
 
 </Steps>
 
-## Try it yourself
+## Examples
 
 <CardGroup cols={2}>
-  <Card title="Quasar todo list" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/quasar-todo-list">
+  <Card
+    title="Quasar todo list"
+    icon="arrow-up-right-from-square"
+    href="https://github.com/tursodatabase/examples/tree/master/quasar-todo-list"
+  >
     See the full source code
   </Card>
 </CardGroup>
 
 
-[Install the Turso CLI and create a database]: /cli/installation
-[Have a Quasar project]: https://quasar.dev/start/quick-start#step-1-create-a-project
+[Install the Turso CLI]: /cli/installation
+[Sign up or login to Turso]: /cli/authentication#signup
+[learn more]: https://quasar.dev/start/quick-start#step-1-create-a-project
 [gotcha moment]: https://github.com/quasarframework/quasar/discussions/16071

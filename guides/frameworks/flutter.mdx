@@ -1,5 +1,6 @@
 ---
 title: Flutter
+sidebarTitle: Flutter
 description: Set up Turso in your Flutter project in minutes
 ---
 
@@ -7,10 +8,11 @@ description: Set up Turso in your Flutter project in minutes
 
 ## Prerequisites
 
-To get the most out of this guide, you'll need to:
+Before you start, make sure you:
 
-- [Install the Turso CLI and create a database].
-- [Have a Flutter project].
+- [Install the Turso CLI]
+- [Sign up or login to Turso]
+- Have a Flutter app &mdash; [learn more]
 
 <Steps>
 
@@ -22,25 +24,25 @@ dart pub add http
 
 </Step>
 
-<Step title="Set up the database credentials.">
+<Step title="Configure database credentials.">
 
 Get the database URL.
 
 ```bash
-turso db show --url my-database
+turso db show --url <database-name>
 ```
 Get the database authentication token.
 
 ```bash
-turso db tokens create my-database
+turso db tokens create <database-name>
 ```
 
-Pass the acquired credentials to the flutter app by using the `--dart-define` flags:
+Pass the credentials to the flutter app by using the `--dart-define` flags:
 
 ```bash
 flutter run --debug \
-  --dart-define=TURSO_URL=[issued-db-url] \
-  --dart-define=TURSO_AUTH_TOKEN=[issued-db-token]
+  --dart-define=TURSO_URL="..." \
+  --dart-define=TURSO_AUTH_TOKEN="..."
 ```
 
 <Warning>
@@ -49,7 +51,7 @@ Make sure that the `TURSO_URL` passed above should be modified to use the `https
 
 </Step>
 
-<Step title="Fetch data from Turso.">
+<Step title="Execute SQL">
 
 ```dart lib/main.dart
 import 'package:http/http.dart' as http;
@@ -68,7 +70,7 @@ Future<List<T>> getItems() async {
         HttpHeaders.acceptHeader: "application/json"
       },
       body: json.encode({
-        "statements": ["select * from my-table"]
+        "statements": ["select * from table_name"]
       }));
 
   var itemList = List<T>.from(jsonDecode(response.body)[0]["results"]
@@ -95,5 +97,6 @@ itemResults = getItems();
 </CardGroup>
 
 
-[Install the Turso CLI and create a database]: /cli/installation
-[Have a Flutter project]: https://docs.flutter.dev/get-started/codelab
+[Install the Turso CLI]: /cli/installation
+[Sign up or login to Turso]: /cli/authentication#signup
+[learn more]: https://docs.flutter.dev/get-started/codelab
