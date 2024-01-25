@@ -1,20 +1,22 @@
 ---
-title: Nextjs
-description: Set up Turso in your Next.js project in minutes
+title: Next.js + Turso
+sidebarTitle: Next.js
+description: Set up Turso in your Next.js project in minutes.
 ---
 
 ![Next.js banner](/images/guides/nextjs-banner.png)
 
 ## Prerequisites
 
-To get the most out of this guide, you'll need to:
+Before you start, make sure you:
 
-- [Install the Turso CLI and create a database].
-- [Have a Next.js app].
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Next.js app &mdash; [learn more](https://nextjs.org/docs/getting-started/installation)
 
 <Steps>
 
-<Step title="Install the libSQL JavaScript SDK">
+<Step title="Install the libSQL SDK">
 
 <CodeGroup>
 
@@ -26,88 +28,111 @@ npm install @libsql/client
 pnpm add @libsql/client
 ```
 
-```bash yarn
-yarn add @libsql/client
+</CodeGroup>
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL:
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env.local`:
+
+```bash
+TURSO_DB_URL="..."
+TURSO_DB_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Configure LibSQL client">
+
+```ts lib/turso.ts
+import { createClient } from "@libsql/client";
+// import { createClient } from "@libsql/client/web";
+
+export const turso = createClient({
+  url: process.env.TURSO_DB_URL!,
+  authToken: process.env.TURSO_DB_AUTH_TOKEN,
+});
+```
+
+</Step>
+
+<Step title="Execute SQL">
+
+<CodeGroup>
+
+```tsx App Router
+import { turso } from "@/lib/turso";
+
+export default async function Page() {
+  const { rows } = await turso.execute("SELECT * FROM table_name");
+
+  return (
+    <ul>
+      {rows.map((row) => (
+        <li key={row.id}>{row.id}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+```ts Pages Directory
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import { turso } from "@/lib/turso";
+
+export const getServerSideProps = (async () => {
+  const { rows } = await turso.execute("SELECT * FROM table_name");
+
+  return {
+    props: {
+      rows,
+    },
+  };
+}) satisfies GetServerSideProps<{ rows: any[] }>;
+
+export default function Page({
+  rows,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <ul>
+      {rows.map((row) => (
+        <li key={row.id}>{row.id}</li>
+      ))}
+    </ul>
+  );
+}
 ```
 
 </CodeGroup>
 
 </Step>
 
-<Step title="Set up the database credentials.">
-
-Get the database URL.
-
-```bash
-turso db show --url my-database
-```
-Get the database authentication token.
-
-```bash
-turso db tokens create my-database
-```
-
-Assign acquired credentials to the environment variables inside `.env.local`.
-
-```bash
-TURSO_DB_URL=<DB-URL>
-TURSO_DB_AUTH_TOKEN=<DB-AUTH-TOKEN>
-```
-</Step>
-
-<Step title="Initiate a LibSQL Client.">
-
-```javascript lib/turso.ts
-'server-only';
-
-import { type Client, createClient } from '@libsql/client/http';
-
-export function tursoClient(): Client {
-  const url = process.env.TURSO_DB_URL?.trim();
-  if (url === undefined) {
-    throw new Error('TURSO_DB_URL is not defined');
-  }
-
-  const authToken = process.env.TURSO_DB_AUTH_TOKEN?.trim();
-  if (authToken === undefined) {
-    throw new Error('TURSO_DB_AUTH_TOKEN is not defined');
-  }
-
-  return createClient({
-    url,
-    authToken,
-  });
-}
-```
-</Step>
-
-<Step title="Fetch data from Turso.">
-
-```javascript
-import { tursoClient } from '@/lib/turso';
-
-async function getArticles() {
-  const db = tursoClient();
-
-  const response = await db.execute('select * from my-table'));
-
-  return {
-    items: response.rows
-  };
-}
-```
-</Step>
-
 </Steps>
 
-## Try it yourself
+## Examples
 
 <CardGroup cols={2}>
-  <Card title="A frameworks listing website" icon="arrow-up-right-from-square" href="https://github.com/turso-extended/app-turso-nextjs-starter">
+  <Card
+    title="A frameworks listing website"
+    icon="arrow-up-right-from-square"
+    href="https://github.com/turso-extended/app-turso-nextjs-starter"
+  >
     See the full source code
   </Card>
 </CardGroup>
-
 
 [Install the Turso CLI and create a database]: /cli/installation
 [Have a Next.js app]: https://nextjs.org/docs/getting-started/installation#automatic-installation
