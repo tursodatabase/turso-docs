@@ -67,7 +67,7 @@ class Item(Base):
 ```
 </Step>
 
-<Step title="Execute SQL">
+<Step title="Query database">
 
 ```python app.py
 from dotenv import load_dotenv
@@ -82,12 +82,12 @@ load_dotenv()
 TURSO_DB_URL = os.environ.get("TURSO_DB_URL")
 TURSO_DB_AUTH_TOKEN = os.environ.get("TURSO_DB_AUTH_TOKEN")
 
-engine = create_engine(dbUrl, connect_args={'check_same_thread': False}, echo=True)
-
 # construct special SQLAlchemy URL
 dbUrl = f"sqlite+{TURSO_DB_URL}/?authToken={TURSO_DB_AUTH_TOKEN}&secure=true"
 
-@app.route("/items", methods=(["GET"]))
+engine = create_engine(dbUrl, connect_args={'check_same_thread': False}, echo=True)
+
+@app.route("/", methods=(["GET"]))
 def home():
     session = Session(engine)
 
