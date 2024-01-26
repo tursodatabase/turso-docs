@@ -154,6 +154,7 @@
             "cli/group/create",
             "cli/group/update",
             "cli/group/destroy",
+            "cli/group/transfer",
             {
               "group": "locations",
               "pages": [
@@ -179,7 +180,6 @@
             "cli/org/list",
             "cli/org/create",
             "cli/org/billing",
-            "cli/org/db-transfer",
             {
               "group": "members",
               "pages": [
