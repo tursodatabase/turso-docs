@@ -279,6 +279,7 @@
             "api-reference/groups/create",
             "api-reference/groups/retrieve",
             "api-reference/groups/delete",
+            "api-reference/groups/transfer",
             "api-reference/groups/add-location",
             "api-reference/groups/remove-location",
             "api-reference/groups/update-database-versions",

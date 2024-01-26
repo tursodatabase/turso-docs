@@ -613,6 +613,53 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/groups/{groupName}/transfer": {
+      "post": {
+        "summary": "Transfer Group",
+        "description": "Transfer a group to another organization that you own or a member of.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "$ref": "#/components/parameters/groupName"
+          }
+        ],
+        "requestBody": {
+          "description": "Receiving Organization details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "organization": {
+                    "type": "string",
+                    "description": "The name of the organization to transfer the group to."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Group"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/GroupNotFoundResponse"
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}": {
       "post": {
         "summary": "Add Location to Group",
