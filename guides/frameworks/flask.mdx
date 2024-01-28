@@ -1,5 +1,5 @@
 ---
-title: Flask
+title: Flask + Turso
 sidebarTitle: Flask
 description: Set up Turso in your Flask project in minutes
 ---
@@ -10,13 +10,13 @@ description: Set up Turso in your Flask project in minutes
 
 Before you start, make sure you:
 
-- [Install the Turso CLI]
-- [Sign up or login to Turso]
-- Have a Flask app &mdash; [learn more]
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Flask app &mdash; [learn more](https://flask.palletsprojects.com/en/3.0.x/installation/#create-an-environment)
 
 <Steps>
 
-<Step title="Install the libSQL dialect for SQLAlchemy and other dependencies">
+<Step title="Install the libSQL dialect">
 
 ```bash npm
 pip install sqlalchemy-libsql python-dotenv
@@ -31,6 +31,7 @@ Get the database URL.
 ```bash
 turso db show --url <database-name>
 ```
+
 Get the database authentication token.
 
 ```bash
@@ -43,6 +44,7 @@ Assign credentials to the environment variables inside `.env`.
 TURSO_DB_URL="..."
 TURSO_DB_AUTH_TOKEN="..."
 ```
+
 </Step>
 
 <Step title="Create database models">
@@ -63,8 +65,8 @@ class Item(Base):
     bar: Mapped[str] = mapped_column(String(100))
     def __repr__(self) -> str:
         return f"Item(id={self.id!r}, foo={self.foo!r}, bar={self.bar!r})"
-
 ```
+
 </Step>
 
 <Step title="Query database">
@@ -96,8 +98,8 @@ def home():
 
     for item in session.scalars(stmt):
         print(item)
-
 ```
+
 </Step>
 
 </Steps>
@@ -106,15 +108,10 @@ def home():
 
 <CardGroup cols={2}>
   <Card
-   title="A social links listing website"
-   icon="arrow-up-right-from-square"
-   href="https://github.com/turso-extended/app-find-me-on-python-htmx/tree/master"
+    title="Social App"
+    icon="github"
+    href="https://github.com/turso-extended/app-find-me-on-python-htmx/tree/master"
   >
     See the full source code
   </Card>
 </CardGroup>
-
-
-[Install the Turso CLI]: /cli/installation
-[Sign up or login to Turso]: /cli/authentication#signup
-[learn more]: https://flask.palletsprojects.com/en/3.0.x/installation/#create-an-environment

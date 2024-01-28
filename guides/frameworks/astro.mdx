@@ -1,5 +1,5 @@
 ---
-title: Astro
+title: Astro + Turso
 sidebarTitle: Astro
 description: Set up Turso in your Astro project in minutes.
 ---
@@ -10,9 +10,9 @@ description: Set up Turso in your Astro project in minutes.
 
 To get the most out of this guide, you'll need to:
 
-- [Install the Turso CLI]
-- [Sign up or login to Turso]
-- Have an Astro project &mdash; [learn more]
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have an Astro project &mdash; [learn more](https://docs.astro.build/en/install/auto/#1-run-the-setup-wizard)
 
 <Steps>
 
@@ -43,6 +43,7 @@ Get the database URL.
 ```bash
 turso db show --url <database-name>
 ```
+
 Get the database authentication token.
 
 ```bash
@@ -55,30 +56,32 @@ Assign credentials to the environment variables inside `.env.local`:
 TURSO_DB_URL="..."
 TURSO_DB_AUTH_TOKEN="..."
 ```
+
 </Step>
 
 <Step title="Configure LibSQL client">
 
-```javascript src/turso.ts
-
-import { createClient } from '@libsql/client/web';
+```ts src/turso.ts
+import { createClient } from "@libsql/client/web";
 
 export const turso = createClient({
   url: process.env.TURSO_DB_URL!,
   authToken: process.env.TURSO_DB_AUTH_TOKEN,
 });
 ```
+
 </Step>
 
 <Step title="Execute SQL">
 
-```javascript
+```ts
 ---
-import { turso } from '../../turso'
+import { turso } from './turso'
 
 const { rows } = await turso.execute('SELECT * FROM table_name')
 ---
 ```
+
 </Step>
 
 </Steps>
@@ -87,15 +90,10 @@ const { rows } = await turso.execute('SELECT * FROM table_name')
 
 <CardGroup cols={2}>
   <Card
-    title="Astro SSR blog"
-    icon="arrow-up-right-from-square"
+    title="Blog"
+    icon="github"
     href="https://github.com/turso-extended/app-tustro-blog"
   >
     See the full source code
   </Card>
 </CardGroup>
-
-
-[Install the Turso CLI]: /cli/installation
-[Sign up or login to Turso]: /cli/authentication#signup
-[learn more]: https://docs.astro.build/en/install/auto/#1-run-the-setup-wizard

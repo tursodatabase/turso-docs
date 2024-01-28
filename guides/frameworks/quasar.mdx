@@ -1,5 +1,5 @@
 ---
-title: Quasar
+title: Quasar + Turso
 sidebarTitle: Quasar
 description: Set up Turso in your Quasar project in minutes
 ---
@@ -10,9 +10,9 @@ description: Set up Turso in your Quasar project in minutes
 
 Before you start, make sure you:
 
-- [Install the Turso CLI]
-- [Sign up or login to Turso]
-- Have a Quasar app &mdash; [learn more]
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Quasar app &mdash; [learn more](https://quasar.dev/start/quick-start#step-1-create-a-project)
 
 <Steps>
 
@@ -36,13 +36,14 @@ yarn add @libsql/client
 
 </Step>
 
-<Step title="Configure database credentials.">
+<Step title="Configure database credentials">
 
 Get the database URL.
 
 ```bash
 turso db show --url <database-name>
 ```
+
 Get the database authentication token.
 
 ```bash
@@ -55,6 +56,7 @@ Assign credentials to the environment variables inside `.env.local`.
 VITE_TURSO_DB_URL="..."
 VITE_TURSO_DB_AUTH_TOKEN="..."
 ```
+
 </Step>
 
 <Step title="Configure LibSQL Client">
@@ -69,29 +71,30 @@ const turso = createClient({
 }
 ```
 
-<Warning>
-To avoid running into a [gotcha moment], modify the Quasar app's configuration by adding the following settings to the build object.
-</Warning>
-```javascript quasar.config.js
-...
-build: {
-  target: {
-    browser: [
-      'es2020', 'edge88', 'firefox78', 'chrome87', 'safari13.1'
-    ],
-    node: 'node16'
-  },
+<Info>
+  Avoid a [gotcha
+  moment](https://github.com/quasarframework/quasar/discussions/16071) by
+  modifying the app configuration using the settings below.
+</Info>
 
-  extendViteConf(config) {
-    config.optimizeDeps = {
-      esbuildOptions: {
-        target: 'es2020',
-      },
-    };
-  },
-  ...
+```javascript quasar.config.js
+{
+  build: {
+    target: {
+      browser: [
+        'es2020', 'edge88', 'firefox78', 'chrome87', 'safari13.1'
+      ],
+      node: 'node16'
+    },
+    extendViteConf(config) {
+      config.optimizeDeps = {
+        esbuildOptions: {
+          target: 'es2020',
+        }
+      }
+    }
+  }
 }
-...
 ```
 
 </Step>
@@ -99,11 +102,12 @@ build: {
 <Step title="Fetch data from Turso.">
 
 ```javascript IndexPage.vue
-import {ref} from 'vue';
+import { ref } from "vue";
 
 const items = ref();
 
-const { rows } = await turso.execute('select * from my-table');
+const { rows } = await turso.execute("select * from my-table");
+
 items.value = rows;
 ```
 
@@ -115,16 +119,10 @@ items.value = rows;
 
 <CardGroup cols={2}>
   <Card
-    title="Quasar todo list"
-    icon="arrow-up-right-from-square"
+    title="Todo App"
+    icon="github"
     href="https://github.com/tursodatabase/examples/tree/master/quasar-todo-list"
   >
     See the full source code
   </Card>
 </CardGroup>
-
-
-[Install the Turso CLI]: /cli/installation
-[Sign up or login to Turso]: /cli/authentication#signup
-[learn more]: https://quasar.dev/start/quick-start#step-1-create-a-project
-[gotcha moment]: https://github.com/quasarframework/quasar/discussions/16071

@@ -1,5 +1,5 @@
 ---
-title: Nuxt
+title: Nuxt + Turso
 sidebarTitle: Nuxt
 description: Set up Turso in your Nuxt project in minutes
 ---
@@ -8,9 +8,9 @@ description: Set up Turso in your Nuxt project in minutes
 
 Before you start, make sure you:
 
-- [Install the Turso CLI]
-- [Sign up or login to Turso]
-- Have a Nuxt app &mdash; [learn more]
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Nuxt app &mdash; [learn more](https://nuxt.com/docs/getting-started/installation#new-project)
 
 <Steps>
 
@@ -34,13 +34,14 @@ yarn add @libsql/client
 
 </Step>
 
-<Step title="Configure database credentials.">
+<Step title="Configure database credentials">
 
 Get the database URL.
 
 ```bash
 turso db show --url <database-name>
 ```
+
 Get the database authentication token.
 
 ```bash
@@ -53,11 +54,12 @@ Assign credentials to the environment variables inside `.env`.
 NUXT_TURSO_DB_URL=<"..."
 NUXT_TURSO_DB_AUTH_TOKEN="..."
 ```
+
 </Step>
 
 <Step title="Configure variables inside Nuxt's runTime config.">
 
-```javascript nuxt.config.js
+```js nuxt.config.js
 export default defineNuxtConfig({
   runtimeConfig: {
     turso: {
@@ -72,8 +74,7 @@ export default defineNuxtConfig({
 
 <Step title="Configure LibSQL Client.">
 
-```javascript server/utils/turso.ts
-
+```ts server/utils/turso.ts
 import { createClient } from "@libsql/client";
 
 export const turso = createClient({
@@ -81,25 +82,24 @@ export const turso = createClient({
   authToken: tursoConfig.dbAuthToken,
 });
 ```
+
 </Step>
 
 <Step title="Execute SQL">
 
-```javascript server/api/items.get.ts
-
+```ts server/api/items.get.ts
 export default defineEventHandler(async (event) => {
   const client = useTurso();
-  const { rows } = await client.execute(
-    "select * from table_name"
-  );
+  const { rows } = await client.execute("select * from table_name");
 
   return {
     data: {
-      items: rows
+      items: rows,
     },
   };
 });
 ```
+
 </Step>
 
 </Steps>
@@ -108,15 +108,10 @@ export default defineEventHandler(async (event) => {
 
 <CardGroup cols={2}>
   <Card
-    title="A framework listing website"
-    icon="arrow-up-right-from-square"
+    title="Website + App"
+    icon="github"
     href="https://github.com/tursodatabase/examples/tree/master/app-top-web-frameworks"
   >
     See the full source code
   </Card>
 </CardGroup>
-
-
-[Install the Turso CLI]: /cli/installation
-[Sign up or login to Turso]: /cli/authentication#signup
-[learn more]: https://nuxt.com/docs/getting-started/installation#new-project

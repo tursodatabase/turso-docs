@@ -1,5 +1,5 @@
 ---
-title: Tauri
+title: Tauri + Turso
 sidebarTitle: Tauri
 description: Set up Turso in your Tauri project in minutes
 ---
@@ -10,9 +10,9 @@ description: Set up Turso in your Tauri project in minutes
 
 Before you start, make sure you:
 
-- [Install the Turso CLI]
-- [Sign up or login to Turso]
-- Have a Tauri app &mdash; [learn more]
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Tauri app &mdash; [learn more](https://tauri.app/v1/guides/getting-started/setup)
 
 <Steps>
 
@@ -43,13 +43,14 @@ cargo fetch
 
 </Step>
 
-<Step title="Configure database credentials.">
+<Step title="Configure database credentials">
 
 Get the database URL.
 
 ```bash
 turso db show --url <database-name>
 ```
+
 Get the database authentication token.
 
 ```bash
@@ -61,8 +62,9 @@ Assign acquired credentials to the environment variables inside `src-tauri/.env`
 ```bash src-tauri/.env
 TURSO_SYNC_URL="..."
 TURSO_TOKEN="..."
-DB_PATH=../my-data.db # embedded replica
+DB_PATH=./my-data.db # embedded replica
 ```
+
 </Step>
 
 <Step title="Execute SQL">
@@ -140,6 +142,7 @@ fn main() {
         .expect("error while running tauri application");
 }
 ```
+
 </Step>
 
 </Steps>
@@ -148,14 +151,10 @@ fn main() {
 
 <CardGroup cols={2}>
   <Card
-   title="A note-taking desktop application"
-   icon="arrow-up-right-from-square"
-   href="https://github.com/turso-extended/app-turso-notes/tree/master"
+    title="Personal Notes App"
+    icon="github"
+    href="https://github.com/turso-extended/app-turso-notes/tree/master"
   >
     See the full source code
   </Card>
 </CardGroup>
-
-[Install the Turso CLI]: /cli/installation
-[Sign up or login to Turso]: /cli/authentication#signup
-[learn more]: https://tauri.app/v1/guides/getting-started/setup

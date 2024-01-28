@@ -18,7 +18,7 @@ Database operations are tightly controlled to maintain order and data integrity,
 - **On the replicas:**
 
   - Writes are forwarded to the primary and applied there.
-  - Changes from the primary are eventually pulled by each replica.
+  - Changes from the primary are eventually pulled by each replica (200-300ms latency).
   - No guarantees on the time for replicas to reflect primary's changes.
   - Reads are local and not globally ordered; data might differ across replicas.
   - Monotonic reads are maintained, ensuring that any read operation will not return data older than previously read data on the same instance.

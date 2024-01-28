@@ -1,5 +1,5 @@
 ---
-title: Flutter
+title: Flutter + Turso
 sidebarTitle: Flutter
 description: Set up Turso in your Flutter project in minutes
 ---
@@ -10,13 +10,13 @@ description: Set up Turso in your Flutter project in minutes
 
 Before you start, make sure you:
 
-- [Install the Turso CLI]
-- [Sign up or login to Turso]
-- Have a Flutter app &mdash; [learn more]
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Flutter app &mdash; [learn more](https://docs.flutter.dev/get-started/codelab)
 
 <Steps>
 
-<Step title="Install the Dart HTTP package.">
+<Step title="Add HTTP Package">
 
 ```bash
 dart pub add http
@@ -24,13 +24,14 @@ dart pub add http
 
 </Step>
 
-<Step title="Configure database credentials.">
+<Step title="Configure database credentials">
 
 Get the database URL.
 
 ```bash
 turso db show --url <database-name>
 ```
+
 Get the database authentication token.
 
 ```bash
@@ -46,7 +47,8 @@ flutter run --debug \
 ```
 
 <Warning>
-Make sure that the `TURSO_URL` passed above should be modified to use the `https` protocol instead of `libsql`. (e.g "https://[db-name].turso.io")
+  Make sure that the `TURSO_URL` passed above should be modified to use the
+  `https` protocol instead of `libsql`. (e.g "https://[db-name].turso.io")
 </Warning>
 
 </Step>
@@ -81,22 +83,26 @@ Future<List<T>> getItems() async {
 
 itemResults = getItems();
 ```
+
 </Step>
 
 </Steps>
 
-## Try it yourself
+## Examples
 
 <CardGroup cols={2}>
-  <Card title="Recipe book app" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/app_recipe_book">
+  <Card
+    title="Recipe App"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/app_recipe_book"
+  >
     See the full source code
   </Card>
-  <Card title="Todo list app" icon="arrow-up-right-from-square" href="https://github.com/tursodatabase/examples/tree/master/flutter_todo_list">
+  <Card
+    title="Todo App"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/flutter_todo_list"
+  >
     See the full source code
   </Card>
 </CardGroup>
-
-
-[Install the Turso CLI]: /cli/installation
-[Sign up or login to Turso]: /cli/authentication#signup
-[learn more]: https://docs.flutter.dev/get-started/codelab
