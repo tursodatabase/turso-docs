@@ -1,0 +1,99 @@
+---
+title: SvelteKit + Turso
+sidebarTitle: SvelteKit
+description: Set up Turso in your SvelteKit project in minutes
+---
+
+![SvelteKit banner](/images/guides/svelte-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a SvelteKit app &mdash; [learn more](https://kit.svelte.dev/docs/creating-a-project)
+
+<Steps>
+
+<Step title="Install the libSQL SDK">
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm add @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL.
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token.
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env.local`.
+
+```bash
+VITE_TURSO_DB_URL="..."
+VITE_TURSO_DB_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Configure LibSQL Client.">
+
+```ts src/turso.ts
+import { createClient } from "@libsql/client/web";
+
+export const turso = createClient({
+  url: process.env.TURSO_DB_URL!,
+  authToken: process.env.TURSO_DB_AUTH_TOKEN,
+});
+```
+
+</Step>
+
+<Step title="Execute SQL">
+
+```ts
+---
+import { turso } from './turso'
+
+const { rows } = await tursoClient.execute('SELECT * FROM table_name')
+---
+```
+
+</Step>
+
+</Steps>
+
+## Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Blog"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/app-at-the-polls"
+  >
+    See the full source code
+  </Card>
+</CardGroup>

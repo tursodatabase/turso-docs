@@ -74,10 +74,30 @@
   ],
   "navigation": [
     {
-      "group": "Turso",
+      "group": "Get Started",
       "pages": [
         "introduction",
         "quickstart",
+        {
+          "group": "Framework Guides",
+          "pages": [
+            "guides/frameworks/nextjs",
+            "guides/frameworks/remix",
+            "guides/frameworks/astro",
+            "guides/frameworks/nuxt",
+            "guides/frameworks/qwik",
+            "guides/frameworks/sveltekit",
+            "guides/frameworks/flutter",
+            "guides/frameworks/quasar",
+            "guides/frameworks/flask",
+            "guides/frameworks/tauri"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Turso",
+      "pages": [
         "local-development",
         "data-and-connections",
         "locations",

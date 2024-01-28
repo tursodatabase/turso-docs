@@ -1,0 +1,117 @@
+---
+title: Nuxt + Turso
+sidebarTitle: Nuxt
+description: Set up Turso in your Nuxt project in minutes
+---
+
+![Nuxt banner](/images/guides/nuxt-banner.png)
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Nuxt app &mdash; [learn more](https://nuxt.com/docs/getting-started/installation#new-project)
+
+<Steps>
+
+<Step title="Install the libSQL SDK">
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client
+```
+
+```bash pnpm
+pnpm add @libsql/client
+```
+
+```bash yarn
+yarn add @libsql/client
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL.
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token.
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env`.
+
+```bash
+NUXT_TURSO_DB_URL=<"..."
+NUXT_TURSO_DB_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Configure variables inside Nuxt's runTime config.">
+
+```js nuxt.config.js
+export default defineNuxtConfig({
+  runtimeConfig: {
+    turso: {
+      dbUrl: "",
+      dbAuthToken: "",
+    },
+  },
+});
+```
+
+</Step>
+
+<Step title="Configure LibSQL Client.">
+
+```ts server/utils/turso.ts
+import { createClient } from "@libsql/client";
+
+export const turso = createClient({
+  url: tursoConfig.dbUrl,
+  authToken: tursoConfig.dbAuthToken,
+});
+```
+
+</Step>
+
+<Step title="Execute SQL">
+
+```ts server/api/items.get.ts
+export default defineEventHandler(async (event) => {
+  const client = useTurso();
+  const { rows } = await client.execute("select * from table_name");
+
+  return {
+    data: {
+      items: rows,
+    },
+  };
+});
+```
+
+</Step>
+
+</Steps>
+
+## Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Website + App"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/app-top-web-frameworks"
+  >
+    See the full source code
+  </Card>
+</CardGroup>
