@@ -231,7 +231,15 @@
     },
     {
       "group": "TypeScript / JS",
-      "pages": ["sdk/ts/quickstart", "sdk/ts/reference", "sdk/ts/examples"]
+      "pages": [
+        "sdk/ts/quickstart",
+        "sdk/ts/reference",
+        "sdk/ts/examples",
+        {
+          "group": "ORMs",
+          "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+        }
+      ]
     },
     {
       "group": "Rust",
@@ -247,7 +255,14 @@
     },
     {
       "group": "Python",
-      "pages": ["sdk/python/reference", "sdk/python/examples"]
+      "pages": [
+        "sdk/python/reference",
+        "sdk/python/examples",
+        {
+          "group": "ORMs",
+          "pages": ["sdk/python/orm/sqlalchemy"]
+        }
+      ]
     },
     {
       "group": "HTTP",
