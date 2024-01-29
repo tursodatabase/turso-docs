@@ -108,7 +108,7 @@ You can work with embedded replicas by passing your Turso Database URL to `syncU
 import { createClient } from "@libsql/client";
 
 const client = createClient({
-  url: "file:path/to/db-file.dev",
+  url: "file:path/to/db-file.db",
   syncUrl: "libsql://[databaseName]-[organizationName].turso.io",
   authToken: "...",
 });
