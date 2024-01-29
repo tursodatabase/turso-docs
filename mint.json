@@ -617,6 +617,22 @@
     {
       "source": "/search",
       "destination": "/introduction"
+    },
+    {
+      "source": "/beta-limits",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/reference/platform-rest-API",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/reference/turso-cli%23installation",
+      "destination": "/cli/installation"
+    },
+    {
+      "source": "/reference/turso-cli%23read-only-auth-tokens",
+      "destination": "/cli/db/tokens/create"
     }
   ],
   "analytics": {
