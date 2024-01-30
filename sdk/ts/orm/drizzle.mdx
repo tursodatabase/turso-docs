@@ -55,7 +55,7 @@ turso db tokens create <database-name>
 Assign credentials to the environment variables inside `.env.local`:
 
 ```bash
-TURSO_DB_URL="..."
+TURSO_DATABASE_URL="..."
 TURSO_AUTH_TOKEN="..."
 ```
 
@@ -85,7 +85,7 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from "@libsql/client";
 
 const turso = createClient({
-  url: process.env.TURSO_DB_URL!,
+  url: process.env.TURSO_DATABASE_URL!,
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
@@ -118,7 +118,7 @@ export default {
   out: "./drizzle/migrations",
   driver: "turso",
   dbCredentials: {
-    url: process.env.TURSO_DB_URL,
+    url: process.env.TURSO_DATABASE_URL,
     authToken: process.env.TURSO_AUTH_TOKEN,
   }
 } satisfies Config;
