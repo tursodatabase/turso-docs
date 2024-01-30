@@ -56,7 +56,7 @@ Assign credentials to the environment variables inside `.env.local`:
 
 ```bash
 TURSO_DB_URL="..."
-TURSO_DB_AUTH_TOKEN="..."
+TURSO_AUTH_TOKEN="..."
 ```
 
 </Step>
@@ -86,7 +86,7 @@ import { createClient } from "@libsql/client";
 
 const turso = createClient({
   url: process.env.TURSO_DB_URL!,
-  authToken: process.env.TURSO_DB_AUTH_TOKEN,
+  authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
 export const db = drizzle(turso);
@@ -119,7 +119,7 @@ export default {
   driver: "turso",
   dbCredentials: {
     url: process.env.TURSO_DB_URL,
-    authToken: process.env.TURSO_DB_AUTH_TOKEN,
+    authToken: process.env.TURSO_AUTH_TOKEN,
   }
 } satisfies Config;
 ```

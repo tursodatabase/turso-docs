@@ -53,8 +53,8 @@ turso db tokens create <database-name>
 Assign credentials to the environment variables inside `.env`.
 
 ```bash
-TURSO_DB_URL="..."
-TURSO_DB_AUTH_TOKEN="..."
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
 ```
 
 </Step>
@@ -66,14 +66,14 @@ import { createClient } from "@libsql/client/http";
 import { AppLoadContext } from "@remix-run/node";
 
 interface Env {
-  TURSO_DB_AUTH_TOKEN?: string;
-  TURSO_DB_URL?: string;
+  TURSO_AUTH_TOKEN?: string;
+  TURSO_DATABASE_URL?: string;
 }
 
 export const turso = (serverContext: AppLoadContext) =>
   createClient({
-    url: serverContext.env.TURSO_DB_URL,
-    authToken: serverContext.env.TURSO_DB_AUTH_TOKEN,
+    url: serverContext.env.TURSO_DATABASE_URL,
+    authToken: serverContext.env.TURSO_AUTH_TOKEN,
   });
 ```
 
