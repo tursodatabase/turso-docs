@@ -8,7 +8,7 @@ The libSQL package is designed to work with [`database/sql`](https://pkg.go.dev/
 
 <Note>
 
-Embedded Replicas with Go are experimental and may break. It's recommended you use `github.com/tursodatabase/libsql-client-go` (Remote only) instructions below.
+Embedded Replicas with Go are experimental and may break. It's recommended you use `github.com/tursodatabase/libsql-client-go/libsql` (Remote only) instructions below.
 
 </Note>
 
@@ -34,7 +34,7 @@ First begin by adding libSQL to your project:
 
   <Accordion title="Remote only">
     ```bash
-    go get github.com/tursodatabase/libsql-client-go
+    go get github.com/tursodatabase/libsql-client-go/libsql
     ```
 
   </Accordion>
@@ -124,7 +124,7 @@ Now connect to your local or remote database using the libSQL connector:
       "fmt"
       "os"
 
-      _ "github.com/tursodatabase/libsql-client-go"
+      _ "github.com/tursodatabase/libsql-client-go/libsql"
     )
 
     func main() {
@@ -136,8 +136,6 @@ Now connect to your local or remote database using the libSQL connector:
         os.Exit(1)
       }
       defer db.Close()
-
-      ctx := context.Background()
     }
     ```
 
