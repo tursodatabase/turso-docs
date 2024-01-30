@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://docs.turso.tech">
-    <img alt="Turso cover" src="https://github.com/tursodatabase/turso-docs/assets/950181/ea5848f4-2a20-4d5b-8007-1ebb19b5e15f" width="1000">
+    <img alt="Turso cover" src="https://github.com/tursodatabase/turso-docs/assets/950181/ea5848f4-2a20-4d5b-8007-1ebb19b5e15f" width="1000" />
     <h3 align="center">Turso Documentation</h3>
   </a>
 </p>
