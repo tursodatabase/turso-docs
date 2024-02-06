@@ -26,7 +26,7 @@ turso db create my-new-database --from-db my-existing-database --timestamp 2024-
 ```
 
 ```bash Platform API
-curl -L -X POST 'https://api.turso.tech/v1/organization/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
