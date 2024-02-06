@@ -27,3 +27,13 @@ Database operations are tightly controlled to maintain order and data integrity,
 
   - Transactions in libSQL, both batch and interactive, adhere to SQLite's transaction semantics.
   - Transactions in libSQL provide snapshot isolation for read operations and immediate visibility of writes to the same process, ensuring serializability and isolation from other transactions.
+
+## Scale to zero
+
+For free users, Turso dynamically scales databases down to zero after an hour of no activity. When a request is made, the databases automatically scale back up to one. There may be a delay of up to `500ms` for databases that have been inactive.
+
+<Info>
+
+Databases with extended inactivity (**10 days**) will require a manual "wake up" operation using the [CLI](/cli/group/wakeup) or API.
+
+</Info>
