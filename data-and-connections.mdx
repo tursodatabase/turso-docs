@@ -5,7 +5,7 @@ description:
 
 Turso, an extension of [libSQL](/libsql) (a SQLite fork), modifies the consistency model due to its network-accessible and replicated nature, deviating from SQLite's strictly serializable standard.
 
-Database operations begin with a client establishing either an [HTTP or websocket connection](/sdk/connecting) to a server instance. Following this, an internal SQLite database connection is set up within the server to facilitate the operations.
+Database operations begin with a client establishing either an HTTP or websocket connection to a server instance. Following this, an internal SQLite database connection is set up within the server to facilitate the operations.
 
 Database operations are tightly controlled to maintain order and data integrity, with primary instances handling all writes in a serialized manner and replicas managing local reads.
 
@@ -30,7 +30,9 @@ Database operations are tightly controlled to maintain order and data integrity,
 
 ## Scale to zero
 
-For free users, Turso dynamically scales databases down to zero after an hour of no activity. When a request is made, the databases automatically scale back up to one. There may be a delay of up to `500ms` for databases that have been inactive.
+For free users, Turso dynamically scales databases down to zero after an hour of no activity.
+
+When a request is made, the databases automatically scale back up to one. There may be a delay of up to `500ms` for databases that have been inactive.
 
 <Info>
 
