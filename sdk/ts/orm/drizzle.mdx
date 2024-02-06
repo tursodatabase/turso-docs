@@ -67,13 +67,14 @@ TURSO_AUTH_TOKEN="..."
 import { sql } from "drizzle-orm";
 import { text, sqliteTable } from "drizzle-orm/sqlite-core";
 
-const foo = sqliteTable('foo', {
-  bar: text('bar').notNull().default("Hey!"),
+const foo = sqliteTable("foo", {
+  bar: text("bar").notNull().default("Hey!"),
 });
 ```
 
 <Note>
-To learn about configuring Drizzle migrations, go to [this page](https://orm.drizzle.team/kit-docs/overview#running-migrations).
+  To learn about configuring Drizzle migrations, go to [this
+  page](https://orm.drizzle.team/kit-docs/overview#running-migrations).
 </Note>
 
 </Step>
@@ -81,7 +82,7 @@ To learn about configuring Drizzle migrations, go to [this page](https://orm.dri
 <Step title="Configure Drizzle to work with the LibSQL client">
 
 ```ts db.ts
-import { drizzle } from 'drizzle-orm/libsql';
+import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 
 const turso = createClient({
@@ -120,7 +121,7 @@ export default {
   dbCredentials: {
     url: process.env.TURSO_DATABASE_URL,
     authToken: process.env.TURSO_AUTH_TOKEN,
-  }
+  },
 } satisfies Config;
 ```
 

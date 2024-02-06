@@ -88,18 +88,18 @@ pnpm dlx prisma generate
 
 <Step title="Update your Prisma Client Instance">
 
-```ts 
-import { PrismaClient } from '@prisma/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
-import { createClient } from '@libsql/client'
+```ts
+import { PrismaClient } from "@prisma/client";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
+import { createClient } from "@libsql/client";
 
 const libsql = createClient({
   url: process.env.TURSO_DATABASE_URL,
   authToken: process.env.TURSO_AUTH_TOKEN,
-})
+});
 
-const adapter = new PrismaLibSQL(libsql)
-const prisma = new PrismaClient({ adapter })
+const adapter = new PrismaLibSQL(libsql);
+const prisma = new PrismaClient({ adapter });
 ```
 
 </Step>
@@ -109,28 +109,6 @@ const prisma = new PrismaClient({ adapter })
 ```ts
 const response = await prisma.table_name.findMany();
 ```
-
-</Step>
-
-<Step title="Visualize Turso database with Prisma Studio">
-
-Preview and manage database data in Prisma Studio by using the following command:
-
-<CodeGroup>
-
-```sh npm
-npx prisma studio
-```
-
-```sh pnpm
-pnpm dlx prisma studio
-```
-
-```sh yarn
-yarn prisma studio
-```
-
-</CodeGroup>
 
 </Step>
 
