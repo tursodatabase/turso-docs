@@ -82,7 +82,6 @@
         "data-and-connections",
         "locations",
         "extensions",
-        "support",
         "libsql"
       ]
     },
@@ -93,6 +92,13 @@
         "features/embedded-replicas",
         "features/branching",
         "features/point-in-time-recovery"
+      ]
+    },
+    {
+      "group": "Help",
+      "pages": [
+        "support",
+        "help/usage-and-billing"
       ]
     },
     {
@@ -633,7 +639,7 @@
     },
     {
       "source": "/billing-details",
-      "destination": "/introduction"
+      "destination": "/help/usage-and-billing"
     },
     {
       "source": "/concepts",
