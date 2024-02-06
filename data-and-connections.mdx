@@ -30,10 +30,10 @@ Database operations are tightly controlled to maintain order and data integrity,
 
 ## Scale to zero
 
-Turso automatically scales to zero databases for free users after one hour of inactivity. Databases will automatically scale to one once a request is invoked. There could be a delay of up to `500ms` for inactive database groups.
+For free users, Turso dynamically scales databases down to zero after an hour of no activity. When a request is made, the databases automatically scale back up to one. There may be a delay of up to `500ms` for databases that have been inactive.
 
 <Info>
 
-Databases with extended inactivity (**10 days**) will require a manual wake operation using the [CLI](/cli/group/wakeup) or API.
+Databases with extended inactivity (**10 days**) will require a manual "wake up" operation using the [CLI](/cli/group/wakeup) or API.
 
 </Info>
