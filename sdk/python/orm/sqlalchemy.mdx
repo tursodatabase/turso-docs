@@ -1,0 +1,108 @@
+---
+title: SQLAlchemy + Turso
+sidebarTitle: SQLAlchemy
+description: Configure SQLAlchemy to work with your Turso database
+---
+
+![SQLAlchemy Quickstart](/images/guides/sqlalchemy-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+
+<Steps>
+
+<Step title="Install the libSQL dialect for SQLAlchemy">
+
+```bash
+pip install sqlalchemy-libsql
+```
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL:
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env`.
+
+```bash
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Create database models">
+
+```python models.py
+from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+
+class Base(DeclarativeBase):
+    pass
+
+class Foo(Base):
+    __tablename__ = "foo"
+    id: Mapped[str] = mapped_column(primary_key=True)
+    bar: Mapped[str] = mapped_column(String(100))
+    def __repr__(self) -> str:
+        return f"Item(id={self.id!r}, bar={self.bar!r})"
+
+```
+
+</Step>
+
+<Step title="Construct SQLAlchemy URL for Turso">
+
+```py app.py
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+
+TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL")
+TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN")
+
+dbUrl = f"sqlite+{TURSO_DATABASE_URL}/?authToken={TURSO_AUTH_TOKEN}&secure=true"
+
+engine = create_engine(dbUrl, connect_args={'check_same_thread': False}, echo=True)
+```
+
+</Step>
+
+<Step title="Query database">
+
+```py app.py
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from models import Foo
+
+@app.route("/", methods=(["GET"]))
+def home():
+    session = Session(engine)
+
+    # get & print foos
+    stmt = select(Foo)
+
+    for item in session.scalars(stmt):
+        print(item)
+
+```
+
+</Step>
+
+</Steps>

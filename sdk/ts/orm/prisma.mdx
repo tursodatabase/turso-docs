@@ -1,0 +1,115 @@
+---
+title: Prisma + Turso
+sidebarTitle: Prisma
+description: Configure Prisma to work with your Turso database
+---
+
+![Prisma banner](/images/guides/prisma-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Prisma versions 5.4.2 and later
+
+<Steps>
+
+<Step title="Install the libSQL SDK and its Prisma driver">
+
+<CodeGroup>
+
+```bash npm
+npm install @libsql/client @prisma/adapter-libsql
+```
+
+```bash pnpm
+pnpm add @libsql/client @prisma/adapter-libsql
+```
+
+```bash yarn
+yarn add @libsql/client @prisma/adapter-libsql
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL:
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env.local`:
+
+```bash
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Enable the `driverAdapters` Preview feature flag:">
+
+```js prisma/schema.prisma 3
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+```
+
+</Step>
+
+<Step title="Generate Prisma client">
+
+<CodeGroup>
+
+```sh npm
+npx prisma generate
+```
+
+```sh pnpm
+pnpm dlx prisma generate
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Update your Prisma Client Instance">
+
+```ts
+import { PrismaClient } from "@prisma/client";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
+import { createClient } from "@libsql/client";
+
+const libsql = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+const adapter = new PrismaLibSQL(libsql);
+const prisma = new PrismaClient({ adapter });
+```
+
+</Step>
+
+<Step title="Query your database">
+
+```ts
+const response = await prisma.table_name.findMany();
+```
+
+</Step>
+
+</Steps>

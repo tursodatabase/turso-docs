@@ -1,0 +1,149 @@
+---
+title: Drizzle + Turso
+sidebarTitle: Drizzle
+description: Configure Drizzle to work with Turso
+---
+
+![Drizzle banner](/images/guides/drizzle-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+
+<Steps>
+
+<Step title="Install Drizzle and the libSQL SDK">
+
+<CodeGroup>
+
+```bash npm
+npm i drizzle-orm @libsql/client
+npm i -D drizzle-kit
+```
+
+```bash pnpm
+pnpm add drizzle-orm @libsql/client
+pnpm add -D drizzle-kit
+```
+
+```bash yarn
+yarn add drizzle-orm @libsql/client
+yarn add -D drizzle-kit
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL:
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env.local`:
+
+```bash
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Create a Drizzle schema">
+
+```ts drizzle/schema.ts
+import { sql } from "drizzle-orm";
+import { text, sqliteTable } from "drizzle-orm/sqlite-core";
+
+const foo = sqliteTable("foo", {
+  bar: text("bar").notNull().default("Hey!"),
+});
+```
+
+<Note>
+  To learn about configuring Drizzle migrations, go to [this
+  page](https://orm.drizzle.team/kit-docs/overview#running-migrations).
+</Note>
+
+</Step>
+
+<Step title="Configure Drizzle to work with the LibSQL client">
+
+```ts db.ts
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+
+const turso = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+export const db = drizzle(turso);
+```
+
+</Step>
+
+<Step title="Query your Turso database">
+
+```tsx App Router
+import { db } from "./db";
+
+const result = await db.select().from(foo).all();
+```
+
+</Step>
+
+<Step title="Visualize Turso database with Drizzle Studio">
+
+To preview and manage database data with Drizzle Studio, prepare the Drizzle config file:
+
+```ts drizzle.config.ts
+import type { Config } from "drizzle-kit";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+export default {
+  schema: "./drizzle/schema.ts",
+  out: "./drizzle/migrations",
+  driver: "turso",
+  dbCredentials: {
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  },
+} satisfies Config;
+```
+
+Lauch Drizzle Studio.
+
+<CodeGroup>
+
+```bash npm
+npx drizzle-kit studio
+
+```
+
+```bash pnpm
+pnpm dlx drizzle-kit studio
+```
+
+```bash yarn
+yarn drizzle-kit studio
+```
+
+</CodeGroup>
+
+</Step>
+
+</Steps>

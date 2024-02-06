@@ -74,30 +74,10 @@
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Turso",
       "pages": [
         "introduction",
         "quickstart",
-        {
-          "group": "Framework Guides",
-          "pages": [
-            "guides/frameworks/nextjs",
-            "guides/frameworks/remix",
-            "guides/frameworks/astro",
-            "guides/frameworks/nuxt",
-            "guides/frameworks/qwik",
-            "guides/frameworks/sveltekit",
-            "guides/frameworks/flutter",
-            "guides/frameworks/quasar",
-            "guides/frameworks/flask",
-            "guides/frameworks/tauri"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Turso",
-      "pages": [
         "local-development",
         "data-and-connections",
         "locations",
@@ -122,7 +102,8 @@
         "cli/installation",
         "cli/authentication",
         "cli/upgrading",
-        "cli/help"
+        "cli/help",
+        "cli/headless-mode"
       ]
     },
     {
@@ -231,14 +212,40 @@
     },
     {
       "group": "TypeScript / JS",
-      "pages": ["sdk/ts/quickstart", "sdk/ts/reference", "sdk/ts/examples"]
+      "pages": [
+        "sdk/ts/quickstart",
+        "sdk/ts/reference",
+        "sdk/ts/examples",
+        {
+          "group": "Guides",
+          "pages": [
+            "sdk/ts/guides/nextjs",
+            "sdk/ts/guides/remix",
+            "sdk/ts/guides/astro",
+            "sdk/ts/guides/nuxt",
+            "sdk/ts/guides/qwik",
+            "sdk/ts/guides/sveltekit",
+            "sdk/ts/guides/quasar"
+          ]
+        },
+        {
+          "group": "ORMs",
+          "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+        }
+      ]
     },
     {
       "group": "Rust",
       "pages": [
         "sdk/rust/quickstart",
         "sdk/rust/reference",
-        "sdk/rust/examples"
+        "sdk/rust/examples",
+        {
+          "group": "Guides",
+          "pages": [
+            "sdk/rust/guides/tauri"
+          ]
+        }
       ]
     },
     {
@@ -247,11 +254,29 @@
     },
     {
       "group": "Python",
-      "pages": ["sdk/python/reference", "sdk/python/examples"]
+      "pages": [
+        "sdk/python/reference",
+        "sdk/python/examples",
+        {
+          "group": "Guides",
+          "pages": [
+            "sdk/python/guides/flask"
+          ]
+        },
+        {
+          "group": "ORMs",
+          "pages": ["sdk/python/orm/sqlalchemy"]
+        }
+      ]
     },
     {
       "group": "HTTP",
-      "pages": ["sdk/http/quickstart", "sdk/http/reference"]
+      "pages": ["sdk/http/quickstart", "sdk/http/reference", {
+        "group": "Guides",
+        "pages": [
+          "sdk/http/guides/flutter"
+        ]
+      }]
     },
     {
       "group": "API",

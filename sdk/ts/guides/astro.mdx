@@ -53,8 +53,8 @@ turso db tokens create <database-name>
 Assign credentials to the environment variables inside `.env.local`:
 
 ```bash
-TURSO_DB_URL="..."
-TURSO_DB_AUTH_TOKEN="..."
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
 ```
 
 </Step>
@@ -65,8 +65,8 @@ TURSO_DB_AUTH_TOKEN="..."
 import { createClient } from "@libsql/client/web";
 
 export const turso = createClient({
-  url: process.env.TURSO_DB_URL!,
-  authToken: process.env.TURSO_DB_AUTH_TOKEN,
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
 });
 ```
 
