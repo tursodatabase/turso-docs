@@ -24,16 +24,16 @@
   },
   "topbarLinks": [
     {
-      "name": "Discord",
-      "url": "https://discord.com/invite/4B5D7hYwub"
+      "name": "API Status",
+      "url": "https://status.turso.tech"
     },
     {
-      "name": "Website",
-      "url": "https://turso.tech"
+      "name": "Give Feedback",
+      "url": "https://share.hsforms.com/1ittjMf-TTvK0uhTI_lDIWwcy0nw"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
+    "name": "Login",
     "url": "https://turso.tech/app"
   },
   "tabs": [
@@ -52,19 +52,24 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
+      "name": "Docs Home",
       "icon": "book-open-cover",
       "url": "/"
     },
     {
-      "name": "Tutorials",
+      "name": "Turso Homepage",
+      "icon": "house",
+      "url": "https://turso.tech"
+    },
+    {
+      "name": "Blog & Tutorials",
       "icon": "newspaper",
       "url": "https://blog.turso.tech"
     },
     {
-      "name": "Status",
-      "icon": "signal-bars",
-      "url": "https://status.turso.tech"
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.com/invite/4B5D7hYwub"
     },
     {
       "name": "GitHub",
