@@ -848,7 +848,7 @@
 
     "/v1/organizations/{organizationName}/groups/{groupName}/auth/tokens": {
       "post": {
-        "summary": "Generate Group Auth Token",
+        "summary": "Create Group Auth Token",
         "description": "Generates an authorization token for the specified group.",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
