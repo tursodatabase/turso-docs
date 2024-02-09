@@ -440,6 +440,41 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/databases/{databaseName}/stats": {
+      "get": {
+        "summary": "Retrieve Database Stats",
+        "description": "Fetch the top queries of a database, including the count of rows read and written.",
+        "parameters": [
+          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/databaseName" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "top_queries": {
+                      "type": "array",
+                      "description": "The top queries performed on the given database as well as the total rows read and written.",
+                      "items": {
+                        "$ref": "#/components/schemas/DatabaseStatsOutput"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DatabaseNotFoundResponse"
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/databases/{databaseName}/auth/rotate": {
       "post": {
         "summary": "Invalidate All Database Auth Tokens",
@@ -1822,6 +1857,27 @@
           },
           "Name": {
             "$ref": "#/components/schemas/Database/properties/Name"
+          }
+        }
+      },
+
+      "DatabaseStatsOutput": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "A string representing the SQL query executed.",
+            "example": "SELECT COUNT(*), CustomerID FROM Orders GROUP BY CustomerID HAVING COUNT(*) > 5;"
+          },
+          "rows_read": {
+            "type": "integer",
+            "description": "An integer indicating the number of rows read by the query, which reflects the volume of data the query processed from the database.",
+            "example": 123
+          },
+          "rows_written": {
+            "type": "integer",
+            "description": "An integer indicating the number of rows written (inserted, updated, or deleted) by the query, which reflects the impact of the query on the database data.",
+            "example": 4567
           }
         }
       },
