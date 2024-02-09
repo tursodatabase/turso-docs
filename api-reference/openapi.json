@@ -1867,7 +1867,7 @@
           "query": {
             "type": "string",
             "description": "A string representing the SQL query executed.",
-            "example": "SELECT * FROM users WHERE username IS NULL"
+            "example": "SELECT COUNT(*), CustomerID FROM Orders GROUP BY CustomerID HAVING COUNT(*) > 5;"
           },
           "rows_read": {
             "type": "integer",
