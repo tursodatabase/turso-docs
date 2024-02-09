@@ -83,8 +83,9 @@
       "pages": [
         "introduction",
         "quickstart",
-        "local-development",
+        "concepts",
         "data-and-connections",
+        "local-development",
         "locations",
         "extensions",
         "libsql"
@@ -97,7 +98,8 @@
         "features/embedded-replicas",
         "features/data-edge",
         "features/branching",
-        "features/point-in-time-recovery"
+        "features/point-in-time-recovery",
+        "features/scale-to-zero"
       ]
     },
     {
@@ -649,10 +651,6 @@
       "destination": "/help/usage-and-billing"
     },
     {
-      "source": "/concepts",
-      "destination": "/introduction"
-    },
-    {
       "source": "/search",
       "destination": "/introduction"
     },
@@ -671,6 +669,10 @@
     {
       "source": "/reference/turso-cli%23read-only-auth-tokens",
       "destination": "/cli/db/tokens/create"
+    },
+    {
+      "source": "/locations",
+      "destination": "/concepts#locations"
     }
   ],
   "analytics": {

@@ -1,27 +1,18 @@
 ---
-title: Locations
-description:
+sidebarTitle: Concepts
+title: Turso Concepts
 ---
 
-Turso supports microsecond latency by giving you the control of where your data is stored, and replicated for super fast data access. Turso automatically manages keeping data up to date, so you can focus on building.
+## Locations
 
-Databases belong to a group. A group has a primary location, and additional replica locations. The number of locations you can use depends on your plan &mdash; [see pricing](https://turso.tech/pricing).
+Turso optimizes data access with control over data storage and replication across global locations. Your databases form a [group](#database-groups) with a primary and optional replica locations, ensuring low latency. Turso handles synchronization automatically across its [data edge](/data-edge).
 
-<CardGroup>
+- **Primary**
+  - All databases have a primary location (region) where data is stored, and can't be changed. You can configure the primary location for groups using the Turso CLI and Turso Platform API.
+- **Replicas**
+  - Databases can be replicated to other regions closer to your users by adding more locations to the group your database belongs to.
 
-<Card href="/cli/db/locations" title="CLI Reference" icon="terminal">
-  Learn how to manage locations for database groups using the CLI.
-</Card>
-
-<Card href="/api-reference/locations" title="API Reference" icon="database">
-  Learn how to manage locations for database groups using the API.
-</Card>
-
-</CardGroup>
-
-## Available Regions
-
-These locations can be used when creating or replicating database:
+<Accordion title="Expand list of locations">
 
 | Code  | Location                     |
 | ----- | ---------------------------- |
@@ -57,12 +48,14 @@ These locations can be used when creating or replicating database:
 | `yul` | Montreal, Canada             |
 | `yyz` | Toronto, Canada              |
 
-You can fetch this as JSON when building with the [Platform API](/api-reference/locations).
+</Accordion>
 
-## Primary
+You can fetch the list of supported located as JSON when building with the [Platform API](/api-reference/locations) or using the [Turso CLI](/cli/db/locations).
 
-All databases have a primary location (region) where data is stored. You can configure the primary location for groups using the Turso CLI and Turso Platform API.
+## Groups
 
-## Replicas
+All databases are part of a "group", dictating their primary storage location and replication across distinct VMs (locations), each capped at 100GB. This setup ensures databases share resources yet remain isolated.
 
-Databases can be replicated to other regions closer to your users by adding more locations to the group your database belongs to.
+<Frame caption="A single group with replicas">
+  ![Turso Database Groups and Replication](/images/concepts/database-group.png)
+</Frame>
