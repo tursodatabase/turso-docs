@@ -51,7 +51,7 @@ turso db tokens create <database-name>
 Assign credentials to the environment variables inside `.env`.
 
 ```bash
-NUXT_TURSO_DATABASE_URL=<"..."
+NUXT_TURSO_DATABASE_URL="..."
 NUXT_TURSO_AUTH_TOKEN="..."
 ```
 
@@ -59,12 +59,12 @@ NUXT_TURSO_AUTH_TOKEN="..."
 
 <Step title="Configure variables inside Nuxt's runtime config.">
 
-```js nuxt.config.ts
+```ts nuxt.config.ts
 export default defineNuxtConfig({
   runtimeConfig: {
     turso: {
-      databaseUrl: '',
-      authToken: '',
+      databaseUrl: "",
+      authToken: "",
     },
   },
 });
@@ -80,9 +80,9 @@ export default defineNuxtConfig({
 <Step title="Configure LibSQL Client.">
 
 ```ts server/utils/turso.ts
-import { createClient } from '@libsql/client';
+import { createClient } from "@libsql/client";
 // You can optionally pass in the event to useRuntimeConfig
-// import { H3Event } from 'h3';
+// import { H3Event } from "h3";
 
 export function useTurso(/* event: H3Event */) {
   const { turso } = useRuntimeConfig(/* event */);
