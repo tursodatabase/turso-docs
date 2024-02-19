@@ -9,9 +9,25 @@ Embedded replicas provide a smooth switch between local and remote database oper
 ## How it works
 
 1. You configure a local file to be your main database.
-2. Reads are always served from the local database file.
-3. If you call `sync()` it will sync with the remote database configured at `syncUrl`.
-4. When you write to database, `sync()` is called automatically so you can read your writes.
+
+   - The `url` parameter in the client configuration.
+
+2. You configure a remote database to sync with.
+
+   - The `syncUrl` parameter in the client configuration.
+
+3. You read from a database:
+
+   - Reads are always served from the local replica configured at `url`.
+
+4. You write to a database:
+
+   - Writes are always sent to the remote primary database configured at `syncUrl`.
+   - Once the write is successful, the local database is updated with the changes.
+
+5. You call `sync` to pull changes from the remote database to the local replica.
+
+   - The local replica is updated with the changes from the remote database.
 
 ## Usage
 
