@@ -1422,7 +1422,7 @@
                   "properties": {
                     "token": {
                       "type": "string",
-                      "description": "The revoked contents as a JWT.",
+                      "description": "The revoked token name.",
                       "example": "..."
                     }
                   }
