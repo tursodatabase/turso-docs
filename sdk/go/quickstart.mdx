@@ -14,12 +14,23 @@ Embedded Replicas with Go are experimental and may break. It's recommended you u
 
 In this Go quickstart we will learn how to:
 
+- Retrieve database credentials
 - Install Go libSQL
 - Connect to a local or remote Turso database
 - Execute a query using SQL
 - Sync changes to local database (optional)
 
 <Steps>
+  <Step title="Retrieve database credentials">
+
+You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Info>You will want to store these as environment variables.</Info>
+
+  </Step>
+
   <Step title="Install">
 
 First begin by adding libSQL to your project:

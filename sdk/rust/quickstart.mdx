@@ -6,11 +6,22 @@ description: Get started with Turso and Rust using the libSQL client in a few si
 
 In this Rust quickstart we will learn how to:
 
+- Retrieve database credentials
 - Install the Rust libSQL client
 - Connect to a remote Turso database
 - Execute a query using SQL
 
 <Steps>
+  <Step title="Retrieve database credentials">
+
+You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Info>You will want to store these as environment variables.</Info>
+
+  </Step>
+
   <Step title="Install libsql-client">
 
 First begin by installing the `libsql-client` [crate](https://crates.io/crates/libsql-client):
