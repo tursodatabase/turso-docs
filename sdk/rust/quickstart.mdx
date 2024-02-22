@@ -14,49 +14,47 @@ In this Rust quickstart we will learn how to:
 <Steps>
   <Step title="Retrieve database credentials">
 
-You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+    You will need an existing database to continue. If you don't have one, [create one](/quickstart).
 
-<Snippet file="retrieve-database-credentials.mdx" />
+    <Snippet file="retrieve-database-credentials.mdx" />
 
-<Info>You will want to store these as environment variables.</Info>
-
-  </Step>
-
-  <Step title="Install libsql-client">
-
-First begin by installing the `libsql-client` [crate](https://crates.io/crates/libsql-client):
-
-```bash
-cargo add libsql-client
-```
+    <Info>You will want to store these as environment variables.</Info>
 
   </Step>
 
-  <Step title="Set environment variables">
-    Next export your `LIBSQL_CLIENT_URL` and `LIBSQL_CLIENT_TOKEN`:
+  <Step title="Install libsql crate">
+
+    First begin by installing the `libsql` [crate](https://crates.io/crates/libsql):
 
     ```bash
-      export LIBSQL_CLIENT_URL="libsql://"
-      export LIBSQL_CLIENT_TOKEN="..."
+    cargo add libsql
     ```
 
   </Step>
 
   <Step title="Initialize a new client">
 
-Next initialize a new `db` client using `libsql_client`:
+Next, initialize a new `db` connection:
 
 ```rust
-let db = libsql_client::Client::from_config(libsql_client::Config {
-  url: url::Url::parse("libsql://").unwrap(),
-  auth_token: None,
-})
-.await
+let db_url = env::var("TURSO_DATABASE_URL").unwrap();
+let auth_token = env::var("TURSO_AUTH_TOKEN").unwrap();
+
+let db = Database::open_remote(
+  db_url,
+  auth_token
+)
 .unwrap();
+
+let conn = db.connect().unwrap();
+
+let mut results = conn
+.query("SELECT * FROM users", ())
+.await?;
 ```
 
-You can also connect to a local SQLite file by passing `file:` path instead, [learn
-more](/sdk/rust/local-development).
+You can also connect to a local SQLite file by using the `Database::open` method instead, [learn
+more](https://docs.rs/libsql/latest/libsql/struct.Database.html#method.open).
 
   </Step>
 
@@ -65,18 +63,23 @@ more](/sdk/rust/local-development).
 You can execute a SQL query against your existing database by calling `execute()`:
 
 ```rust
-let result = client.execute("SELECT * FROM users").await?;
+conn
+.execute(
+    "INSERT INTO users VALUES (?1, ?2)",
+    params![2, "Iku Turso")],
+)
+.await;
 ```
 
 If you need to use placeholders for values, you can do that:
 
 ```rust
-use libsql_client::{Statement, args};
+use libsql::{params};
 
-let result = client.execute(Statement::with_args(
-  "SELECT * FROM users WHERE id = ?",
-  args!(1),
-))
+let result = conn.query(
+  "SELECT * FROM users WHERE id = ?1",
+  params![1],
+)
 .await?;
 ```
 
