@@ -134,8 +134,8 @@
             {
               "group": "api-tokens",
               "pages": [
-                "cli/auth/api-tokens/list",
                 "cli/auth/api-tokens/mint",
+                "cli/auth/api-tokens/list",
                 "cli/auth/api-tokens/revoke"
               ]
             }
@@ -308,9 +308,9 @@
           "icon": "key",
           "group": "API Tokens",
           "pages": [
-            "api-reference/tokens/list",
             "api-reference/tokens/create",
             "api-reference/tokens/validate",
+            "api-reference/tokens/list",
             "api-reference/tokens/revoke"
           ]
         },
