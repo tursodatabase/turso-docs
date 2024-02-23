@@ -128,6 +128,21 @@ Embedded Replicas only works where you have access the file system.
 
 </Warning>
 
+## Encryption
+
+To enable encryption on a SQLite file, pass the `encryptionKey`:
+
+```ts Node.js
+import { createClient } from "@libsql/client";
+
+const db = createClient({
+  url: "file:encrypted.db",
+  encryptionKey: process.env.ENCRYPTION_KEY,
+});
+```
+
+Encrypted databases appear as raw data and cannot be read as standard SQLite databases. You must use the libSQL client for any operations &mdash; [learn more](/libsql#encryption-at-rest).
+
 ## Response
 
 Each method listed below returns a `Promise<ResultSet>`:

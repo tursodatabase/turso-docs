@@ -44,3 +44,9 @@ When you use Turso, you don't need to worry about managing libSQL instances, or 
 ## SQLite Compatibility
 
 libSQL will remain SQLite compatible by providing the same API and file format, but with additional features and optimizations.
+
+## Encryption at rest
+
+libSQL introduces an essential feature for production environments: **encryption at rest**. This feature enhances data security by encrypting database files, making them inaccessible without the correct encryption key.
+
+libSQL's encryption leverages existing, proven encryption solutions, integrating them directly into the fork of SQLite. The encryption is page-based, allowing for efficient data access without decrypting the entire file. Supported encryption standards include SQLCipher (default) and wxSQLite3's AES 256 Bit, with further options for customization per database.
