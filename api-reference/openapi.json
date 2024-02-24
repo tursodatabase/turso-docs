@@ -1924,7 +1924,7 @@
               }
             ]
           },
-          "usage": {
+          "total": {
             "description": "The total usage for the database.",
             "$ref": "#/components/schemas/DatabaseUsageObject",
             "example": {
