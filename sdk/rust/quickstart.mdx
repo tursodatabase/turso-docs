@@ -7,9 +7,10 @@ description: Get started with Turso and Rust using the libSQL crate in a few sim
 In this Rust quickstart we will learn how to:
 
 - Retrieve database credentials
-- Install the Rust libSQL client
-- Connect to a remote Turso database
+- Install the Rust libSQL crate
+- Connect to a local or remote Turso database
 - Execute a query using SQL
+- Sync changes to local database (optional)
 
 <Steps>
   <Step title="Retrieve database credentials">
@@ -57,7 +58,6 @@ use libsql::Builder;
 
 let db = Builder::new_local("local.db").build().await?;
 let conn = db.connect().unwrap();
-
 ```
 
   </Accordion>
