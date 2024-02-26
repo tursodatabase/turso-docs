@@ -24,6 +24,10 @@ conn.execute("CREATE TABLE IF NOT EXISTS users (email TEXT)", ()).await.unwrap()
 conn.execute("INSERT INTO users (email) VALUES ('alice@example.org')", ()).await.unwrap();
 ```
 
+### Custom HTTP Connector
+
+The `connector` function is used to provide a custom HTTP connector for creating HTTP connections, which might be necessary for custom networking setups, proxy configurations, or specialized security requirements.
+
 ## Local Development
 
 You can work locally using an SQLite file using `new_local`:
@@ -49,7 +53,83 @@ let mut db = Builder::new_remote_replica("local.db", &url, &token).build().await
 let conn = db.connect().unwrap();
 ```
 
-TODO: Mention `new_local_replica`
+### Manual Sync
+
+The `sync` function allows you to sync manually the local database with the remote counterpart:
+
+```rust
+
+```
+
+### Periodic Sync
+
+The `periodic_sync` function allows you to set an interval for automatic synchronization of the database in the background:
+
+```rust
+use libsql::Builder;
+use std::time::Duration;
+
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let mut db = Builder::new_remote_replica("local.db", &url, &token)
+  .periodic_sync(Duration::from_secs(300)) // Sync every 5 minutes
+  .build()
+  .await.unwrap();
+
+let conn = db.connect().unwrap();
+```
+
+### Read Your Own Writes
+
+The `read_your_writes` function configures the database connection to ensure that writes are immediately visible to subsequent read operations initiated by the same connection. This is particularly important in distributed systems to ensure consistency from the perspective of the writing process.
+
+```rust
+use libsql::Builder;
+
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let mut db = Builder::new_remote_replica("local.db", &url, &token)
+  .read_your_writes(true) // Enable reading your own writes
+  .build()
+  .await.unwrap();
+
+let conn = db.connect().unwrap();
+```
+
+## Encryption
+
+To enable encryption on a SQLite file, pass the `encryption_config`:
+
+```rust
+use libsql::Builder;
+use bytes::Bytes;
+
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let cipher = Cipher::YourChosenCipher;
+let encryption_key_bytes = Bytes::from("your_secure_encryption_key_here");
+
+let encryption_config = EncryptionConfig {
+    cipher,
+    encryption_key: encryption_key_bytes,
+};
+
+let mut db = Builder::new_remote_replica("local.db", &url, &token)
+  .encryption_config(encryption_config) // Apply encryption configuration
+  .build()
+  .await.unwrap();
+
+let conn = db.connect().unwrap();
+```
+
+<Info>
+
+Encrypted databases appear as raw data and cannot be read as standard SQLite databases. You must use the libSQL client for any operations — [learn more](/libsql#encryption-at-rest).
+
+</Info>
 
 ## Simple query
 
