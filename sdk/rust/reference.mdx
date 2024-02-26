@@ -100,7 +100,9 @@ let conn = db.connect().unwrap();
 
 ### Read Your Own Writes
 
-The `read_your_writes` function configures the database connection to ensure that writes are immediately visible to subsequent read operations initiated by the same connection. This is particularly important in distributed systems to ensure consistency from the perspective of the writing process.
+The `read_your_writes` function configures the database connection to ensure that writes are immediately visible to subsequent read operations initiated by the same connection. This is enabled by default and is particularly important in distributed systems to ensure consistency from the perspective of the writing process.
+
+You can disable this behavior by passing `false` to the function:
 
 ```rust
 use libsql::Builder;
@@ -109,7 +111,7 @@ let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
 let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
 
 let mut db = Builder::new_remote_replica("local.db", &url, &token)
-  .read_your_writes(true) // Enable reading your own writes
+  .read_your_writes(false) // Disable reading your own writes
   .build()
   .await.unwrap();
 

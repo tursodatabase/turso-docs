@@ -23,11 +23,8 @@ Embedded replicas provide a smooth switch between local and remote database oper
 4. You write to a database:
 
    - Writes are always sent to the remote primary database configured at `syncUrl`.
-   - Once the write is successful, the local database is updated with the changes.
-
-5. You call `sync` to pull changes from the remote database to the local replica.
-
-   - The local replica is updated with the changes from the remote database.
+   - Any write transactions with reads are also sent to the remote primary database.
+   - Once the write is successful, the local database is updated with the changes automatically (read your own writes).
 
 ## Usage
 
