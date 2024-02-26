@@ -1,7 +1,7 @@
 ---
 title: Turso Quickstart (Rust)
 sidebarTitle: Quickstart
-description: Get started with Turso and Rust using the libSQL client in a few simple steps
+description: Get started with Turso and Rust using the libSQL crate in a few simple steps
 ---
 
 In this Rust quickstart we will learn how to:
@@ -104,7 +104,7 @@ conn.execute("INSERT INTO users (name) VALUES (:name)", libsql::named_params! { 
 
   <Step title="Sync (Embedded Replicas only)">
 
-When using embedded replicas you should call `sync()` on the connector to sync your local database with the primary database.
+When using embedded replicas you should call `sync()` on the connector to sync your local database with the primary database, unless you are using `periodic_sync`:
 
 ```rust
 db.sync().await.unwrap();

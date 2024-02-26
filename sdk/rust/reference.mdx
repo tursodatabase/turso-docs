@@ -3,6 +3,8 @@ title: Reference
 description: libSQL Rust Reference
 ---
 
+The libSQL Rust crate contains everything you need to work with Turso and asynchronous Rust.
+
 ## Installing
 
 Install the package in your project using the following command:
@@ -20,6 +22,7 @@ use libsql::Builder;
 
 let db = Builder::new_local(":memory:").build().await.unwrap();
 let conn = db.connect().unwrap();
+
 conn.execute("CREATE TABLE IF NOT EXISTS users (email TEXT)", ()).await.unwrap();
 conn.execute("INSERT INTO users (email) VALUES ('alice@example.org')", ()).await.unwrap();
 ```
@@ -58,7 +61,16 @@ let conn = db.connect().unwrap();
 The `sync` function allows you to sync manually the local database with the remote counterpart:
 
 ```rust
+use libsql::Builder;
 
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let mut db = Builder::new_remote_replica("local.db", &url, &token).build().await.unwrap();
+
+let conn = db.connect().unwrap();
+
+db.sync().await.unwrap(); // Call sync manually to update local database
 ```
 
 ### Periodic Sync
@@ -100,7 +112,7 @@ let conn = db.connect().unwrap();
 
 ## Encryption
 
-To enable encryption on a SQLite file, pass the `encryption_config`:
+To enable encryption on a SQLite file (`new_local` or `new_remote_replica`), pass the `encryption_config`:
 
 ```rust
 use libsql::Builder;
