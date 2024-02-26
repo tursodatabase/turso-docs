@@ -22,7 +22,7 @@ In this Rust quickstart we will learn how to:
 
   </Step>
 
-  <Step title="Install libsql crate">
+  <Step title="Install">
 
     First begin by installing the `libsql` [crate](https://crates.io/crates/libsql):
 
@@ -32,55 +32,82 @@ In this Rust quickstart we will learn how to:
 
   </Step>
 
-  <Step title="Initialize a new client">
+  <Step title="Connect">
 
-Next, initialize a new `db` connection:
+You must first create a `Database` object and then open a `Connection` to it:
+
+<AccordionGroup>
+  <Accordion title="Embedded Replicas">
 
 ```rust
-let db_url = env::var("TURSO_DATABASE_URL").unwrap();
-let auth_token = env::var("TURSO_AUTH_TOKEN").unwrap();
+use libsql::Builder;
 
-let db = Database::open_remote(
-  db_url,
-  auth_token
-)
-.unwrap();
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
 
+let mut db = Builder::new_remote_replica("local.db", &url, &token).build().await.unwrap();
 let conn = db.connect().unwrap();
-
-let mut results = conn
-.query("SELECT * FROM users", ())
-.await?;
 ```
 
-You can also connect to a local SQLite file by using the `Database::open` method instead, [learn
-more](https://docs.rs/libsql/latest/libsql/struct.Database.html#method.open).
+  </Accordion>
+  <Accordion title="Local only">
+
+```rust
+use libsql::Builder;
+
+let db = Builder::new_local("local.db").build().await?;
+let conn = db.connect().unwrap();
+
+```
+
+  </Accordion>
+  <Accordion title="Remote only">
+
+```rust
+use libsql::Builder;
+
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let db = Builder::new_remote(&url, &token).build().await?;
+let conn = db.connect().unwrap();
+```
+
+  </Accordion>
+</AccordionGroup>
 
   </Step>
 
-  <Step title="Execute a query using SQL">
+  <Step title="Execute">
 
 You can execute a SQL query against your existing database by calling `execute()`:
 
 ```rust
-conn
-.execute(
-    "INSERT INTO users VALUES (?1, ?2)",
-    params![2, "Iku Turso")],
-)
-.await;
+conn.execute("SELECT * FROM users").await.unwrap();
 ```
 
 If you need to use placeholders for values, you can do that:
 
-```rust
-use libsql::{params};
+<CodeGroup>
 
-let result = conn.query(
-  "SELECT * FROM users WHERE id = ?1",
-  params![1],
-)
-.await?;
+```rust Positional
+conn.execute("SELECT * FROM users WHERE id = ?1", params![1]).await?;
+```
+
+```rust Named
+conn.execute("INSERT INTO users (name) VALUES (:name)", libsql::named_params! { ":name": "Iku" }).await?;
+```
+
+</CodeGroup>
+
+  </Step>
+
+  <Step title="Sync (Embedded Replicas only)">
+
+When using embedded replicas you should call `sync()` on the connector to sync your local database with the primary database.
+
+```rust
+db.sync().await.unwrap();
 ```
 
   </Step>
