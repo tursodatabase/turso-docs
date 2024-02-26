@@ -51,24 +51,29 @@ turso db tokens create <database-name>
 Assign credentials to the environment variables inside `.env`.
 
 ```bash
-NUXT_TURSO_DATABASE_URL=<"..."
+NUXT_TURSO_DATABASE_URL="..."
 NUXT_TURSO_AUTH_TOKEN="..."
 ```
 
 </Step>
 
-<Step title="Configure variables inside Nuxt's runTime config.">
+<Step title="Configure variables inside Nuxt's runtime config.">
 
-```js nuxt.config.js
+```ts nuxt.config.ts
 export default defineNuxtConfig({
   runtimeConfig: {
     turso: {
-      dbUrl: "",
-      dbAuthToken: "",
+      databaseUrl: "",
+      authToken: "",
     },
   },
 });
 ```
+
+<Note>
+  Make sure that names of the keys in the `runtimeConfig` object match the names of your environment variables. Read more about this [here](https://nitro.unjs.io/guide/configuration#runtime-configuration).
+</Note>
+
 
 </Step>
 
@@ -76,11 +81,17 @@ export default defineNuxtConfig({
 
 ```ts server/utils/turso.ts
 import { createClient } from "@libsql/client";
+// You can optionally pass in the event to useRuntimeConfig
+// import { H3Event } from "h3";
 
-export const turso = createClient({
-  url: tursoConfig.dbUrl,
-  authToken: tursoConfig.dbAuthToken,
-});
+export function useTurso(/* event: H3Event */) {
+  const { turso } = useRuntimeConfig(/* event */);
+  
+  return createClient({
+    url: turso.databaseUrl,
+    authToken: turso.authToken,
+  });
+};
 ```
 
 </Step>
@@ -89,7 +100,7 @@ export const turso = createClient({
 
 ```ts server/api/items.get.ts
 export default defineEventHandler(async (event) => {
-  const client = useTurso();
+  const client = useTurso(/* event */);
   const { rows } = await client.execute("select * from table_name");
 
   return {
