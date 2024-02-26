@@ -73,6 +73,12 @@ let conn = db.connect().unwrap();
 db.sync().await.unwrap(); // Call sync manually to update local database
 ```
 
+<Info>
+
+If you require full control over how frames get from your instance of `sqld` (libSQL Server), you can do this using `new_local_replica` and `sync_frames`. Reach out to us [on Discord](https://discord.com/invite/4B5D7hYwub) if you want to learn more.
+
+</Info>
+
 ### Periodic Sync
 
 The `periodic_sync` function allows you to set an interval for automatic synchronization of the database in the background:
