@@ -17,18 +17,14 @@ cargo add libsql
 
 The libsql rust client supports conditionally compiling certain features to reduce compile times depending on what features you would like to use &mdash; [learn more](https://doc.rust-lang.org/cargo/reference/features.html#dependency-features).
 
-<Info>
-
-Currently, all features are **enabled by default** but it is possible to set `default-features = false` and to enable only the ones you would like.
-
-</Info>
-
 | Feature       | Description                           |
 | ------------- | ------------------------------------- |
 | `remote`      | Enables the http only client          |
 | `core`        | Enables the local database only       |
 | `replication` | Enables the embedded replica features |
 | `encryption`  | Enables encryption at rest support    |
+
+All features above are **enabled by default**, but you can disable the default feartures, and enable specific features by adding the `features` field to your `Cargo.toml`:
 
 ```toml
 [dependencies]
