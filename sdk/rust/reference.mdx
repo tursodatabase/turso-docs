@@ -3,19 +3,23 @@ title: Reference
 description: libSQL Rust Reference
 ---
 
-The libSQL Rust crate contains everything you need to work with Turso and asynchronous Rust.
+The libSQL Rust crate contains everything you need to work with Turso and works flawlessly with popular async runtimes like `tokio`.
 
 ## Installing
 
-Install the package in your project using the following command:
+Install the crate in your project using the following command:
 
 ```bash
 cargo add libsql
 ```
 
+### Conditional compilation
+
+The libsql rust client supports conditionally compiling certain features to reduce compile times depending on what features you would like to use. Currently, all features are enabled by default but it is possible to set `default-features = false` and to enable only the ones you would like. The available features are `remote` (http only client), `core` (local database only), `replication` (embedded replica features) and `encryption` (encryption at rest support, this is disabled by default). For more information on how to enable features you checkout the [cargo book](https://doc.rust-lang.org/cargo/reference/features.html#dependency-features).
+
 ## Initializing
 
-Make sure add crate to your project at the top of your file:
+Make sure add the crate to your project at the top of your file:
 
 ```rust Turso
 use libsql::Builder;
@@ -158,7 +162,7 @@ You can pass a string to `execute()` to invoke a SQL statement, as well as optio
 <CodeGroup>
 
 ```rust Query
-conn.execute("SELECT * FROM users").await?;
+conn.execute("SELECT * FROM users", ()).await?;
 ```
 
 ```rust Arguments
@@ -174,7 +178,7 @@ You can prepare a cached statement using `prepare()` and then execute it with `q
 ```rust
 let stmt = db_conn.prepare("SELECT * FROM users").await?;
 
-db_conn.query(&stmt, &[&1]).await?;
+db_conn.query(&stmt, [&1]).await?;
 ```
 
 ## Placeholders
@@ -214,7 +218,6 @@ let row = stmt
   .unwrap();
 
 #[derive(Debug, serde::Deserialize)]
-#[allow(dead_code)]
 struct User {
   name: String,
   age: i64,
