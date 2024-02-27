@@ -1,0 +1,101 @@
+---
+title: Turso + Axum
+sidebarTitle: Axum
+description: Set up Turso in your Axum project in minutes
+---
+
+![Axum banner](/images/guides/axum-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have an Axum app &mdash; [learn more](https://github.com/tokio-rs/axum)
+
+<Steps>
+
+<Step title="Retrieve database credentials">
+
+You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Info>You will want to store these as environment variables.</Info>
+
+</Step>
+
+<Step title="Add the libsql crate to the project">
+
+```sh
+cargo add libsql
+```
+
+<Note>
+Optionally, you can add a package such as [`dotenvy`](https://docs.rs/dotenvy/latest/dotenvy) to help you work with `.env` files:
+
+```sh
+cargo add dotenvy
+```
+</Note>
+
+</Step>
+
+<Step title="Execute SQL">
+
+```rust
+#[tokio::main]
+async fn main() {
+
+    let app = Router::new()
+        // framework routes
+        .route("/", get(root))
+        .route("/items", get(get_items));
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+    axum::serve(listener, app).await.unwrap();
+}
+
+async fn get_items() -> IntoResponse {
+    dotenv().expect(".env file not found");
+
+    let db_url = env::var("TURSO_DATABASE_URL").unwrap();
+    let auth_token = env::var("TURSO_AUTH_TOKEN").unwrap();
+
+    let db = Database::open_remote(db_url, auth_token).unwrap();
+
+    let conn = db.connect().unwrap();
+
+    let mut results = conn.query("SELECT * FROM items", ()).await.unwrap();
+
+    let mut items: Vec<Item> = Vec::new();
+
+    while let Some(row) = results.next().unwrap() {
+        let item: Item = Item {
+            task: row.get(0).unwrap(),
+        };
+        items.push(item);
+    }
+
+    (StatusCode::OK, Json(items))
+}
+```
+
+</Step>
+
+</Steps>
+
+## Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Turso + Axum Todo List"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/app-todo-axum"
+  >
+    See the full source code
+  </Card>
+</CardGroup>

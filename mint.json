@@ -257,7 +257,8 @@
         {
           "group": "Guides",
           "pages": [
-            "sdk/rust/guides/tauri"
+            "sdk/rust/guides/tauri",
+            "sdk/rust/guides/axum"
           ]
         }
       ]
