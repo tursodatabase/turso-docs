@@ -15,20 +15,20 @@ cargo add libsql
 
 ### Conditional compilation
 
-The libsql rust client supports conditionally compiling certain features to reduce compile times depending on what features you would like to use &mdash; [learn more](https://doc.rust-lang.org/cargo/reference/features.html#dependency-features).
+The libsql rust client supports [conditionally compiling](https://doc.rust-lang.org/cargo/reference/features.html#dependency-features) certain features to reduce compile times depending on what features you would like to use.
 
-| Feature       | Description                           |
-| ------------- | ------------------------------------- |
-| `remote`      | Enables the http only client          |
-| `core`        | Enables the local database only       |
-| `replication` | Enables the embedded replica features |
-| `encryption`  | Enables encryption at rest support    |
+The following features are available:
 
-All features above are **enabled by default**, but you can disable the default feartures, and enable specific features by adding the `features` field to your `Cargo.toml`:
+| Feature       | Description                                                                                                                                                                                                                                          |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `remote`      | Enables the HTTP-only client, allowing communication with a remote sqld server using pure Rust. Does not require compiling C code for SQLite. Suitable for projects that only need to interact with a remote database.                               |
+| `core`        | Enables the local database only, incorporating the C SQLite3 code into the build. This is the foundation for local database operations but does not include additional features like replication or encryption.                                      |
+| `replication` | Combines core with additional code required for replication, enabling the embedded replica features.                                                                                                                                                 |
+| `encryption`  | Enables encryption at rest support, adding the necessary code to compile encryption capabilities and expose functions for configuring it. **This is optional and not enabled by default**, catering to projects that require enhanced data security. |
 
 ```toml
 [dependencies]
-libsql = { version = "...", default-features = false, features = ["encryption"] }
+libsql = { version = "...", features = ["encryption"] }
 ```
 
 ## Initializing
@@ -138,7 +138,7 @@ let conn = db.connect().unwrap();
 
 ## Encryption
 
-To enable encryption on a SQLite file (`new_local` or `new_remote_replica`), make sure you have the [`encryption` feature enabled](#conditional-compilation) (**on by default**), and pass the `encryption_config`:
+To enable encryption on a SQLite file (`new_local` or `new_remote_replica`), make sure you have the [`encryption` feature enabled](#conditional-compilation), and pass the `encryption_config`:
 
 ```rust
 use libsql::Builder;
