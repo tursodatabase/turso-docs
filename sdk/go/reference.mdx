@@ -2,3 +2,113 @@
 title: Reference
 url: https://github.com/libsql/go-libsql
 ---
+
+## Embedded Replicas
+
+You can work with [embedded replicas](/features/embedded-replicas) that can sync from the remote database to a local SQLite file, and delegate writes to the remote primary database:
+
+```go
+package main
+
+import (
+  "database/sql"
+  "fmt"
+  "os"
+  "path/filepath"
+
+  "github.com/libsql/go-libsql"
+)
+
+func main() {
+    dbName := "local.db"
+    primaryUrl := "libsql://[DATABASE].turso.io"
+    authToken := "..."
+
+    dir, err := os.MkdirTemp("", "libsql-*")
+    if err != nil {
+        fmt.Println("Error creating temporary directory:", err)
+        os.Exit(1)
+    }
+    defer os.RemoveAll(dir)
+
+    dbPath := filepath.Join(dir, dbName)
+
+    connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken)
+    if err != nil {
+        fmt.Println("Error creating connector:", err)
+        os.Exit(1)
+    }
+    defer connector.Close()
+
+    db := sql.OpenDB(connector)
+    defer db.Close()
+}
+```
+
+### Manual Sync
+
+The `Sync` function allows you to sync manually the local database with the remote counterpart:
+
+```go
+if err := connector.Sync(); err != nil {
+  fmt.Println("Error syncing database:", err)
+}
+```
+
+### Periodic Sync
+
+You can automatically sync at intervals using `NewEmbeddedReplicaConnectorWithAutoSync` and passing a `time.Duration` as the last argument. For example, to sync every minute, you can use the following code:
+
+```go
+duration := time.Minute
+
+connector, err := libsql.NewEmbeddedReplicaConnectorWithAutoSync(dbPath, primaryUrl, authToken, false, encryptionKey, duration)
+```
+
+### Read Your Own Writes
+
+The `NewEmbeddedReplicaConnector` and `NewEmbeddedReplicaConnectorWithAutoSync` constructors lets you configure the database connection to ensure that writes are immediately visible to subsequent read operations initiated by the same connection.
+
+This is **enabled by default**, and is particularly important in distributed systems to ensure consistency from the perspective of the writing process.
+
+You can disable this behavior by passing `false` to the constructor as the fourth argument:
+
+<CodeGroup>
+
+```go NewEmbeddedReplicaConnector
+connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken, false)
+```
+
+```go NewEmbeddedReplicaConnectorWithAutoSync
+connector, err := libsql.NewEmbeddedReplicaConnectorWithAutoSync(dbPath, primaryUrl, authToken, false, "", duration)
+```
+
+</CodeGroup>
+
+## Encryption
+
+To enable encryption on a SQLite file, pass the encryption key value as an argument to the constructor:
+
+<CodeGroup>
+
+```go NewEmbeddedReplicaConnector
+encryptionKey := "SuperSecretKey"
+
+connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken, true, encryptionKey)
+```
+
+```go NewEmbeddedReplicaConnectorWithAutoSync
+encryptionKey := "SuperSecretKey"
+
+connector, err := libsql.NewEmbeddedReplicaConnectorWithAutoSync(dbPath, primaryUrl, authToken, true, encryptionKey, duration)
+```
+
+</CodeGroup>
+
+<br />
+
+<Info>
+
+Encrypted databases appear as raw data and cannot be read as standard SQLite databases. You must use the libSQL client for any operations — [learn more](/libsql#encryption-at-rest).
+
+</Info>

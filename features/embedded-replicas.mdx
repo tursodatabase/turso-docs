@@ -24,7 +24,7 @@ Embedded replicas provide a smooth switch between local and remote database oper
 
    - Writes are always sent to the remote primary database configured at `syncUrl`.
    - Any write transactions with reads are also sent to the remote primary database.
-   - Once the write is successful, the local database is updated with the changes automatically (read your own writes).
+   - Once the write is successful, the local database is updated with the changes automatically (read your own writes &mdash; can be disabled).
 
 ## Usage
 
@@ -32,7 +32,7 @@ To use embedded replicas, you need to create a client with a `syncUrl` parameter
 
 <CodeGroup>
 
-```ts Node.js
+```ts TypeScript
 import { createClient } from "@libsql/client";
 
 const client = createClient({
@@ -40,6 +40,44 @@ const client = createClient({
   syncUrl: "libsql://...",
   authToken: "...",
 });
+```
+
+```go Go
+package main
+
+import (
+   "database/sql"
+   "fmt"
+   "os"
+   "path/filepath"
+
+   "github.com/libsql/go-libsql"
+)
+
+func main() {
+   dbName := "local.db"
+   primaryUrl := "libsql://[DATABASE].turso.io"
+   authToken := "..."
+
+   dir, err := os.MkdirTemp("", "libsql-*")
+   if err != nil {
+      fmt.Println("Error creating temporary directory:", err)
+      os.Exit(1)
+   }
+   defer os.RemoveAll(dir)
+
+   dbPath := filepath.Join(dir, dbName)
+
+   connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken)
+   if err != nil {
+      fmt.Println("Error creating connector:", err)
+      os.Exit(1)
+   }
+   defer connector.Close()
+
+   db := sql.OpenDB(connector)
+   defer db.Close()
+}
 ```
 
 ```rust Rust
@@ -54,8 +92,14 @@ You can sync changes from the remote database to the local replica by calling `s
 
 <CodeGroup>
 
-```ts Node.js
+```ts TypeScript
 await client.sync();
+```
+
+```go Go
+if err := connector.Sync(); err != nil {
+  fmt.Println("Error syncing database:", err)
+}
 ```
 
 ```rust Rust

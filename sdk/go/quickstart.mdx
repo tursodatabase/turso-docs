@@ -206,10 +206,8 @@ queryUsers(db)
 When using embedded replicas you should call `Sync()` on the connector to sync your local database with the primary database.
 
 ```go
-func syncDatabase(connector *libsql.Connector) {
-  if err := connector.Sync(); err != nil {
-    fmt.Println("Error syncing database:", err)
-  }
+if err := connector.Sync(); err != nil {
+  fmt.Println("Error syncing database:", err)
 }
 ```
 
@@ -217,7 +215,7 @@ The connector can automatically sync your database at a regular interval when us
 
 ```go
 duration := time.Minute
-connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken, duration)
+connector, err := libsql.NewEmbeddedReplicaConnectorWithAutoSync(dbPath, primaryUrl, authToken, duration)
 ```
 
   </Step>
