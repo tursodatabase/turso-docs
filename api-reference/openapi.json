@@ -727,7 +727,7 @@
                 },
                 "example": {
                   "group": {
-                    "archived": false,
+                    "sleeping": false,
                     "locations": ["lhr", "ams"],
                     "name": "default",
                     "primary": "lhr",
@@ -789,7 +789,7 @@
                 },
                 "example": {
                   "group": {
-                    "archived": false,
+                    "sleeping": false,
                     "locations": ["lhr", "ams"],
                     "name": "default",
                     "primary": "lhr",
@@ -1983,9 +1983,9 @@
             "description": "The primary location key.",
             "example": "lhr"
           },
-          "archived": {
+          "sleeping": {
             "type": "boolean",
-            "description": "Groups on the free tier go to sleep after some inactivity.",
+            "description": "Groups on the free plan go to sleep after some inactivity.",
             "example": false
           }
         }
