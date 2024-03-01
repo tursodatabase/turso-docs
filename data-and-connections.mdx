@@ -1,29 +1,40 @@
 ---
 title: Data & Connections
-description:
+description: Learn how data consistency and connections work with Turso databases.
 ---
 
 Turso, an extension of [libSQL](/libsql) (a SQLite fork), modifies the consistency model due to its network-accessible and replicated nature, deviating from SQLite's strictly serializable standard.
 
+## Establishing Connections
+
 Database operations begin with a client establishing either an HTTP or websocket connection to a server instance. Following this, an internal SQLite database connection is set up within the server to facilitate the operations.
+
+## Data Consistency
 
 Database operations are tightly controlled to maintain order and data integrity, with primary instances handling all writes in a serialized manner and replicas managing local reads.
 
-- **On the primary database:**
+### Primary Database Operations
 
-  - All operations are linearizable, forming an ordered history.
-  - Writes are fully serialized; other writes wait for a transaction to complete.
-  - Caution with long-running or abandoned transactions as they block other writes.
+- All operations are linearizable, maintaining an ordered history.
+- Writes are fully serialized, with subsequent writes awaiting transaction completion.
+- Users should exercise caution with long-running or abandoned transactions to prevent blocking other writes.
 
-- **On the replicas:**
+### Replica Operations & Reads
 
-  - Writes are forwarded to the primary and applied there.
-  - Changes from the primary are eventually pulled by each replica (200-300ms latency).
-  - No guarantees on the time for replicas to reflect primary's changes.
-  - Reads are local and not globally ordered; data might differ across replicas.
-  - Monotonic reads are maintained, ensuring that any read operation will not return data older than previously read data on the same instance.
+- **Forwarding Writes to the Primary:**
+  - All writes are forwarded to the primary, ensuring serialized application.
+- **Replication Process:**
+  - Changes from the primary are eventually propagated to each replica, with a latency of 200-300ms.
+  - New connections may encounter stale data until a write operation updates the replication index.
+  - Replicas do not guarantee immediate reflection of primary's changes, leading to potential data differences across replicas.
+  - Monotonic reads are maintained, ensuring read operations retrieve data newer than previously accessed data on the same instance.
+- **Immediate Read-After-Write Consistency:**
+  - Replication index tracking enables immediate read-after-write consistency.
+  - Clients track replication frames to ensure awareness of the most recent data state across replicas.
+  - Replicas manage requests based on the client's replication index, ensuring consistent data access.
+  - Developers can utilize a driver to track replication frames, guaranteeing consistency between read and write operations.
 
-- **Transactional consistency**:
+## Transactional Consistency
 
-  - Transactions in libSQL, both batch and interactive, adhere to SQLite's transaction semantics.
-  - Transactions in libSQL provide snapshot isolation for read operations and immediate visibility of writes to the same process, ensuring serializability and isolation from other transactions.
+- Transactions in libSQL, encompassing both batch and interactive transactions, adhere to SQLite's transaction semantics.
+- libSQL provides snapshot isolation for read operations, ensuring immediate visibility of writes within the same process. This guarantees serializability and isolation from other transactions.
