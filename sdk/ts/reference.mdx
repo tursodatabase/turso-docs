@@ -140,7 +140,7 @@ await client.sync();
 
 ### Periodic Sync
 
-You can automatically sync at intervals by configuring the `syncPeriod` (seconds) property when instantiating a new libSQL client:
+You can automatically sync at intervals by configuring the `syncInterval` (seconds) property when instantiating a new libSQL client:
 
 ```ts
 import { createClient } from "@libsql/client";
@@ -148,7 +148,7 @@ import { createClient } from "@libsql/client";
 const client = createClient({
   url: "file:path/to/db-file.db",
   syncUrl: "libsql://[databaseName]-[organizationName].turso.io",
-  syncPeriod: 60,
+  syncInterval: 60,
   authToken: "...",
 });
 ```
