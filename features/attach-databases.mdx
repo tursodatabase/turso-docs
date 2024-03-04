@@ -1,0 +1,66 @@
+---
+title: Attach Databases
+description:
+---
+
+TODO
+
+- [ ] Document what ATTACH is and enables
+- [ ] Create `cli/attach` page with the CLI Quickstart below
+- [ ] Create `ATTACH` sections inside of each reference for usage instructions with tokens
+
+## CLI Quickstart
+
+TODO: Refactor this slightly
+
+<Steps>
+
+<Step title="Enable attach on required databases">
+
+You will first need to enable the `attach` feature on the databases you want to connect to:
+
+```bash
+turso db config attach allow <database-name>
+```
+
+</Step>
+
+<Step title="Retrieve database ID">
+
+You now need to retrieve the **Database ID** for the database you want to `ATTACH`:
+
+```bash
+turso db show <database-name>
+```
+
+</Step>
+
+<Step title="Connect to any database with attach">
+
+Now pass the names of the databases to the `--attach` flag when connecting to a database:
+
+```bash
+turso db shell <database-name> --attach <...database-name(s)-from-step-1>
+```
+
+</Step>
+
+<Step title="Invoke ATTACH inside the shell">
+
+Now once connected to the shell you can invoke `ATTACH` to connect to the other databases:
+
+```sql
+ATTACH "<database-id>" AS my_db;
+```
+
+</Step>
+
+<Step title="Query from an attached database">
+
+```sql
+SELECT * FROM my_db.my_table;
+```
+
+</Step>
+
+</Steps>

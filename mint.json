@@ -96,6 +96,7 @@
       "pages": [
         "features/platform-api",
         "features/embedded-replicas",
+        "features/attach-databases",
         "features/data-edge",
         "features/branching",
         "features/point-in-time-recovery",
@@ -155,6 +156,19 @@
             {
               "group": "tokens",
               "pages": ["cli/db/tokens/create", "cli/db/tokens/invalidate"]
+            },
+            {
+              "group": "config",
+              "pages": [
+                {
+                  "group": "attach",
+                  "pages": [
+                    "cli/db/config/attach/allow",
+                    "cli/db/config/attach/disallow",
+                    "cli/db/config/attach/show"
+                  ]
+                }
+              ]
             }
           ]
         },
