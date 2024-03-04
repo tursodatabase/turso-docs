@@ -25,7 +25,10 @@ func main() {
 
     dbPath := filepath.Join(dir, dbName)
 
-    connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken, false, encryptionKey)
+    connector, err := NewEmbeddedReplicaConnector(dbPath, primaryUrl,
+        WithAuthToken(authToken),
+        WithEncryption(encryptionKey),
+    )
     if err != nil {
         fmt.Println("Error creating connector:", err)
         os.Exit(1)
