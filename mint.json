@@ -104,10 +104,7 @@
     },
     {
       "group": "Help",
-      "pages": [
-        "support",
-        "help/usage-and-billing"
-      ]
+      "pages": ["support", "help/usage-and-billing"]
     },
     {
       "group": "Turso CLI",
@@ -258,7 +255,8 @@
           "group": "Guides",
           "pages": [
             "sdk/rust/guides/tauri",
-            "sdk/rust/guides/axum"
+            "sdk/rust/guides/axum",
+            "sdk/rust/guides/rocket"
           ]
         }
       ]
@@ -274,9 +272,7 @@
         "sdk/python/examples",
         {
           "group": "Guides",
-          "pages": [
-            "sdk/python/guides/flask"
-          ]
+          "pages": ["sdk/python/guides/flask"]
         },
         {
           "group": "ORMs",
@@ -286,12 +282,14 @@
     },
     {
       "group": "HTTP",
-      "pages": ["sdk/http/quickstart", "sdk/http/reference", {
-        "group": "Guides",
-        "pages": [
-          "sdk/http/guides/flutter"
-        ]
-      }]
+      "pages": [
+        "sdk/http/quickstart",
+        "sdk/http/reference",
+        {
+          "group": "Guides",
+          "pages": ["sdk/http/guides/flutter"]
+        }
+      ]
     },
     {
       "group": "API",
