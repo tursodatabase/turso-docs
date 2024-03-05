@@ -96,7 +96,6 @@
       "pages": [
         "features/platform-api",
         "features/embedded-replicas",
-        "features/attach-database",
         "features/data-edge",
         "features/branching",
         "features/point-in-time-recovery",
@@ -334,6 +333,7 @@
             "api-reference/databases/list",
             "api-reference/databases/create",
             "api-reference/databases/retrieve",
+            "api-reference/databases/configuration",
             "api-reference/databases/usage",
             "api-reference/databases/stats",
             "api-reference/databases/delete",

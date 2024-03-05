@@ -127,7 +127,7 @@ Now you can use a [Client SDK](/sdk/) to attach the desired database within a re
 
 <CodeGroup>
 
-```ts TypeScript
+```ts @libsql/client
 import { createClient } from "@libsql/client";
 
 const client = createClient({
@@ -137,9 +137,9 @@ const client = createClient({
 
 const txn = await db.transaction("read");
 
-await txn.execute('ATTACH "<database-id-from-previous-step>" AS <some-name>');
+await txn.execute('ATTACH "<database-id-from-previous-step>" AS attached');
 
-const rs = await txn.execute("SELECT * FROM <some-name>.t");
+const rs = await txn.execute("SELECT * FROM attached.users");
 ```
 
 </CodeGroup>
@@ -151,7 +151,7 @@ const rs = await txn.execute("SELECT * FROM <some-name>.t");
 ## Limitations
 
 - You can only attach databases that have the `attach` feature enabled.
-- You can only attach databases in the same database group.
+- You can only attach databases belonging to a group, and in the same group.
 - There is a maximum of 10 databases that can be attached to a single transaction.
 - `ATTACH` only supports read-only transactions. You cannot `INSERT`, `UPDATE`, or `DELETE` data from an attached database.
 - `ATTACH` doesn't support [Embedded Replicas](/features/embedded-replicas)
