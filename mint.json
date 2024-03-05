@@ -155,7 +155,8 @@
             {
               "group": "tokens",
               "pages": ["cli/db/tokens/create", "cli/db/tokens/invalidate"]
-            }
+            },
+            "cli/db/wakeup"
           ]
         },
         "cli/dev",
