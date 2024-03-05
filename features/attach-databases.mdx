@@ -9,7 +9,9 @@ TODO
 - [ ] Create `cli/attach` page with the CLI Quickstart below
 - [ ] Create `ATTACH` sections inside of each reference for usage instructions with tokens
 
-## CLI Quickstart
+## Quickstart
+
+### Turso CLI
 
 TODO: Refactor this slightly
 
@@ -60,6 +62,69 @@ ATTACH "<database-id>" AS my_db;
 ```sql
 SELECT * FROM my_db.my_table;
 ```
+
+</Step>
+
+</Steps>
+
+### libSQL SDKs
+
+TODO: Refactor this slightly
+
+<Steps>
+
+<Step title="Enable attach on required databases">
+
+You will first need to enable the `attach` feature on the databases you want to connect to:
+
+```bash
+turso db config attach allow <database-name>
+```
+
+</Step>
+
+<Step title="Retrieve database ID">
+
+You now need to retrieve the **Database ID** for the database you want to `ATTACH`:
+
+```bash
+turso db show <database-name>
+```
+
+</Step>
+
+<Step title="Create token with attach permissions">
+
+Now create a token for the libSQL client with the `attach` permission for the database you want to attach:
+
+```bash
+turso db tokens create <database-name> --attach <another-database-name>
+```
+
+</Step>
+
+<Step title="Connect to any database with attach">
+
+Now you can use a [Client SDK](/sdk/) to attach the desired database within a read transaction:
+
+<CodeGroup>
+
+```ts TypeScript
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: process.env.LIBSQL_URL,
+  authToken: process.env.LIBSQL_AUTH_TOKEN,
+});
+
+const txn = await db.transaction("read");
+
+await txn.execute('ATTACH "<database-id-from-previous-step>" AS <some-name>');
+
+const rs = await txn.execute("SELECT * FROM <some-name>.t");
+```
+
+</CodeGroup>
 
 </Step>
 
