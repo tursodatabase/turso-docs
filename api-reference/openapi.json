@@ -1802,6 +1802,21 @@
             "description": "The DNS hostname used for client libSQL and HTTP connections.",
             "example": "[databaseName]-[organizationName].turso.io"
           },
+          "blocked_reads": {
+            "type": "boolean",
+            "description": "The current status for blocked reads.",
+            "example": false
+          },
+          "blocked_writes": {
+            "type": "boolean",
+            "description": "The current status for blocked writes.",
+            "example": false
+          },
+          "allow_attach": {
+            "type": "boolean",
+            "description": "The current status for allowing the database to be attached to another.",
+            "example": false
+          },
           "regions": {
             "type": "array",
             "items": {
@@ -1824,12 +1839,17 @@
           "version": {
             "type": "string",
             "description": "The current libSQL version the database is running.",
-            "example": "0.21.9"
+            "example": "0.22.22"
           },
           "group": {
             "type": "string",
             "description": "The name of the group the database belongs to.",
             "example": "default"
+          },
+          "sleeping": {
+            "type": "boolean",
+            "description": "The current status of the database. If `true`, the database is sleeping and requires a manual wakeup.",
+            "example": false
           }
         }
       },
