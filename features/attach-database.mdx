@@ -154,3 +154,4 @@ const rs = await txn.execute("SELECT * FROM <some-name>.t");
 - You can only attach databases in the same database group.
 - There is a maximum of 128 databases that can be attached to a single transaction.
 - `ATTACH` only supports read-only transactions. You cannot `INSERT`, `UPDATE`, or `DELETE` data from an attached database.
+- `ATTACH` doesn't support [Embedded Replicas](/features/embedded-replicas)
