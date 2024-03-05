@@ -1,15 +1,33 @@
 ---
-title: Attach Databases
+title: Attach Database
 description: Attach and read data across multiple databases.
 ---
 
+The `ATTACH` command allows you to connect to multiple databases within a single transaction. This is useful for reading data from multiple databases within a single query.
+
+Using the `ATTACH` command is great for a variety of use cases, including:
+
+- Modular data organization
+- Simplified data access and scalability
+- Schema management
+- Data aggregation
+
 TODO
 
-- [ ] Document what ATTACH is and enables
-- [ ] Create `cli/attach` page with the CLI Quickstart below
-- [ ] Create `ATTACH` sections inside of each reference for usage instructions with tokens
+- Create `cli/attach` page with the CLI Quickstart below
+- Create `ATTACH` sections inside of each reference for usage instructions with tokens
 
-## Quickstart
+## How it works
+
+1. You enable the `attach` feature on the databases you want to connect to.
+2. You retrieve the **Database ID** for the database you want to `ATTACH`.
+3. You connect to the database
+   - You can use the Turso CLI or a libSQL SDK to connect to the database.
+   - CLI uses the `--attach` flag to automatically create a token with the correct permissions.
+   - SDKs require you to create a token with the `attach` permission for the database you want to attach.
+4. You invoke `ATTACH` to connect to the other databases within the database shell or SDK.
+
+## Usage
 
 ### Turso CLI
 
@@ -129,3 +147,8 @@ const rs = await txn.execute("SELECT * FROM <some-name>.t");
 </Step>
 
 </Steps>
+
+## Limitations
+
+- There is a maximum of 128 databases that can be attached to a single transaction.
+- `ATTACH` only supports read-only transactions. You cannot `INSERT`, `UPDATE`, or `DELETE` data from an attached database.
