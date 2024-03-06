@@ -45,10 +45,6 @@ conn.execute("CREATE TABLE IF NOT EXISTS users (email TEXT)", ()).await.unwrap()
 conn.execute("INSERT INTO users (email) VALUES ('alice@example.org')", ()).await.unwrap();
 ```
 
-### Custom HTTP Connector
-
-The `connector` function is used to provide a custom HTTP connector for creating HTTP connections, which might be necessary for custom networking setups, proxy configurations, or specialized security requirements.
-
 ## Local Development
 
 You can work locally using an SQLite file using `new_local`:
