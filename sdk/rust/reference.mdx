@@ -35,14 +35,25 @@ libsql = { version = "...", features = ["encryption"] }
 
 Make sure add the crate to your project at the top of your file:
 
-```rust Turso
+```rust
+use libsql::Builder;
+
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let mut db = Builder::new_remote_replica("local.db", &url, &token).build().await.unwrap();
+let conn = db.connect().unwrap();
+```
+
+## In-Memory Databases
+
+libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't require persistence:
+
+```rust
 use libsql::Builder;
 
 let db = Builder::new_local(":memory:").build().await.unwrap();
 let conn = db.connect().unwrap();
-
-conn.execute("CREATE TABLE IF NOT EXISTS users (email TEXT)", ()).await.unwrap();
-conn.execute("INSERT INTO users (email) VALUES ('alice@example.org')", ()).await.unwrap();
 ```
 
 ## Local Development
