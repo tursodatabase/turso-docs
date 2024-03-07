@@ -91,7 +91,7 @@ print(conn.execute("select * from users").fetchall())
 
   <Step title="Sync (Embedded Replicas only)">
 
-When using embedded replicas you should call `Sync()` on the connector to sync your local database with the primary database.
+When using embedded replicas you should call `sync()` on the connector to sync your local database with the primary database.
 
 ```py
 conn.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER);")
