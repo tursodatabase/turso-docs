@@ -1276,16 +1276,16 @@
           }
         ],
         "requestBody": {
-          "description": "The member you want to add.",
+          "description": "The user you want to invite to join Turso, and your organization.",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "username": {
+                  "email": {
                     "type": "string",
-                    "description": "The username of an existing Turso user."
+                    "description": "The email of the user you want to invite."
                   },
                   "role": {
                     "type": "string",
