@@ -6,11 +6,11 @@ description: Get started with Turso and Go using the libSQL client in a few simp
 
 The libSQL package is designed to work with [`database/sql`](https://pkg.go.dev/database/sql) to provide the usual methods you'd expect when working with databases in Go.
 
-<Note>
+<Info>
 
-Embedded Replicas with Go are experimental and may break. It's recommended you use `github.com/tursodatabase/libsql-client-go/libsql` (Remote only) instructions below.
+The `go-libsql` package uses CGO. You can use `github.com/tursodatabase/libsql-client-go/libsql` instead, but it doesn't support embedded replicas.
 
-</Note>
+</Info>
 
 In this Go quickstart we will learn how to:
 
@@ -206,18 +206,18 @@ queryUsers(db)
 When using embedded replicas you should call `Sync()` on the connector to sync your local database with the primary database.
 
 ```go
-func syncDatabase(connector *libsql.Connector) {
-  if err := connector.Sync(); err != nil {
-    fmt.Println("Error syncing database:", err)
-  }
+if err := connector.Sync(); err != nil {
+  fmt.Println("Error syncing database:", err)
 }
 ```
 
-The connector can automatically sync your database at a regular interval when using the `NewEmbeddedReplicaConnectorWithAutoSync` method:
+The connector can automatically sync your database at a regular interval when using the `WithAuthToken` option:
 
 ```go
 duration := time.Minute
-connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken, duration)
+connector, err := NewEmbeddedReplicaConnector(dbPath, primaryUrl,
+    WithAuthToken(authToken),
+)
 ```
 
   </Step>

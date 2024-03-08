@@ -1,0 +1,23 @@
+```rust Rust
+use libsql::Builder;
+use bytes::Bytes;
+
+let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
+let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+
+let cipher = Cipher::YourChosenCipher;
+let encryption_key_bytes = Bytes::from("your_secure_encryption_key_here");
+
+let encryption_config = EncryptionConfig {
+    cipher,
+    encryption_key: encryption_key_bytes,
+};
+
+let mut db = Builder::new_remote_replica("local.db", &url, &token)
+  .encryption_config(encryption_config) // Apply encryption configuration
+  .build()
+  .await
+  .unwrap();
+
+let conn = db.connect().unwrap();
+```
