@@ -16,7 +16,8 @@ let encryption_config = EncryptionConfig {
 let mut db = Builder::new_remote_replica("local.db", &url, &token)
   .encryption_config(encryption_config) // Apply encryption configuration
   .build()
-  .await.unwrap();
+  .await
+  .unwrap();
 
 let conn = db.connect().unwrap();
 ```
