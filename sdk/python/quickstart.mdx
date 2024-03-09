@@ -49,16 +49,16 @@ Now connect to your local or remote database using the libSQL connector:
     url = os.getenv("TURSO_DATABASE_URL")
     auth_token = os.getenv("TURSO_AUTH_TOKEN")
 
-    con = libsql.connect("hello.db", sync_url=url, auth_token=auth_token)
-    con.sync()
+    conn = libsql.connect("hello.db", sync_url=url, auth_token=auth_token)
+    conn.sync()
     ```
 
   </Accordion>
 
   <Accordion title="Local only">
     ```py
-    con = libsql.connect("hello.db")
-    cur = con.cursor()
+    conn = libsql.connect("hello.db")
+    cur = conn.cursor()
     ```
 
   </Accordion>
