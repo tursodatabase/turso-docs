@@ -115,6 +115,7 @@ You should call `.sync()` in the background whenever your application wants to s
 
 </Note>
 
-## Limitations
+## Things to know
 
+- Do not open the local database while the embedded replica is syncing. This can lead to data corruption.
 - In certain contexts, such as serverless environments without a filesystem, you can't use embedded replicas.
