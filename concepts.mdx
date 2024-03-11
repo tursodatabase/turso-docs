@@ -56,6 +56,8 @@ You can fetch the list of supported locations as JSON when building with the [Pl
 
 All databases are part of a "group", dictating their primary storage location and replication across distinct VMs (locations), each capped at 100GB. This setup ensures databases share resources yet remain isolated.
 
+<Warning>Creating more than one group is limited to paid plans.</Warning>
+
 <Frame caption="A single group with replicas">
   ![Turso Database Groups and Replication](/images/concepts/database-group.png)
 </Frame>
