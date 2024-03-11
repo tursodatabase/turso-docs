@@ -5,6 +5,12 @@ description:
 
 Turso supports point-in-time recovery (PITR) for databases. PITR allows you to restore a database to a specific point in time. This is useful for recovering from user errors, such as dropping a table by mistake.
 
+<Info>
+
+Backups are created automatically at `COMMIT`. Free plan users can restore to any point in time within the last 24 hours. Paid users can restore to any point in time within the last 30 days.
+
+</Info>
+
 ## How it works
 
 1. You create a new database from the existing database using the CLI or API.
@@ -56,9 +62,8 @@ Refer to the following references for more details about all arguments:
 
 </CardGroup>
 
-## Limitations
+## Things to know
 
-- Free plan users can restore to any point in time within the last 24 hours. Paid users can restore to any point in time within the last 30 days.
 - Restoring from a PITR creates a new database. You will need to update your application to use the new database connection string.
 - You cannot restore from a PITR to a database that already exists.
 - You will need to [create a new token](/cli/db/tokens/create) (or use a group token) to connect to the new database.
