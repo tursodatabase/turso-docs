@@ -62,19 +62,12 @@ TURSO_AUTH_TOKEN="..."
 <Step title="Configure LibSQL Client.">
 
 ```ts app/lib/turso.ts
-import { createClient } from "@libsql/client/http";
-import { AppLoadContext } from "@remix-run/node";
+import { createClient } from "@libsql/client";
 
-interface Env {
-  TURSO_AUTH_TOKEN?: string;
-  TURSO_DATABASE_URL?: string;
-}
-
-export const turso = (serverContext: AppLoadContext) =>
-  createClient({
-    url: serverContext.env.TURSO_DATABASE_URL,
-    authToken: serverContext.env.TURSO_AUTH_TOKEN,
-  });
+export const turso = createClient({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+});
 ```
 
 </Step>
@@ -82,13 +75,11 @@ export const turso = (serverContext: AppLoadContext) =>
 <Step title="Execute SQL">
 
 ```ts app/routes/_index.ts
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { buildDbClient } from "~/lib/turso";
+import type { LoaderFunction } from "@remix-run/node";
+import { turso } from "~/lib/turso";
 
-export const loader: LoaderFunction = async ({ context }: LoaderArgs) => {
-  const db = turso(context);
-
-  const { rows } = await db.execute("select * from table_name");
+export const loader: LoaderFunction = async () => {
+  const { rows } = await turso.execute("SELECT * from TABLE_NAME");
 
   return {
     items: rows,
