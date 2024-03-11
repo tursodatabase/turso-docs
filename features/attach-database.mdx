@@ -3,41 +3,34 @@ title: Attach Database
 description: Attach and read data across multiple databases.
 ---
 
-The `ATTACH` command allows you to connect to multiple databases within a single transaction. This is useful for reading data from multiple databases within a single query.
+The `ATTACH` statement enables you to link multiple databases within a single transaction, which is ideal for:
 
-Using the `ATTACH` command is great for a variety of use cases, including:
-
-- Modular data organization
-- Simplified data access and scalability
-- Schema management
-- Data aggregation
-
-TODO
-
-- Create `cli/attach` page with the CLI Quickstart below
-- Create `ATTACH` sections inside of each reference for usage instructions with tokens
+- Organizing data in a modular way
+- Streamlining data access and enhancing scalability
+- Aggregating data
 
 ## How it works
 
-1. You enable the `attach` feature on the databases you want to connect to.
+1. You enable the `ATTACH` feature on the databases you want to connect to.
 2. You retrieve the **Database ID** for the database you want to `ATTACH`.
 3. You connect to the database
-   - You can use the Turso CLI or a libSQL SDK to connect to the database.
-   - CLI uses the `--attach` flag to automatically create a token with the correct permissions.
-   - SDKs require you to create a token with the `attach` permission for the database you want to attach.
+   - **CLI**: `--attach` flag to automatically create a token with the correct permissions.
+   - **SDK**: Create a token with the `attach` permission for the database you want to attach.
 4. You invoke `ATTACH` to connect to the other databases within the database shell or SDK.
 
 ## Usage
 
+You can use the `ATTACH` statement to connect to other databases within a transaction using the CLI, or libSQL SDK. Once attached, you can query the attached databases as if they were part of the current database using the assigned alias.
+
 ### Turso CLI
 
-TODO: Refactor this slightly
+Make sure you have the [Turso CLI](/cli/installation) installed, and [logged in](/cli/auth/login).
 
 <Steps>
 
 <Step title="Enable attach on required databases">
 
-You will first need to enable the `attach` feature on the databases you want to connect to:
+You will first need to enable the `ATTACH` feature on the database(s) you want to attach:
 
 ```bash
 turso db config attach allow <database-name>
@@ -45,7 +38,7 @@ turso db config attach allow <database-name>
 
 </Step>
 
-<Step title="Retrieve database ID">
+<Step title="Retrieve Database ID">
 
 You now need to retrieve the **Database ID** for the database you want to `ATTACH`:
 
@@ -57,17 +50,17 @@ turso db show <database-name>
 
 <Step title="Connect to any database with attach">
 
-Now pass the names of the databases to the `--attach` flag when connecting to a database:
+Now pass the names of the databases via the `--attach` flag when connecting to your database(s):
 
 ```bash
-turso db shell <database-name> --attach <...database-name(s)-from-step-1>
+turso db shell <database-name> --attach <...database-name(s)>
 ```
 
 </Step>
 
-<Step title="Invoke ATTACH inside the shell">
+<Step title="ATTACH">
 
-Now once connected to the shell you can invoke `ATTACH` to connect to the other databases:
+Now once connected to the database you can invoke an `ATTACH` statement to connect the other database(s):
 
 ```sql
 ATTACH "<database-id>" AS my_db;
@@ -75,7 +68,9 @@ ATTACH "<database-id>" AS my_db;
 
 </Step>
 
-<Step title="Query from an attached database">
+<Step title="Query">
+
+Execute a query using the alias for any attached database(s):
 
 ```sql
 SELECT * FROM my_db.my_table;
@@ -87,13 +82,13 @@ SELECT * FROM my_db.my_table;
 
 ### libSQL SDKs
 
-TODO: Refactor this slightly
+You can use one of the libSQL client SDKs with [TypeScript](/sdk/ts), [Rust](/sdk/rust), [Go](/sdk/go), [Python](/sdk/python), or over [HTTP](/sdk/http).
 
 <Steps>
 
 <Step title="Enable attach on required databases">
 
-You will first need to enable the `attach` feature on the databases you want to connect to:
+You will first need to enable the `ATTACH` feature on the database(s) you want to attach:
 
 ```bash
 turso db config attach allow <database-name>
@@ -101,7 +96,7 @@ turso db config attach allow <database-name>
 
 </Step>
 
-<Step title="Retrieve database ID">
+<Step title="Retrieve Database ID">
 
 You now need to retrieve the **Database ID** for the database you want to `ATTACH`:
 
@@ -111,7 +106,7 @@ turso db show <database-name>
 
 </Step>
 
-<Step title="Create token with attach permissions">
+<Step title="Create token with ATTACH permissions">
 
 Now create a token for the libSQL client with the `attach` permission for the database you want to attach:
 
@@ -121,9 +116,9 @@ turso db tokens create <database-name> --attach <another-database-name>
 
 </Step>
 
-<Step title="Connect to any database with attach">
+<Step title="Connect to any database with ATTACH">
 
-Now you can use a [Client SDK](/sdk/) to attach the desired database within a read transaction:
+Use a [Client SDK](/sdk) to attach the desired database within a read transaction:
 
 <CodeGroup>
 
@@ -131,8 +126,8 @@ Now you can use a [Client SDK](/sdk/) to attach the desired database within a re
 import { createClient } from "@libsql/client";
 
 const client = createClient({
-  url: process.env.LIBSQL_URL,
-  authToken: process.env.LIBSQL_AUTH_TOKEN,
+  syncUrl: "libsql://...",
+  authToken: "...",
 });
 
 const txn = await db.transaction("read");
@@ -148,10 +143,11 @@ const rs = await txn.execute("SELECT * FROM attached.users");
 
 </Steps>
 
-## Limitations
+## Things to know
 
 - You can only attach databases that have the `attach` feature enabled.
 - You can only attach databases belonging to a group, and in the same group.
 - There is a maximum of 10 databases that can be attached to a single transaction.
-- `ATTACH` only supports read-only transactions. You cannot `INSERT`, `UPDATE`, or `DELETE` data from an attached database.
+- The attached databases are read only.
+- `ATTACH` statement can be used only within transactions.
 - `ATTACH` doesn't support [Embedded Replicas](/features/embedded-replicas)
