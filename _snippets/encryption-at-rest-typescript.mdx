@@ -1,0 +1,8 @@
+```ts TypeScript
+import { createClient } from "@libsql/client";
+
+const db = createClient({
+  url: "file:encrypted.db",
+  encryptionKey: process.env.ENCRYPTION_KEY,
+});
+```

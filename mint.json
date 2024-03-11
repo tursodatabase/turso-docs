@@ -64,12 +64,12 @@
     {
       "name": "Blog & Tutorials",
       "icon": "newspaper",
-      "url": "https://blog.turso.tech"
+      "url": "https://turso.tech/blog"
     },
     {
       "name": "Discord",
       "icon": "discord",
-      "url": "https://discord.com/invite/4B5D7hYwub"
+      "url": "https://discord.gg/turso"
     },
     {
       "name": "GitHub",
@@ -282,6 +282,7 @@
     {
       "group": "Python",
       "pages": [
+        "sdk/python/quickstart",
         "sdk/python/reference",
         "sdk/python/examples",
         {

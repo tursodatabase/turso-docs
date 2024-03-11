@@ -124,32 +124,40 @@ const client = createClient({
 });
 ```
 
-The `sync()` method can be called when [Embedded Replicas](/features/embedded-replicas) are configured to sync changes.
-
-You should call `.sync()` in the background whenever your application wants to sync the remote and local (embedded replica) database.
-
-```ts
-await client.sync();
-```
-
 <Warning>
 
 Embedded Replicas only works where you have access the file system.
 
 </Warning>
 
+### Manual Sync
+
+The `sync()` function allows you to sync manually the local database with the remote counterpart:
+
+```ts
+await client.sync();
+```
+
+### Periodic Sync
+
+You can automatically sync at intervals by configuring the `syncInterval` (seconds) property when instantiating a new libSQL client:
+
+```ts
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: "file:path/to/db-file.db",
+  syncUrl: "libsql://[databaseName]-[organizationName].turso.io",
+  syncInterval: 60,
+  authToken: "...",
+});
+```
+
 ## Encryption
 
 To enable encryption on a SQLite file, pass the `encryptionKey`:
 
-```ts Node.js
-import { createClient } from "@libsql/client";
-
-const db = createClient({
-  url: "file:encrypted.db",
-  encryptionKey: process.env.ENCRYPTION_KEY,
-});
-```
+<Snippet file="encryption-at-rest-typescript.mdx" />
 
 Encrypted databases appear as raw data and cannot be read as standard SQLite databases. You must use the libSQL client for any operations &mdash; [learn more](/libsql#encryption-at-rest).
 

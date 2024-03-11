@@ -83,7 +83,7 @@ more](/local-development#sqlite).
 You can execute a SQL query against your existing database by calling `execute()`:
 
 ```ts
-const result = await client.execute("SELECT * FROM users");
+await client.execute("SELECT * FROM users");
 ```
 
 If you need to use placeholders for values, you can do that:
@@ -91,14 +91,14 @@ If you need to use placeholders for values, you can do that:
 <CodeGroup>
 
 ```ts Positional
-const result = await client.execute({
+await client.execute({
   sql: "SELECT * FROM users WHERE id = ?",
   args: [1],
 });
 ```
 
 ```ts Named
-const result = await client.execute({
+await client.execute({
   sql: "INSERT INTO users VALUES (:name)",
   args: { name: "Iku" },
 });
