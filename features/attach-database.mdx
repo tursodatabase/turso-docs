@@ -132,9 +132,9 @@ const client = createClient({
 
 const txn = await db.transaction("read");
 
-await txn.execute('ATTACH "<database-id-from-previous-step>" AS attached');
+await txn.execute('ATTACH "<database-id>" AS my_db');
 
-const rs = await txn.execute("SELECT * FROM attached.users");
+const rs = await txn.execute("SELECT * FROM my_db.my_table");
 ```
 
 </CodeGroup>
