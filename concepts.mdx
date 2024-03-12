@@ -3,6 +3,36 @@ sidebarTitle: Concepts
 title: Turso Concepts
 ---
 
+## Database
+
+A database is often referred to as a "logical database" because it consists of multiple libSQL databases.
+
+Each database is equipped with its own schema and data, situated in a primary location along with possibly several replica locations within its designated [group](#groups). This setup ensures that the schema and data are seamlessly copied from the primary location to all replica sites in the group.
+
+Databases are identified by a distinct libSQL URL. When accessed through the libSQL client SDKs, this URL directs the client to the database instance that offers the lowest latency, thereby reducing the overall duration of read operations.
+
+<Info>
+
+Learn more about [data and connections](/data-and-connections).
+
+</Info>
+
+## Instance
+
+A database instance represents a single element of a logical database situated at a specific location.
+
+This instance operates under a managed libSQL server setup hosted on an individual machine. Instances belonging to various logical databases within the same [group](#groups) are managed by a single libSQL server process running on the same piece of hardware.
+
+Instances are categorized into two types: primary and replica.
+
+## Groups
+
+All databases are part of a "group", dictating their primary storage location and replication across distinct VMs ([locations](#locations)), each capped at 100GB. This setup ensures databases share resources yet remain isolated.
+
+<Frame caption="A single group with replicas">
+  ![Turso Database Groups and Replication](/images/concepts/database-group.png)
+</Frame>
+
 ## Locations
 
 Turso optimizes data access with control over data storage and replication across global locations. Your databases form a [group](#groups) with a primary and optional replica locations, ensuring low latency. Turso handles synchronization automatically across its [data edge](/data-edge).
@@ -50,11 +80,11 @@ Turso optimizes data access with control over data storage and replication acros
 
 </Accordion>
 
+<Info>
+
 You can fetch the list of supported locations as JSON when building with the [Platform API](/api-reference/locations) or using the [Turso CLI](/cli/db/locations).
 
-## Groups
-
-All databases are part of a "group", dictating their primary storage location and replication across distinct VMs (locations), each capped at 100GB. This setup ensures databases share resources yet remain isolated.
+</Info>
 
 <Warning>Creating more than one group is limited to paid plans.</Warning>
 

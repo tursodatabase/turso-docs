@@ -156,6 +156,19 @@
               "group": "tokens",
               "pages": ["cli/db/tokens/create", "cli/db/tokens/invalidate"]
             },
+            {
+              "group": "config",
+              "pages": [
+                {
+                  "group": "attach",
+                  "pages": [
+                    "cli/db/config/attach/allow",
+                    "cli/db/config/attach/disallow",
+                    "cli/db/config/attach/show"
+                  ]
+                }
+              ]
+            },
             "cli/db/wakeup"
           ]
         },
@@ -322,6 +335,7 @@
             "api-reference/databases/list",
             "api-reference/databases/create",
             "api-reference/databases/retrieve",
+            "api-reference/databases/configuration",
             "api-reference/databases/usage",
             "api-reference/databases/stats",
             "api-reference/databases/delete",

@@ -189,7 +189,50 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/databases/{databaseName}/configuration": {
+      "patch": {
+        "summary": "Update Database Configuration",
+        "description": "Update a database configuration belonging to the organization or user.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "$ref": "#/components/parameters/databaseName"
+          }
+        ],
+        "requestBody": {
+          "description": "The configuration to be applied to the chosen database.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatabaseConfigurationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseConfigurationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/databases/dumps": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/organizationName"
+        }
+      ],
       "post": {
         "summary": "Upload Dump",
         "description": "Upload a SQL dump to be used when [creating a new database](/api-reference/databases/create) from seed.",
@@ -331,6 +374,17 @@
             "description": "Authorization level for the token (full-access or read-only)."
           }
         ],
+        "requestBody": {
+          "description": "Additional context such as claims required for the token.",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTokenInput"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful response",
@@ -873,6 +927,17 @@
             "description": "Authorization level for the token (full-access or read-only)."
           }
         ],
+        "requestBody": {
+          "description": "Additional context such as claims required for the token.",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTokenInput"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1737,6 +1802,21 @@
             "description": "The DNS hostname used for client libSQL and HTTP connections.",
             "example": "[databaseName]-[organizationName].turso.io"
           },
+          "blocked_reads": {
+            "type": "boolean",
+            "description": "The current status for blocked reads.",
+            "example": false
+          },
+          "blocked_writes": {
+            "type": "boolean",
+            "description": "The current status for blocked writes.",
+            "example": false
+          },
+          "allow_attach": {
+            "type": "boolean",
+            "description": "The current status for allowing the database to be attached to another.",
+            "example": false
+          },
           "regions": {
             "type": "array",
             "items": {
@@ -1759,12 +1839,17 @@
           "version": {
             "type": "string",
             "description": "The current libSQL version the database is running.",
-            "example": "0.21.9"
+            "example": "0.22.22"
           },
           "group": {
             "type": "string",
             "description": "The name of the group the database belongs to.",
             "example": "default"
+          },
+          "sleeping": {
+            "type": "boolean",
+            "description": "The current status of the database. If `true`, the database is sleeping and requires a manual wakeup.",
+            "example": false
           }
         }
       },
@@ -1953,6 +2038,59 @@
             "type": "integer",
             "example": 0,
             "description": "Test"
+          }
+        }
+      },
+
+      "CreateTokenInput": {
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "description": "The permissions for the token.",
+            "properties": {
+              "read_attach": {
+                "type": "object",
+                "description": "Read `ATTACH` permission for the token.",
+                "properties": {
+                  "databases": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "DatabaseConfigurationInput": {
+        "type": "object",
+        "properties": {
+          "size_limit": {
+            "type": "string",
+            "description": "The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb."
+          },
+          "allow_attach": {
+            "type": "boolean",
+            "description": "Allow or disallow attaching databases to the current database."
+          }
+        }
+      },
+      "DatabaseConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "size_limit": {
+            "type": "string",
+            "description": "The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb.",
+            "example": "10000"
+          },
+          "allow_attach": {
+            "type": "boolean",
+            "description": "Allow or disallow attaching databases to the current database.",
+            "example": true
           }
         }
       },
