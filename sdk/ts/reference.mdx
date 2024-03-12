@@ -377,3 +377,28 @@ try {
   committed or rolled back, with a 5-second timeout. They can impact performance
   on high-latency or busy databases.
 </Warning>
+
+## ATTACH
+
+You can attach multiple databases to the current connection using the `ATTACH` attachment:
+
+```ts
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: process.env.LIBSQL_URL,
+  authToken: process.env.LIBSQL_AUTH_TOKEN,
+});
+
+const txn = await db.transaction("read");
+
+await txn.execute('ATTACH "<database-id>" AS attached');
+
+const rs = await txn.execute("SELECT * FROM attached.users");
+```
+
+<Info>
+  Make sure to [allow `ATTACH`](/cli/db/config/attach/allow) and create a token
+  with the permission to attach a database &mdash; [learn
+  more](/features/attach-databases)
+</Info>
