@@ -1846,6 +1846,16 @@
             "description": "The name of the group the database belongs to.",
             "example": "default"
           },
+          "is_schema": {
+            "type": "boolean",
+            "description": "If this database controls other child databases then this will be `true`. See [Multi-DB Schemas](/features/multi-db-schemas).",
+            "example:": false
+          },
+          "schema": {
+            "type": "string",
+            "description": "The name of the parent database that owns the schema for this database. See [Multi-DB Schemas](/features/multi-db-schemas).",
+            "example": "",
+          },
           "sleeping": {
             "type": "boolean",
             "description": "The current status of the database. If `true`, the database is sleeping and requires a manual wakeup.",
@@ -1926,6 +1936,16 @@
           "size_limit": {
             "type": "string",
             "description": "The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb."
+          },
+          "is_schema": {
+            "type": "boolean",
+            "description": "Mark this database as the parent schema database that updates child databases with any schema changes. See [Multi-DB Schemas](/features/multi-db-schemas).",
+            "example:": true
+          },
+          "schema": {
+            "type": "string",
+            "description": "The name of the parent database to use as the schema. See [Multi-DB Schemas](/features/multi-db-schemas).",
+            "example": "my-parent-db"
           }
         },
         "required": ["name", "group"]
