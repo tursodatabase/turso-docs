@@ -98,6 +98,20 @@ You can create a new Turso database from a CSV file using the `--from-csv` flag:
 turso db create [database-name] --from-csv ./path/to/file.csv --csv-table-name <desired-table-name>
 ```
 
+### Create a database with extensions enabled
+
+You can create a database with experimental support for SQLite [extensions](/extensions) using the `--enable-extensions` flag:
+
+```bash
+turso db create [database-name] --enable-extensions
+```
+
+<Note>
+
+Using `--enable-extensions` will enable extensions on all databases in the group.
+
+</Note>
+
 ### Create a database with a schema from a parent database
 
 You can create a database using the schema of another database using the `--schema` flag:

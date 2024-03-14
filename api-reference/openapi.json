@@ -1849,12 +1849,12 @@
           "is_schema": {
             "type": "boolean",
             "description": "If this database controls other child databases then this will be `true`. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example:": false
+            "example": false
           },
           "schema": {
             "type": "string",
             "description": "The name of the parent database that owns the schema for this database. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example": "",
+            "example": ""
           },
           "sleeping": {
             "type": "boolean",
@@ -1940,7 +1940,7 @@
           "is_schema": {
             "type": "boolean",
             "description": "Mark this database as the parent schema database that updates child databases with any schema changes. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example:": true
+            "example": true
           },
           "schema": {
             "type": "string",
