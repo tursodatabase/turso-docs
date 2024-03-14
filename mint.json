@@ -7,11 +7,11 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#529687",
-    "light": "#4ff8d2",
-    "dark": "#4ff8d2",
+    "primary": "#0f4f62",
+    "light": "#7b8690",
+    "dark": "#7b8690",
     "anchors": {
-      "from": "#121b22",
+      "from": "#0F4F62",
       "to": "#4ff8d2"
     },
     "background": {
@@ -19,7 +19,6 @@
     }
   },
   "modeToggle": {
-    "isHidden": true,
     "default": "dark"
   },
   "topbarLinks": [
@@ -403,8 +402,9 @@
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/tursodatabase",
+    "discord": "https://discord.gg/tursodatabase",
     "github": "https://github.com/tursodatabase",
+    "twitter": "https://twitter.com/tursodatabase",
     "linkedin": "https://www.linkedin.com/company/turso"
   },
   "api": {
@@ -693,5 +693,10 @@
     "gtm": {
       "tagId": "G-YMMQC402S1"
     }
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "thumbsRating": true,
+    "raiseIssue": true
   }
 }

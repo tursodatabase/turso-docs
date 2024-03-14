@@ -51,7 +51,7 @@ import (
    "os"
    "path/filepath"
 
-   "github.com/libsql/go-libsql"
+   "github.com/tursodatabase/go-libsql"
 )
 
 func main() {
@@ -68,7 +68,9 @@ func main() {
 
    dbPath := filepath.Join(dir, dbName)
 
-   connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl, authToken)
+   connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl,
+      libsql.WithAuthToken(authToken),
+   )
    if err != nil {
       fmt.Println("Error creating connector:", err)
       os.Exit(1)
