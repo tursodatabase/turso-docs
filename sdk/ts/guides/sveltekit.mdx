@@ -64,7 +64,7 @@ VITE_TURSO_AUTH_TOKEN="..."
 ```ts src/turso.ts
 import { createClient } from "@libsql/client/web";
 
-export const turso = createClient({
+export const tursoClient = createClient({
   url: process.env.TURSO_DATABASE_URL!,
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
