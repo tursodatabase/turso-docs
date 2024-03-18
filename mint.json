@@ -94,6 +94,8 @@
       "pages": [
         "features/platform-api",
         "features/embedded-replicas",
+        "features/multi-db-schemas",
+        "features/attach-database",
         "features/data-edge",
         "features/branching",
         "features/point-in-time-recovery",
