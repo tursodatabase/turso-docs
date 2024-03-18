@@ -1,0 +1,58 @@
+---
+title: Turso + Koyeb
+sidebarTitle: 
+description: Deploy a NodeJs app using [Turso embedded replicas](/features/embedded-replicas) to [koyeb](https://www.koyeb.com/).
+---
+
+![Koyeb banner](/images/platforms/koyeb-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+
+<Steps>
+
+<Step title="Retrieve database credentials">
+
+You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Info>You will want to store these as environment variables.</Info>
+
+</Step>
+
+<Step>
+    Fork the following embedded replica project from GitHub
+
+    <Card
+        title="Turso Embedded replicas + Hono Recipe Book"
+        icon="github"
+        href="https://github.com/tursodatabase/embedded-replicas-with-nodejs"
+    >
+    See the full source code
+    </Card>
+
+    <Note>
+    Or, you can:
+    <Card title="Deploy to Koyeb with a single-click" href="https://app.koyeb.com/deploy?name=er-with-nodejs&type=git&repository=tursodatabase/embedded-replicas-with-nodejs&branch=main&env[PORT]=8000&env[TURSO_DATABASE_URL]=REPLACE_ME&env[TURSO_AUTH_TOKEN]=REPLACE_ME&env[LOCAL_DB]=file:db/recipe-book.db">
+    </Card>
+    </Note>
+</Step>
+
+<Step title="Fill in the env variables on Koyeb's deploy page">
+
+![Koyeb deploy page - environment variables](/images/platforms/koyeb-env-variables.png)
+
+</Step>
+
+<Step title="Deploy">
+
+Click the deploy button at the bottom to deploy your web service.
+
+</Step>
+
+</Steps>
