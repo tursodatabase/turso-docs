@@ -1,0 +1,69 @@
+---
+title: Turso + Fly
+sidebarTitle: 
+description: Deploy a NodeJs app using [Turso embedded replicas](/features/embedded-replicas) to [Fly.io](https://www.fly.io/).
+---
+
+![Koyeb banner](/images/platforms/fly-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- [Install the Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/)
+
+<Steps>
+
+<Step title="Retrieve database credentials">
+
+You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Info>You will want to store these as environment variables.</Info>
+
+</Step>
+
+<Step>
+    Fork the following embedded replica project from GitHub
+
+    <Card
+        title="Turso Embedded replicas + Hono Recipe Book"
+        icon="github"
+        href="https://github.com/tursodatabase/embedded-replicas-with-nodejs"
+    >
+    See the full source code
+    </Card>
+</Step>
+
+<Step title="Launch your project">
+Run the following command from your project root directory:
+
+```sh
+fly launch
+```
+
+FLy will give you the default configurations for your app which you are free to update.
+</Step>
+
+<Step title="Add database credentials as fly secrets">
+
+Assign the database credentials as fly secrets:
+
+```sh
+fly secrets set TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
+fly secrets set TURSO_AUTH_TOKEN=...
+fly secrets set LOCAL_DB=file:db/recipe-book.db
+```
+</Step>
+
+<Step>
+Deploy your fly application.
+
+```sh
+fly deploy
+```
+</Step>
+</Steps>
