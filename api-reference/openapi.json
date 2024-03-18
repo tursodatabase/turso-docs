@@ -2123,6 +2123,11 @@
             "description": "The group name, unique across your organization.",
             "example": "default"
           },
+          "version": {
+            "type": "string",
+            "description": "The current libSQL server version the databases in that group are running.",
+            "example": "v0.23.7"
+          },
           "uuid": {
             "type": "string",
             "description": "The group universal unique identifier (UUID).",
