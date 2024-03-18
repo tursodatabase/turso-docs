@@ -1,12 +1,12 @@
 <p align="center">
   <a href="https://docs.turso.tech">
-    <img alt="Turso cover" src="https://github.com/tursodatabase/turso-docs/assets/950181/ea5848f4-2a20-4d5b-8007-1ebb19b5e15f" width="1000" />
+    <img alt="Turso" src="https://github.com/tursodatabase/turso-docs/assets/950181/6a0c33d8-f470-4827-9e20-76dec6ea0b7c" width="1000" />
     <h3 align="center">Turso Documentation</h3>
   </a>
 </p>
 
 <p align="center">
-  Turso is a SQLite-compatible database built on <a href="https://turso.tech/libsql">libSQL</a>.
+  SQLite for Production. Powered by <a href="https://turso.tech/libsql">libSQL</a>.
 </p>
 
 <p align="center">
