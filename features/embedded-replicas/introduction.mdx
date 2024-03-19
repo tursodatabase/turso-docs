@@ -1,5 +1,6 @@
 ---
-title: Embedded Replicas
+title: Introduction to Embedded Replicas
+sidebarTitle: Introduction
 ---
 
 Turso's embedded replicas are a game-changer for SQLite, making it more flexible and suitable for various environments. This feature shines especially for those using VMs or VPS, as it lets you replicate a Turso database right within your applications without needing to relying on Turso's [edge network](/features/data-edge). For mobile applications, where stable connectivity is a challenge, embedded replicas are invaluable as they allow uninterrupted access to the local database.
@@ -121,3 +122,31 @@ You should call `.sync()` in the background whenever your application wants to s
 
 - Do not open the local database while the embedded replica is syncing. This can lead to data corruption.
 - In certain contexts, such as serverless environments without a filesystem, you can't use embedded replicas.
+
+## Deployment Guides
+
+<CardGroup cols={2}>
+
+<Card
+   title="Turso + Fly"
+   href="/features/embedded-replicas/with-fly"
+   >
+Deploy NodeJs project with Embedded Replicas to Fly.io
+</Card>
+
+<Card title="Turso + Koyeb" href="/features/embedded-replicas/with-koyeb">
+Deploy NodeJs project with Embedded Replicas to Koyeb
+</Card>
+
+<Card
+   title="Turso + Railway"
+   href="/features/embedded-replicas/with-railway"
+   >
+Deploy NodeJs project with Embedded Replicas to Railway
+</Card>
+
+<Card title="Turso + Render" href="/features/embedded-replicas/with-render">
+Deploy NodeJs project with Embedded Replicas to Render
+</Card>
+
+</CardGroup>

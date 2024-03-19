@@ -93,7 +93,21 @@
       "group": "Features",
       "pages": [
         "features/platform-api",
-        "features/embedded-replicas",
+        {
+          "group": "Embedded Replicas",
+          "pages": [
+            "features/embedded-replicas/introduction",
+            {
+              "group": "Guides",
+              "pages": [
+                "features/embedded-replicas/with-fly",
+                "features/embedded-replicas/with-render",
+                "features/embedded-replicas/with-koyeb",
+                "features/embedded-replicas/with-railway"
+              ]
+            }
+          ]
+        },
         "features/data-edge",
         "features/branching",
         "features/point-in-time-recovery",
