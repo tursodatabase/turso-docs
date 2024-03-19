@@ -26,31 +26,47 @@ You will need an existing database to continue. If you don't have one, [create o
 
 </Step>
 
-<Step>
-    Fork the following embedded replica project from GitHub
+<Step title="Get application code">
+    Fork and clone the following embedded replica project from GitHub locally:
 
     <Card
-        title="Turso Embedded replicas + Hono Recipe Book"
+        title="Recipe book API with Turso Embedded replicas + Hono"
         icon="github"
         href="https://github.com/tursodatabase/embedded-replicas-with-nodejs"
     >
     See the full source code
     </Card>
+
+    <Info>
+    You can use [Fly's dockerfile generation package](https://github.com/fly-apps/dockerfile-node#overview) to create a Dockerfile for your own project.
+    </Info>
 </Step>
 
-<Step title="Launch your project">
-Run the following command from your project root directory:
+<Step title="Launch your application on Fly">
+Run the following command from your project root directory to launch your application on fly:
 
 ```sh
 fly launch
 ```
 
-FLy will give you the default configurations for your app which you are free to update.
+Fly will give you the default configurations for your app which you are free to update.
+
+```sh
+Organization: Turso                         (fly launch defaults to the personal org)
+Name:         embedded-replicas-with-nodejs (derived from your directory name)
+Region:       Johannesburg, South Africa    (this is the fastest region for you)
+App Machines: shared-cpu-1x, 1GB RAM        (most apps need about 1GB of RAM)
+Postgres:     <none>                        (not requested)
+Redis:        <none>                        (not requested)
+Sentry:       false                         (not requested)
+```
+
+On completion, you'll have Fly configuration file `fly.toml` added to your project.
 </Step>
 
-<Step title="Add database credentials as fly secrets">
+<Step title="Add database credentials to Fly">
 
-Assign the database credentials as fly secrets:
+Add the database credentials for your application as Fly secrets:
 
 ```sh
 fly secrets set TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
