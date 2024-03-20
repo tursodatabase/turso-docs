@@ -29,6 +29,7 @@ You will need an existing database to continue. If you don't have one, [create o
 <Step title="Get application code">
     Fork and clone the following embedded replica project from GitHub locally:
 
+<CardGroup cols={2}>
     <Card
         title="Recipe book API with Turso Embedded replicas + Hono"
         icon="github"
@@ -36,6 +37,14 @@ You will need an existing database to continue. If you don't have one, [create o
     >
     See the full source code
     </Card>
+    <Card
+        title="Web traffic API with Turso Embedded replicas + Actix Web"
+        icon="github"
+        href="https://github.com/tursodatabase/web_traffic_checker"
+    >
+    See the full source code
+    </Card>
+</CardGroup>
 </Step>
 
 <Step title="Create a new Railway project">
@@ -83,6 +92,10 @@ Run the following command to deploy your application:
 ```sh
 railway up
 ```
+
+<Info>
+Make sure you [expose your application to the internet](https://docs.railway.app/guides/public-networking) to make it accessible from the public network.
+</Info>
 
 <Warning>
 If you are on a free plan, you'll need to connect your Railway account to GitHub to have access to code deployments.
