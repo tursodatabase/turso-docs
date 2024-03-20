@@ -63,7 +63,7 @@ TURSO_AUTH_TOKEN="..."
 
 ```ts src/lib/turso.server.ts
 import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
-import { createClient } from "@libsql/client/web";
+import { createClient } from "@libsql/client"; // or from '@libsql/client/web' for Edge runtimes
 
 export const turso = createClient({
   url: TURSO_DATABASE_URL,
