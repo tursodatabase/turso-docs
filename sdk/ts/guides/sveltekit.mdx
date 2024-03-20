@@ -75,8 +75,9 @@ export const turso = createClient({
 
 <Step title="Execute SQL">
 
+<CodeGroup>
+
 ```ts src/routes/+page.server.ts
----
 import { turso } from '$lib/turso.server'
 
 export async function load() {
@@ -84,8 +85,21 @@ export async function load() {
 
   return { rows }
 }
----
 ```
+
+```svelte src/routes/+page.svelte
+<script lang="ts">
+  export let data
+</script>
+
+<ul>
+  {#each data.rows as row}
+    <li>{row.id}</li>
+  {/each}
+</ul>
+```
+
+</CodeGroup>
 
 </Step>
 
