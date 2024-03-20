@@ -53,20 +53,21 @@ turso db tokens create <database-name>
 Assign credentials to the environment variables inside `.env.local`.
 
 ```bash
-VITE_TURSO_DATABASE_URL="..."
-VITE_TURSO_AUTH_TOKEN="..."
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
 ```
 
 </Step>
 
 <Step title="Configure LibSQL Client.">
 
-```ts src/turso.ts
+```ts src/lib/turso.server.ts
+import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
 import { createClient } from "@libsql/client/web";
 
-export const tursoClient = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN,
+export const turso = createClient({
+  url: TURSO_DATABASE_URL,
+  authToken: TURSO_AUTH_TOKEN,
 });
 ```
 
@@ -74,11 +75,15 @@ export const tursoClient = createClient({
 
 <Step title="Execute SQL">
 
-```ts
+```ts src/routes/+page.server.ts
 ---
-import { turso } from './turso'
+import { turso } from '$lib/turso.server'
 
-const { rows } = await tursoClient.execute('SELECT * FROM table_name')
+export async function load() {
+  const { rows } = await turso.execute('SELECT * FROM table_name')
+
+  return { rows }
+}
 ---
 ```
 
