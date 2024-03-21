@@ -98,7 +98,7 @@
           "pages": [
             "features/embedded-replicas/introduction",
             {
-              "group": "Guides",
+              "group": "Platform Guides",
               "pages": [
                 "features/embedded-replicas/with-fly",
                 "features/embedded-replicas/with-render",
@@ -108,6 +108,8 @@
             }
           ]
         },
+        "features/multi-db-schemas",
+        "features/attach-database",
         "features/data-edge",
         "features/branching",
         "features/point-in-time-recovery",

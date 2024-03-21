@@ -1,0 +1,9 @@
+```py Python
+import os
+
+import libsql_experimental as libsql
+
+conn = libsql.connect("encrypted.db", sync_url=os.getenv("LIBSQL_URL"),
+                      auth_token=os.getenv("LIBSQL_AUTH_TOKEN"),
+                      encryption_key=os.getenv("ENCRYPTION_KEY"))
+```
