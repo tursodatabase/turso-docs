@@ -50,23 +50,24 @@ Get the database authentication token.
 turso db tokens create <database-name>
 ```
 
-Assign credentials to the environment variables inside `.env.local`.
+Assign credentials to the environment variables inside `.env`.
 
 ```bash
-VITE_TURSO_DATABASE_URL="..."
-VITE_TURSO_AUTH_TOKEN="..."
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
 ```
 
 </Step>
 
 <Step title="Configure LibSQL Client.">
 
-```ts src/turso.ts
-import { createClient } from "@libsql/client/web";
+```ts src/lib/turso.server.ts
+import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
+import { createClient } from "@libsql/client"; // or from '@libsql/client/web' for Edge runtimes
 
-export const tursoClient = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN,
+export const turso = createClient({
+  url: TURSO_DATABASE_URL,
+  authToken: TURSO_AUTH_TOKEN,
 });
 ```
 
@@ -74,13 +75,31 @@ export const tursoClient = createClient({
 
 <Step title="Execute SQL">
 
-```ts
----
-import { turso } from './turso'
+<CodeGroup>
 
-const { rows } = await tursoClient.execute('SELECT * FROM table_name')
----
+```ts src/routes/+page.server.ts
+import { turso } from '$lib/turso.server'
+
+export async function load() {
+  const { rows } = await turso.execute('SELECT * FROM table_name')
+
+  return { rows }
+}
 ```
+
+```svelte src/routes/+page.svelte
+<script lang="ts">
+  export let data
+</script>
+
+<ul>
+  {#each data.rows as row}
+    <li>{row.id}</li>
+  {/each}
+</ul>
+```
+
+</CodeGroup>
 
 </Step>
 
