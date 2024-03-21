@@ -1,7 +1,7 @@
 ---
 title: Turso + Render
 sidebarTitle: 
-description: Deploy a NodeJs app using [Turso embedded replicas](/features/embedded-replicas) to [Render](https://render.app/).
+description: Deploy a JavaScript app using [Turso embedded replicas](/features/embedded-replicas) to [Render](https://render.app/).
 ---
 
 ![Render banner](/images/platforms/render-banner.png)
@@ -30,16 +30,16 @@ You will need an existing database to continue. If you don't have one, [create o
     Fork the following embedded replica project from GitHub locally:
 
     <Card
-        title="Recipe book API with Turso Embedded replicas + Hono"
+        title="My Expenses Tracker - (Elysia + Bun)"
         icon="github"
-        href="https://github.com/tursodatabase/embedded-replicas-with-nodejs"
+        href="https://github.com/tursodatabase/embedded-replicas-with-js"
     >
     See the full source code
     </Card>
 
     <Note>
     Or, you can:
-    <Card title="Deploy to Render with a single-click" href="https://render.com/deploy?repo=https://github.com/tursodatabase/embedded-replicas-with-nodejs">
+    <Card title="Deploy to Render with a single-click" href="https://render.com/deploy?repo=https://github.com/tursodatabase/embedded-replicas-with-js">
     </Card>
     </Note>
 </Step>
@@ -60,7 +60,7 @@ Create a new Render **Web Service** by clicking on the "New Web Service" button 
 
 <Step title="Set project's environment variables">
 
-On the web service configuration page, under "Advanced" add a secret file and fill it in with your database secret credentials:
+On the web service configuration page, under "Advanced" add **a secret file** and fill it in with your database secret credentials:
 
 ![Render secret credentials](images/platforms/render-env-vars.png)
 

@@ -1,7 +1,7 @@
 ---
 title: Turso + Fly
 sidebarTitle: 
-description: Deploy a NodeJs app using [Turso embedded replicas](/features/embedded-replicas) to [Fly.io](https://www.fly.io/).
+description: Deploy a JavaScript app using [Turso embedded replicas](/features/embedded-replicas) to [Fly.io](https://www.fly.io/).
 ---
 
 ![Koyeb banner](/images/platforms/fly-banner.png)
@@ -30,9 +30,9 @@ You will need an existing database to continue. If you don't have one, [create o
     Fork and clone the following embedded replica project from GitHub locally:
 
     <Card
-        title="Recipe book API with Turso Embedded replicas + Hono"
+        title="My Expenses Tracker - (Elysia + Bun)"
         icon="github"
-        href="https://github.com/tursodatabase/embedded-replicas-with-nodejs"
+        href="https://github.com/tursodatabase/embedded-replicas-with-js"
     >
     See the full source code
     </Card>
@@ -64,14 +64,17 @@ Sentry:       false                         (not requested)
 On completion, you'll have Fly configuration file `fly.toml` added to your project.
 </Step>
 
-<Step title="Add database credentials to Fly">
+<Step title="Add Secrets to Fly">
 
-Add the database credentials for your application as Fly secrets:
+Add the database and other credentials needed in your application as Fly secrets:
 
 ```sh
 fly secrets set TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
 fly secrets set TURSO_AUTH_TOKEN=...
-fly secrets set LOCAL_DB=file:db/recipe-book.db
+fly secrets set LOCAL_DB=file:dbs/expenses.db
+fly secrets set HOSTNAME=0.0.0.0
+fly secrets set SECRET=...
+fly secrets set PORT=3000
 ```
 </Step>
 

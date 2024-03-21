@@ -1,7 +1,7 @@
 ---
 title: Turso + Railway
 sidebarTitle: 
-description: Deploy a NodeJs app using [Turso embedded replicas](/features/embedded-replicas) to [Railway](https://railway.app/).
+description: Deploy a JavaScript/Rust app using [Turso embedded replicas](/features/embedded-replicas) to [Railway](https://railway.app/).
 ---
 
 ![Koyeb banner](/images/platforms/railway-banner.png)
@@ -31,16 +31,16 @@ You will need an existing database to continue. If you don't have one, [create o
 
 <CardGroup cols={2}>
     <Card
-        title="Recipe book API with Turso Embedded replicas + Hono"
+        title="My Expenses Tracker - (Elysia + Bun)"
         icon="github"
-        href="https://github.com/tursodatabase/embedded-replicas-with-nodejs"
+        href="https://github.com/tursodatabase/embedded-replicas-with-js"
     >
     See the full source code
     </Card>
     <Card
-        title="Web traffic API with Turso Embedded replicas + Actix Web"
+        title="Web Traffic API - (Rust)"
         icon="github"
-        href="https://github.com/tursodatabase/web_traffic_checker"
+        href="https://github.com/tursodatabase/embedded-replicas-with-rust"
     >
     See the full source code
     </Card>
@@ -80,7 +80,7 @@ Open the service on your Railway dashboard and add your Turso database Credentia
 ```sh
 TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
 TURSO_AUTH_TOKEN=...
-LOCAL_DB=file:db/recipe-book.db
+LOCAL_DB=file:local-db-name.db
 ```
 
 </Step>
