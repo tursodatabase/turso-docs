@@ -93,7 +93,21 @@
       "group": "Features",
       "pages": [
         "features/platform-api",
-        "features/embedded-replicas",
+        {
+          "group": "Embedded Replicas",
+          "pages": [
+            "features/embedded-replicas/introduction",
+            {
+              "group": "Platform Guides",
+              "pages": [
+                "features/embedded-replicas/with-fly",
+                "features/embedded-replicas/with-render",
+                "features/embedded-replicas/with-koyeb",
+                "features/embedded-replicas/with-railway"
+              ]
+            }
+          ]
+        },
         "features/multi-db-schemas",
         "features/attach-database",
         "features/data-edge",
