@@ -282,9 +282,10 @@
         {
           "group": "Guides",
           "pages": [
-            "sdk/rust/guides/tauri",
+            "sdk/rust/guides/actix",
             "sdk/rust/guides/axum",
-            "sdk/rust/guides/rocket"
+            "sdk/rust/guides/rocket",
+            "sdk/rust/guides/tauri"
           ]
         }
       ]
