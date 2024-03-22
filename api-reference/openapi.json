@@ -1802,12 +1802,12 @@
             "description": "The DNS hostname used for client libSQL and HTTP connections.",
             "example": "[databaseName]-[organizationName].turso.io"
           },
-          "blocked_reads": {
+          "block_reads": {
             "type": "boolean",
             "description": "The current status for blocked reads.",
             "example": false
           },
-          "blocked_writes": {
+          "block_writes": {
             "type": "boolean",
             "description": "The current status for blocked writes.",
             "example": false
