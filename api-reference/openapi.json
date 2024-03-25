@@ -880,7 +880,7 @@
     "/v1/organizations/{organizationName}/groups/{groupName}/update": {
       "post": {
         "summary": "Update Databases in a Group",
-        "description": "Updates all databases in the grooup to the latest libSQL version.",
+        "description": "Updates all databases in the group to the latest libSQL version.",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
