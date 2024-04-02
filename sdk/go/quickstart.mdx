@@ -49,7 +49,7 @@ First begin by adding libSQL to your project:
     ```
 
   </Accordion>
- 
+
 </AccordionGroup>
 
   </Step>
@@ -115,7 +115,7 @@ Now connect to your local or remote database using the libSQL connector:
     )
 
     func main() {
-      dbName := "./local.db"
+      dbName := "file:./local.db"
 
       db, err := sql.Open("libsql", dbName)
       if err != nil {

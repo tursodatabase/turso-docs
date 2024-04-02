@@ -52,7 +52,7 @@ import (
 )
 
 func main() {
-  dbName := "./local.db"
+  dbName := "file:./local.db"
 
   db, err := sql.Open("libsql", dbName)
   if err != nil {
