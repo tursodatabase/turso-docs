@@ -108,6 +108,178 @@ Connections are left open until they timeout, unless you close them explicitly i
 
 </Info>
 
+#### Parameter binding
+
+Queries with bound parameters come in two types:
+
+
+1. Positional query parameters, bound by their position in the parameter list, and prefixed `?`. If the query uses positional parameters, the values should be provided as an array to the `args` field.
+
+<CodeGroup>
+
+```json Request
+{
+  "requests": [
+    {
+      "type": "execute",
+      "stmt": {
+        "sql": "SELECT * FROM users WHERE name = ?",
+        "args": [
+          {
+            "type": "text",
+            "value": "Turso"
+          }
+        ]
+      }
+    },
+    {
+      "type": "close"
+    }
+  ]
+}
+```
+
+```json Response
+{
+  "baton": null,
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [
+            {
+              "name": "name",
+              "decltype": "TEXT"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "type": "text",
+                "value": "Turso"
+              }
+            ]
+          ],
+          "affected_row_count": 0,
+          "last_insert_rowid": null
+        }
+      }
+    },
+    {
+      "type": "ok",
+      "response": {
+        "type": "close"
+      }
+    }
+  ]
+}
+
+```
+
+</CodeGroup>
+
+<br />
+
+
+2. Named bound parameters, where the parameter is referred to by a name and is prefixed with a `:`, a `@` or a `$`. If the query uses named parameters, then the `named_args` field of the query should be an array of objects mapping parameters to their values.
+
+<CodeGroup>
+
+```json Request
+{
+  "requests": [
+    {
+      "type": "execute",
+      "stmt": {
+        "sql": "SELECT * FROM users WHERE name = :name OR name = $second_name OR name = @third_name",
+        "named_args": [
+          {
+            "name": "name",
+            "value": {
+              "type": "text",
+              "value": "Turso"
+            }
+          },
+          {
+            "name": "second_name",
+            "value": {
+              "type": "text",
+              "value": "Not Turso"
+            }
+          },
+          {
+            "name": "third_name",
+            "value": {
+              "type": "text",
+              "value": "Maybe Turso"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "close"
+    }
+  ]
+}
+```
+
+```json Response
+{
+  "baton": null,
+  "base_url": null,
+  "results": [
+    {
+      "type": "ok",
+      "response": {
+        "type": "execute",
+        "result": {
+          "cols": [
+            {
+              "name": "name",
+              "decltype": "TEXT"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "type": "text",
+                "value": "Turso"
+              }
+            ]
+          ],
+          "affected_row_count": 0,
+          "last_insert_rowid": null
+        }
+      }
+    },
+    {
+      "type": "ok",
+      "response": {
+        "type": "close"
+      }
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+<br />
+
+<Info>
+
+The `name` property of each `named_args` can match the prefix or omit the prefix. They were omitted in the example above, but both versions are valid.
+
+The `type` field within each arg corresponds to the column datatype and can be one of the following: `null`, `integer`, `float`, `text`, or `blob`.
+
+Note: if using the `blob` type, replace the `value` property with `base64` and encode the argument into `base64` before sending the request.
+
+</Info>
+
 #### Interactive query
 
 Sometimes, it may be desirable to perform multiple operation on the same connection, in multiple roundtrips. We can do this by not closing the connection right away:
