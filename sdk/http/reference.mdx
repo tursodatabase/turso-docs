@@ -112,7 +112,6 @@ Connections are left open until they timeout, unless you close them explicitly i
 
 Queries with bound parameters come in two types:
 
-
 1. Positional query parameters, bound by their position in the parameter list, and prefixed `?`. If the query uses positional parameters, the values should be provided as an array to the `args` field.
 
 <CodeGroup>
@@ -176,13 +175,11 @@ Queries with bound parameters come in two types:
     }
   ]
 }
-
 ```
 
 </CodeGroup>
 
 <br />
-
 
 2. Named bound parameters, where the parameter is referred to by a name and is prefixed with a `:`, a `@` or a `$`. If the query uses named parameters, then the `named_args` field of the query should be an array of objects mapping parameters to their values.
 

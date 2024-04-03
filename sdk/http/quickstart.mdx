@@ -159,6 +159,65 @@ The response will be a JSON object with a `results` array containing the results
 
 </Accordion>
 
+If you need to use placeholders for values, you can do that:
+
+<CodeGroup>
+
+```json Positional
+{
+  "type": "execute",
+  "stmt": {
+    "sql": "SELECT * FROM users WHERE id = ?",
+    "args": [
+      {
+        "type": "integer",
+        "value": "1"
+      }
+    ]
+  }
+}
+```
+
+```json Named
+{
+  "type": "execute",
+  "stmt": {
+    "sql": "SELECT * FROM users WHERE name = :name OR name = $second_name OR name = @third_name",
+    "named_args": [
+      {
+        "name": "name",
+        "value": {
+          "type": "text",
+          "value": "Turso"
+        }
+      },
+      {
+        "name": "second_name",
+        "value": {
+          "type": "text",
+          "value": "Not Turso"
+        }
+      },
+      {
+        "name": "third_name",
+        "value": {
+          "type": "text",
+          "value": "Maybe Turso"
+        }
+      }
+    ]
+  }
+}
+```
+
+</CodeGroup>
+
+<Info>
+
+The `type` field within each arg corresponds to the column datatype and can be one of the following: `null`, `integer`, `float`, `text`, or `blob`.
+
+</Info>
+
   </Step>
 
 </Steps>
