@@ -228,7 +228,8 @@
                 "cli/org/members/add",
                 "cli/org/members/rm"
               ]
-            }
+            },
+            "cli/org/destroy"
           ]
         },
         {
