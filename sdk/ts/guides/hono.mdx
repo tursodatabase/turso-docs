@@ -1,0 +1,69 @@
+---
+title: Hono + Turso
+sidebarTitle: Hono
+description: Set up Turso in your Hono project in minutes.
+---
+
+![Hono banner](/images/guides/hono-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have a Hono app &mdash; [learn more](https://hono.dev/top#quick-start)
+
+<Steps>
+
+<Step title="Install the libSQL SDK">
+
+```bash bun
+bun add @libsql/client
+```
+
+</Step>
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Step title="Configure LibSQL client">
+
+```ts index.ts
+import { createClient } from "@libsql/client";
+
+export const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
+
+</Step>
+
+<Step title="Execute SQL">
+
+```tsx index.ts
+import { Hono } from "hono";
+
+const app = new Hono();
+
+app.get("/items", async (c) => {
+  const { rows } = await db.execute("SELECT * FROM items");
+  return c.json({ rows });
+});
+```
+
+</Step>
+
+</Steps>
+
+## Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Expenses tracker app with Hono & Turso"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/app-expenses-tracker-hono"
+  >
+    See the full source code
+  </Card>
+</CardGroup>
