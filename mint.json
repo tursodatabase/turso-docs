@@ -266,7 +266,8 @@
             "sdk/ts/guides/qwik",
             "sdk/ts/guides/sveltekit",
             "sdk/ts/guides/quasar",
-            "sdk/ts/guides/elysia"
+            "sdk/ts/guides/elysia",
+            "sdk/ts/guides/hono"
           ]
         },
         {
