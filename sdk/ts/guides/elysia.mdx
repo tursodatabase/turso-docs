@@ -63,6 +63,8 @@ export const db = createClient({
 <Step title="Execute SQL">
 
 ```tsx index.ts
+import { Elysia } from "elysia";
+
 const app = new Elysia()
   .get("/items", async () => {
       const { rows } = await db.execute("SELECT * FROM items");
