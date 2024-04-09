@@ -1,0 +1,89 @@
+---
+title: Elysia + Turso
+sidebarTitle: Elysia
+description: Set up Turso in your Elysia project in minutes.
+---
+
+![Elysia banner](/images/guides/elysia-banner.png)
+
+## Prerequisites
+
+Before you start, make sure you:
+
+- [Install the Turso CLI](/cli/installation)
+- [Sign up or login to Turso](/cli/authentication#signup)
+- Have an Elysia app &mdash; [learn more](https://elysiajs.com/quick-start.html)
+
+<Steps>
+
+<Step title="Install the libSQL SDK">
+
+```bash bun
+bun add @libsql/client
+```
+
+</Step>
+
+<Step title="Configure database credentials">
+
+Get the database URL:
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env`:
+
+```bash
+TURSO_DATABASE_URL="..."
+TURSO_AUTH_TOKEN="..."
+```
+
+</Step>
+
+<Step title="Configure LibSQL client">
+
+```ts index.ts
+import { createClient } from "@libsql/client";
+
+export const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
+
+</Step>
+
+<Step title="Execute SQL">
+
+```tsx index.ts
+import { Elysia } from "elysia";
+
+const app = new Elysia()
+  .get("/items", async () => {
+      const { rows } = await db.execute("SELECT * FROM items");
+      return rows;
+    })
+```
+
+</Step>
+
+</Steps>
+
+## Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Expenses tracker app with Elysia & Turso"
+    icon="github"
+    href="https://github.com/tursodatabase/examples/tree/master/app-expenses-tracker-elysia"
+  >
+    See the full source code
+  </Card>
+</CardGroup>
