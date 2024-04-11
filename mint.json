@@ -103,7 +103,8 @@
                 "features/embedded-replicas/with-fly",
                 "features/embedded-replicas/with-render",
                 "features/embedded-replicas/with-koyeb",
-                "features/embedded-replicas/with-railway"
+                "features/embedded-replicas/with-railway",
+                "features/embedded-replicas/with-akamai"
               ]
             }
           ]
