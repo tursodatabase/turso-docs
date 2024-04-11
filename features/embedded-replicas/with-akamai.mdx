@@ -27,7 +27,7 @@ You will need an existing database to continue. If you don't have one, [create o
 </Step>
 
 <Step>
-    Fork one of the following embedded replica project from GitHub
+    Fork one of the following embedded replica projects from GitHub
 
     <CardGroup cols={2}>
         <Card
@@ -49,32 +49,25 @@ You will need an existing database to continue. If you don't have one, [create o
 
 <Step title="Set up a Linode server">
 
-1. Set up and create a linode.
+Configure and create a new linode. Then, [set up SSH authentication](https://www.linode.com/docs/guides/use-public-key-authentication-with-ssh/) to securely access the Linode server from your terminal.
 
-2. [set up SSH authentication](https://www.linode.com/docs/guides/use-public-key-authentication-with-ssh/) to securely access the Linode server from your terminal.
-
-3. Access the server and set it up for Rust/JavaScript development, depending on the project you forked earlier. Install and set up [Git](https://git-scm.com/) too.
+Prepare the newly created linode server environment by accessing and set it up for Rust/JavaScript development depending on the project you forked earlier. Install and set up [Git](https://git-scm.com/) too.
 
 </Step>
 
 <Step title="Transfer project to Linode server">
 
-1. SSH into your project.
-
-2. Clone project from GitHub.
-
-3. Use the project's README instructions to set it up.
+SSH into your server, clone the project from GitHub, and follow its README instructions to set it up.
 
 </Step>
 
 <Step title="Deploy">
 
-1. Build and run the project
-
-2. Set up load balancing for you project. [pm2](https://www.npmjs.com/package/pm2) is one of the good candidates out there with built-in load balancing, logs monitoring, and bugs/exceptions alerts.
+Build, run the project, and set up load balancing for it.
+[pm2](https://www.npmjs.com/package/pm2) is one of the good candidates out there with built-in load balancing, log monitoring, and bug/exception alerts.
 
 <Info>
-You can go with your favorite options for where to buy domains, reverse proxy setup, and SSL certificates.
+You can go with your favorite options for where to buy domains, reverse proxy setup, and SSL certificates. [Caddy](https://caddyserver.com/) is another good option here.
 </Info>
 
 </Step>
