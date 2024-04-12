@@ -273,9 +273,18 @@ The `name` property of each `named_args` can match the prefix or omit the prefix
 
 The `type` field within each arg corresponds to the column datatype and can be one of the following: `null`, `integer`, `float`, `text`, or `blob`.
 
-Note: if using the `blob` type, replace the `value` property with `base64` and encode the argument into `base64` before sending the request.
+</Info>
+
+<Info>
+
+If using the `blob` type, replace the `value` property with `base64` and encode the argument into `base64` before sending the request.
 
 </Info>
+
+<Note>
+  In JSON, the `value` is a `String` to avoid losing precision, because some
+  JSON implementations treat all numbers as 64-bit floats.
+</Note>
 
 #### Interactive query
 

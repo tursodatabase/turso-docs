@@ -218,6 +218,11 @@ The `type` field within each arg corresponds to the column datatype and can be o
 
 </Info>
 
+<Note>
+  In JSON, the `value` is a `String` to avoid losing precision, because some
+  JSON implementations treat all numbers as 64-bit floats.
+</Note>
+
   </Step>
 
 </Steps>
