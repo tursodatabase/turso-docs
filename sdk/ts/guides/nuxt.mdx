@@ -16,44 +16,13 @@ Before you start, make sure you:
 
 <Step title="Install the libSQL SDK">
 
-<CodeGroup>
-
-```bash npm
-npm install @libsql/client
-```
-
-```bash pnpm
-pnpm add @libsql/client
-```
-
-```bash yarn
-yarn add @libsql/client
-```
-
-</CodeGroup>
+<Snippet file="install-libsql-client-ts.mdx" />
 
 </Step>
 
 <Step title="Configure database credentials">
 
-Get the database URL.
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token.
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env`.
-
-```bash
-NUXT_TURSO_DATABASE_URL="..."
-NUXT_TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
@@ -71,9 +40,10 @@ export default defineNuxtConfig({
 ```
 
 <Note>
-  Make sure that names of the keys in the `runtimeConfig` object match the names of your environment variables. Read more about this [here](https://nitro.unjs.io/guide/configuration#runtime-configuration).
+  Make sure that names of the keys in the `runtimeConfig` object match the names
+  of your environment variables. Read more about this
+  [here](https://nitro.unjs.io/guide/configuration#runtime-configuration).
 </Note>
-
 
 </Step>
 
@@ -86,12 +56,12 @@ import { createClient } from "@libsql/client";
 
 export function useTurso(/* event: H3Event */) {
   const { turso } = useRuntimeConfig(/* event */);
-  
+
   return createClient({
     url: turso.databaseUrl,
     authToken: turso.authToken,
   });
-};
+}
 ```
 
 </Step>

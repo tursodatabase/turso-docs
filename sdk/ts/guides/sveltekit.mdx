@@ -18,58 +18,41 @@ Before you start, make sure you:
 
 <Step title="Install the libSQL SDK">
 
-<CodeGroup>
-
-```bash npm
-npm install @libsql/client
-```
-
-```bash pnpm
-pnpm add @libsql/client
-```
-
-```bash yarn
-yarn add @libsql/client
-```
-
-</CodeGroup>
+<Snippet file="install-libsql-client-ts.mdx" />
 
 </Step>
 
 <Step title="Configure database credentials">
 
-Get the database URL.
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token.
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env`.
-
-```bash
-TURSO_DATABASE_URL="..."
-TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
 <Step title="Configure LibSQL Client.">
 
-```ts src/lib/turso.server.ts
+<CodeGroup>
+
+```ts Node.js / Serverless
 import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
-import { createClient } from "@libsql/client"; // or from '@libsql/client/web' for Edge runtimes
+import { createClient } from "@libsql/client";
 
 export const turso = createClient({
   url: TURSO_DATABASE_URL,
   authToken: TURSO_AUTH_TOKEN,
 });
 ```
+
+```ts Edge Runtimes
+import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
+import { createClient } from "@libsql/client/web";
+
+export const turso = createClient({
+  url: TURSO_DATABASE_URL,
+  authToken: TURSO_AUTH_TOKEN,
+});
+```
+
+</CodeGroup>
 
 </Step>
 
@@ -78,12 +61,12 @@ export const turso = createClient({
 <CodeGroup>
 
 ```ts src/routes/+page.server.ts
-import { turso } from '$lib/turso.server'
+import { turso } from "$lib/turso.server";
 
 export async function load() {
-  const { rows } = await turso.execute('SELECT * FROM table_name')
+  const { rows } = await turso.execute("SELECT * FROM table_name");
 
-  return { rows }
+  return { rows };
 }
 ```
 

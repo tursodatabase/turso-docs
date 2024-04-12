@@ -18,32 +18,15 @@ Before you start, make sure you:
 
 <Step title="Install the libSQL dialect">
 
-```bash npm
+```bash
 pip install sqlalchemy-libsql python-dotenv
 ```
 
 </Step>
 
-<Step title="Comfigure database credentials.">
+<Step title="Retrieve database credentials">
 
-Get the database URL.
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token.
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env`.
-
-```bash
-TURSO_DATABASE_URL="..."
-TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
@@ -69,9 +52,9 @@ class Item(Base):
 
 </Step>
 
-<Step title="Query database">
+<Step title="Query">
 
-```python app.py
+```python
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
