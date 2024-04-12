@@ -18,57 +18,19 @@ Before you start, make sure you:
 
 <Step title="Install the libSQL SDK">
 
-<CodeGroup>
-
-```bash npm
-npm install @libsql/client
-```
-
-```bash pnpm
-pnpm add @libsql/client
-```
-
-```bash yarn
-yarn add @libsql/client
-```
-
-</CodeGroup>
+<Snippet file="install-libsql-client-ts.mdx" />
 
 </Step>
 
 <Step title="Configure database credentials">
 
-Get the database URL.
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token.
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env`.
-
-```bash
-TURSO_DATABASE_URL="..."
-TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
 <Step title="Configure LibSQL Client.">
 
-```ts app/lib/turso.ts
-import { createClient } from "@libsql/client";
-
-export const turso = createClient({
-    url: process.env.TURSO_DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-});
-```
+<Snippet file="configure-libsql-client-ts.mdx" />
 
 </Step>
 

@@ -38,26 +38,9 @@ yarn add -D drizzle-kit
 
 </Step>
 
-<Step title="Configure database credentials">
+<Step title="Retrieve database credentials">
 
-Get the database URL:
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token:
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env.local`:
-
-```bash
-TURSO_DATABASE_URL="..."
-TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
@@ -79,9 +62,11 @@ const foo = sqliteTable("foo", {
 
 </Step>
 
-<Step title="Configure Drizzle to work with the LibSQL client">
+<Step title="Connect Drizzle with libSQL">
 
-```ts db.ts
+<CodeGroup>
+
+```ts Node.js / Serverless
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 
@@ -93,11 +78,25 @@ const turso = createClient({
 export const db = drizzle(turso);
 ```
 
+```ts Edge Runtimes
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client/web";
+
+const turso = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+export const db = drizzle(turso);
+```
+
+</CodeGroup>
+
 </Step>
 
-<Step title="Query your Turso database">
+<Step title="Query">
 
-```tsx App Router
+```ts
 import { db } from "./db";
 
 const result = await db.select().from(foo).all();
@@ -105,7 +104,7 @@ const result = await db.select().from(foo).all();
 
 </Step>
 
-<Step title="Visualize Turso database with Drizzle Studio">
+<Step title="Connect Drizzle Studio">
 
 To preview and manage database data with Drizzle Studio, prepare the Drizzle config file:
 
@@ -125,13 +124,12 @@ export default {
 } satisfies Config;
 ```
 
-Launch Drizzle Studio.
+Launch Drizzle Studio:
 
 <CodeGroup>
 
 ```bash npm
 npx drizzle-kit studio
-
 ```
 
 ```bash pnpm

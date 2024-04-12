@@ -18,30 +18,25 @@ Before you start, make sure you:
 
 <Step title="Install the libSQL SDK">
 
-```bash bun
-bun add @libsql/client
-```
+<Snippet file="install-libsql-client-ts.mdx" />
 
 </Step>
 
+<Step title="Retrieve database credentials">
+
 <Snippet file="retrieve-database-credentials.mdx" />
+
+</Step>
 
 <Step title="Configure LibSQL client">
 
-```ts index.ts
-import { createClient } from "@libsql/client";
-
-export const db = createClient({
-  url: process.env.TURSO_DATABASE_URL,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
-```
+<Snippet file="configure-libsql-client-ts.mdx" />
 
 </Step>
 
 <Step title="Execute SQL">
 
-```tsx index.ts
+```ts
 import { Hono } from "hono";
 
 const app = new Hono();

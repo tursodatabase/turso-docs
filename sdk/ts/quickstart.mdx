@@ -24,58 +24,13 @@ You will need an existing database to continue. If you don't have one, [create o
 
   <Step title="Install @libsql/client">
 
-First begin by installing the `@libsql/client`:
-
-<CodeGroup>
-
-```bash npm
-npm install @libsql/client
-```
-
-```bash pnpm
-pnpm install @libsql/client
-```
-
-```bash yarn
-yarn add @libsql/client
-```
-
-</CodeGroup>
+<Snippet file="install-libsql-client-ts.mdx" />
 
   </Step>
   <Step title="Initialize a new client">
     Next add your database URL and auth token:
 
-<CodeGroup>
-
-```ts Node.js
-import { createClient } from "@libsql/client";
-
-const client = createClient({
-  url: "libsql://...",
-  authToken: "...",
-});
-```
-
-```ts Edge Runtimes
-import { createClient } from "@libsql/client/web";
-
-const client = createClient({
-  url: "libsql://...",
-  authToken: "...",
-});
-```
-
-</CodeGroup>
-
-<br />
-
-<Info>
-
-You can also connect to a local SQLite file by passing `file:` instead of a URL when using Node.js, [learn
-more](/local-development#sqlite).
-
-</Info>
+<Snippet file="configure-libsql-client-ts.mdx" />
 
   </Step>
   <Step title="Execute a query using SQL">

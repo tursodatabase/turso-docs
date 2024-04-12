@@ -23,26 +23,9 @@ pip install sqlalchemy-libsql
 
 </Step>
 
-<Step title="Configure database credentials">
+<Step title="Retrieve database credentials">
 
-Get the database URL:
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token:
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env`.
-
-```bash
-TURSO_DATABASE_URL="..."
-TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
@@ -84,7 +67,7 @@ engine = create_engine(dbUrl, connect_args={'check_same_thread': False}, echo=Tr
 
 </Step>
 
-<Step title="Query database">
+<Step title="Query">
 
 ```py app.py
 from sqlalchemy.orm import Session

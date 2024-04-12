@@ -18,33 +18,19 @@ Before you start, make sure you:
 
 <Step title="Install the libSQL SDK">
 
-<CodeGroup>
-
-```bash npm
-npm install @libsql/client
-```
-
-```bash pnpm
-pnpm add @libsql/client
-```
-
-```bash yarn
-yarn add @libsql/client
-```
-
-</CodeGroup>
+<Snippet file="install-libsql-client-ts.mdx" />
 
 </Step>
 
 <Step title="Configure database credentials">
 
-Get the database URL.
+Get the database URL:
 
 ```bash
 turso db show --url <database-name>
 ```
 
-Get the database authentication token.
+Get the database authentication token:
 
 ```bash
 turso db tokens create <database-name>
@@ -61,14 +47,13 @@ VITE_TURSO_AUTH_TOKEN="..."
 
 <Step title="Configure LibSQL Client">
 
-```javascript IndexPage.vue
-import {createClient} from '@libsql/client/web';
+```js
+import { createClient } from "@libsql/client/web";
 
 const turso = createClient({
-  url: import.meta.env.VITE_TURSO_URL,
+  url: import.meta.env.VITE_TURSO_DATABASE_URL,
   authToken: import.meta.env.VITE_TURSO_AUTH_TOKEN,
 });
-}
 ```
 
 <Info>
@@ -101,7 +86,7 @@ const turso = createClient({
 
 <Step title="Fetch data from Turso.">
 
-```javascript IndexPage.vue
+```js IndexPage.vue
 import { ref } from "vue";
 
 const items = ref();

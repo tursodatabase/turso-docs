@@ -36,32 +36,15 @@ yarn add @libsql/client @prisma/adapter-libsql
 
 </Step>
 
-<Step title="Configure database credentials">
+<Step title="Retrieve database credentials">
 
-Get the database URL:
-
-```bash
-turso db show --url <database-name>
-```
-
-Get the database authentication token:
-
-```bash
-turso db tokens create <database-name>
-```
-
-Assign credentials to the environment variables inside `.env.local`:
-
-```bash
-TURSO_DATABASE_URL="..."
-TURSO_AUTH_TOKEN="..."
-```
+<Snippet file="retrieve-database-credentials.mdx" />
 
 </Step>
 
-<Step title="Enable the `driverAdapters` Preview feature flag:">
+<Step title="Enable the `driverAdapters` preview feature flag:">
 
-```js prisma/schema.prisma 3
+```js prisma/schema.prisma
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -88,7 +71,9 @@ pnpm dlx prisma generate
 
 <Step title="Update your Prisma Client Instance">
 
-```ts
+<CodeGroup>
+
+```ts Node.js / Serverless
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client";
@@ -102,9 +87,25 @@ const adapter = new PrismaLibSQL(libsql);
 const prisma = new PrismaClient({ adapter });
 ```
 
+```ts Edge Runtimes
+import { PrismaClient } from "@prisma/client";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
+import { createClient } from "@libsql/client/web";
+
+const libsql = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+const adapter = new PrismaLibSQL(libsql);
+const prisma = new PrismaClient({ adapter });
+```
+
+</CodeGroup>
+
 </Step>
 
-<Step title="Query your database">
+<Step title="Query">
 
 ```ts
 const response = await prisma.table_name.findMany();
