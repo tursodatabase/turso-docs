@@ -19,9 +19,18 @@
       "get": {
         "summary": "List Databases",
         "description": "Returns a list of databases belonging to the organization or user.",
+        "operationId": "listDatabases",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter databases by group name."
           }
         ],
         "responses": {
@@ -123,6 +132,7 @@
       "get": {
         "summary": "Retrieve Database",
         "description": "Returns a database belonging to the organization or user.",
+        "operationId": "getDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -156,6 +166,7 @@
       "delete": {
         "summary": "Delete Database",
         "description": "Delete a database belonging to the organization or user.",
+        "operationId": "deleteDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -193,6 +204,7 @@
       "patch": {
         "summary": "Update Database Configuration",
         "description": "Update a database configuration belonging to the organization or user.",
+        "operationId": "updateDatabaseConfiguration",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -234,8 +246,9 @@
         }
       ],
       "post": {
-        "summary": "Upload Dump",
+        "summary": "Upload SQLite Dump",
         "description": "Upload a SQL dump to be used when [creating a new database](/api-reference/databases/create) from seed.",
+        "operationId": "uploadDatabaseDump",
         "requestBody": {
           "description": "Database dump file to be uploaded.",
           "content": {
@@ -281,6 +294,7 @@
       "get": {
         "summary": "List Database Instances",
         "description": "Returns a list of instances of a database. Instances are the individual primary or replica databases in each region defined by the group.",
+        "operationId": "listDatabaseInstances",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -316,6 +330,7 @@
       "get": {
         "summary": "Retrieve Database Instance",
         "description": "Return the individual database instance by name.",
+        "operationId": "getDatabaseInstance",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -351,6 +366,7 @@
       "post": {
         "summary": "Generate Database Auth Token",
         "description": "Generates an authorization token for the specified database.",
+        "operationId": "createDatabaseToken",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/databaseName" },
@@ -430,6 +446,7 @@
       "get": {
         "summary": "Retrieve Database Usage",
         "description": "Fetch activity usage for a database in a given time period.",
+        "operationId": "getDatabaseUsage",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/databaseName" },
@@ -498,6 +515,7 @@
       "get": {
         "summary": "Retrieve Database Stats",
         "description": "Fetch the top queries of a database, including the count of rows read and written.",
+        "operationId": "getDatabaseStats",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/databaseName" }
@@ -533,6 +551,7 @@
       "post": {
         "summary": "Invalidate All Database Auth Tokens",
         "description": "Invalidates all authorization tokens for the specified database.",
+        "operationId": "invalidateDatabaseTokens",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/databaseName" }
@@ -552,6 +571,7 @@
       "get": {
         "summary": "List Groups",
         "description": "Returns a list of groups belonging to the organization or user.",
+        "operationId": "listGroups",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -581,6 +601,7 @@
       "post": {
         "summary": "Create Group",
         "description": "Creates a new group for the organization or user.",
+        "operationId": "createGroup",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -639,6 +660,7 @@
       "get": {
         "summary": "Retrieve Group",
         "description": "Returns a group belonging to the organization or user.",
+        "operationId": "getGroup",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -671,6 +693,7 @@
       "delete": {
         "summary": "Delete Group",
         "description": "Delete a group belonging to the organization or user.",
+        "operationId": "deleteGroup",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -706,6 +729,7 @@
       "post": {
         "summary": "Transfer Group",
         "description": "Transfer a group to another organization that you own or a member of.",
+        "operationId": "transferGroup",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -753,6 +777,7 @@
       "post": {
         "summary": "Add Location to Group",
         "description": "Adds a location to the specified group.",
+        "operationId": "addLocationToGroup",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/groupName" },
@@ -816,6 +841,7 @@
       "delete": {
         "summary": "Remove Location from Group",
         "description": "Removes a location from the specified group.",
+        "operationId": "removeLocationFromGroup",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/groupName" },
@@ -881,6 +907,7 @@
       "post": {
         "summary": "Update Databases in a Group",
         "description": "Updates all databases in the group to the latest libSQL version.",
+        "operationId": "updateGroupDatabases",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -904,6 +931,7 @@
       "post": {
         "summary": "Create Group Auth Token",
         "description": "Generates an authorization token for the specified group.",
+        "operationId": "createGroupToken",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/groupName" },
@@ -983,6 +1011,7 @@
       "post": {
         "summary": "Invalidate All Group Auth Tokens",
         "description": "Invalidates all authorization tokens for the specified group.",
+        "operationId": "invalidateGroupTokens",
         "parameters": [
           { "$ref": "#/components/parameters/organizationName" },
           { "$ref": "#/components/parameters/groupName" }
@@ -1002,6 +1031,7 @@
       "get": {
         "summary": "List Locations",
         "description": "Returns a list of locations where you can create or replicate databases.",
+        "operationId": "listLocations",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1069,6 +1099,7 @@
       "get": {
         "summary": "List Organizations",
         "description": "Returns a list of organizations the authenticated user owns or is a member of.",
+        "operationId": "listOrganizations",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1091,6 +1122,7 @@
       "patch": {
         "summary": "Update Organization",
         "description": "Update an organization you own or are a member of.",
+        "operationId": "updateOrganization",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -1138,6 +1170,7 @@
       "get": {
         "summary": "List Members",
         "description": "Returns a list of members part of the organization.",
+        "operationId": "listOrganizationMembers",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -1167,6 +1200,7 @@
       "post": {
         "summary": "Add Member",
         "description": "Add an existing Turso user to an organization.",
+        "operationId": "addOrganizationMember",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -1257,6 +1291,7 @@
       "delete": {
         "summary": "Remove Member",
         "description": "Remove a user from the organization by username.",
+        "operationId": "removeOrganizationMember",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -1306,6 +1341,7 @@
       "get": {
         "summary": "List Invites",
         "description": "Returns a list of invites for the organization.",
+        "operationId": "listOrganizationInvites",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -1333,8 +1369,9 @@
         }
       },
       "post": {
-        "summary": "Invite User",
-        "description": "Invite a user to an organization.",
+        "summary": "Invite Organization Member",
+        "description": "Invite a user (who isn't already a Turso user) to an organization.",
+        "operationId": "inviteOrganizationMember",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -1388,6 +1425,7 @@
       "get": {
         "summary": "Validate API Token",
         "description": "Validates an API token belonging to a user.",
+        "operationId": "validateAPIToken",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1414,6 +1452,7 @@
       "get": {
         "summary": "List API Tokens",
         "description": "Returns a list of API tokens belonging to a user.",
+        "operationId": "listAPITokens",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1440,6 +1479,7 @@
       "post": {
         "summary": "Create API Token",
         "description": "Returns a new API token belonging to a user.",
+        "operationId": "createAPIToken",
         "parameters": [
           {
             "$ref": "#/components/parameters/tokenName"
@@ -1473,6 +1513,7 @@
       "delete": {
         "summary": "Revoke API Token",
         "description": "Revokes the provided API token belonging to a user.",
+        "operationId": "revokeAPIToken",
         "parameters": [
           {
             "$ref": "#/components/parameters/tokenName"
@@ -1503,6 +1544,7 @@
       "get": {
         "summary": "List Audit Logs",
         "description": "Return the audit logs for the given organization, ordered by the `created_at` field in descending order.",
+        "operationId": "listOrganizationAuditLogs",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
