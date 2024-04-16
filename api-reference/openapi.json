@@ -57,6 +57,7 @@
       "post": {
         "summary": "Create Database",
         "description": "Creates a new database in a group for the organization or user.",
+        "operationId": "createDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
@@ -2334,13 +2335,6 @@
           "type": "integer"
         },
         "description": "The page number to return. Defaults to 1."
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
