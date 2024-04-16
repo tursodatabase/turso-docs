@@ -1236,7 +1236,13 @@
                     },
                     "plan": {
                       "type": "string",
-                      "description": "The name of the plan for the current subscription."
+                      "description": "The name of the plan for the current subscription.",
+                      "example": "scaler"
+                    },
+                    "timeline": {
+                      "type": "string",
+                      "description": "Whether the plan is billed monthly or yearly.",
+                      "example": "monthly"
                     }
                   }
                 }
