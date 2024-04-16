@@ -1167,6 +1167,172 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/plans": {
+      "get": {
+        "summary": "List Plans",
+        "description": "Returns a list of available plans and their quotas.",
+        "operationId": "listOrganizationPlans",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the plan.",
+                      "example": "starter"
+                    },
+                    "price": {
+                      "type": "string",
+                      "description": "The monthly price of the plan.",
+                      "example": "0"
+                    },
+                    "quotas": {
+                      "$ref": "#/components/schemas/PlanQuotas"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/v1/organizations/{organizationName}/subscription": {
+      "get": {
+        "summary": "Current Subscription",
+        "description": "Returns the current subscription details for the organization.",
+        "operationId": "getOrganizationSubscription",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "subscription": {
+                      "type": "string",
+                      "description": "The name of the plan for the current subscription.",
+                      "example": "scaler"
+                    },
+                    "overages": {
+                      "type": "boolean",
+                      "description": "Whether overages are enabled for the organization."
+                    },
+                    "plan": {
+                      "type": "string",
+                      "description": "The name of the plan for the current subscription."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/v1/organizations/{organizationName}/usage": {
+      "get": {
+        "summary": "Organization Usage",
+        "description": "Fetch current billing cycle usage for an organization.",
+        "operationId": "getOrganizationUsage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organization": {
+                      "type": "object",
+                      "description": "The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes).",
+                      "properties": {
+                        "uuid": {
+                          "type": "string",
+                          "description": "The UUID of the organization.",
+                          "example": "fa72ba58-7db3-436b-bcab-14b83eb1dd88"
+                        },
+                        "usage": {
+                          "type": "object",
+                          "description": "The usage object for the organization.",
+                          "properties": {
+                            "rows_read": {
+                              "type": "integer",
+                              "description": "The number of rows read allowed for the specific plan.",
+                              "example": 1000000000
+                            },
+                            "rows_written": {
+                              "type": "integer",
+                              "description": "The number of rows written allowed for the specific plan.",
+                              "example": 25000000
+                            },
+                            "databases": {
+                              "type": "integer",
+                              "description": "The number of databases allowed for the specific plan.",
+                              "example": 500
+                            },
+                            "locations": {
+                              "type": "integer",
+                              "description": "The number of locations allowed for the specific plan.",
+                              "example": 3
+                            },
+                            "storage": {
+                              "type": "integer",
+                              "description": "The amount of storage allowed for the specific plan, in bytes.",
+                              "example": 9000000000
+                            },
+                            "groups": {
+                              "type": "integer",
+                              "description": "The number of groups allowed for the specific plan.",
+                              "example": 1
+                            },
+                            "bytes_synced": {
+                              "type": "integer",
+                              "description": "The number of bytes synced allowed for the specific plan, in bytes.",
+                              "example": 3000000000
+                            }
+                          }
+                        },
+                        "databases": {
+                          "type": "array",
+                          "description": "The databases for the organization and their usage.",
+                          "items": {
+                            "$ref": "#/components/schemas/DatabaseUsageOutput"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/members": {
       "get": {
         "summary": "List Members",
@@ -2193,6 +2359,47 @@
             "type": "boolean",
             "description": "Groups on the free tier go to sleep after some inactivity.",
             "example": false
+          }
+        }
+      },
+
+      "PlanQuotas": {
+        "type": "object",
+        "properties": {
+          "rowsRead": {
+            "type": "integer",
+            "description": "The number of rows read allowed for the specific plan.",
+            "example": 1000000000
+          },
+          "rowsWritten": {
+            "type": "integer",
+            "description": "The number of rows written allowed for the specific plan.",
+            "example": 25000000
+          },
+          "databases": {
+            "type": "integer",
+            "description": "The number of databases allowed for the specific plan.",
+            "example": 500
+          },
+          "locations": {
+            "type": "integer",
+            "description": "The number of locations allowed for the specific plan.",
+            "example": 3
+          },
+          "storage": {
+            "type": "integer",
+            "description": "The amount of storage allowed for the specific plan, in bytes.",
+            "example": 9000000000
+          },
+          "groups": {
+            "type": "integer",
+            "description": "The number of groups allowed for the specific plan.",
+            "example": 1
+          },
+          "bytesSynced": {
+            "type": "integer",
+            "description": "The number of bytes synced allowed for the specific plan, in bytes.",
+            "example": 3000000000
           }
         }
       },

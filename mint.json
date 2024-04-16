@@ -395,6 +395,9 @@
           "pages": [
             "api-reference/organizations/list",
             "api-reference/organizations/update",
+            "api-reference/organizations/plans",
+            "api-reference/organizations/subscription",
+            "api-reference/organizations/usage",
             {
               "icon": "user",
               "group": "Members",
