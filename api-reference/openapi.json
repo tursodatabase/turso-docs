@@ -202,6 +202,31 @@
     },
 
     "/v1/organizations/{organizationName}/databases/{databaseName}/configuration": {
+      "get": {
+        "summary": "Retrieve Database Configuration",
+        "description": "Retrieve an individual database configuration belonging to the organization or user.",
+        "operationId": "getDatabaseConfiguration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "$ref": "#/components/parameters/databaseName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseConfigurationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "summary": "Update Database Configuration",
         "description": "Update a database configuration belonging to the organization or user.",
@@ -2311,6 +2336,16 @@
           "allow_attach": {
             "type": "boolean",
             "description": "Allow or disallow attaching databases to the current database."
+          },
+          "block_reads": {
+            "type": "boolean",
+            "description": "Block all database reads.",
+            "example": false
+          },
+          "block_writes": {
+            "type": "boolean",
+            "description": "Block all database writes.",
+            "example": false
           }
         }
       },
@@ -2326,6 +2361,16 @@
             "type": "boolean",
             "description": "Allow or disallow attaching databases to the current database.",
             "example": true
+          },
+          "block_reads": {
+            "type": "boolean",
+            "description": "The current status for blocked reads.",
+            "example": false
+          },
+          "block_writes": {
+            "type": "boolean",
+            "description": "The current status for blocked writes.",
+            "example": false
           }
         }
       },

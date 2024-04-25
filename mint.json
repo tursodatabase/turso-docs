@@ -338,16 +338,6 @@
       "group": "Resources",
       "pages": [
         {
-          "icon": "key",
-          "group": "API Tokens",
-          "pages": [
-            "api-reference/tokens/create",
-            "api-reference/tokens/validate",
-            "api-reference/tokens/list",
-            "api-reference/tokens/revoke"
-          ]
-        },
-        {
           "icon": "database",
           "group": "Databases",
           "pages": [
@@ -355,6 +345,7 @@
             "api-reference/databases/create",
             "api-reference/databases/retrieve",
             "api-reference/databases/configuration",
+            "api-reference/databases/update-configuration",
             "api-reference/databases/usage",
             "api-reference/databases/stats",
             "api-reference/databases/delete",
@@ -388,7 +379,12 @@
             "api-reference/locations/list",
             "api-reference/locations/closest-region"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "group": "",
+      "pages": [
         {
           "icon": "user-group",
           "group": "Organizations",
@@ -397,30 +393,45 @@
             "api-reference/organizations/update",
             "api-reference/organizations/plans",
             "api-reference/organizations/subscription",
-            "api-reference/organizations/usage",
-            {
-              "icon": "user",
-              "group": "Members",
-              "pages": [
-                "api-reference/organizations/members/list",
-                "api-reference/organizations/members/add",
-                "api-reference/organizations/members/remove"
-              ]
-            },
-            {
-              "icon": "envelope",
-              "group": "Invites",
-              "pages": [
-                "api-reference/organizations/invites/list",
-                "api-reference/organizations/invites/create"
-              ]
-            }
+            "api-reference/organizations/usage"
+          ]
+        },
+        {
+          "icon": "user",
+          "group": "Members",
+          "pages": [
+            "api-reference/organizations/members/list",
+            "api-reference/organizations/members/add",
+            "api-reference/organizations/members/remove"
+          ]
+        },
+        {
+          "icon": "envelope",
+          "group": "Invites",
+          "pages": [
+            "api-reference/organizations/invites/list",
+            "api-reference/organizations/invites/create"
           ]
         },
         {
           "icon": "list",
           "group": "Audit Logs",
           "pages": ["api-reference/audit-logs/list"]
+        }
+      ]
+    },
+    {
+      "group": "",
+      "pages": [
+        {
+          "icon": "key",
+          "group": "API Tokens",
+          "pages": [
+            "api-reference/tokens/create",
+            "api-reference/tokens/validate",
+            "api-reference/tokens/list",
+            "api-reference/tokens/revoke"
+          ]
         }
       ]
     }
