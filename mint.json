@@ -393,6 +393,7 @@
             "api-reference/organizations/update",
             "api-reference/organizations/plans",
             "api-reference/organizations/subscription",
+            "api-reference/organizations/invoices",
             "api-reference/organizations/usage"
           ]
         },

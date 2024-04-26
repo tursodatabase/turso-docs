@@ -1232,6 +1232,73 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/invoices": {
+      "get": {
+        "summary": "List Invoices",
+        "description": "Returns a list of invoices for the organization.",
+        "operationId": "listOrganizationInvoices",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invoices": {
+                      "type": "array",
+                      "description": "The list of invoices for the organization.",
+
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "invoice_number": {
+                            "type": "string",
+                            "description": "The unique ID for the invoice.",
+                            "example": "LFONTK-00001"
+                          },
+                          "amount_due": {
+                            "type": "string",
+                            "description": "The formatted price in USD for the invoice.",
+                            "example": "10.29"
+                          },
+                          "due_date": {
+                            "type": "string",
+                            "description": "The due date for the invoice.",
+                            "example": "2024-01-01T05:00:00+00:00"
+                          },
+                          "paid_at": {
+                            "type": "string",
+                            "description": "The date the invoice was paid.",
+                            "example": "2024-01-01T05:00:00+00:00"
+                          },
+                          "payment_failed_at": {
+                            "type": "string",
+                            "description": "The date the invoice payment last failed.",
+                            "example": "2024-01-01T05:00:00+00:00"
+                          },
+                          "invoice_pdf": {
+                            "type": "string",
+                            "description": "The link to the invoice PDF you can download.",
+                            "example": "https://assets.withorb.com/invoice/..."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/subscription": {
       "get": {
         "summary": "Current Subscription",
