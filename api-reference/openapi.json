@@ -1619,6 +1619,50 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/invites/{email}": {
+      "delete": {
+        "summary": "Delete Invite",
+        "description": "Delete an invite for the organization by email.",
+        "operationId": "deleteOrganizationInviteByEmail",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "type": "string",
+            "description": "The unique  for the invite.",
+            "example": "iku@turso.tech"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response (No Content)"
+          },
+          "404": {
+            "description": "Invite not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "The error code"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "The error message (human readable)",
+                      "example": "invite not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/v1/auth/validate": {
       "get": {
         "summary": "Validate API Token",
@@ -1899,7 +1943,6 @@
           "ID": {
             "type": "integer",
             "description": "The unique ID for the invite.",
-
             "example": 1
           },
           "CreatedAt": {
@@ -1920,17 +1963,17 @@
           "Role": {
             "type": "string",
             "enum": ["admin", "member"],
-            "description": "The unique ID for the invite.",
+            "description": "The assigned role for the invited user.",
             "example": "member"
           },
           "Email": {
             "type": "string",
-            "description": "The unique ID for the invite.",
+            "description": "The email of the person invited.",
             "example": "iku@turso.tech"
           },
           "OrganizationID": {
             "type": "integer",
-            "description": "The unique ID for the invite.",
+            "description": "The ID of the organization the user was invited to.",
             "example": 1
           },
           "Token": {

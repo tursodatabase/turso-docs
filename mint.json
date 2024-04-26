@@ -410,7 +410,8 @@
           "group": "Invites",
           "pages": [
             "api-reference/organizations/invites/list",
-            "api-reference/organizations/invites/create"
+            "api-reference/organizations/invites/create",
+            "api-reference/organizations/invites/delete"
           ]
         },
         {
