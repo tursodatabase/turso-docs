@@ -1629,9 +1629,14 @@
             "$ref": "#/components/parameters/organizationName"
           },
           {
-            "type": "string",
-            "description": "The unique  for the invite.",
-            "example": "iku@turso.tech"
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The email of the user invited.",
+              "example": "iku@turso.tech"
+            }
           }
         ],
         "responses": {
