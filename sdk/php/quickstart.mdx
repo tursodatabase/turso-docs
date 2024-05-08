@@ -1,0 +1,108 @@
+---
+title: Turso Quickstart (PHP)
+sidebarTitle: Quickstart
+description: Get started with Turso and PHP using the libSQL client in a few simple steps.
+---
+
+In this PHP quickstart we will learn how to:
+
+- Retrieve database credentials
+- Install the libSQL package
+- Connect to a Turso database
+- Execute a query using SQL
+
+<Steps>
+  <Step title="Retrieve database credentials">
+
+You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+<Info>You will want to store these as environment variables.</Info>
+
+  </Step>
+
+  <Step title="Install">
+
+First begin by adding libSQL to your project:
+
+    ```bash
+    composer require darkterminal/libsql-client-php
+    ```
+
+  </Step>
+
+  <Step title="Connect">
+
+Now connect to your local or remote database using the libSQL connector:
+
+<AccordionGroup>
+  <Accordion title="Local only">
+
+```php
+<?php
+
+use Darkterminal\LibSQL\LibSQL;
+
+require_once 'vendor/autoload.php';
+
+$config = [
+  "url" => getenv('TURSO_DATABASE_URL'),
+  "flags" => LIBSQLPHP_OPEN_READWRITE | LIBSQLPHP_OPEN_CREATE,
+  "encryptionKey" => ""
+];
+
+$db = new LibSQL($config);
+```
+
+  </Accordion>
+
+<Accordion title="Remote only">
+
+```php
+<?php
+
+use Darkterminal\LibSQL\LibSQL;
+use Darkterminal\LibSQL\Types\HttpStatement;
+use Darkterminal\LibSQL\Types\LibSQLResult;
+
+require_once 'vendor/autoload.php';
+
+$config = [
+  'url' => getenv('TURSO_DATABASE_URL'),
+  'authToken' => getenv('TURSO_AUTH_TOKEN'),
+  'tls' => false
+];
+
+$db = new LibSQL($config);
+```
+
+  </Accordion>
+</AccordionGroup>
+
+  </Step>
+
+  <Step title="Execute">
+
+You can execute SQL queries against your existing database as follows:
+
+<AccordionGroup>
+  <Accordion title="Local only">
+  ```php
+  $result = $db->execute(query: "INSERT INTO users (name) VALUES (?)", params: ['Belina Bogge']);
+  ```
+  </Accordion>
+
+  <Accordion title="Remote only">
+
+```php
+$query = HttpStatement::create(sql: 'CREATE TABLE users (id INTEGER);');
+
+$results = $db->execute(query: $query);
+```
+
+  </Accordion>
+</AccordionGroup>
+
+  </Step>
+</Steps>

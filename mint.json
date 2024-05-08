@@ -315,6 +315,10 @@
       ]
     },
     {
+      "group": "PHP",
+      "pages": ["sdk/php/quickstart", "sdk/php/reference", "sdk/php/examples"]
+    },
+    {
       "group": "HTTP",
       "pages": [
         "sdk/http/quickstart",
