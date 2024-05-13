@@ -2256,7 +2256,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the new database. Must contain only lowercase letters, numbers, dashes. No longer than 32 characters."
+            "description": "The name of the new database. Must contain only lowercase letters, numbers, dashes. No longer than 64 characters."
           },
           "group": {
             "type": "string",
