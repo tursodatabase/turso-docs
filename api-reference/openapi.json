@@ -2402,17 +2402,17 @@
           "rows_read": {
             "type": "integer",
             "example": 0,
-            "description": "Test"
+            "description": "The total rows read in the time period."
           },
           "rows_written": {
             "type": "integer",
             "example": 0,
-            "description": "Test"
+            "description": "The total rows written in the time period."
           },
           "storage_bytes": {
             "type": "integer",
             "example": 0,
-            "description": "Test"
+            "description": "The total storage used."
           }
         }
       },
