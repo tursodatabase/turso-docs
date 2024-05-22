@@ -27,7 +27,13 @@ Instances are categorized into two types: primary and replica.
 
 ## Groups
 
-All databases are part of a "group", dictating their primary storage location and replication across distinct VMs ([locations](#locations)), each capped at 100GB. This setup ensures databases share resources yet remain isolated.
+All databases are part of a "group", dictating their primary storage location and replication across distinct VMs ([locations](#locations)), each replica (volume) is capped at 100GB. This setup ensures databases share resources yet remain isolated.
+
+<Note>
+
+Enterprise plans can have higher limits on storage.
+
+</Note>
 
 <Frame caption="A single group with replicas">
   ![Turso Database Groups and Replication](/images/concepts/database-group.png)
