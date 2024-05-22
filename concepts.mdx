@@ -17,6 +17,10 @@ Learn more about [data and connections](/data-and-connections).
 
 </Info>
 
+### Schema Database
+
+Turso provides a feature called [Multi-DB Schemas](/features/multi-db-schemas) that let you share schema across many databases in a group. This is useful for creating a multi-tenant application where each tenant has their own database.
+
 ## Instance
 
 A database instance represents a single element of a logical database situated at a specific location.
@@ -29,15 +33,13 @@ Instances are categorized into two types: primary and replica.
 
 All databases are part of a "group", dictating their primary storage location and replication across distinct VMs ([locations](#locations)), each replica (volume) is capped at 100GB. This setup ensures databases share resources yet remain isolated.
 
-<Note>
-
-Enterprise plans can have higher limits on storage.
-
-</Note>
+<Note>Enterprise plans can have higher limits on storage.</Note>
 
 <Frame caption="A single group with replicas">
   ![Turso Database Groups and Replication](/images/concepts/database-group.png)
 </Frame>
+
+<Warning>Creating more than one group is limited to paid plans. You can add additional groups if you have overages enabled.</Warning>
 
 ## Locations
 
@@ -91,9 +93,3 @@ Turso optimizes data access with control over data storage and replication acros
 You can fetch the list of supported locations as JSON when building with the [Platform API](/api-reference/locations) or using the [Turso CLI](/cli/db/locations).
 
 </Info>
-
-<Warning>Creating more than one group is limited to paid plans.</Warning>
-
-<Frame caption="A single group with replicas">
-  ![Turso Database Groups and Replication](/images/concepts/database-group.png)
-</Frame>

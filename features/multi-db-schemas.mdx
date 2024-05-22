@@ -29,12 +29,12 @@ You can create and manage parent or child databases using the [Turso CLI](/cli/d
 
 <iframe
 
-  src="https://www.youtube.com/embed/Slacu1aGm8A"
-  title="Multi database schema changes"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-    className="w-full aspect-video"
+src="https://www.youtube.com/embed/Slacu1aGm8A"
+title="Multi database schema changes"
+frameBorder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowFullScreen
+className="w-full aspect-video"
 
 > </iframe>
 
@@ -56,7 +56,7 @@ turso db create parent-db --type schema
 
 <Step title="Create Schema">
 
-Connect to your database using the shell to `CREATE TABLE`, `CREATE TRIGGER`, and anything else to setup your schema:
+Connect to your database using the shell to `CREATE TABLE`, `CREATE TRIGGER`, `CREATE VIEW`, and anything else to setup your schema:
 
 ```bash
 turso db shell parent-db
@@ -111,7 +111,7 @@ curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/data
 
 <Step title="Create Schema">
 
-Connect to your database using the shell, [SDK](/sdk), or migration script to `CREATE TABLE`, `CREATE TRIGGER`, and anything else to setup your schema:
+Connect to your database using the shell, [SDK](/sdk), or migration script to `CREATE TABLE`, `CREATE TRIGGER`, `CREATE VIEW`, and anything else to setup your schema:
 
 ```bash Turso CLI
 turso db shell parent-db
@@ -150,6 +150,7 @@ turso db shell parent-db "CREATE TABLE users (id INT PRIMARY KEY, name TEXT);"
 
 ## Things to know
 
+- Schema databases cannot be shared across groups or globally via an organization/account.
 - You can `INSERT` rows into the parent database that can be querified by the child database(s).
   - Be aware of any constraints that may conflict with the child database(s).
 - You can't delete a parent database if it has one or more child databases.
