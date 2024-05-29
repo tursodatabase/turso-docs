@@ -38,9 +38,10 @@ Before you start, make sure you:
 
 ```ts
 import { Elysia } from "elysia";
+import { turso } from "./lib/turso";
 
 const app = new Elysia().get("/items", async () => {
-  const { rows } = await db.execute("SELECT * FROM items");
+  const { rows } = await turso.execute("SELECT * FROM items");
   return rows;
 });
 ```

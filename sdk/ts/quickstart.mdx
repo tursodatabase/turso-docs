@@ -38,7 +38,7 @@ You will need an existing database to continue. If you don't have one, [create o
 You can execute a SQL query against your existing database by calling `execute()`:
 
 ```ts
-await client.execute("SELECT * FROM users");
+await turso.execute("SELECT * FROM users");
 ```
 
 If you need to use placeholders for values, you can do that:
@@ -46,14 +46,14 @@ If you need to use placeholders for values, you can do that:
 <CodeGroup>
 
 ```ts Positional
-await client.execute({
+await turso.execute({
   sql: "SELECT * FROM users WHERE id = ?",
   args: [1],
 });
 ```
 
 ```ts Named
-await client.execute({
+await turso.execute({
   sql: "INSERT INTO users VALUES (:name)",
   args: { name: "Iku" },
 });

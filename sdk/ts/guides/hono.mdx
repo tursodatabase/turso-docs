@@ -38,11 +38,13 @@ Before you start, make sure you:
 
 ```ts
 import { Hono } from "hono";
+import { turso } from "./lib/turso";
 
 const app = new Hono();
 
 app.get("/items", async (c) => {
-  const { rows } = await db.execute("SELECT * FROM items");
+  const { rows } = await turso.execute("SELECT * FROM items");
+
   return c.json({ rows });
 });
 ```

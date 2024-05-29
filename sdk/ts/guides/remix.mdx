@@ -38,6 +38,7 @@ Before you start, make sure you:
 
 ```ts app/routes/_index.ts
 import type { LoaderFunction } from "@remix-run/node";
+
 import { turso } from "~/lib/turso";
 
 export const loader: LoaderFunction = async () => {
