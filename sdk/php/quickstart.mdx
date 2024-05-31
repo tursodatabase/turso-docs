@@ -1,108 +1,128 @@
 ---
 title: Turso Quickstart (PHP)
 sidebarTitle: Quickstart
-description: Get started with Turso and PHP using the libSQL client in a few simple steps.
+description: Get started with Turso and PHP using the libSQL Native Extension with one-time configuration for your PHP Environment.
 ---
+
+<Note>
+You are reading the latest **LibSQL Client PHP** documentation in the form of a **Native PHP Extension**. If you used **LibSQL Client PHP** with the Composer Package previously, [please visit this page](/sdk/php/libsql-client-php).
+</Note>
 
 In this PHP quickstart we will learn how to:
 
 - Retrieve database credentials
-- Install the libSQL package
+- Download the libSQL Native Extension
+- Install the libSQL Native Extension
 - Connect to a Turso database
 - Execute a query using SQL
 
 <Steps>
   <Step title="Retrieve database credentials">
 
-You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+    You will need an existing database to continue. If you don't have one, [create one](/quickstart).
 
-<Snippet file="retrieve-database-credentials.mdx" />
+    <Snippet file="retrieve-database-credentials.mdx" />
 
-<Info>You will want to store these as environment variables.</Info>
+    <Info>You will want to store these as environment variables.</Info>
+
+  </Step>
+
+  <Step title="Download">
+
+  Download the latest build extension/driver binary you can see at [Release](https://github.com/darkterminal/libsql-extension/releases) page. It's available for:
+  - Linux
+  - Mac/Darwin
+  - Windows (still struggle, but you need to try use WSL)
 
   </Step>
 
   <Step title="Install">
 
-First begin by adding libSQL to your project:
+  - 📦 Extract the archive that contains the extension/driver and `libsql_php_extensionstubs.php` file to help your IDE
+  - 🗃 Locate somewhere in your machine
+  - 💽 Copy a relative path that address that extension/driver
+  - 📂 Open `php.ini` search `;extension` if you using nano (ctrl+w) then searching for it
+  - 📝 add in the next-line `extension=liblibsql_php.so` (in Linux) without `;` at the begining
 
-    ```bash
-    composer require darkterminal/libsql-client-php
-    ```
+  Check on your console/terminal
+
+  ```shell
+  $ php --m | grep libsql
+  liblibsql_php
+  ```
 
   </Step>
 
   <Step title="Connect">
 
-Now connect to your local or remote database using the libSQL connector:
+Now connect to your in-memory, local, remote, or remote replica (embedded replica) database using the libSQL class:
 
 <AccordionGroup>
-  <Accordion title="Local only">
+  <Accordion title="In-Memory Connection">
+    ```php
+    <?php
 
-```php
-<?php
-
-use Darkterminal\LibSQL\LibSQL;
-
-require_once 'vendor/autoload.php';
-
-$config = [
-  "url" => getenv('TURSO_DATABASE_URL'),
-  "flags" => LIBSQLPHP_OPEN_READWRITE | LIBSQLPHP_OPEN_CREATE,
-  "encryptionKey" => ""
-];
-
-$db = new LibSQL($config);
-```
-
+    $db = new LibSQL(":memory:");
+    ```
   </Accordion>
+  <Accordion title="Local Connection">
+    ```php
+    <?php
 
-<Accordion title="Remote only">
+    $db = new LibSQL("file:database.db");
+    ```
+  </Accordion>
+  <Accordion title="Remote Connection">
+    ```php
+    <?php
 
-```php
-<?php
+    $db_name = getenv('TURSO_DATABASE_URL');
+    $db_auth_token = getenv('TURSO_AUTH_TOKEN');
+    $db = new LibSQL("libsql:dbname={$db_name};authToken={$db_auth_token}");
+    ```
+  </Accordion>
+  <Accordion title="Remote Replica Connection">
+    ```php
+    <?php
 
-use Darkterminal\LibSQL\LibSQL;
-use Darkterminal\LibSQL\Types\HttpStatement;
-use Darkterminal\LibSQL\Types\LibSQLResult;
-
-require_once 'vendor/autoload.php';
-
-$config = [
-  'url' => getenv('TURSO_DATABASE_URL'),
-  'authToken' => getenv('TURSO_AUTH_TOKEN'),
-  'tls' => false
-];
-
-$db = new LibSQL($config);
-```
-
+    $config = [
+      "url" => "file:database.db",
+      "authToken" => getenv('TURSO_DATABASE_URL'),
+      "syncUrl" => getenv('TURSO_AUTH_TOKEN'),
+      "syncInterval" => 5,
+      "read_your_writes" => true,
+      "encryptionKey" => ""
+    ];
+    $db = new LibSQL($config);
+    ```
   </Accordion>
 </AccordionGroup>
 
   </Step>
 
   <Step title="Execute">
-
-You can execute SQL queries against your existing database as follows:
-
-<AccordionGroup>
-  <Accordion title="Local only">
+  You can execute SQL queries against your existing database as follows:
   ```php
-  $result = $db->execute(query: "INSERT INTO users (name) VALUES (?)", params: ['Belina Bogge']);
+  // Create table
+  $sql = "CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT, 
+    age INTEGER
+  )";
+  $db->execute($sql);
+
+  // Insert data
+  $query = "INSERT INTO users (name, age) VALUES ('Diana Hooggan', 24)";
+  $db->execute($query);
+
+  // Read data
+  $results = $db->query("SELECT * FROM users");
+
+  // Get the results
+  var_dump($results);
+
+  // Close database
+  $db->close();
   ```
-  </Accordion>
-
-  <Accordion title="Remote only">
-
-```php
-$query = HttpStatement::create(sql: 'CREATE TABLE users (id INTEGER);');
-
-$results = $db->execute(query: $query);
-```
-
-  </Accordion>
-</AccordionGroup>
-
   </Step>
 </Steps>
