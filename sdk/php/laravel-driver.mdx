@@ -1,0 +1,197 @@
+---
+title: 'Laravel Driver'
+description: 'A LibSQL Driver for Laravel'
+---
+
+![A LibSQL Driver for Laravel](https://github.com/darkterminal/libsql-driver-laravel/raw/main/art/libsql-driver-laravel.png)
+
+**[LibSQL](https://turso.tech/libsql)** is a fork of **SQLite** and this package is **#1 LibSQL Driver** that run natively using **LibSQL Native Extension** and support **Laravel Ecosystem** by our Community Champion [darkterminal](https://github.com/darkterminal) or [@panggilmeiam](https:/x.com/panggilmeiam).
+
+## Requirement
+
+<Card title="Download - LibSQL Extension for PHP" icon="link" href="https://github.com/darkterminal/libsql-extension/releases">
+  The #1 Native LibSQL Extension for PHP
+</Card>
+
+Download the latest build extension/driver binary you can see at link above. It's available for:
+- Linux
+- Mac/Darwin
+- Windows (still struggle, but you need to try use WSL)
+
+## Extension Installation
+
+- 📦 Extract the archive that contains the extension/driver and `libsql_php_extensionstubs.php` file to help your IDE
+- 🗃 Locate somewhere in your machine
+- 💽 Copy a relative path that address that extension/driver
+- 📂 Open `php.ini` search `;extension` if you using nano (ctrl+w) then searching for it
+- 📝 add in the next-line `extension=liblibsql_php.so` (in Linux) without `;` at the begining
+
+Check on your console/terminal
+
+```shell
+$ php --m | grep libsql
+liblibsql_php
+```
+
+## Environment Variables
+
+You need to know the additional configuration in `.env` file, **which come from Laravel** and **which come from LibSQL Driver**. And here is the overview of `.env`:
+
+**Laravel**
+
+```env
+DB_CONNECTION=libsql
+DB_DATABASE=database.sqlite
+```
+
+- `DB_CONNECTION` key is represent default database connection like `libsql`, `sqlite`, `mysql`, `mariadb`, `pgsql`, and `sqlsrv`.
+- `DB_DATABASE` key is represent the location of database name or in this case is database filename.
+
+**LibSQL Driver**
+
+```env
+DB_AUTH_TOKEN=<your-database-auth-token-from-turso>
+DB_SYNC_URL=<your-database-url-from-turso>
+DB_SYNC_INTERVAL=5
+DB_READ_YOUR_WRITES=true
+DB_ENCRYPTION_KEY=
+DB_REMOTE_ONLY=false
+```
+
+Create a new Turso Database [here](https://docs.turso.tech/quickstart)
+
+- `DB_AUTH_TOKEN` - You can generate using `turso db tokens create <database-name>` command or you can visit your Turso Dashboard and select database you want to used and generate the token from there.
+- `DB_SYNC_URL` - This generate by Turso when you craete a new database, you can get the database URL by using this command `turso db show --url <database-name>`
+- `DB_SYNC_INTERVAL` - This variable defines the interval at which an embedded replica synchronizes with the primary database. It sets a duration for automatic synchronization of the database in the background. When configured, the embedded replica will periodically sync its local state with the state of the primary database to ensure it has the latest data. This is particularly useful for ensuring that replicas remain up-to-date with minimal manual intervention. **Default is: 5 seconds**.
+- `DB_READ_YOUR_WRITES` - This variable configures the database connection to ensure that writes made by a connection are immediately visible to subsequent read operations initiated by the same connection. This is important in distributed systems to ensure consistency from the perspective of the writing process. When enabled, after a write operation is performed, any reads that follow from the same connection will see the results of that write. **This option is typically enabled by default** to ensure that clients always see their latest writes.
+- `DB_ENCRYPTION_KEY` - This variable is defined for specifying the encryption key used in database encryption. It represents the secret key that is used to encrypt and decrypt the database content, ensuring that the data stored in the database is protected and can only be accessed by individuals who possess the correct key. This key is a critical component of encryption-at-rest strategies, where the goal is to secure data while it is stored on disk, preventing unauthorized access. **Default is: empty**.
+- `DB_REMOTE_ONLY` - This variable is define to use remote connection only, if you only want to read and write the database from remote database. **Default: false**.
+
+## Connection Configuration
+
+LibSQL has 3 types of connections to interact with the database: _Local Connection_, _Remote Connection_, and _Remote Replica Connection (Embedded Replica)_
+
+### Local Connection
+
+To be able to use LibSQL locally as if you were using SQLite, simply change the following `.env`:
+```env
+DB_CONNECTION=libsql
+DB_DATABASE=database.sqlite
+```
+
+Ignore other LibSQL `.env` variables.
+
+### Remote Connection
+
+To use LibSQL Remote Connection only, you can define the following `.env` variables:
+```env
+DB_CONNECTION=libsql
+DB_AUTH_TOKEN=<your-database-auth-token-from-turso>
+DB_SYNC_URL=<your-database-url-from-turso>
+DB_REMOTE_ONLY=true
+```
+
+### Remote Replica Connection (Embedded Replica)
+
+To configure remote replica connection (embedded replica), you can simply use the following `.env`:
+```env
+DB_CONNECTION=libsql
+DB_DATABASE=database.sqlite
+DB_AUTH_TOKEN=<your-database-auth-token-from-turso>
+DB_SYNC_URL=<your-database-url-from-turso>
+DB_SYNC_INTERVAL=5
+DB_READ_YOUR_WRITES=true
+DB_ENCRYPTION_KEY=
+DB_REMOTE_ONLY=false
+```
+
+That's it! How easy to make different connection using LibSQL Driver in Laravel, right?!
+
+## Database Configuration
+
+Add this configuration at `config/database.php` inside the `connections` array:
+
+```php
+'libsql' => [
+    'driver' => 'libsql',
+    'url' => 'file:' . env('DB_DATABASE', database_path('database.sqlite')),
+    'authToken' => env('DB_AUTH_TOKEN', ''),
+    'syncUrl' => env('DB_SYNC_URL', ''),
+    'syncInterval' => env('DB_SYNC_INTERVAL', 5),
+    'read_your_writes' => env('DB_READ_YOUR_WRITES', true),
+    'encryptionKey' => env('DB_ENCRYPTION_KEY', ''),
+    'remoteOnly' => env('DB_REMOTE_ONLY', false),
+    'database' => null,
+    'prefix' => '',
+],
+```
+
+<Note>Copy and Paste and do not change it! Or try to change it and will broke your app or give you malfunction.</Note>
+
+## Usage
+
+For database operation usage, everything have same interface like usual when you using `Illuminate\Support\Facades\DB` in your database model. But remember, this is LibSQL they have `sync()` method that can be used when you connect with Remote Replica Connection (Embedded Replica).
+
+```php
+use Illuminate\Support\Facades\DB;
+
+// Create
+DB::connection('libsql')->table('users')->create([
+    'name' => 'Budi Dalton',
+    'email' => 'budi.dalton@duck.com'
+]);
+
+// Read
+DB::connection('libsql')->table('users')->get();
+
+DB::connection('libsql')->table('users')
+    ->where('id', 2)
+    ->first();
+
+DB::connection('libsql')->table('users')
+    ->orderBy('id', 'DESC')
+    ->limit(2)
+    ->get();
+
+// Update
+DB::connection('libsql')->table('users')
+    ->where('id', 2)
+    ->update(['name' => 'Doni Mandala']);
+
+// Delete
+DB::connection('libsql')->table('users')
+    ->where('id', 2)
+    ->delete();
+
+// Transaction
+try {
+    DB::beginTransaction();
+
+    $updated = DB::connection('libsql')->table('users')
+        ->where('id', 9)
+        ->update(['name' => 'Doni Kumala']);
+
+    if ($updated) {
+        echo "It's updated";
+        DB::commit();
+    } else {
+        echo "Not updated";
+        DB::rollBack();
+    }
+
+    $data = DB::connection('libsql')->table('users')
+        ->orderBy('id', 'DESC')
+        ->limit(2)
+        ->get();
+
+    dump($data);
+} catch (\Exception $e) {
+    DB::rollBack();
+    echo "An error occurred: " . $e->getMessage();
+}
+
+// Sync
+DB::connection('libsql')->sync();
+```
+
+That's it! really easy...
