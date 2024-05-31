@@ -316,7 +316,14 @@
     },
     {
       "group": "PHP",
-      "pages": ["sdk/php/quickstart", "sdk/php/reference", "sdk/php/examples"]
+      "pages": [
+        "sdk/php/quickstart",
+        "sdk/php/reference",
+        {
+          "group": "Guides",
+          "pages": ["sdk/php/laravel-driver", "sdk/php/libsql-client-php"]
+        }
+      ]
     },
     {
       "group": "HTTP",
