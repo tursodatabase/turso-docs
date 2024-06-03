@@ -321,7 +321,7 @@
         "sdk/php/reference",
         {
           "group": "Guides",
-          "pages": ["sdk/php/laravel-driver", "sdk/php/libsql-client-php"]
+          "pages": ["sdk/php/laravel-driver", "sdk/php/doctrine-dbal", "sdk/php/libsql-client-php"]
         }
       ]
     },
