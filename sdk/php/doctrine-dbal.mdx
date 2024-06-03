@@ -1,0 +1,127 @@
+---
+title: 'Doctrine DBAL'
+description: 'A LibSQL Driver for Doctrine DBAL'
+---
+
+![A LibSQL Driver for Doctrine DBAL](/images/guides/doctrine-dbal-banner.png)
+
+**[LibSQL](https://turso.tech/libsql)** is a fork of **SQLite** and this package is **#1 LibSQL Driver** that run natively using **LibSQL Native Extension** and support **Doctrine DBAL** by our Community Champion [darkterminal](https://github.com/darkterminal) or [@panggilmeiam](https:/x.com/panggilmeiam).
+
+## Requirement
+
+**Before using this package**, you need to install and configure **LibSQL Native Extension for PHP**.
+
+<Card title="Download - LibSQL Extension for PHP" icon="link" href="https://github.com/darkterminal/libsql-extension/releases">
+  The #1 Native LibSQL Extension for PHP
+</Card>
+
+1. 📦 Extract the archive
+2. 🗃 Locate somewhere in your machine
+3. 💽 Copy a relative path that address that extension/driver
+4. 📂 Open `php.ini` search `;extension` if you using nano (ctrl+w) then searching for it
+5. 📝 add in the next-line `extension=liblibsql_php.so` (in Linux) without `;` at the begining
+
+## Package Installation
+
+```bash
+composer require darkterminal/libsql-doctrine-dbal
+```
+
+## Configuration
+
+LibSQL has 4 types of connections to interact with the database: In-Memory Connection, Local Connection, Remote Connection, and Remote Replica Connection (Embedded Replica).
+
+### In-Memory Connection
+
+```php
+$params = [
+    "url"               => ":memory:",
+    'driverClass'       => \Darkterminal\LibSQL\DBAL\Driver::class,
+];
+```
+
+### Local Connection
+
+```php
+$params = [
+    "url"               => "database.db",
+    'driverClass'       => \Darkterminal\LibSQL\DBAL\Driver::class,
+];
+```
+
+If you want to create Remote Connection or Remote Replica (Embedded Replica) Connection, you will need an existing database to continue. If you don’t have one, **[create one](https://docs.turso.tech/quickstart)**.
+
+Get the database URL:
+```shell
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+```shell
+turso db tokens create <database-name>
+```
+
+If you use `.env` file, assign credentials to the environment variables inside `.env`.
+```env
+TURSO_DATABASE_URL=
+TURSO_AUTH_TOKEN=
+```
+
+### Remote Connection
+
+```php
+$params = [
+    "auth_token"        => "<your-database-auth-token-from-turso>",
+    "sync_url"          => "<your-database-url-from-turso>",
+    'driverClass'       => \Darkterminal\LibSQL\DBAL\Driver::class,
+];
+```
+
+### Remote Replica (Embedded Replica) Connection
+
+```php
+$params = [
+    "url"               => "database.db",
+    "auth_token"        => "<your-database-auth-token-from-turso>",
+    "sync_url"          => "<your-database-url-from-turso>",
+    "sync_interval"     => 5,    // Optional, default is: 5 in seconds
+    "read_your_writes"  => true, // Optional, default is: true
+    "encryption_key"    => "",   // Optional, default is: empty
+    'driverClass'       => \Darkterminal\LibSQL\DBAL\Driver::class,
+];
+```
+
+## Usage
+
+```php
+use Doctrine\DBAL\DriverManager;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$params = [
+    "url"               => ":memory:",
+    'driverClass'       => \Darkterminal\LibSQL\DBAL\Driver::class,
+];
+
+$db = DriverManager::getConnection($params);
+
+$createTable = "CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER
+)";
+$db->executeStatement($createTable);
+
+$insertUsers = <<<SQL
+INSERT INTO users (name, age) VALUES ('Budi Dalton', 49);
+INSERT INTO users (name, age) VALUES ('Sujiwo Tedjo', 50);
+SQL;
+
+$db->getNativeConnection()->executeBatch($insertUsers);
+
+$result = $db->executeQuery("SELECT * FROM users")->fetchAllAssociative();
+var_dump($result);
+$db->close();
+```
+
+<Info>You can use `sync()` method with `$db->getNativeConnection()->sync()`.</Info>
