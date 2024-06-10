@@ -5,23 +5,25 @@ description: libSQL PHP Reference
 
 The libSQL Native Extension for PHP contains everything you need to work with Turso and works flawlessly with all features, because it's build on top libSQL Rust crate and `ext-php-rs` framework to create a new PHP Extension with easy.
 
-## Configure PHP Enviroment
+## Installing
 
-Before your start using libSQL in PHP, you need to install and configure your PHP environment:
+Before your start using libSQL in PHP, you need to install and configure your PHP environment.
+
 <Snippet file="install-libsql-extension-php.mdx" />
 
 ## Initializing
 
-LibSQL has 4 different connection types which allow developers to organize them according to their needs and conditions when carrying out the development process:
+Depending on where and how you plan to use libSQL, you can use a variety of connection types. You can connect to a local database, a remote database, or an in-memory database.
 
-### In-Memory Connection
+## In-Memory Databases
 
-To create in-memory connection in LibSQL is very simple and stright-froward:
+libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don’t require persistence:
+
 ```php
 $db = new LibSQL(":memory:");
 ```
 
-### Local Connection
+## Local Development
 
 Establishing a connection to a local database is straightforward with LibSQL. You have 3 options:
 
@@ -29,10 +31,10 @@ Establishing a connection to a local database is straightforward with LibSQL. Yo
       ```php
       $db = new LibSQL("libsql:dbname=database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
       ```
-        - This option utilizes a Data Source Name (DSN) string to specify the database location. 
+        - This option utilizes a Data Source Name (DSN) string to specify the database location.
         - The DSN format is `libsql:dbname=database.db`.
         - Additional parameters include **connection flags** and an optional **encryption key**.
-      
+
    2. **Standard SQLite Connection:** For direct SQLite connections, simply provide the database file name:
       ```php
       $db = new LibSQL("database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
@@ -40,7 +42,7 @@ Establishing a connection to a local database is straightforward with LibSQL. Yo
         - In this setup, the database filename alone is provided, without a DSN.
         - The database file name is directly specified, e.g., `"database.db"`.
         - Similar to the DSN connection, it also allows for setting **connection flags** and an optional **encryption key**.
-      
+
    3. **Standard LibSQL Connection:** Alternatively, you can specify the file protocol explicitly:
       ```php
       $db = new LibSQL("file:database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
@@ -49,44 +51,18 @@ Establishing a connection to a local database is straightforward with LibSQL. Yo
         - The DSN string format is `"file:database.db"`.
         - **Connection flags** and an **encryption key** can also be specified.
 
-### Remote Connection
+## Remote Connection
 
-You will need an existing database to continue. If you don't have one, [create one](/quickstart).
-<Snippet file="retrieve-database-credentials.mdx" />
-<Info>You will want to store these as environment variables.</Info>
+For remote databases, you can pass your database URL `libsql://` or `https://` URL to the `LibSQL` constructor:
 
-Connecting to a remote database is equally effortless. Choose between 2 options:
-
-   1. **Standard DSN Connection with `libsql://`:**
-      ```php
-      $db = new LibSQL("libsql:dbname=libsql://database-org.turso.io;authToken=random-token");
-      ```
-      
-   2. **Standard DSN Connection with `https://`:**
-      ```php
-      $db = new LibSQL("libsql:dbname=https://database-org.turso.io;authToken=random-token");
-      ```
-
-For remote connections, this option utilizes the `libsql://` or `https://` protocol in the DSN string. The format is:
 ```php
-libsql:dbname=libsql://database-org.turso.io;authToken=random-token
-```
-It provides a straightforward approach to connect to remote databases.
-
-Here the usage implementation:
-```php
-$db_url = getenv('TURSO_DATABASE_URL');
-$auth_token = getenv('TURSO_AUTH_TOKEN');
-$db = new LibSQL("libsql:dbname={$db_url};authToken={$auth_token}");
+$db = new LibSQL("libsql:dbname=libsql://[databaseName]-[organizationName].turso.io;authToken=...");
 ```
 
-### Embedded Replica
+## Embedded Replicas
 
-To set up a replica connection for distributed systems, you will need an existing database to continue. If you don't have one, [create one](/quickstart).
-<Snippet file="retrieve-database-credentials.mdx" />
-<Info>You will want to store these as environment variables.</Info>
+You can work with embedded replicas by passing your Turso Database URL to `syncUrl`:
 
-here the usage implementation:
 ```php
 <?php
 
@@ -99,7 +75,7 @@ $config = [
 $db = new LibSQL($config);
 ```
 
-#### Configuration Options Details
+<Expandable defaultOpen="true">
 
 <ResponseField name="url" type="string" required>
   Specifies the local database path filename using relative path `/home/turso/app/database.db` remember the back-slash at the begining.
@@ -124,6 +100,8 @@ $db = new LibSQL($config);
 <ResponseField name="encryptionKey" type="string">
   String value for encryption purposes (optional, default: empty).
 </ResponseField>
+
+</Expandable>
 
 ## Simple Query
 
