@@ -6,103 +6,104 @@ description: Get started with Turso and PHP using the libSQL client in a few sim
 
 In this PHP quickstart we will learn how to:
 
+- Install libSQL Native Extension for PHP **(Required)**
 - Retrieve database credentials
-- Install the libSQL package
 - Connect to a Turso database
 - Execute a query using SQL
 
 <Steps>
-  <Step title="Retrieve database credentials">
-
-You will need an existing database to continue. If you don't have one, [create one](/quickstart).
-
-<Snippet file="retrieve-database-credentials.mdx" />
-
-<Info>You will want to store these as environment variables.</Info>
-
+  <Step title="Install libSQL Native Extension for PHP">
+    Before your start using libSQL in PHP, you need to install and configure your PHP environment:
+    <Snippet file="install-libsql-extension-php.mdx" />
   </Step>
 
-  <Step title="Install">
-
-First begin by adding libSQL to your project:
-
-    ```bash
-    composer require darkterminal/libsql-client-php
-    ```
-
+  <Step title="Retrieve database credentials">
+    You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+    <Snippet file="retrieve-database-credentials.mdx" />
+    <Info>You will want to store these as environment variables.</Info>
   </Step>
 
   <Step title="Connect">
 
-Now connect to your local or remote database using the libSQL connector:
+    Now connect to your local or remote database using the libSQL connector:
 
-<AccordionGroup>
-  <Accordion title="Local only">
+    <AccordionGroup>
+      <Accordion title="Embedded Replica">
 
-```php
-<?php
+      ```php
+      <?php
 
-use Darkterminal\LibSQL\LibSQL;
+      $config = [
+          "url" => "file:database.db",
+          "syncUrl" => getenv('TURSO_DATABASE_URL'),
+          "authToken" => getenv('TURSO_AUTH_TOKEN')
+      ];
 
-require_once 'vendor/autoload.php';
+      $db = new LibSQL($config);
+      ```
 
-$config = [
-  "url" => getenv('TURSO_DATABASE_URL'),
-  "flags" => LIBSQLPHP_OPEN_READWRITE | LIBSQLPHP_OPEN_CREATE,
-  "encryptionKey" => ""
-];
+      </Accordion>
 
-$db = new LibSQL($config);
-```
+      <Accordion title="Local only">
 
-  </Accordion>
+      ```php
+      <?php
 
-<Accordion title="Remote only">
+      $db = new LibSQL("database.db");
+      ```
 
-```php
-<?php
+      </Accordion>
 
-use Darkterminal\LibSQL\LibSQL;
-use Darkterminal\LibSQL\Types\HttpStatement;
-use Darkterminal\LibSQL\Types\LibSQLResult;
+      <Accordion title="Remote only">
 
-require_once 'vendor/autoload.php';
+      ```php
+      <?php
 
-$config = [
-  'url' => getenv('TURSO_DATABASE_URL'),
-  'authToken' => getenv('TURSO_AUTH_TOKEN'),
-  'tls' => false
-];
+      $url = getenv('TURSO_DATABASE_URL');
+      $token = getenv('TURSO_AUTH_TOKEN');
 
-$db = new LibSQL($config);
-```
+      $db = new LibSQL("libsql:dbname=$url;authToken=$token");
+      ```
 
-  </Accordion>
-</AccordionGroup>
+      </Accordion>
+    </AccordionGroup>
 
   </Step>
 
   <Step title="Execute">
 
-You can execute SQL queries against your existing database as follows:
+    You can execute SQL queries against your existing database as follows:
 
-<AccordionGroup>
-  <Accordion title="Local only">
-  ```php
-  $result = $db->execute(query: "INSERT INTO users (name) VALUES (?)", params: ['Belina Bogge']);
-  ```
-  </Accordion>
+    ```php
+    $createUsers = <<<STMT
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        age INTEGER
+    );
+    INSERT INTO users (name, age) VALUES ('Prof. Ir. Onno Widodo Purbo, M.Eng., Ph.D', 61);
+    INSERT INTO users (name, age) VALUES ('Jim Geovedi', 41);
+    INSERT INTO users (name, age) VALUES ('Nasirun', 59);
+    STMT;
 
-  <Accordion title="Remote only">
+    $db->executeBatch($createUsers);
 
-```php
-$query = HttpStatement::create(sql: 'CREATE TABLE users (id INTEGER);');
+    $db->query("SELECT * FROM users")->fetchArray(LibSQL::LIBSQL_ASSOC);
+    ```
 
-$results = $db->execute(query: $query);
-```
+    If you need to use placeholders for values, you can do that:
 
-  </Accordion>
-</AccordionGroup>
+    <CodeGroup>
+
+    ```php Positional
+    $db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
+    ```
+
+    ```php Named
+    $db->query("SELECT * FROM users WHERE id = :id", [":id" => 1])->fetchArray();
+    ```
+
+    </CodeGroup>
 
   </Step>
 </Steps>
