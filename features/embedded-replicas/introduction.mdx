@@ -27,6 +27,42 @@ Embedded replicas provide a smooth switch between local and remote database oper
    - Any write transactions with reads are also sent to the remote primary database.
    - Once the write is successful, the local database is updated with the changes automatically (read your own writes &mdash; can be disabled).
 
+### Periodic sync
+
+You can automatically sync data to your embedded replica using the periodic sync interval property. Simply pass the `syncInterval` parameter when instantiating the client:
+
+```ts
+import { createClient } from '@libsql/client';
+
+const client = createClient({
+  url: 'file:path/to/db-file.db',
+  authToken: '...',
+  syncUrl: '...',
+  syncInterval: 60,
+});
+```
+
+### Read your writes
+
+Embedded Replicas also will guarantee read-your-writes semantics. What that means in practice is that after a write returns successfully, the replica that initiated the write will always be able to see the new data right away, even if it never calls `sync()`.
+
+Other replicas will see the new data when they call `sync()`, or at the next sync period, if [Periodic Sync](#periodic-sync) is used.
+
+![Read your writes](/features/embedded-replicas/read-your-writes.png)
+
+### Encryption at rest
+
+Embedded Replicas support encryption at rest with one of the libSQL client SDKs. Simply pass the `encryptionKey` parameter when instantiating the client:
+
+```ts
+import { createClient } from '@libsql/client';
+
+const db = createClient({
+  url: 'file:encrypted.db',
+  encryptionKey: process.env.ENCRYPTION_KEY,
+});
+```
+
 ## Usage
 
 To use embedded replicas, you need to create a client with a `syncUrl` parameter. This parameter specifies the URL of the remote Turso database that the client will sync with:
@@ -129,55 +165,37 @@ You should call `.sync()` in the background whenever your application wants to s
 
 <Card
    href="/features/embedded-replicas/with-fly"
-   color="light"
-   >
-
-   <Snippet file="fly-logo.svg" />
-
-   **Turso + Fly**
+   title="Turso + Fly"
+>
 
    Deploy a JavaScript project with Embedded Replicas to Fly.io
 </Card>
 
 <Card
    href="/features/embedded-replicas/with-koyeb"
-   >
-
-   <Snippet file="koyeb-logo.svg" />
-   
-   **Turso + Koyeb**
-
+   title="Turso + Koyeb"
+>
    Deploy a JavaScript/Rust project with Embedded Replicas to Koyeb
 </Card>
 
 <Card
    href="/features/embedded-replicas/with-railway"
-   >
-
-   <Snippet file="railway-logo.svg" />
-   
-   **Turso + Railway**
-
+   title="Turso + Railway"
+>
    Deploy a JavaScript/Rust project with Embedded Replicas to Railway
 </Card>
 
 <Card
-   href="/features/embedded-replicas/with-render">
-
-   <Snippet file="render-logo.svg" />
-   
-   **Turso + Render**
-
+   href="/features/embedded-replicas/with-render"
+   title="Turso + Render"
+>
    Deploy a JavaScript project with Embedded Replicas to Render
 </Card>
 
 <Card
-   href="/features/embedded-replicas/with-akamai">
-
-   <Snippet file="akamai-logo.svg" />
-   
-   **Turso + Linode by Akamai**
-
+   href="/features/embedded-replicas/with-akamai"
+   title="Turso + Linode by Akamai"
+>
    Deploy a JavaScript/Rust project with Embedded Replicas to Akamai
 </Card>
 

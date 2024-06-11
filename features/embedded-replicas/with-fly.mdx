@@ -1,6 +1,6 @@
 ---
 title: Turso + Fly
-sidebarTitle: 
+sidebarTitle:
 description: Deploy a JavaScript app using [Turso embedded replicas](/features/embedded-replicas) to [Fly.io](https://www.fly.io/).
 ---
 
@@ -38,8 +38,9 @@ You will need an existing database to continue. If you don't have one, [create o
     </Card>
 
     <Info>
-    You can use [Fly's dockerfile generation package](https://github.com/fly-apps/dockerfile-node#overview) to create a Dockerfile for your own project.
+    You can use [Fly's dockerfile generation package](https://github.com/fly-apps/dockerfile-node#overview) to create a Dockerfile for your own project. Make sure that your image includes `ca-certificates` (or equivalent) to be able to sync.
     </Info>
+
 </Step>
 
 <Step title="Launch your application on Fly">
@@ -62,6 +63,7 @@ Sentry:       false                         (not requested)
 ```
 
 On completion, you'll have Fly configuration file `fly.toml` added to your project.
+
 </Step>
 
 <Step title="Add Secrets to Fly">
@@ -76,6 +78,7 @@ fly secrets set HOSTNAME=0.0.0.0
 fly secrets set SECRET=...
 fly secrets set PORT=3000
 ```
+
 </Step>
 
 <Step>
@@ -84,5 +87,6 @@ Deploy your fly application.
 ```sh
 fly deploy
 ```
+
 </Step>
 </Steps>

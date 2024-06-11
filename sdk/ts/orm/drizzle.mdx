@@ -50,7 +50,7 @@ yarn add -D drizzle-kit
 import { sql } from "drizzle-orm";
 import { text, sqliteTable } from "drizzle-orm/sqlite-core";
 
-const foo = sqliteTable("foo", {
+export const fooTable = sqliteTable("foo", {
   bar: text("bar").notNull().default("Hey!"),
 });
 ```
@@ -98,8 +98,9 @@ export const db = drizzle(turso);
 
 ```ts
 import { db } from "./db";
+import { fooTable } from "./schema";
 
-const result = await db.select().from(foo).all();
+const result = await db.select().from(fooTable).all();
 ```
 
 </Step>
@@ -110,15 +111,14 @@ To preview and manage database data with Drizzle Studio, prepare the Drizzle con
 
 ```ts drizzle.config.ts
 import type { Config } from "drizzle-kit";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 export default {
   schema: "./drizzle/schema.ts",
   out: "./drizzle/migrations",
+  dialect: "sqlite",
   driver: "turso",
   dbCredentials: {
-    url: process.env.TURSO_DATABASE_URL,
+    url: process.env.TURSO_DATABASE_URL!,
     authToken: process.env.TURSO_AUTH_TOKEN,
   },
 } satisfies Config;
