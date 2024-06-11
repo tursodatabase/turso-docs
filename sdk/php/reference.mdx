@@ -27,6 +27,8 @@ Establishing a connection to a local database is straightforward with LibSQL. Yo
 
    1. **Standard DSN Connection:** If you're using a DSN string, use the following format:
       ```php
+      <?php
+
       $db = new LibSQL("libsql:dbname=database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
       ```
         - This option utilizes a Data Source Name (DSN) string to specify the database location. 
@@ -35,6 +37,8 @@ Establishing a connection to a local database is straightforward with LibSQL. Yo
       
    2. **Standard SQLite Connection:** For direct SQLite connections, simply provide the database file name:
       ```php
+      <?php
+
       $db = new LibSQL("database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
       ```
         - In this setup, the database filename alone is provided, without a DSN.
@@ -43,6 +47,8 @@ Establishing a connection to a local database is straightforward with LibSQL. Yo
       
    3. **Standard LibSQL Connection:** Alternatively, you can specify the file protocol explicitly:
       ```php
+      <?php
+
       $db = new LibSQL("file:database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
       ```
         - This option resembles the DSN connection but uses the file protocol in the DSN string.
@@ -59,11 +65,15 @@ Connecting to a remote database is equally effortless. Choose between 2 options:
 
    1. **Standard DSN Connection with `libsql://`:**
       ```php
+      <?php
+
       $db = new LibSQL("libsql:dbname=libsql://database-org.turso.io;authToken=random-token");
       ```
       
    2. **Standard DSN Connection with `https://`:**
       ```php
+      <?php
+
       $db = new LibSQL("libsql:dbname=https://database-org.turso.io;authToken=random-token");
       ```
 
@@ -75,6 +85,8 @@ It provides a straightforward approach to connect to remote databases.
 
 Here the usage implementation:
 ```php
+<?php
+
 $db_url = getenv('TURSO_DATABASE_URL');
 $auth_token = getenv('TURSO_AUTH_TOKEN');
 $db = new LibSQL("libsql:dbname={$db_url};authToken={$auth_token}");
@@ -132,10 +144,14 @@ You can pass a string to `execute()` to invoke a SQL statement, as well as optio
 <CodeGroup>
 
 ```php Query
+<?php
+
 $db->query("SELECT * FROM users", ())->fetchArray();
 ```
 
 ```php Arguments
+<?php
+
 $db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
 ```
 
@@ -150,11 +166,15 @@ You can prepare a cached statement using `prepare()` and then execute it with `q
 <CodeGroup>
 
 ```php Query
+<?php
+
 $stmt = $db->prepare("SELECT * FROM users");
 $stmt->query()->fetchArray();
 ```
 
 ```php Arguments
+<?php
+
 $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->query([1])->fetchArray();
 ```
@@ -170,10 +190,14 @@ libSQL supports the use of positional and named placeholders within SQL statemen
 <CodeGroup>
 
 ```php Positional
+<?php
+
 $db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
 ```
 
 ```php Named
+<?php
+
 $db->execute("INSERT INTO users (name) VALUES (:name)", [":name" => "Iku"]);
 ```
 
@@ -184,7 +208,9 @@ $db->execute("INSERT INTO users (name) VALUES (:name)", [":name" => "Iku"]);
 A batch consists of multiple SQL statements executed sequentially within an implicit transaction. The backend handles the transaction: success commits all changes, while any failure results in a full rollback with no modifications.
 
 ```php
-$db.executeBatch("
+<?php
+
+$db->executeBatch("
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL
@@ -205,6 +231,8 @@ Interactive transactions in SQLite ensure the consistency of a series of read an
 <CodeGroup>
 
 ```php Default
+<?php
+
 $tx = $db->transaction();
 
 $tx->execute("INSERT INTO users (name) VALUES (?1)", ["Iku"]);
