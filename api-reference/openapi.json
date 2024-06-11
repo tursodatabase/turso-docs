@@ -2109,7 +2109,9 @@
               "org-plan-update",
               "org-set-overages",
               "group-create",
-              "group-delete"
+              "group-delete",
+              "mfa-enable",
+              "mfa-disable"
             ]
           },
           "message": {
