@@ -316,7 +316,19 @@
     },
     {
       "group": "PHP",
-      "pages": ["sdk/php/quickstart", "sdk/php/reference", "sdk/php/examples"]
+      "pages": [
+        "sdk/php/quickstart",
+        "sdk/php/reference",
+        "sdk/php/examples",
+        {
+          "group": "Guides",
+          "pages": ["sdk/php/guides/laravel"]
+        },
+        {
+          "group": "ORMs",
+          "pages": ["sdk/php/orm/doctrine-dbal"]
+        }
+      ]
     },
     {
       "group": "HTTP",
