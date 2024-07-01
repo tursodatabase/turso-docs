@@ -364,6 +364,9 @@ The `results` array contains the results for each of the requests made in the pi
 | `affected_row_count` | integer | The number of rows affected by the query.                   |
 | `last_insert_rowid`  | integer | The ID of the last inserted row.                            |
 | `replication_index`  | string  | The replication timestamp at which this query was executed. |
+| `rows_read`          | integer | The number of rows read by the query.                       |
+| `rows_written`       | integer | The number of rows written by the query.                    |
+| `query_duration_ms`  | float   | The duration of the query in milliseconds.                  |
 
 ### `GET /version`
 
@@ -398,3 +401,31 @@ This response has no body data.
 ```
 
 </CodeGroup>
+
+### `GET /dump`
+
+You can dump the database using the `/dump` endpoint:
+
+<CodeGroup>
+
+```bash Request
+curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/health' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```text 200
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS mytable (
+content TEXT,
+embedding FLOAT32(1536)
+);
+CREATE TABLE IF NOT EXISTS libsql_vector_index (type TEXT, name TEXT, vector_type TEXT, block_size INTEGER, dims INTEGER, distance_ops TEXT);
+INSERT INTO libsql_vector_index VALUES('diskann','mytable_idx','float32',128,1536,'cosine');
+CREATE INDEX mytable_idx USING diskann_cosine_ops ON mytable (embedding);
+COMMIT;
+```
+
+</CodeGroup>
+
+If you're using [multi-db schemas](/features/multi-db-schemas), or vector databases, you will see statements that represent internally managed tables.
