@@ -7,7 +7,6 @@ Turso enables vector search without an extension, it's just another datatype in 
 
 <Snippet file="technical-preview-banner.mdx" />
 
-
 ## How to use
 
 - Use `F32_BLOB` / `FLOAT32` type names to define vector table column
@@ -27,7 +26,7 @@ Turso enables vector search without an extension, it's just another datatype in 
 
 Begin by declaring a column used for storing vectors with the `F32_BLOB` datatype:
 
-```sql {4}
+```sql
 CREATE TABLE movies (
   title TEXT,
   year INT,
@@ -68,7 +67,10 @@ FROM movies;
 ```
 
 <Note>
-The `vector_distance_cos` function calculates the cosine **distance**, which equals to 1 - [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity). Therefore, a smaller distance indicates that the vectors are closer to each other.
+  The `vector_distance_cos` function calculates the cosine **distance**, which
+  equals to 1 - [cosine
+  similarity](https://en.wikipedia.org/wiki/Cosine_similarity). Therefore, a
+  smaller distance indicates that the vectors are closer to each other.
 </Note>
 
 </Step>
@@ -111,7 +113,8 @@ CREATE INDEX movies_idx ON movies ( libsql_vector_idx(embedding) );
 This creates an index optimized for vector similarity searches on the `embedding` column.
 
 <Note>
-The `libsql_vector_idx` marker function is **required** and used by libSQL to distinguish `ANN`-indices from ordinary B-Tree indices.
+  The `libsql_vector_idx` marker function is **required** and used by libSQL to
+  distinguish `ANN`-indices from ordinary B-Tree indices.
 </Note>
 
 </Step>
