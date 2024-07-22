@@ -93,6 +93,7 @@
       "group": "Features",
       "pages": [
         "features/platform-api",
+        "features/ai-and-embeddings",
         {
           "group": "Embedded Replicas",
           "pages": [
@@ -469,7 +470,7 @@
   "redirects": [
     {
       "source": "/tutorials",
-      "destination": "https://blog.turso.tech"
+      "destination": "https://turso.tech/blog"
     },
     {
       "source": "/tutorials/get-started-turso-cli",

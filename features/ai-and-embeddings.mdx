@@ -1,0 +1,152 @@
+---
+title: AI & Embeddings
+description: Vector Similarity Search is built into Turso and libSQL Server as a native datatype.
+---
+
+Turso enables vector search without an extension, it's just another datatype in SQLite.
+
+<Snippet file="technical-preview-banner.mdx" />
+
+## How it works
+
+1. You add a column to a new or existing database using the datatype `F32_BLOB`.
+2. You insert vectors into the column using the `vector` function.
+3. You query the vectors using functions like `vector_extract` and `vector_distance_cos`.
+
+## Usage
+
+<Steps>
+
+<Step title="Create a table">
+
+Begin by declaring a column used for storing vectors with the `F32_BLOB` datatype:
+
+```sql {4}
+CREATE TABLE movies (
+  title TEXT,
+  year INT,
+  embedding F32_BLOB(3) // 3-dimensional vector
+);
+```
+
+The number in parentheses (3) specifies the dimensionality of the vector. This means each vector in this column will have exactly 3 components.
+
+</Step>
+
+<Step title="Generate and insert embeddings">
+
+Once you generate embeddings for your data (via an LLM), you can insert them into your table:
+
+```sql
+INSERT INTO movies (title, year, embedding)
+VALUES
+  (
+    'Napoleon',
+    2023,
+    vector('[1,2,3]')
+  ),
+  (
+    'Black Hawk Down',
+    2001,
+    vector('[10,11,12]')
+  ),
+  (
+    'Gladiator',
+    2000,
+    vector('[7,8,9]')
+  ),
+  (
+    'Blade Runner',
+    1982,
+    vector('[4,5,6]')
+  );
+```
+
+Popular tools like [LangChain](https://www.langchain.com), [Hugging Face](https://huggingface.co) or [OpenAI](https://turso.tech/blog/how-to-generate-and-store-openai-vector-embeddings-with-turso) can be used to generate embeddings.
+
+</Step>
+
+<Step title="Peform a vector similarity search">
+
+You can now write queries combining vectors and standard SQLite data:
+
+```sql
+SELECT title,
+       vector_extract(embedding),
+       vector_distance_cos(embedding, vector('[5,6,7]'))
+FROM movies;
+```
+
+</Step>
+
+<Step title="Combine regular table data with vector search">
+
+You can combine vector search with regular query:
+
+```sql
+SELECT *
+FROM
+  movies
+WHERE
+  year >= 2020
+ORDER BY
+  vector_distance_cos(embedding, '[3,1,2]')
+LIMIT 3;
+```
+
+This query demonstrates how to combine traditional SQL filtering (`year >= 2020`) with vector similarity search.
+
+</Step>
+
+</Steps>
+
+## Indexing
+
+Turso implements **Approximate Nearest Neighbors** (ANN) using the DiskANN algorithm for larger datasets.
+
+<Steps>
+
+<Step title="Create an Index">
+
+Create an index using the `libsql_vector_idx` function:
+
+```sql
+CREATE INDEX movies_idx ON movies ( libsql_vector_idx(embedding) );
+```
+
+This creates an index optimized for vector similarity searches on the `embedding` column.
+
+</Step>
+
+<Step title="Query the indexed table">
+
+```sql
+SELECT
+  title,
+  year
+FROM
+  vector_top_k('movies_idx', '[4,5,6]', 3)
+JOIN
+  movies
+ON
+  movies.rowid = id
+WHERE
+  year >= 2020;
+```
+
+This query uses the `vector_top_k` function to efficiently find the top 3 most similar vectors to `[4,5,6]` using the index, and then joins with the `movies` table to get the corresponding movie information.
+
+</Step>
+
+</Steps>
+
+## Things to know
+
+- Vectors are available for groups using the libSQL Server `vector` version.
+  - Upgrade using `turso db upgrade <group-name> --version vector`.
+- Other types, like booleans &mdash; useful in models tailored for binary
+  quantization are coming soon.
+- Indexing key is always `rowid` instead of `PRIMARY KEY`.
+- Vectors are stored as an SQLite `BLOB` using the `vector` function.
+  - The `vector_extract` function is used to extract the vector from the `BLOB`.
+- `CREATE INDEX` on non-empty database results in a crash when you query the index.
