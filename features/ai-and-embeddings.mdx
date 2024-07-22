@@ -19,11 +19,6 @@ Turso enables vector search without an extension, it's just another datatype in 
 - Vectors are available for groups with the libSQL Server `vector` version
   - Command to change group version: `turso db upgrade <group> --version vector`
 
-## Things to know
-
-- Internall ANN-index use `rowid` as an identifier for rows in base table instead of natural `PRIMARY KEY`.
-- Vectors are stored as an SQLite `BLOB` using the `vector` function.
-
 ## Usage
 
 <Steps>
@@ -139,3 +134,8 @@ This query uses the `vector_top_k` [table-valued function](https://www.sqlite.or
 </Step>
 
 </Steps>
+
+## Things to know
+
+- Internall ANN-index use `rowid` as an identifier for rows in base table instead of natural `PRIMARY KEY`.
+- Vectors are stored as an SQLite `BLOB` using the `vector` function.
