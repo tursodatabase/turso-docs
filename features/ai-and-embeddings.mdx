@@ -11,7 +11,7 @@ Turso enables vector search without an extension, it's just another datatype in 
 ## How to use
 
 - Use `F32_BLOB` / `FLOAT32` type names to define vector table column
-- Use `vector` function to convert vector in string representation into the binary format
+- Use `vector` function to convert vector from string representation into the binary format
 - Use `vector_extract` function to extract string representation from vector in binary format
 - Use `vector_distance_cos` function to calculate cosine distance between two vectors
 - Use `libsql_vector_idx(emb)` expression in the `CREATE INDEX` statement to create ANN-index
