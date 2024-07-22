@@ -16,7 +16,7 @@ Turso enables vector search without an extension, it's just another datatype in 
 - Use `libsql_vector_idx(emb)` expression in the `CREATE INDEX` statement to create ANN-index
 - Use `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions) to query ANN-index
 - Vectors are available for groups with the libSQL Server `vector` version
-  - Command to change group version: `turso db upgrade <group> --version vector`
+  - Command to change group version: `turso db update <group> --version vector`
 
 ## Usage
 
