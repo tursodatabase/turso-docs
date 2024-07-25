@@ -12,10 +12,11 @@ Start using Turso with your existing SQLite database, or create one with Turso.
 
 <CardGroup cols={2}>
   <Card
+    horizontal
     title="Quickstart"
     icon={
       <svg
-        width="30"
+        width="25"
         viewBox="0 0 48 43"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -39,20 +40,27 @@ Start using Turso with your existing SQLite database, or create one with Turso.
     }
     href="/quickstart"
   >
-    Get started with Turso to create and integrate your first database.
+    Create your first database
   </Card>
   <Card
+    horizontal
     title="Embedded Replicas"
-    icon="file-binary"
     href="/features/embedded-replicas/introduction"
   >
-    Get zero latency reads with a replica on-device.
+    Get zero latency reads on-device
   </Card>
-  <Card title="Multi-DB Schemas" icon="user" href="/features/multi-db-schemas">
-    Create and share schema across multiple databases.
+  <Card
+    horizontal
+    title="AI & Embeddings"
+    href="/features/embedded-replicas/introduction"
+  >
+    Vector is just another datatype
   </Card>
-  <Card title="Edge Replicas" icon="globe" href="/features/data-edge">
-    Get low latency data access with edge replicas.
+  <Card horizontal title="Multi-DB Schemas" href="/features/multi-db-schemas">
+    Share schema across multiple databases
+  </Card>
+  <Card horizontal title="Edge Replicas" href="/features/data-edge">
+    Get low latency with edge replicas
   </Card>
 </CardGroup>
 
