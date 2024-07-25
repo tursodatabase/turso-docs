@@ -90,7 +90,7 @@
       ]
     },
     {
-      "group": "Features",
+      "group": "Product",
       "pages": [
         "features/platform-api",
         "features/ai-and-embeddings",
@@ -275,6 +275,10 @@
         {
           "group": "ORMs",
           "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+        },
+        {
+          "group": "Integrations",
+          "pages": ["sdk/ts/integrations/sentry"]
         }
       ]
     },

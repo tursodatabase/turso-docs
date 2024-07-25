@@ -429,3 +429,23 @@ COMMIT;
 </CodeGroup>
 
 If you're using [multi-db schemas](/features/multi-db-schemas), or vector databases, you will see statements that represent internally managed tables.
+
+### `GET /beta/listen`
+
+<Snippet file="technical-preview-banner.mdx" />
+
+You can listen to changes committed to your database using the `/beta/listen` endpoint:
+
+```bash Request
+curl -L 'https://[primary-instance-id]-[databaseName]-[organizationName].turso.io/beta/listen?table=TABLE_NAME&action=insert' \
+-H 'Authorization: Bearer TOKEN'
+```
+
+#### Query Parameters
+
+- `table` (required) &mdash; The name of the table to listen to.
+- `action` (optional) &mdash; The action to listen to, `insert`, `update`, or `delete`.
+
+<Info>
+  Your database group must be using the version `v0.24.18` or greater &mdash; `turso group update <group-name> --version v0.24.18`
+</Info>
