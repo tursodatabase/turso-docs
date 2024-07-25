@@ -437,7 +437,7 @@ If you're using [multi-db schemas](/features/multi-db-schemas), or vector databa
 You can listen to changes committed to your database using the `/beta/listen` endpoint:
 
 ```bash Request
-curl -L 'https://[primary-instance-id]-[databaseName]-[organizationName].turso.io/beta/listen?table=TABLE_NAME&action=insert' \
+curl -L 'https://[primary-instance-id]-[databaseName]-[organizationName].turso.io/beta/listen?table=TABLE_NAME' \
 -H 'Authorization: Bearer TOKEN'
 ```
 
