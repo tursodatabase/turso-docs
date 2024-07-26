@@ -84,7 +84,8 @@
         "data-and-connections",
         "local-development",
         "extensions",
-        "libsql"
+        "libsql",
+        "guides/connecting-a-gui"
       ]
     },
     {
