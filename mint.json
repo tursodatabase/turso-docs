@@ -25,13 +25,13 @@
       "url": "https://status.turso.tech"
     },
     {
-      "name": "Give Feedback",
-      "url": "https://share.hsforms.com/1ittjMf-TTvK0uhTI_lDIWwcy0nw"
+      "name": "Dashboard",
+      "url": "https://turso.tech/app"
     }
   ],
   "topbarCtaButton": {
-    "name": "Login",
-    "url": "https://turso.tech/app"
+    "type": "github",
+    "url": "https://github.com/tursodatabase/libsql"
   },
   "tabs": [
     {
