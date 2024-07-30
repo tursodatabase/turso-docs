@@ -31,6 +31,14 @@
               "type": "string"
             },
             "description": "Filter databases by group name."
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The schema database name that can be used to get databases that belong to that parent schema."
           }
         ],
         "responses": {
@@ -1240,6 +1248,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["all", "upcoming", "issued"]
+            },
+            "description": "The type of invoice to retrieve."
           }
         ],
         "responses": {
