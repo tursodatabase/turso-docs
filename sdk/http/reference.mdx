@@ -1,10 +1,10 @@
 ---
-title: Hrana Reference
+title: libSQL Remote Protocol Reference
 sidebarTitle: Reference
 description:
 ---
 
-Turso Databases can be accessed via HTTP. The API enable developers to perform SQL operations using the [Hrana over HTTP](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md) protocol, retrieve server version information, and monitor the health status.
+Turso Databases can be accessed via HTTP. The API enable developers to perform SQL operations using the [libSQL remote protocol](https://github.com/tursodatabase/libsql/blob/main/docs/HTTP_V2_SPEC.md), retrieve server version information, and monitor the health status.
 
 <Info>
 
@@ -347,7 +347,7 @@ Note that both transactions and connections have timeouts. Transaction have a 5 
 
 #### Response types
 
-The response from Hrana contains the following fields:
+The response contains the following fields:
 
 | Field      | Type   | Description                                                                                                                          |
 | ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -364,6 +364,9 @@ The `results` array contains the results for each of the requests made in the pi
 | `affected_row_count` | integer | The number of rows affected by the query.                   |
 | `last_insert_rowid`  | integer | The ID of the last inserted row.                            |
 | `replication_index`  | string  | The replication timestamp at which this query was executed. |
+| `rows_read`          | integer | The number of rows read by the query.                       |
+| `rows_written`       | integer | The number of rows written by the query.                    |
+| `query_duration_ms`  | float   | The duration of the query in milliseconds.                  |
 
 ### `GET /version`
 
@@ -398,3 +401,51 @@ This response has no body data.
 ```
 
 </CodeGroup>
+
+### `GET /dump`
+
+You can dump the database using the `/dump` endpoint:
+
+<CodeGroup>
+
+```bash Request
+curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/dump' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+```text 200
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS mytable (
+content TEXT,
+embedding FLOAT32(1536)
+);
+CREATE TABLE IF NOT EXISTS libsql_vector_index (type TEXT, name TEXT, vector_type TEXT, block_size INTEGER, dims INTEGER, distance_ops TEXT);
+INSERT INTO libsql_vector_index VALUES('diskann','mytable_idx','float32',128,1536,'cosine');
+CREATE INDEX mytable_idx USING diskann_cosine_ops ON mytable (embedding);
+COMMIT;
+```
+
+</CodeGroup>
+
+If you're using [multi-db schemas](/features/multi-db-schemas), or vector databases, you will see statements that represent internally managed tables.
+
+### `GET /beta/listen`
+
+<Snippet file="technical-preview-banner.mdx" />
+
+You can listen to changes committed to your database using the `/beta/listen` endpoint:
+
+```bash Request
+curl -L 'https://[primary-instance-id]-[databaseName]-[organizationName].turso.io/beta/listen?table=TABLE_NAME' \
+-H 'Authorization: Bearer TOKEN'
+```
+
+#### Query Parameters
+
+- `table` (required) &mdash; The name of the table to listen to.
+- `action` (optional) &mdash; The action to listen to, `insert`, `update`, or `delete`.
+
+<Info>
+  Your database group must be using the version `v0.24.18` or greater &mdash; `turso group update <group-name> --version v0.24.18`
+</Info>

@@ -9,8 +9,9 @@ You can obtain a list of all databases for the current user or organization by r
 turso db list
 ```
 
-<Info>
+## Flags
 
-The URL returned by this command is the one you should use to connect to the database. Turso automatically routes to the closest replica if you have any.
-
-</Info>
+| Flag                       | Description                        |
+| -------------------------- | ---------------------------------- |
+| `--schema <database-name>` | Filter databases by parent schema. |
+| `--group <group-name>`     | Filter databases by group.         |

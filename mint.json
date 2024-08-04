@@ -7,19 +7,17 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0f4f62",
-    "light": "#7b8690",
-    "dark": "#7b8690",
+    "primary": "#4FF8D2",
+    "light": "#4FF8D2",
+    "dark": "#4FF8D2",
     "anchors": {
       "from": "#0F4F62",
       "to": "#4ff8d2"
-    },
-    "background": {
-      "dark": "#121b22"
     }
   },
   "modeToggle": {
-    "default": "dark"
+    "default": "dark",
+    "isHidden": true
   },
   "topbarLinks": [
     {
@@ -27,13 +25,13 @@
       "url": "https://status.turso.tech"
     },
     {
-      "name": "Give Feedback",
-      "url": "https://share.hsforms.com/1ittjMf-TTvK0uhTI_lDIWwcy0nw"
+      "name": "Dashboard",
+      "url": "https://turso.tech/app"
     }
   ],
   "topbarCtaButton": {
-    "name": "Login",
-    "url": "https://turso.tech/app"
+    "type": "github",
+    "url": "https://github.com/tursodatabase/libsql"
   },
   "tabs": [
     {
@@ -86,13 +84,15 @@
         "data-and-connections",
         "local-development",
         "extensions",
-        "libsql"
+        "libsql",
+        "guides/connecting-a-gui"
       ]
     },
     {
-      "group": "Features",
+      "group": "Product",
       "pages": [
         "features/platform-api",
+        "features/ai-and-embeddings",
         {
           "group": "Embedded Replicas",
           "pages": [
@@ -274,6 +274,10 @@
         {
           "group": "ORMs",
           "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+        },
+        {
+          "group": "Integrations",
+          "pages": ["sdk/ts/integrations/sentry"]
         }
       ]
     },
@@ -469,7 +473,7 @@
   "redirects": [
     {
       "source": "/tutorials",
-      "destination": "https://blog.turso.tech"
+      "destination": "https://turso.tech/blog"
     },
     {
       "source": "/tutorials/get-started-turso-cli",

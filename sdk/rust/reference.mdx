@@ -110,9 +110,9 @@ If you require full control over how frames get from your instance of `sqld` (li
 
 </Info>
 
-### Periodic Sync
+### Sync Interval
 
-The `periodic_sync` function allows you to set an interval for automatic synchronization of the database in the background:
+The `sync_interval` function allows you to set an interval for automatic synchronization of the database in the background:
 
 ```rust
 use libsql::Builder;
@@ -122,7 +122,7 @@ let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
 let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
 
 let mut db = Builder::new_remote_replica("local.db", &url, &token)
-  .periodic_sync(Duration::from_secs(300)) // Sync every 5 minutes
+  .sync_interval(Duration::from_secs(300)) // Sync every 5 minutes
   .build()
   .await.unwrap();
 

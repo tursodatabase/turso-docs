@@ -1,21 +1,66 @@
 Download the latest build extension/driver binary you can see at [Release](https://github.com/tursodatabase/turso-client-php/releases) page. It's available for:
+
 - Linux
 - Mac/Darwin
-- Windows (WSL)
+- Windows (WSL) / [Devcontainer](https://github.com/darkterminal/turso-docker-php)
 
----
+<AccordionGroup>
+    <Accordion title="Turso PHP Installer (Linux/macOS only)">
+        Get the installer:
 
-- 📦 Extract the archive
-- 🗃 Locate somewhere in your machine
-- 💽 Copy a relative path that address that extension/driver
-- 📂 Open `php.ini` search `;extension` if you using nano (ctrl+w) then searching for it
-- 📝 add in the next-line `extension=liblibsql_php.so` (in Linux) without `;` at the begining
+        ```bash
+        curl --proto '=https' --tlsv1.2 -sSf "https://darkterminal.github.io/turso-php-installer/dist/turso-php-installer.phar"
+        ./turso-php-installer.phar
+        ```
 
-Check on your console/terminal
+        Add as a global executable script:
 
-```shell
-$ php --m | grep libsql
-liblibsql_php
-```
+        ```bash
+        sudo mv turso-php-installer.phar /usr/local/bin/turso-php-installer
+        ```
+
+        **Usage**
+
+        Install Turso Client PHP / libSQL Extension:
+
+        ```bash
+        turso-php-installer install
+        ```
+
+        Check on your console/terminal
+
+        ```shell
+        $ php --m | grep libsql
+        liblibsql_php
+        ```
+
+        Update Turso Client PHP / libSQL Extension:
+
+        ```bash
+        turso-php-installer update
+        ```
+
+        Uninstall Turso Client PHP / libSQL Extension:
+
+        ```bash
+        turso-php-installer uninstall
+        ```
+    </Accordion>
+    <Accordion title="Manual Configuration">
+        - 📦 Extract the archive
+        - 🗃 Locate somewhere in your machine
+        - 💽 Copy a relative path that address that extension/driver
+        - 📂 Open `php.ini` search `;extension` if you using nano (ctrl+w) then searching for it
+        - 📝 add in the next-line `extension=liblibsql_php.so` (in Linux) without `;` at the begining
+
+        Check on your console/terminal
+
+        ```shell
+        $ php --m | grep libsql
+        liblibsql_php
+        ```
+    </Accordion>
+
+</AccordionGroup>
 
 Now, `LibSQL` class is available in your PHP environment! You can use it everywhare in your PHP project 🎉
