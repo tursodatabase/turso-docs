@@ -117,7 +117,7 @@ Before you start, make sure you:
         ```php
         'libsql' => [
             'driver' => 'libsql',
-            'url' => 'file:' . env('DB_DATABASE', 'database.sqlite'),
+            'url' => env('DB_DATABASE', 'database.sqlite'),
             'authToken' => env('DB_AUTH_TOKEN', ''),
             'syncUrl' => env('DB_SYNC_URL', ''),
             'syncInterval' => env('DB_SYNC_INTERVAL', 5),
@@ -164,7 +164,7 @@ Before you start, make sure you:
         <CodeGroup>
 
             ```php Create
-            DB::table('users')->create([
+            DB::table('users')->insert([
                 'name' => 'Budi Dalton',
                 'email' => 'budi.dalton@duck.com'
             ]);
