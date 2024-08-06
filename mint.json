@@ -184,7 +184,7 @@
                 }
               ]
             },
-            "cli/db/wakeup"
+            "cli/db/unarchive"
           ]
         },
         "cli/dev",
@@ -211,7 +211,7 @@
                 "cli/group/tokens/invalidate"
               ]
             },
-            "cli/group/wakeup"
+            "cli/group/unarchive"
           ]
         },
         {
