@@ -744,6 +744,14 @@
     {
       "source": "/locations",
       "destination": "/concepts#locations"
+    },
+    {
+      "source": "/cli/db/wakeup",
+      "destination": "/cli/db/unarchive"
+    },
+    {
+      "source": "/cli/group/wakeup",
+      "destination": "/cli/group/unarchive"
     }
   ],
   "analytics": {
