@@ -2230,7 +2230,7 @@
             "description": "The name of the parent database that owns the schema for this database. See [Multi-DB Schemas](/features/multi-db-schemas).",
             "example": ""
           },
-          "sleeping": {
+          "archived": {
             "type": "boolean",
             "description": "The current status of the database. If `true`, the database is archived and requires a manual unarchive step.",
             "example": false
