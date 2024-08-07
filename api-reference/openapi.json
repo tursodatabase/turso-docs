@@ -807,6 +807,43 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/groups/{groupName}/unarchive": {
+      "post": {
+        "summary": "Unarchive Group",
+        "description": "Unarchive a group that has been archived due to inactivity.",
+        "operationId": "transferGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "$ref": "#/components/parameters/groupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "$ref": "#/components/schemas/Group",
+                      "description": "The group that was unarchived"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/GroupNotFoundResponse"
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}": {
       "post": {
         "summary": "Add Location to Group",

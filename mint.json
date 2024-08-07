@@ -183,8 +183,7 @@
                   ]
                 }
               ]
-            },
-            "cli/db/unarchive"
+            }
           ]
         },
         "cli/dev",
@@ -384,9 +383,10 @@
             "api-reference/groups/create",
             "api-reference/groups/retrieve",
             "api-reference/groups/delete",
-            "api-reference/groups/transfer",
             "api-reference/groups/add-location",
             "api-reference/groups/remove-location",
+            "api-reference/groups/transfer",
+            "api-reference/groups/unarchive",
             "api-reference/groups/update-database-versions",
             "api-reference/groups/create-token",
             "api-reference/groups/invalidate-tokens"
