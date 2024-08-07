@@ -2230,9 +2230,9 @@
             "description": "The name of the parent database that owns the schema for this database. See [Multi-DB Schemas](/features/multi-db-schemas).",
             "example": ""
           },
-          "sleeping": {
+          "archived": {
             "type": "boolean",
-            "description": "The current status of the database. If `true`, the database is sleeping and requires a manual wakeup.",
+            "description": "The current status of the database. If `true`, the database is archived and requires a manual unarchive step.",
             "example": false
           }
         }
@@ -2542,7 +2542,7 @@
           },
           "archived": {
             "type": "boolean",
-            "description": "Groups on the free tier go to sleep after some inactivity.",
+            "description": "Groups on the free tier get archived after some inactivity.",
             "example": false
           }
         }
