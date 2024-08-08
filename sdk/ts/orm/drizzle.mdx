@@ -22,6 +22,7 @@ Before you start, make sure you:
 ```bash npm
 npm i drizzle-orm @libsql/client
 npm i -D drizzle-kit
+npm i dotenv
 ```
 
 ```bash pnpm
@@ -111,6 +112,9 @@ To preview and manage database data with Drizzle Studio, prepare the Drizzle con
 
 ```ts drizzle.config.ts
 import type { Config } from "drizzle-kit";
+import { config } from 'dotenv';
+
+config({ path: '.env' }); // Or .env.local
 
 export default {
   schema: "./drizzle/schema.ts",
