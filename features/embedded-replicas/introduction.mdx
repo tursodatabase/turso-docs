@@ -158,6 +158,17 @@ You should call `.sync()` in the background whenever your application wants to s
 
 - Do not open the local database while the embedded replica is syncing. This can lead to data corruption.
 - In certain contexts, such as serverless environments without a filesystem, you can't use embedded replicas.
+- There are a couple scenarios where you may sync more frames than you might
+    expect. 
+    - A write that causes the internal btree to split at any node would cause many
+        new frames to be written to the replication log.
+    - A server restart that left the on-disk wal in dirty state would regenerate
+        the replication log and sync additional frames.
+    - Removing/invalidating the local files on disk could cause the embedded
+        replica to re-sync from scratch.
+- One frame equals 4kB of data (one on disk page frame), so if you write a 1
+    byte row, it will always show up as a 4kB write since that is the unit in
+    which libsql writes with.
 
 ## Deployment Guides
 
