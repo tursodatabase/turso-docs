@@ -176,7 +176,7 @@ A batch consists of multiple SQL statements executed sequentially within an impl
 ```php
 <?php
 
-$db.executeBatch("
+$db->executeBatch("
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL
