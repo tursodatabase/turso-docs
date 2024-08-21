@@ -807,6 +807,43 @@
       }
     },
 
+    "/v1/organizations/{organizationName}/groups/{groupName}/unarchive": {
+      "post": {
+        "summary": "Unarchive Group",
+        "description": "Unarchive a group that has been archived due to inactivity.",
+        "operationId": "transferGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationName"
+          },
+          {
+            "$ref": "#/components/parameters/groupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "$ref": "#/components/schemas/Group",
+                      "description": "The group that was unarchived"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/GroupNotFoundResponse"
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}": {
       "post": {
         "summary": "Add Location to Group",
@@ -1951,7 +1988,6 @@
               "type": "string",
               "enum": [
                 "vector",
-                "vss",
                 "crypto",
                 "fuzzy",
                 "math",
@@ -1959,13 +1995,14 @@
                 "text",
                 "unicode",
                 "uuid",
-                "regexp"
+                "regexp",
+                "vec"
               ]
             },
             "description": "Array of extensions to enable."
           }
         ],
-        "description": "The extensions to enable for new databases created in this group."
+        "description": "The extensions to enable for new databases created in this group. Users looking to enable vector extensions should instead use the native [libSQL vector datatype](/features/ai-and-embeddings)."
       },
 
       "Organization": {
@@ -2230,9 +2267,9 @@
             "description": "The name of the parent database that owns the schema for this database. See [Multi-DB Schemas](/features/multi-db-schemas).",
             "example": ""
           },
-          "sleeping": {
+          "archived": {
             "type": "boolean",
-            "description": "The current status of the database. If `true`, the database is sleeping and requires a manual wakeup.",
+            "description": "The current status of the database. If `true`, the database is archived and requires a manual unarchive step.",
             "example": false
           }
         }
@@ -2542,7 +2579,7 @@
           },
           "archived": {
             "type": "boolean",
-            "description": "Groups on the free tier go to sleep after some inactivity.",
+            "description": "Groups on the free tier get archived after some inactivity.",
             "example": false
           }
         }
