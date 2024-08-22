@@ -27,16 +27,8 @@
 
 ## Contributing
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command:
-
-```
-npm i -g mintlify
-```
-
-Run the following command at the root of your documentation (where `mint.json` is):
-
-```
-mintlify dev
-```
-
-Once you've made any required changes, open a pull request 🚀
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm run dev`
+4. Make changes 🙏
+5. Open Pull Request
