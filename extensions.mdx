@@ -29,12 +29,14 @@ The extensions **enabled by default** in all databases are:
 
 You can enable the following extensions when creating a new database using the [CLI](/cli) or [API](/api-reference/databases):
 
+<Info>
+  If you're looking to enable vector extensions, you should instead consider
+  using the native [libSQL vector datatype](/features/ai-and-embeddings).
+</Info>
+
 <CardGroup>
-  <Card
-    title="Vector Similarity Search"
-    href="https://github.com/asg017/sqlite-vss"
-  >
-    Vector search capabilities based on Faiss.
+  <Card title="sqlite-vec" href="https://github.com/asg017/sqlite-vec">
+    The Vector Search successor to `sqlite-vss`.
   </Card>
   <Card
     title="SQLean Crypto"

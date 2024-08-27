@@ -1988,7 +1988,6 @@
               "type": "string",
               "enum": [
                 "vector",
-                "vss",
                 "crypto",
                 "fuzzy",
                 "math",
@@ -1996,13 +1995,14 @@
                 "text",
                 "unicode",
                 "uuid",
-                "regexp"
+                "regexp",
+                "vec"
               ]
             },
             "description": "Array of extensions to enable."
           }
         ],
-        "description": "The extensions to enable for new databases created in this group."
+        "description": "The extensions to enable for new databases created in this group. Users looking to enable vector extensions should instead use the native [libSQL vector datatype](/features/ai-and-embeddings)."
       },
 
       "Organization": {

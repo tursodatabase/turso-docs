@@ -5,8 +5,6 @@ title: Turso Concepts
 
 ## Database
 
-A database is often referred to as a "logical database" because it consists of multiple libSQL databases.
-
 Each database is equipped with its own schema and data, situated in a primary location along with possibly several replica locations within its designated [group](#groups). This setup ensures that the schema and data are seamlessly copied from the primary location to all replica sites in the group.
 
 Databases are identified by a distinct libSQL URL. When accessed through the libSQL client SDKs, this URL directs the client to the database instance that offers the lowest latency, thereby reducing the overall duration of read operations.
