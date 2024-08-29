@@ -1,7 +1,5 @@
+blank_issues_enabled: false
 contact_links:
-  - name: 📘 Documentation
-    url: https://github.com/tursodatabase/turso-docs
-    about: Can something be improved in our docs? Let us know, or open a Pull Request.
   - name: 💁 Support
     url: https://tur.so/ghdiscord
     about: Get help and chat with us on Discord.

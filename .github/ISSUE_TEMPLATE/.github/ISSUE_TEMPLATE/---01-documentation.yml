@@ -1,0 +1,23 @@
+name: "📘 Documentation Issue"
+description: Missing, incorrect or outdated documentation? Let us know, or open a PR.
+labels: []
+assignees: []
+body:
+  - type: dropdown
+    id: section
+    attributes:
+      label: What part of the documentation is this issue about?
+      multiple: true
+      options:
+        - CLI
+        - Client SDKs
+        - Platform API
+        - Everything else
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion
+      description: What could be improved, or what's missing?
+      render: block
+    validations:
+      required: true
