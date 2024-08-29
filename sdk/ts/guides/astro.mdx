@@ -34,10 +34,15 @@ To get the most out of this guide, you'll need to:
 import { createClient } from "@libsql/client/web";
 
 export const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN,
+  url: import.meta.env.TURSO_DATABASE_URL!,
+  authToken: import.meta.env.TURSO_AUTH_TOKEN,
 });
 ```
+
+<Note>
+  Astro will soon introduce a new ENV API. [Take a
+  look](https://docs.astro.build/en/reference/configuration-reference/#experimentalenv).
+</Note>
 
 </Step>
 
