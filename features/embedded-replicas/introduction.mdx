@@ -120,9 +120,12 @@ func main() {
 ```
 
 ```rust Rust
-use libsql::{Database};
+use libsql::{Builder};
 
-let client = Database::open_with_remote_sync("file:replica.db", "libsql://...", "...").await?;
+let build = Builder::new_remote_replica("file:replica.db", "libsql://...", "...")
+   .build()
+   .await?;
+let client = build.connect()?;
 ```
 
 </CodeGroup>
