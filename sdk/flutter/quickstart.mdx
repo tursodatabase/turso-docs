@@ -90,30 +90,30 @@ await client.connect();
 
 <CodeGroup>
 
-```dart execute
+```dart Execute
 await client.execute("create table if not exists customers (id integer primary key, name text);");
 ```
 
-```dart insert
+```dart Insert
 await client.query("insert into customers(name) values ('John Doe')");
 ```
 
-```dart select
+```dart Select
 print(await client.query("select * from customers"));
 ```
 
-```dart batch
+```dart Batch
 await client.batch("""insert into customers (name) values ('Jane Doe'); insert into customers (name) values ('Jake Doe');""");
 ```
 
-```dart prepared statement
+```dart Prepared statement
 final statement = await client
 	.prepare("select * from customers where id = ?");
 
 await statement.query(positional: [1])
 ```
 
-```dart interactive transaction
+```dart Interactive transaction
 final tx = await client.transaction();
 
 await tx
