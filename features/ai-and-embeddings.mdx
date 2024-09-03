@@ -1,20 +1,69 @@
 ---
 title: AI & Embeddings
-description: Vector Similarity Search is built into Turso and libSQL Server as a native datatype.
+description: Vector Similarity Search is built into Turso and libSQL Server as a native feature.
 ---
 
-Turso enables vector search without an extension, it's just another datatype in SQLite.
+Turso and libSQL enables vector search capability without an extension.
 
 <Snippet file="technical-preview-banner.mdx" />
 
-## How to use
+## Hot it works
 
-- Use `F32_BLOB` / `FLOAT32` type names to define vector table column
-- Use `vector` function to convert vector from string representation into the binary format
-- Use `vector_extract` function to extract string representation from vector in binary format
-- Use `vector_distance_cos` function to calculate cosine distance between two vectors
-- Use `libsql_vector_idx(emb)` expression in the `CREATE INDEX` statement to create ANN-index
-- Use `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions) to query ANN-index
+- You create a table with one or more vector columns (e.g. `FLOAT32`)
+- You provide vector values in binary format or convert text representation to binary with the appropriate conversion function (e.g. `vector32(...)`)
+- You can calculate vectors similarity between vectors in the table or from the query itself with dedicated vector functions (e.g. `vector_distance_cos`)
+- You can create special vector index in order to speed up nearest neighbors queries (use `libsql_vector_idx(column)` expression in the `CREATE INDEX` statement to create vector index)
+- You can query index with special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions)
+
+## Vector types
+
+LibSQL uses native SQLite BLOB [storage class](https://www.sqlite.org/datatype3.html#storage_classes_and_datatypes) for vector columns. In order to align with SQLite [affinity rules](https://www.sqlite.org/datatype3.html#determination_of_column_affinity) all type names have 2 alternatives: one which is easy to type and another with `_BLOB` suffix which is consistent with affinity rules.
+
+<Info>
+We suggest library authors to use type names with `_BLOB` suffix in order to make result more generic and universal. For the regular application, developer can choose any alternative he like as type name only plays a role of **hint** for SQLite and external extensions.
+</Info>
+
+<Info>
+As LibSQL do not introduce new storage class -- all metadata about vector also encoded in the `BLOB` itself. This comes at the price of few bytes per every row, but simplify design of the feature a lot.
+</Info>
+
+The table below lists 6 vector types supported by LibSQL at the moment. Types are listed from more precise and more storage heavy to more compact but less precise alternatives (amount of dimensions in vector $D$ used to esimate storage requirements for single vector).
+ 
+| Type name                  | Storage (bytes)    | Description |
+| -------------------------- | ------------------ | ----------- |
+| `FLOAT64` / `F64_BLOB`     | $8D + 1$           | implementation of [IEEE 754 double precision format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) for 64-bit floating point numbers |
+| `FLOAT32` / `F32_BLOB`     | $4D$               | implementation of [IEEE 754 single precision format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format) for 32-bit floating point numbers |
+| `FLOAT16` / `F16_BLOB`     | $2D + 1$           | implementation of [IEEE 754-2008 half precision format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format) for 16-bit floating point numbers |
+| `FLOATB16` / `FB16_BLOB`   | $2D + 1$           | implementation of [bfloat16 format](https://en.wikipedia.org/wiki/Bfloat16_floating-point_format) for 16-bit floating point numbers |
+| `FLOAT8` / `F8_BLOB`       | $D + 14$           | LibSQL specific implementation which compresses each vector component to single `u8` byte `b` and reconstruct value from it using simple transformation: $\texttt{shift} + \texttt{alpha} \cdot b$ |
+| `FLOAT1BIT` / `F1BIT_BLOB` | $\lceil \frac{D}{8} \rceil + 3$ | LibSQL specific implementation which compresses each vector component down to 1-bit and pack multiple components into single machine word - thus achieving very compact representation |
+
+<Info>
+For most applications `FLOAT32` type should be a good starting point, but you may want to explore more compact options if your table has huge amount of rows with vectors.
+</Info>
+
+<Info>
+While `FLOAT16` and `FLOATB16` uses same amount of storage provides different tradeoffs between speed and accuracy. Genearally, operations over `bfloat16` are faster but this come in exchange to lower precision.
+</Info>
+
+## Vector functions
+
+In order to work with vectors LibSQL provides several functions which operates on the vector domain. Every function understand vector in binary format aligned with 6 types described above or in text format as a single JSON array of numbers.
+
+At the moment LibSQL supports following functions:
+
+| Function name              | Description |
+| -------------------------- | ----------- |
+| `vector64`, `vector32`, `vector16`, `vectorb16`, `vector8`, `vector1bit` | Conversion function shiwh accepts valid vector and convert it to the corresponding target type |
+| `vector`     | Alias for `vector32` conversion function |
+| `vector_extract`     | Extraction function which accepts valid vector and return its text representation |
+| `vector_distance_cos`   | Cosine distance (1 - [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)) function which operates over vector of **same type** with **same dimensions** |
+| `vector_distance_l2`   | Euclidian distance function which operates over vector of **same type** with **same dimensions** |
+
+## Vector index
+
+## Usage
+
 
 ## Usage
 
