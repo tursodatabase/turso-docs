@@ -130,7 +130,10 @@ If you need to use placeholders for values, you can do that:
 <CodeGroup>
 
 ```dart Positional
+final statement = await client
+  .prepare("select * from customers where id = ?");
 
+await statement.query(positional: [1])
 ```
 
 ```dart Named
