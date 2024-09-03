@@ -140,7 +140,10 @@ await statement.query(positional: [1])
 ```
 
 ```dart Named
+final statement = await client
+	.prepare("select * from customers where id = :id");
 
+await statement.query(named: {"id": 1})
 ```
 
 </CodeGroup>
