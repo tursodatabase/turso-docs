@@ -109,17 +109,20 @@ await client.batch("""insert into customers (name) values ('Jane Doe'); insert i
 ```dart prepared statement
 final statement = await client
 	.prepare("select * from customers where id = ?");
+
 await statement.query(positional: [1])
 ```
 
 ```dart interactive transaction
 final tx = await client.transaction();
+
 await tx
 	.execute("update customers set name = 'John Noe' where id = 1");
 await tx
 	.execute("update customers set name = 'Jane Noe' where id = 2");
 print(await tx
 	.query("select * from customers where id = ?", positional: [1]));
+
 await tx.commit();
 ```
 
