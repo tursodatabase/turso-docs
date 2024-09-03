@@ -126,7 +126,7 @@ ASC;
 
 </Steps>
 
-### Limitations
+### Vector limitations
 
 - Euclidian distance is **not supported** for 1-bit `FLOAT1BIT` vectors
 - Only vectors with no more than 65536 dimensions can be operated by LibSQL
@@ -196,10 +196,6 @@ Vector index for column of type `T1` with `max_neighbors=M` and `compress_neighb
 </Note>
 
 
-### Limitations
-
-- Vector index works only for tables **with** `ROWID` or with singular `PRIMARY KEY`. Composite `PRIMARY KEY` without `ROWID` is not supported
-
 ### Index usage
 
 <Steps>
@@ -268,3 +264,8 @@ This query uses the `vector_top_k` [table-valued function](https://www.sqlite.or
 </Step>
 
 </Steps>
+
+### Index limitations
+
+- Vector index works only for tables **with** `ROWID` or with singular `PRIMARY KEY`. Composite `PRIMARY KEY` without `ROWID` is not supported
+
