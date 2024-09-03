@@ -15,7 +15,9 @@ Turso and libSQL enables vector search capability without an extension.
 - You can create special vector index in order to speed up nearest neighbors queries (use `libsql_vector_idx(column)` expression in the `CREATE INDEX` statement to create vector index)
 - You can query index with special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions)
 
-## Vector types
+# Vectors
+
+### Types
 
 LibSQL uses native SQLite BLOB [storage class](https://www.sqlite.org/datatype3.html#storage_classes_and_datatypes) for vector columns. In order to align with SQLite [affinity rules](https://www.sqlite.org/datatype3.html#determination_of_column_affinity) all type names have 2 alternatives: one which is easy to type and another with `_BLOB` suffix which is consistent with affinity rules.
 
@@ -31,12 +33,12 @@ The table below lists 6 vector types supported by LibSQL at the moment. Types ar
  
 | Type name                  | Storage (bytes)    | Description |
 | -------------------------- | ------------------ | ----------- |
-| `FLOAT64` / `F64_BLOB`     | $8D + 1$           | implementation of [IEEE 754 double precision format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) for 64-bit floating point numbers |
-| `FLOAT32` / `F32_BLOB`     | $4D$               | implementation of [IEEE 754 single precision format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format) for 32-bit floating point numbers |
-| `FLOAT16` / `F16_BLOB`     | $2D + 1$           | implementation of [IEEE 754-2008 half precision format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format) for 16-bit floating point numbers |
-| `FLOATB16` / `FB16_BLOB`   | $2D + 1$           | implementation of [bfloat16 format](https://en.wikipedia.org/wiki/Bfloat16_floating-point_format) for 16-bit floating point numbers |
-| `FLOAT8` / `F8_BLOB`       | $D + 14$           | LibSQL specific implementation which compresses each vector component to single `u8` byte `b` and reconstruct value from it using simple transformation: $\texttt{shift} + \texttt{alpha} \cdot b$ |
-| `FLOAT1BIT` / `F1BIT_BLOB` | $\lceil \frac{D}{8} \rceil + 3$ | LibSQL specific implementation which compresses each vector component down to 1-bit and pack multiple components into single machine word - thus achieving very compact representation |
+| `FLOAT64` \| `F64_BLOB`     | $8D + 1$           | implementation of [IEEE 754 double precision format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) for 64-bit floating point numbers |
+| `FLOAT32` \| `F32_BLOB`     | $4D$               | implementation of [IEEE 754 single precision format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format) for 32-bit floating point numbers |
+| `FLOAT16` \| `F16_BLOB`     | $2D + 1$           | implementation of [IEEE 754-2008 half precision format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format) for 16-bit floating point numbers |
+| `FLOATB16` \| `FB16_BLOB`   | $2D + 1$           | implementation of [bfloat16 format](https://en.wikipedia.org/wiki/Bfloat16_floating-point_format) for 16-bit floating point numbers |
+| `FLOAT8` \| `F8_BLOB`       | $D + 14$           | LibSQL specific implementation which compresses each vector component to single `u8` byte `b` and reconstruct value from it using simple transformation: $\texttt{shift} + \texttt{alpha} \cdot b$ |
+| `FLOAT1BIT` \| `F1BIT_BLOB` | $\lceil \frac{D}{8} \rceil + 3$ | LibSQL specific implementation which compresses each vector component down to 1-bit and pack multiple components into single machine word - thus achieving very compact representation |
 
 <Info>
 For most applications `FLOAT32` type should be a good starting point, but you may want to explore more compact options if your table has huge amount of rows with vectors.
@@ -46,7 +48,7 @@ For most applications `FLOAT32` type should be a good starting point, but you ma
 While `FLOAT16` and `FLOATB16` uses same amount of storage provides different tradeoffs between speed and accuracy. Genearally, operations over `bfloat16` are faster but this come in exchange to lower precision.
 </Info>
 
-## Vector functions
+### Functions
 
 In order to work with vectors LibSQL provides several functions which operates on the vector domain. Every function understand vector in binary format aligned with 6 types described above or in text format as a single JSON array of numbers.
 
@@ -54,18 +56,15 @@ At the moment LibSQL supports following functions:
 
 | Function name              | Description |
 | -------------------------- | ----------- |
-| `vector64`, `vector32`, `vector16`, `vectorb16`, `vector8`, `vector1bit` | Conversion function shiwh accepts valid vector and convert it to the corresponding target type |
+| `vector64` \| `vector32` \| `vector16` \| `vectorb16` \| `vector8` \| `vector1bit` | Conversion function shiwh accepts valid vector and convert it to the corresponding target type |
 | `vector`     | Alias for `vector32` conversion function |
 | `vector_extract`     | Extraction function which accepts valid vector and return its text representation |
-| `vector_distance_cos`   | Cosine distance (1 - [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)) function which operates over vector of **same type** with **same dimensions** |
-| `vector_distance_l2`   | Euclidian distance function which operates over vector of **same type** with **same dimensions** |
-
-## Vector index
-
-## Usage
+| `vector_distance_cos`   | Cosine distance (1 - [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)) function which operates over vector of **same type** with **same dimensionality** |
+| `vector_distance_l2`   | Euclidian distance function which operates over vector of **same type** with **same dimensionality** |
 
 
-## Usage
+
+### Vectors usage
 
 <Steps>
 
@@ -75,13 +74,13 @@ Begin by declaring a column used for storing vectors with the `F32_BLOB` datatyp
 
 ```sql
 CREATE TABLE movies (
-  title TEXT,
-  year INT,
-  embedding F32_BLOB(3) -- 3-dimensional f32 vector
+  title    TEXT,
+  year     INT,
+  full_emb F32_BLOB(4), -- 4-dimensional f32 vector
 );
 ```
 
-The number in parentheses (3) specifies the dimensionality of the vector. This means each vector in this column will have exactly 3 components.
+The number in parentheses `(4)` specifies the dimensionality of the vector. This means each vector in this column will have exactly 4 components.
 
 </Step>
 
@@ -92,10 +91,10 @@ Once you generate embeddings for your data (via an LLM), you can insert them int
 ```sql
 INSERT INTO movies (title, year, embedding)
 VALUES
-  ( 'Napoleon', 2023, vector('[1,2,3]')),
-  ( 'Black Hawk Down', 2001, vector('[10,11,12]')),
-  ( 'Gladiator', 2000, vector('[7,8,9]')),
-  ( 'Blade Runner', 1982, vector('[4,5,6]'));
+  ( 'Napoleon', 2023, vector32('[0.800, 0.579, 0.481, 0.229]')),
+  ( 'Black Hawk Down', 2001, vector32('[0.406, 0.027, 0.378, 0.056]')),
+  ( 'Gladiator', 2000, vector32('[0.698, 0.140, 0.073, 0.125]')),
+  ( 'Blade Runner', 1982, vector32('[0.379, 0.637, 0.011, 0.647]'))
 ```
 
 Popular tools like [LangChain](https://www.langchain.com), [Hugging Face](https://huggingface.co) or [OpenAI](https://turso.tech/blog/how-to-generate-and-store-openai-vector-embeddings-with-turso) can be used to generate embeddings.
@@ -109,8 +108,11 @@ You can now write queries combining vectors and standard SQLite data:
 ```sql
 SELECT title,
        vector_extract(embedding),
-       vector_distance_cos(embedding, vector('[5,6,7]'))
-FROM movies;
+       vector_distance_cos(embedding, vector32('[0.064, 0.777, 0.661, 0.687]'))
+FROM movies
+ORDER BY 
+       vector_distance_cos(embedding, vector32('[0.064, 0.777, 0.661, 0.687]'))
+ASC;
 ```
 
 <Note>
@@ -122,39 +124,125 @@ FROM movies;
 
 </Step>
 
-<Step title="Combine regular table data with vector search">
-
-You can combine vector search with regular query:
-
-```sql
-SELECT *
-FROM
-  movies
-WHERE
-  year >= 2020
-ORDER BY
-  vector_distance_cos(embedding, '[3,1,2]')
-LIMIT 3;
-```
-
-This query demonstrates how to combine traditional SQL filtering (`year >= 2020`) with vector similarity search.
-
-</Step>
-
 </Steps>
+
+### Limitations
+
+- Euclidian distance is **not supported** for 1-bit `FLOAT1BIT` vectors
+- Only vectors with no more than 65536 dimensions can be operated by LibSQL
 
 ## Indexing
 
-Turso implements **Approximate Nearest Neighbors** (ANN) using the DiskANN algorithm for larger datasets.
+Nearest neighbors (NN) queries are popular for different type of AI-powered applications ([RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) uses NN queries to extract relevant information, recommendation engine can recommend items based on embeddings similarity).
+
+LibSQL implements [DiskANN](https://turso.tech/blog/approximate-nearest-neighbor-search-with-diskann-in-libsql) algorithm in order to speed up approximate neareast neighbors queries for tables with vector colums. 
+
+<Note>
+DiskANN algorithm trades search accuracy for speed -- so it's expected that LibSQL query can return slightly suboptimal neighbors for tables with large amount of rows.
+</Note>
+
+### Vector index
+LibSQL introduces custom index type which helps to speed up neareast neighbors queries against fixed distance function (cosine similarity by default).
+
+From the syntax perspective, vector index differs from ordinary application-defined B-Tree indices in that it must wrap vector column into `libsql_vector_idx` marker function like this:
+
+```sql
+CREATE INDEX movies_idx ON movies (libsql_vector_idx(embedding));
+```
+
+<Note>
+Vector index works only for column with one of the vector types described above
+</Note>
+
+Vector index is fully integrated into LibSQL core -- so it inherits all operations and most features from ordinary indices:
+
+- Index created for table with some data will be **automatically** populated with these data
+- All updates to the base table will be **automatically** reflected in the index
+- You can rebuild index from scratch using `REINDEX movies_idx` command
+- You can drop index with `DROP movies_idx` command
+- You can create [partial](https://www.sqlite.org/partialindex.html) vector index with custom filtering rule:
+```sql
+CREATE INDEX movies_idx ON movies (libsql_vector_idx(embedding)) 
+WHERE year >= 2000;
+```
+
+### Query
+
+At the moment vector index must be queried **explicitly** with special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions). The function accepts index name, query vector and amount of neighbors to return. This function search for `k` approximate nearest neighbors and return `ROWID` of these rows or `PRIMARY KEY` if base index [do not have ROWID](https://www.sqlite.org/withoutrowid.html).
+
+In order for table-valued function to work query vector **must** have same vector type and same dimensionality.
+
+### Settings
+
+LibSQL vector index optionall can accept settings which must be specified as a variadic parameters of the `libsql_vector_idx` function as a strings in the format `key=value`:
+```sql
+CREATE INDEX movies_idx 
+ON movies(libsql_vector_idx(embedding, 'metric=l2', 'compress_neighbors=float8'));
+```
+
+At the momen LibSQL supports following settings:
+
+| Setting key                | Value type       | Description |
+| -------------------------- | ---------------- | ----------- |
+| `metric`                   | `cosine` \| `l2`  | Which distance function to use for building index. <br/> Default: `cosine` |
+| `max_neighbors`            | positive integer | How many neighbors to store for every node in the DiskANN graph. The lower the setting -- the less storage index will use in exchange to search precision. <br/> Default: $3 \sqrt{D}$ where $D$ -- dimensionality of vector column |
+| `compress_neighbors`       | `float1bit`\|`float8`\|<br/>`float16`\|`floatb16`\|<br/>`float32` | Which vector type must be used to store neighbors for every node in the DiskANN graph. The more compact vector type is used for neighbors -- the less storage index will use in exchange to search precision. <br/> Default: **no comperssion** (neighbors has same type as base table)   | 
+| `alpha`       | positive float $\geq 1$ | "Density" parameter of general sparse neighborhood graph build during DiskANN algorithm. The lower parameter -- the more sparse is DiskANN graph which can speed up query speed in exchange to lower search precision. <br/>Default: `1.2`  |
+| `search_l`       | positive integer | Setting which limits amount of neighbors visited during vector search. The lower the setting -- the faster will be search query in exchange to search precision. <br/>Default: `200` |
+| `insert_l`       | positive integer | Setting which limits amount of neighbors visited during vector insert. The lower the setting -- the faster will be insert query in exchange to DiskANN graph navigability properties. <br/>Default: `70` |
+
+<Note>
+Vector index for column of type `T1` with `max_neighbors=M` and `compress_neighbors=T2` will approximately use $\texttt{N} (Storage(\texttt{T1}) + \texttt{M} \cdot Storage(\texttt{T2}))$ storage bytes for `N` rows.
+</Note>
+
+
+### Limitations
+
+- Vector index works only for tables **with** `ROWID` or with singular `PRIMARY KEY`. Composite `PRIMARY KEY` without `ROWID` is not supported
+
+### Index usage
 
 <Steps>
+
+<Step title="Create a table">
+
+Begin by declaring a column used for storing vectors with the `F32_BLOB` datatype:
+
+```sql
+CREATE TABLE movies (
+  title    TEXT,
+  year     INT,
+  full_emb F32_BLOB(4), -- 4-dimensional f32 vector
+);
+```
+
+The number in parentheses `(4)` specifies the dimensionality of the vector. This means each vector in this column will have exactly 4 components.
+
+</Step>
+
+<Step title="Generate and insert embeddings">
+
+Once you generate embeddings for your data (via an LLM), you can insert them into your table:
+
+```sql
+INSERT INTO movies (title, year, embedding)
+VALUES
+  ( 'Napoleon', 2023, vector32('[0.800, 0.579, 0.481, 0.229]')),
+  ( 'Black Hawk Down', 2001, vector32('[0.406, 0.027, 0.378, 0.056]')),
+  ( 'Gladiator', 2000, vector32('[0.698, 0.140, 0.073, 0.125]')),
+  ( 'Blade Runner', 1982, vector32('[0.379, 0.637, 0.011, 0.647]'))
+```
+
+Popular tools like [LangChain](https://www.langchain.com), [Hugging Face](https://huggingface.co) or [OpenAI](https://turso.tech/blog/how-to-generate-and-store-openai-vector-embeddings-with-turso) can be used to generate embeddings.
+
+</Step>
 
 <Step title="Create an Index">
 
 Create an index using the `libsql_vector_idx` function:
 
 ```sql
-CREATE INDEX movies_idx ON movies ( libsql_vector_idx(embedding) );
+CREATE INDEX movies_idx ON movies(libsql_vector_idx(embedding));
 ```
 
 This creates an index optimized for vector similarity searches on the `embedding` column.
@@ -169,23 +257,14 @@ This creates an index optimized for vector similarity searches on the `embedding
 <Step title="Query the indexed table">
 
 ```sql
-SELECT title, year FROM vector_top_k('movies_idx', vector('[4,5,6]'), 3)
+SELECT title, year 
+FROM vector_top_k('movies_idx', vector32('[0.064, 0.777, 0.661, 0.687]'), 3)
 JOIN movies ON movies.rowid = id
 WHERE year >= 2020;
-
--- alternatively, you can just filter results with IN operator
-SELECT title, year FROM movies
-WHERE rowid IN vector_top_k('movies_idx', vector('[4,5,6]'), 3) AND
-      year >= 2020;
 ```
 
-This query uses the `vector_top_k` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions) to efficiently find the top 3 most similar vectors to `[4,5,6]` using the index.
+This query uses the `vector_top_k` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions) to efficiently find the top 3 most similar vectors to `[0.064, 0.777, 0.661, 0.687]` using the index.
 
 </Step>
 
 </Steps>
-
-## Things to know
-
-- Internall ANN-index use `rowid` as an identifier for rows in base table instead of natural `PRIMARY KEY`.
-- Vectors are stored as an SQLite `BLOB` using the `vector` function.
