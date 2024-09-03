@@ -23,20 +23,6 @@ let package = Package(
 )
 ```
 
-## Initializing
-
-Make sure add the crate to your project at the top of your file:
-
-```rust
-use libsql::Builder;
-
-let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
-let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
-
-let mut db = Builder::new_remote_replica("local.db", &url, &token).build().await.unwrap();
-let conn = db.connect().unwrap();
-```
-
 ## In-Memory Databases
 
 libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't require persistence:
@@ -64,7 +50,7 @@ let conn = try db.connect()
 You can work with embedded replicas using `new_remote_replica` that can sync from the remote URL and delegate writes to the remote primary database:
 
 ```swift
-import Libsql;
+import Libsql
 
 let db = try Libsql.Database(
     path: "./local.db",
@@ -79,22 +65,26 @@ let conn = try db.connect()
 
 The `sync` function allows you to sync manually the local database with the remote counterpart:
 
-```rust
+```swift
 try db.sync() // Call sync manually to update local database
 ```
 
 <Info>
 
-If you require full control over how frames get from your instance of `sqld` (libSQL Server), you can do this using `new_local_replica` and `sync_frames`. Reach out to us [on Discord](https://discord.gg/turso) if you want to learn more.
+If you require full control over how frames get from your instance of `sqld`
+(libSQL Server), you can do this using `new_local_replica` and `sync_frames`.
+Reach out to us [on Discord](https://discord.gg/turso) if you want to learn
+more.
 
 </Info>
 
 ### Sync Interval
 
-The `sync_interval` function allows you to set an interval for automatic synchronization of the database in the background:
+The `sync_interval` function allows you to set an interval for automatic
+synchronization of the database in the background:
 
 ```swift
-import Libsql;
+import Libsql
 
 let db = try Libsql.Database(
     path: "./local.db",
@@ -108,18 +98,22 @@ let conn = try db.connect()
 
 ### Read Your Own Writes
 
-The `read_your_writes` function configures the database connection to ensure that writes are immediately visible to subsequent read operations initiated by the same connection. This is **enabled by default**, and is particularly important in distributed systems to ensure consistency from the perspective of the writing process.
+The `read_your_writes` function configures the database connection to ensure
+that writes are immediately visible to subsequent read operations initiated by
+the same connection. This is **enabled by default**, and is particularly
+important in distributed systems to ensure consistency from the perspective of
+the writing process.
 
 You can disable this behavior by passing `false` to the function:
 
 ```swift
-import Libsql;
+import Libsql
 
 let db = try Libsql.Database(
     path: "./local.db",
     url: <LIBSQL_URL>,
     authToken: <LIBSQL_AUTH_TOKEN>,
-    read_your_writes: 300 // Sync every 5 minutes
+    read_your_writes: false
 )
 
 let conn = try db.connect()
@@ -127,16 +121,21 @@ let conn = try db.connect()
 
 ## Simple query
 
-You can pass a string to `execute()` to invoke a SQL statement, as well as optional arguments:
+You can pass a string to `query()` to invoke a SQL statement, as well as
+optional arguments:
 
 <CodeGroup>
 
-```rust Query
-try conn.execute("SELECT * FROM users")
+```swift Execute
+try conn.execute("INSERT INTO users VALUES (?)", 1)
 ```
 
-```rust Arguments
-try conn.execute("SELECT * FROM users WHERE id = ?", 1)
+```swift Query
+try conn.query("SELECT * FROM users")
+```
+
+```swift Arguments
+try conn.query("SELECT * FROM users WHERE id = ?", 1)
 ```
 
 </CodeGroup>
@@ -145,8 +144,9 @@ try conn.execute("SELECT * FROM users WHERE id = ?", 1)
 
 You can prepare a cached statement using `prepare()` and then execute it with `query()`:
 
-```rust
-let stmt = try conn.prepare("SELECT * FROM users")
+```swift
+let stmt = try conn.prepare("SELECT * FROM users WHERE id = ?")
+stmt.bind(stmt)
 stmt.query()
 ```
 
@@ -154,17 +154,13 @@ stmt.query()
 
 libSQL supports the use of positional and named placeholders within SQL statements:
 
-<CodeGroup>
-
-```rust Positional
-conn.execute("SELECT * FROM users WHERE id = ?1", params![1]).await?;
+```swift Positional
+try conn.query("SELECT * FROM users WHERE id = ?", 1)
 ```
 
 <Note>
 Named arguments are not supported yet.
 </Note>
-
-</CodeGroup>
 
 <Note>
 Batch execute and transaction are not supported yet.
