@@ -3,8 +3,6 @@ title: Reference
 description: libSQL Flutter / Dart Reference
 ---
 
-libSQL Flutter / Dart Reference
-
 The libSQL package for Flutter / Dart contains everything you need to work with Turso / libSQL and works flawlessly with all features, because it’s build on top libSQL Rust crate and `flutter_rust_bridge` package, allowing for seamless communication between Rust and Dart.
 
 ## Add the package to your project
@@ -136,12 +134,14 @@ libSQL supports the use of positional and named placeholders within SQL statemen
 ```dart Positional
 final statement = await client
 	.prepare("select * from customers where id = ?");
+
 await statement.query(positional: [1])
 ```
 
-```dart Positional
+```dart Named
 final statement = await client
 	.prepare("select * from customers where id = :id");
+
 await statement.query(named: {"id": 1})
 ```
 
@@ -184,12 +184,14 @@ Interactive transactions in SQLite ensure the consistency of a series of read an
 
 ```dart
 final tx = await client.transaction();
+
 await tx
 	.execute("update customers set name = 'John Noe' where id = 1");
 await tx
 	.execute("update customers set name = 'Jane Noe' where id = 2");
 print(await tx
 	.query("select * from customers where id = ?", positional: [1]));
+
 await tx.commit();
 ```
 
@@ -201,14 +203,17 @@ await tx.commit();
   on high-latency or busy databases.
 </Warning>
 
-## Attach
+## ATTACH
 
 You can attach multiple databases to the current connection using the `ATTACH` attachment:
 
 ```dart
 final tx = await client.transaction(behavior: LibsqlTransactionBehavior.readOnly);
+
 await tx.execute("ATTACH "<database-id>" AS attached");
+
 print(await tx.execute("SELECT * FROM attached.customers"));
+
 await tx.commit();
 ```
 
@@ -217,4 +222,3 @@ await tx.commit();
   with the permission to attach a database &mdash; [learn
   more](/features/attach-database)
 </Info>
-````
