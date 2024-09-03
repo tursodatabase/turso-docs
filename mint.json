@@ -247,114 +247,122 @@
     },
     {
       "group": "Client SDKs",
-      "pages": ["sdk/introduction", "sdk/authentication"]
+      "pages": [
+        "sdk/introduction",
+        "sdk/authentication",
+        {
+          "group": "libSQL Remote Protocol",
+          "pages": ["sdk/http/quickstart", "sdk/http/reference"]
+        }
+      ]
     },
     {
-      "group": "TypeScript / JS",
+      "group": "Official SDKs",
       "pages": [
-        "sdk/ts/quickstart",
-        "sdk/ts/reference",
-        "sdk/ts/examples",
         {
-          "group": "Guides",
+          "group": "TypeScript / JS",
           "pages": [
-            "sdk/ts/guides/nextjs",
-            "sdk/ts/guides/remix",
-            "sdk/ts/guides/astro",
-            "sdk/ts/guides/nuxt",
-            "sdk/ts/guides/qwik",
-            "sdk/ts/guides/sveltekit",
-            "sdk/ts/guides/quasar",
-            "sdk/ts/guides/elysia",
-            "sdk/ts/guides/hono"
+            "sdk/ts/quickstart",
+            "sdk/ts/reference",
+            "sdk/ts/examples",
+            {
+              "group": "Guides",
+              "pages": [
+                "sdk/ts/guides/nextjs",
+                "sdk/ts/guides/remix",
+                "sdk/ts/guides/astro",
+                "sdk/ts/guides/nuxt",
+                "sdk/ts/guides/qwik",
+                "sdk/ts/guides/sveltekit",
+                "sdk/ts/guides/quasar",
+                "sdk/ts/guides/elysia",
+                "sdk/ts/guides/hono"
+              ]
+            },
+            {
+              "group": "ORMs",
+              "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+            },
+            {
+              "group": "Integrations",
+              "pages": ["sdk/ts/integrations/sentry"]
+            }
           ]
         },
         {
-          "group": "ORMs",
-          "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+          "group": "Rust",
+          "pages": [
+            "sdk/rust/quickstart",
+            "sdk/rust/reference",
+            "sdk/rust/examples",
+            {
+              "group": "Guides",
+              "pages": [
+                "sdk/rust/guides/actix",
+                "sdk/rust/guides/axum",
+                "sdk/rust/guides/rocket",
+                "sdk/rust/guides/tauri"
+              ]
+            }
+          ]
         },
         {
-          "group": "Integrations",
-          "pages": ["sdk/ts/integrations/sentry"]
-        }
-      ]
-    },
-    {
-      "group": "Rust",
-      "pages": [
-        "sdk/rust/quickstart",
-        "sdk/rust/reference",
-        "sdk/rust/examples",
+          "group": "Go",
+          "pages": ["sdk/go/quickstart", "sdk/go/reference", "sdk/go/examples"]
+        },
         {
-          "group": "Guides",
+          "group": "Python",
           "pages": [
-            "sdk/rust/guides/actix",
-            "sdk/rust/guides/axum",
-            "sdk/rust/guides/rocket",
-            "sdk/rust/guides/tauri"
+            "sdk/python/quickstart",
+            "sdk/python/reference",
+            "sdk/python/examples",
+            {
+              "group": "Guides",
+              "pages": ["sdk/python/guides/flask"]
+            },
+            {
+              "group": "ORMs",
+              "pages": ["sdk/python/orm/sqlalchemy"]
+            }
           ]
         }
       ]
     },
+
     {
-      "group": "Go",
-      "pages": ["sdk/go/quickstart", "sdk/go/reference", "sdk/go/examples"]
-    },
-    {
-      "group": "Python",
+      "group": "Community SDKs",
       "pages": [
-        "sdk/python/quickstart",
-        "sdk/python/reference",
-        "sdk/python/examples",
         {
-          "group": "Guides",
-          "pages": ["sdk/python/guides/flask"]
+          "group": "PHP",
+          "pages": [
+            "sdk/php/quickstart",
+            "sdk/php/reference",
+            "sdk/php/examples",
+            {
+              "group": "Guides",
+              "pages": ["sdk/php/guides/laravel"]
+            },
+            {
+              "group": "ORMs",
+              "pages": ["sdk/php/orm/doctrine-dbal"]
+            }
+          ]
         },
         {
-          "group": "ORMs",
-          "pages": ["sdk/python/orm/sqlalchemy"]
+          "group": "Flutter / Dart",
+          "pages": [
+            "sdk/flutter/quickstart",
+            "sdk/flutter/reference",
+            "sdk/flutter/examples",
+            {
+              "group": "Integrations",
+              "pages": ["sdk/flutter/integrations/drift"]
+            }
+          ]
         }
       ]
     },
-    {
-      "group": "PHP",
-      "pages": [
-        "sdk/php/quickstart",
-        "sdk/php/reference",
-        "sdk/php/examples",
-        {
-          "group": "Guides",
-          "pages": ["sdk/php/guides/laravel"]
-        },
-        {
-          "group": "ORMs",
-          "pages": ["sdk/php/orm/doctrine-dbal"]
-        }
-      ]
-    },
-    {
-      "group": "Flutter/Dart",
-      "pages": [
-        "sdk/flutter/quickstart",
-        "sdk/flutter/reference",
-        "sdk/flutter/examples",
-        {
-          "group": "Integrations",
-          "pages": ["sdk/flutter/integrations/drift"]
-        }
-      ]
-    },
-    {
-      "group": "HTTP",
-      "pages": [
-        "sdk/http/quickstart",
-        "sdk/http/reference",
-        {
-          "group": "Guides",
-          "pages": ["sdk/http/guides/flutter"]
-        }
-      ]
-    },
+
     {
       "group": "API",
       "pages": [
@@ -763,6 +771,10 @@
     {
       "source": "/cli/group/wakeup",
       "destination": "/cli/group/unarchive"
+    },
+    {
+      "source": "/sdk/http/guides/flutter",
+      "destination": "/sdk/flutter"
     }
   ],
   "analytics": {
