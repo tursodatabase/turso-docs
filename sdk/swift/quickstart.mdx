@@ -3,3 +3,132 @@ title: Turso Quickstart (Swift)
 sidebarTitle: Quickstart
 description: Get started with Turso and Swift using the libSQL client in a few simple steps.
 ---
+
+In this Rust quickstart we will learn how to:
+
+- Retrieve database credentials
+- Install the libSQL package
+- Connect to a local or remote Turso database
+- Execute a query using SQL
+- Sync changes to local database (optional)
+
+<Steps>
+  <Step title="Retrieve database credentials">
+
+    You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+
+    <Snippet file="retrieve-database-credentials.mdx" />
+
+    <Info>You will want to store these as environment variables.</Info>
+
+  </Step>
+
+  <Step title="Install">
+
+    First begin by adding `libsql` as a package dependency in XCode using this repo:
+    <https://github.com/tursodatabase/libsql-swift>
+
+    Or add it to your SwiftPM dependencies:
+
+    ```swift
+    import PackageDescription
+
+    let package = Package(
+        // ...
+        dependencies: [
+            .package(url: "https://github.com/tursodatabase/libsql-swift", from: "0.1.0"),
+        ],
+        // ...
+    )
+    ```
+
+  </Step>
+
+  <Step title="Connect">
+
+You must first create a `Database` object and then open a `Connection` to it:
+
+<AccordionGroup>
+  <Accordion title="Embedded Replicas">
+
+```swift
+import Libsql;
+
+let db = try Libsql.Database(
+    path: "./local.db",
+    url: <LIBSQL_URL>,
+    authToken: <LIBSQL_AUTH_TOKEN>
+)
+
+let conn = try db.connect();
+```
+
+  </Accordion>
+  <Accordion title="Local only">
+
+```swift
+import Libsql;
+
+let db = try Libsql.Database(
+    path: "./local.db",
+)
+
+let conn = try db.connect();
+```
+
+  </Accordion>
+  <Accordion title="Remote only">
+
+```swift
+import Libsql;
+
+let db = try Libsql.Database(
+    url: <LIBSQL_URL>,
+    authToken: <LIBSQL_AUTH_TOKEN>
+)
+
+let conn = try db.connect();
+```
+
+  </Accordion>
+</AccordionGroup>
+
+  </Step>
+
+  <Step title="Execute">
+
+You can execute a SQL query against your existing database by calling `execute()`:
+
+```swift
+try conn.execute("SELECT * FROM users");
+```
+
+If you need to use placeholders for values, you can do that:
+
+<CodeGroup>
+
+```rust Positional
+try conn.execute("SELECT * FROM users WHERE id = ?", 1);
+```
+
+<Note>
+Named arguments are not supported yet.
+</Note>
+
+</CodeGroup>
+
+  </Step>
+
+  <Step title="Sync (Embedded Replicas only)">
+
+When using embedded replicas you should call `sync()` on the database type to
+sync your local database with the primary database, unless you are using
+`sync_interval` (though there is no issue with calling `sync` with
+`sync_interval` enabled):
+
+```rust
+try db.sync();
+```
+
+  </Step>
+</Steps>
