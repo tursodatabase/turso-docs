@@ -333,6 +333,18 @@
       ]
     },
     {
+      "group": "Flutter/Dart",
+      "pages": [
+        "sdk/flutter/quickstart",
+        "sdk/flutter/reference",
+        "sdk/flutter/examples",
+        {
+          "group": "Integrations",
+          "pages": ["sdk/flutter/integrations/drift"]
+        }
+      ]
+    },
+    {
       "group": "HTTP",
       "pages": [
         "sdk/http/quickstart",
