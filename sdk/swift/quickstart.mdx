@@ -36,7 +36,7 @@ In this Swift quickstart we will learn how to:
     let package = Package(
         // ...
         dependencies: [
-            .package(url: "https://github.com/tursodatabase/libsql-swift", from: "0.1.0"),
+            .package(url: "https://github.com/tursodatabase/libsql-swift", from: "0.1.1"),
         ],
         // ...
     )
@@ -97,18 +97,23 @@ let conn = try db.connect()
 
   <Step title="Execute">
 
-You can execute a SQL query against your existing database by calling `execute()`:
+You can execute a SQL query against your existing database by calling `query()`,
+or `execute()` when you expect the query to not yield any rows:
 
 ```swift
-try conn.execute("SELECT * FROM users")
+let rows = try conn.query("SELECT * FROM users")
 ```
 
 If you need to use placeholders for values, you can do that:
 
 <CodeGroup>
 
-```swift Positional
-try conn.execute("SELECT * FROM users WHERE id = ?", 1)
+```swift Positional Query
+try conn.query("SELECT * FROM users WHERE id = ?", 1)
+```
+
+```swift Positional Insert
+try conn.execute("INSERT INTO users (id) VALUES (?)", 1)
 ```
 
 <Note>

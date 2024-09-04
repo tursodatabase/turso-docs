@@ -2,8 +2,6 @@
 title: Turso Reference (Swift)
 ---
 
-The libSQL Rust crate contains everything you need to work with Turso and works flawlessly with popular async runtimes like `tokio`.
-
 ## Installing
 
 First begin by adding `libsql` as a package dependency in XCode using this repo:
@@ -17,7 +15,7 @@ import PackageDescription
 let package = Package(
     // ...
     dependencies: [
-        .package(url: "https://github.com/tursodatabase/libsql-swift", from: "0.1.0"),
+        .package(url: "https://github.com/tursodatabase/libsql-swift", from: "0.1.1"),
     ],
     // ...
 )
@@ -25,7 +23,9 @@ let package = Package(
 
 ## In-Memory Databases
 
-libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't require persistence:
+libSQL supports connecting to [in-memory
+databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't
+require persistence:
 
 ```swift
 import Libsql
@@ -36,7 +36,7 @@ let conn = try db.connect()
 
 ## Local Development
 
-You can work locally using an SQLite file using `new_local`:
+You can work locally using an SQLite file:
 
 ```swift
 import Libsql
@@ -47,7 +47,8 @@ let conn = try db.connect()
 
 ## Embedded Replicas
 
-You can work with embedded replicas using `new_remote_replica` that can sync from the remote URL and delegate writes to the remote primary database:
+You can work with embedded replicas that can sync from the remote URL and
+delegate writes to the remote primary database:
 
 ```swift
 import Libsql
