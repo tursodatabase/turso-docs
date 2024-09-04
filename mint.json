@@ -1,5 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
+  "theme": "prism",
   "name": "Turso",
   "logo": {
     "dark": "/logo/turso-dark.svg",
@@ -83,8 +84,7 @@
         "data-and-connections",
         "local-development",
         "extensions",
-        "libsql",
-        "guides/connecting-a-gui"
+        "libsql"
       ]
     },
     {
@@ -771,6 +771,10 @@
     {
       "source": "/cli/group/wakeup",
       "destination": "/cli/group/unarchive"
+    },
+    {
+      "source": "/guides/connecting-a-gui",
+      "destination": "/local-development#connecting-a-gui"
     },
     {
       "source": "/sdk/http/guides/flutter",
