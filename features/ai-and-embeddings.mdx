@@ -7,52 +7,52 @@ Turso and libSQL enables vector search capability without an extension.
 
 <Snippet file="technical-preview-banner.mdx" />
 
-## Hot it works
+## How it works
 
-- You create a table with one or more vector columns (e.g. `FLOAT32`)
-- You provide vector values in binary format or convert text representation to binary with the appropriate conversion function (e.g. `vector32(...)`)
-- You can calculate vectors similarity between vectors in the table or from the query itself with dedicated vector functions (e.g. `vector_distance_cos`)
-- You can create special vector index in order to speed up nearest neighbors queries (use `libsql_vector_idx(column)` expression in the `CREATE INDEX` statement to create vector index)
-- You can query index with special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions)
+- Create a table with one or more vector columns (e.g. `FLOAT32`)
+- Provide vector values in binary format or convert text representation to binary using the appropriate conversion function (e.g. `vector32(...)`)
+- Calculate vector similarity between vectors in the table or from the query itself using dedicated vector functions (e.g. `vector_distance_cos`)
+- Create a special vector index to speed up nearest neighbors queries (use the `libsql_vector_idx(column)` expression in the `CREATE INDEX` statement to create vector index)
+- Query the index with the special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions)
 
 # Vectors
 
 ### Types
 
-LibSQL uses native SQLite BLOB [storage class](https://www.sqlite.org/datatype3.html#storage_classes_and_datatypes) for vector columns. In order to align with SQLite [affinity rules](https://www.sqlite.org/datatype3.html#determination_of_column_affinity) all type names have 2 alternatives: one which is easy to type and another with `_BLOB` suffix which is consistent with affinity rules.
+LibSQL uses the native SQLite BLOB [storage class](https://www.sqlite.org/datatype3.html#storage_classes_and_datatypes) for vector columns. To align with SQLite [affinity rules](https://www.sqlite.org/datatype3.html#determination_of_column_affinity), all type names have two alternatives: one that is easy to type and another with a _BLOB suffix that is consistent with affinity rules.
 
 <Info>
-We suggest library authors to use type names with `_BLOB` suffix in order to make result more generic and universal. For the regular application, developer can choose any alternative he like as type name only plays a role of **hint** for SQLite and external extensions.
+We suggest library authors use type names with the `_BLOB` suffix to make results more generic and universal. For regular applications, developers can choose either alternative, as the type name only serves as a **hint** for SQLite and external extensions.
 </Info>
 
 <Info>
-As LibSQL do not introduce new storage class -- all metadata about vector also encoded in the `BLOB` itself. This comes at the price of few bytes per every row, but simplify design of the feature a lot.
+As LibSQL does not introduce a new storage class, all metadata about vectors is also encoded in the `BLOB` itself. This comes at the cost of a few bytes per row but greatly simplifies the design of the feature.
 </Info>
 
-The table below lists 6 vector types supported by LibSQL at the moment. Types are listed from more precise and more storage heavy to more compact but less precise alternatives (amount of dimensions in vector $D$ used to esimate storage requirements for single vector).
+The table below lists six vector types currently supported by LibSQL. Types are listed from more precise and storage-heavy to more compact but less precise alternatives (the number of dimensions in vector $D$ is used to estimate storage requirements for a single vector).
  
 | Type name                  | Storage (bytes)    | Description |
 | -------------------------- | ------------------ | ----------- |
-| `FLOAT64` \| `F64_BLOB`     | $8D + 1$           | implementation of [IEEE 754 double precision format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) for 64-bit floating point numbers |
-| `FLOAT32` \| `F32_BLOB`     | $4D$               | implementation of [IEEE 754 single precision format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format) for 32-bit floating point numbers |
-| `FLOAT16` \| `F16_BLOB`     | $2D + 1$           | implementation of [IEEE 754-2008 half precision format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format) for 16-bit floating point numbers |
-| `FLOATB16` \| `FB16_BLOB`   | $2D + 1$           | implementation of [bfloat16 format](https://en.wikipedia.org/wiki/Bfloat16_floating-point_format) for 16-bit floating point numbers |
+| `FLOAT64` \| `F64_BLOB`     | $8D + 1$           | Implementation of [IEEE 754 double precision format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) for 64-bit floating point numbers |
+| `FLOAT32` \| `F32_BLOB`     | $4D$               | Implementation of [IEEE 754 single precision format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format) for 32-bit floating point numbers |
+| `FLOAT16` \| `F16_BLOB`     | $2D + 1$           | Implementation of [IEEE 754-2008 half precision format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format) for 16-bit floating point numbers |
+| `FLOATB16` \| `FB16_BLOB`   | $2D + 1$           | Implementation of [bfloat16 format](https://en.wikipedia.org/wiki/Bfloat16_floating-point_format) for 16-bit floating point numbers |
 | `FLOAT8` \| `F8_BLOB`       | $D + 14$           | LibSQL specific implementation which compresses each vector component to single `u8` byte `b` and reconstruct value from it using simple transformation: $\texttt{shift} + \texttt{alpha} \cdot b$ |
-| `FLOAT1BIT` \| `F1BIT_BLOB` | $\lceil \frac{D}{8} \rceil + 3$ | LibSQL specific implementation which compresses each vector component down to 1-bit and pack multiple components into single machine word - thus achieving very compact representation |
+| `FLOAT1BIT` \| `F1BIT_BLOB` | $\lceil \frac{D}{8} \rceil + 3$ | LibSQL-specific implementation which compresses each vector component down to 1-bit and packs multiple components into a single machine word, achieving a very compact representation |
 
 <Info>
-For most applications `FLOAT32` type should be a good starting point, but you may want to explore more compact options if your table has huge amount of rows with vectors.
+For most applications, the `FLOAT32` type should be a good starting point, but you may want to explore more compact options if your table has a large number of rows with vectors.
 </Info>
 
 <Info>
-While `FLOAT16` and `FLOATB16` uses same amount of storage provides different tradeoffs between speed and accuracy. Genearally, operations over `bfloat16` are faster but this come in exchange to lower precision.
+While `FLOAT16` and `FLOATB16` use the same amount of storage, they provide different trade-offs between speed and accuracy. Generally, operations over `bfloat16` are faster but come at the expense of lower precision.
 </Info>
 
 ### Functions
 
-In order to work with vectors LibSQL provides several functions which operates on the vector domain. Every function understand vector in binary format aligned with 6 types described above or in text format as a single JSON array of numbers.
+To work with vectors, LibSQL provides several functions that operate in the vector domain. Each function understands vectors in binary format aligned with the six types described above or in text format as a single JSON array of numbers.
 
-At the moment LibSQL supports following functions:
+Currently, LibSQL supports the following functions:
 
 | Function name              | Description |
 | -------------------------- | ----------- |
@@ -126,25 +126,25 @@ ASC;
 
 </Steps>
 
-### Vector limitations
+### Vector Limitations
 
 - Euclidian distance is **not supported** for 1-bit `FLOAT1BIT` vectors
-- Only vectors with no more than 65536 dimensions can be operated by LibSQL
+- LibSQL can only operate on vectors with no more than 65536 dimensions
 
 ## Indexing
 
-Nearest neighbors (NN) queries are popular for different type of AI-powered applications ([RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) uses NN queries to extract relevant information, recommendation engine can recommend items based on embeddings similarity).
+Nearest neighbors (NN) queries are popular for various AI-powered applications ([RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) uses NN queries to extract relevant information, and recommendation engines can suggest items based on embedding similarity).
 
 LibSQL implements [DiskANN](https://turso.tech/blog/approximate-nearest-neighbor-search-with-diskann-in-libsql) algorithm in order to speed up approximate neareast neighbors queries for tables with vector colums. 
 
 <Note>
-DiskANN algorithm trades search accuracy for speed -- so it's expected that LibSQL query can return slightly suboptimal neighbors for tables with large amount of rows.
+The DiskANN algorithm trades search accuracy for speed, so LibSQL queries may return slightly suboptimal neighbors for tables with a large number of rows.
 </Note>
 
-### Vector index
-LibSQL introduces custom index type which helps to speed up neareast neighbors queries against fixed distance function (cosine similarity by default).
+### Vector Index
+LibSQL introduces a custom index type that helps speed up nearest neighbors queries against a fixed distance function (cosine similarity by default).
 
-From the syntax perspective, vector index differs from ordinary application-defined B-Tree indices in that it must wrap vector column into `libsql_vector_idx` marker function like this:
+From a syntax perspective, the vector index differs from ordinary application-defined B-Tree indices in that it must wrap the vector column into a `libsql_vector_idx` marker function like this
 
 ```sql
 CREATE INDEX movies_idx ON movies (libsql_vector_idx(embedding));
@@ -154,13 +154,13 @@ CREATE INDEX movies_idx ON movies (libsql_vector_idx(embedding));
 Vector index works only for column with one of the vector types described above
 </Note>
 
-Vector index is fully integrated into LibSQL core -- so it inherits all operations and most features from ordinary indices:
+The vector index is fully integrated into the LibSQL core, so it inherits all operations and most features from ordinary indices:
 
-- Index created for table with some data will be **automatically** populated with these data
+- An index created for a table with existing data will be automatically populated with this data
 - All updates to the base table will be **automatically** reflected in the index
 - You can rebuild index from scratch using `REINDEX movies_idx` command
-- You can drop index with `DROP movies_idx` command
-- You can create [partial](https://www.sqlite.org/partialindex.html) vector index with custom filtering rule:
+- You can drop index with `DROP INDEX movies_idx` command
+- You can create [partial](https://www.sqlite.org/partialindex.html) vector index with a custom filtering rule:
 ```sql
 CREATE INDEX movies_idx ON movies (libsql_vector_idx(embedding)) 
 WHERE year >= 2000;
