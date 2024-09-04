@@ -83,8 +83,7 @@
         "data-and-connections",
         "local-development",
         "extensions",
-        "libsql",
-        "guides/connecting-a-gui"
+        "libsql"
       ]
     },
     {
@@ -751,6 +750,10 @@
     {
       "source": "/cli/group/wakeup",
       "destination": "/cli/group/unarchive"
+    },
+    {
+      "source": "/guides/connecting-a-gui",
+      "destination": "/local-development#connecting-a-gui"
     }
   ],
   "analytics": {
