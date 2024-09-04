@@ -19,7 +19,7 @@ Turso and libSQL enables vector search capability without an extension.
 
 ### Types
 
-LibSQL uses the native SQLite BLOB [storage class](https://www.sqlite.org/datatype3.html#storage_classes_and_datatypes) for vector columns. To align with SQLite [affinity rules](https://www.sqlite.org/datatype3.html#determination_of_column_affinity), all type names have two alternatives: one that is easy to type and another with a _BLOB suffix that is consistent with affinity rules.
+LibSQL uses the native SQLite BLOB [storage class](https://www.sqlite.org/datatype3.html#storage_classes_and_datatypes) for vector columns. To align with SQLite [affinity rules](https://www.sqlite.org/datatype3.html#determination_of_column_affinity), all type names have two alternatives: one that is easy to type and another with a `_BLOB` suffix that is consistent with affinity rules.
 
 <Info>
 We suggest library authors use type names with the `_BLOB` suffix to make results more generic and universal. For regular applications, developers can choose either alternative, as the type name only serves as a **hint** for SQLite and external extensions.
