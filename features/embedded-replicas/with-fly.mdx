@@ -16,77 +16,85 @@ Before you start, make sure you:
 
 <Steps>
 
-<Step title="Retrieve database credentials">
+  <Step title="Retrieve database credentials">
 
 You will need an existing database to continue. If you don't have one, [create one](/quickstart).
 
+{" "}
+
 <Snippet file="retrieve-database-credentials.mdx" />
+
+{" "}
 
 <Info>You will want to store these as environment variables.</Info>
 
-</Step>
+  </Step>
 
-<Step title="Get application code">
-    Fork and clone the following embedded replica project from GitHub locally:
+  <Step title="Launch with Fly">
 
-    <Card
-        title="My Expenses Tracker - (Elysia + Bun)"
-        icon="github"
-        href="https://github.com/tursodatabase/embedded-replicas-with-js"
-    >
-    See the full source code
-    </Card>
-
-    <Info>
-    You can use [Fly's dockerfile generation package](https://github.com/fly-apps/dockerfile-node#overview) to create a Dockerfile for your own project. Make sure that your image includes `ca-certificates` (or equivalent) to be able to sync.
-    </Info>
-
-</Step>
-
-<Step title="Launch your application on Fly">
-Run the following command from your project root directory to launch your application on fly:
-
-```sh
+```bash
 fly launch
-```
-
-Fly will give you the default configurations for your app which you are free to update.
-
-```sh
-Organization: Turso                         (fly launch defaults to the personal org)
-Name:         embedded-replicas-with-nodejs (derived from your directory name)
-Region:       Johannesburg, South Africa    (this is the fastest region for you)
-App Machines: shared-cpu-1x, 1GB RAM        (most apps need about 1GB of RAM)
-Postgres:     <none>                        (not requested)
-Redis:        <none>                        (not requested)
-Sentry:       false                         (not requested)
 ```
 
 On completion, you'll have Fly configuration file `fly.toml` added to your project.
 
-</Step>
+  </Step>
 
-<Step title="Add Secrets to Fly">
+  <Step title="Create a shared volume">
 
-Add the database and other credentials needed in your application as Fly secrets:
-
-```sh
-fly secrets set TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
-fly secrets set TURSO_AUTH_TOKEN=...
-fly secrets set LOCAL_DB=file:dbs/expenses.db
-fly secrets set HOSTNAME=0.0.0.0
-fly secrets set SECRET=...
-fly secrets set PORT=3000
+```bash
+fly volumes create libsql_data
 ```
 
-</Step>
+  </Step>
 
-<Step>
-Deploy your fly application.
+    <Step title="Mount the shared volume">
 
-```sh
+Update the `fly.toml` file to include your newly created volume:
+
+```toml
+[[mounts]]
+source = "libsql_data"
+destination = "/app/data"
+```
+
+    </Step>
+
+    <Step title="Add secrets to Fly">
+
+Make sure to add your Turso Sync URL and Auth Token to Fly.
+
+```bash
+fly secrets set TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
+fly secrets set TURSO_AUTH_TOKEN=...
+```
+
+    </Step>
+
+    <Step title="Configure the libSQL client">
+
+    <CodeGroup>
+
+    ```ts Node
+    import { createClient } from '@libsql/client';
+
+    const client = createClient({
+      file: '/app/data/libsql.db',
+      syncUrl: process.env.TURSO_DATABASE_URL,
+      syncToken: process.env.TURSO_AUTH_TOKEN,
+    });
+    ```
+
+    </CodeGroup>
+
+    </Step>
+
+    <Step title="Deploy your application">
+
+```bash
 fly deploy
 ```
 
-</Step>
+    </Step>
+
 </Steps>
