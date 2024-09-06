@@ -56,11 +56,12 @@ source = "libsql_data"
 destination = "/app/data"
 ```
 
-Then inside `Dockerfile`, update the line that begins `RUN apt-get update` to include `ca-certificates`:
+Then inside `Dockerfile`, make sure you install and update `ca-certificates`:
 
 ```dockerfile
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3 ca-certificates
+    apt-get install -y ca-certificates && \
+    update-ca-certificates
 ```
 
     </Step>
@@ -75,7 +76,7 @@ RUN apt-get update -qq && \
     import { createClient } from '@libsql/client';
 
     const client = createClient({
-      url: "file:./app/data/local.db",
+      url: "file:./data/local.db",
       syncUrl: process.env.TURSO_DATABASE_URL,
       syncToken: process.env.TURSO_AUTH_TOKEN,
     });
