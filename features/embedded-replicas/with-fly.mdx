@@ -16,31 +16,27 @@ Before you start, make sure you:
 
 <Steps>
 
-  <Step title="Retrieve database credentials">
+  <Step title="Locate your application">
 
-You will need an existing database to continue. If you don't have one, [create one](/quickstart).
-
-{" "}
-
-<Snippet file="retrieve-database-credentials.mdx" />
-
-{" "}
-
-<Info>You will want to store these as environment variables.</Info>
+You should have an application ready using your Turso database that you want to deploy to Fly.
 
   </Step>
 
   <Step title="Launch with Fly">
 
+Using the Fly CLI, launch it:
+
 ```bash
 fly launch
 ```
 
-On completion, you'll have Fly configuration file `fly.toml` added to your project.
+Your application will automatically deploy to Fly.
 
   </Step>
 
   <Step title="Create a shared volume">
+
+Now create a volume that will be used to store the embedded replica(s):
 
 ```bash
 fly volumes create libsql_data
@@ -48,9 +44,11 @@ fly volumes create libsql_data
 
   </Step>
 
-    <Step title="Mount the shared volume">
+    <Step title="Mount and configure volumes">
 
-Update the `fly.toml` file to include your newly created volume:
+The files `fly.toml` and `Dockerfile` created created when you launched previously.
+
+Update `fly.toml` this file to mount the new volume:
 
 ```toml
 [[mounts]]
@@ -58,15 +56,11 @@ source = "libsql_data"
 destination = "/app/data"
 ```
 
-    </Step>
+Then inside `Dockerfile`, update the line that begins `RUN apt-get update` to include `ca-certificates`:
 
-    <Step title="Add secrets to Fly">
-
-Make sure to add your Turso Sync URL and Auth Token to Fly.
-
-```bash
-fly secrets set TURSO_DATABASE_URL=libsql://[db-name]-[github-username].turso.io
-fly secrets set TURSO_AUTH_TOKEN=...
+```dockerfile
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3 ca-certificates
 ```
 
     </Step>
@@ -79,7 +73,7 @@ fly secrets set TURSO_AUTH_TOKEN=...
     import { createClient } from '@libsql/client';
 
     const client = createClient({
-      file: '/app/data/libsql.db',
+      url: "file:./app/data/local.db",
       syncUrl: process.env.TURSO_DATABASE_URL,
       syncToken: process.env.TURSO_AUTH_TOKEN,
     });
@@ -89,7 +83,7 @@ fly secrets set TURSO_AUTH_TOKEN=...
 
     </Step>
 
-    <Step title="Deploy your application">
+    <Step title="Deploy your updated app">
 
 ```bash
 fly deploy
