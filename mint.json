@@ -334,10 +334,6 @@
           "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
         },
         {
-          "group": "Java",
-          "pages": ["sdk/java/quickstart", "sdk/java/reference"]
-        },
-        {
           "group": "Swift",
           "pages": ["sdk/swift/quickstart", "sdk/swift/reference"]
         }
