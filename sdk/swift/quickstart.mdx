@@ -4,6 +4,8 @@ sidebarTitle: Quickstart
 description: Get started with Turso and Swift using the libSQL client in a few simple steps.
 ---
 
+<Snippet file="technical-preview-banner.mdx" />
+
 In this Swift quickstart we will learn how to:
 
 - Retrieve database credentials
@@ -19,14 +21,17 @@ In this Swift quickstart we will learn how to:
 
     <Snippet file="retrieve-database-credentials.mdx" />
 
-    <Info>You will want to store these as environment variables.</Info>
+    <Snippet file="mobile-secrets-warning.mdx" />
 
   </Step>
 
   <Step title="Install">
 
     First begin by adding `libsql` as a package dependency in XCode using this repo:
-    https://github.com/tursodatabase/libsql-swift
+
+    <Card title="libSQL Swift" href="https://github.com/tursodatabase/libsql-swift">
+      Build from source code
+    </Card>
 
     Or add it to your SwiftPM dependencies:
 
@@ -56,8 +61,8 @@ import Libsql
 
 let db = try Libsql.Database(
     path: "./local.db",
-    url: <LIBSQL_URL>,
-    authToken: <LIBSQL_AUTH_TOKEN>
+    url: "TURSO_DATABASE_URL",
+    authToken: "TURSO_AUTH_TOKEN"
 )
 
 let conn = try db.connect()
@@ -83,8 +88,8 @@ let conn = try db.connect()
 import Libsql
 
 let db = try Libsql.Database(
-    url: <LIBSQL_URL>,
-    authToken: <LIBSQL_AUTH_TOKEN>
+    url: "TURSO_DATABASE_URL",
+    authToken: "TURSO_AUTH_TOKEN"
 )
 
 let conn = try db.connect()

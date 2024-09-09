@@ -4,6 +4,8 @@ sidebarTitle: Quickstart
 description: Get started with Turso and Kotlin using the libSQL client in a few simple steps.
 ---
 
+<Snippet file="technical-preview-banner.mdx" />
+
 In this Kotlin quickstart we will learn how to:
 
 - Retrieve database credentials
@@ -19,7 +21,7 @@ In this Kotlin quickstart we will learn how to:
 
     <Snippet file="retrieve-database-credentials.mdx" />
 
-    <Info>You will want to store these as environment variables.</Info>
+    <Snippet file="mobile-secrets-warning.mdx" />
 
   </Step>
 
@@ -51,8 +53,8 @@ import tech.turso.libsql.Libsql
 
 val db = Libsql.open(
     path = "./replica.db",
-    url = <TURSO_URL>,
-    authToken = <TURSO_AUTH_TOKEN>,
+    url = "TURSO_DATABASE_URL",,
+    authToken = "TURSO_AUTH_TOKEN",
 )
 val conn = db.connect()
 ```
@@ -74,8 +76,8 @@ val conn = db.connect()
 import tech.turso.libsql.Libsql
 
 val db = Libsql.open(
-    url = <TURSO_URL> 
-    authToken = <TURSO_AUTH_TOKEN> 
+    url = "TURSO_DATABASE_URL",
+    authToken = "TURSO_AUTH_TOKEN",
 )
 
 val conn = db.connect()

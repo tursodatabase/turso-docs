@@ -1,18 +1,16 @@
 ---
-title: Turso Reference (Kotlin)
+title: Kotlin Reference
+sidebarTitle: Reference
+description: libSQL Kotlin Reference
 ---
 
----
-title: Turso Reference (Swift)
----
+<Snippet file="technical-preview-banner.mdx" />
 
 ## Installing
 
 Add libsql as a implementation dependency in Gradle:
 
-<Note>
-This will only work with the Android Gradle Plugin for now.
-</Note>
+<Note>This will only work with the Android Gradle Plugin for now.</Note>
 
 ```kotlin
 dependencies {
@@ -115,7 +113,7 @@ db.connect().use {
 }
 ```
 
-```kotlin Named 
+```kotlin Named
 db.connect().use {
     it.query("SELECT * FROM users WHERE id = :id", mapOf(":id" to 1))
 }

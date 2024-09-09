@@ -14,6 +14,10 @@
     "anchors": {
       "from": "#0F4F62",
       "to": "#4ff8d2"
+    },
+    "background": {
+      "dark": "#121B22",
+      "light": "#FFFFFF"
     }
   },
   "modeToggle": {
@@ -81,7 +85,6 @@
         "introduction",
         "quickstart",
         "concepts",
-        "data-and-connections",
         "local-development",
         "extensions",
         "libsql"
@@ -118,7 +121,7 @@
     },
     {
       "group": "Help",
-      "pages": ["support", "help/usage-and-billing"]
+      "pages": ["support", "help/usage-and-billing", "data-and-connections"]
     },
     {
       "group": "Turso CLI",
