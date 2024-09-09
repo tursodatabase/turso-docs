@@ -4,6 +4,12 @@ sidebarTitle: Quickstart
 description: Get started with Turso and PHP using the libSQL client in a few simple steps.
 ---
 
+<Note>
+
+This SDK is community maintained and may not be officially supported by Turso, or up to date with the latest features. Join the `#libsql-php` channel [on Discord](https://discord.gg/turso) for help and feedback.
+
+</Note>
+
 In this PHP quickstart we will learn how to:
 
 - Install libSQL Native Extension for PHP **(Required)**
@@ -19,9 +25,13 @@ In this PHP quickstart we will learn how to:
   </Step>
 
   <Step title="Retrieve database credentials">
-    You will need an existing database to continue. If you don't have one, [create one](/quickstart).
+    You will need an existing database to continue. If you don't have one, [create
+    one](/quickstart).
+
     <Snippet file="retrieve-database-credentials.mdx" />
+
     <Info>You will want to store these as environment variables.</Info>
+
   </Step>
 
   <Step title="Connect">
@@ -100,13 +110,13 @@ In this PHP quickstart we will learn how to:
 
     ```php Positional
     <?php
-    
+
     $db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
     ```
 
     ```php Named
     <?php
-    
+
     $db->query("SELECT * FROM users WHERE id = :id", [":id" => 1])->fetchArray();
     ```
 
@@ -120,7 +130,7 @@ In this PHP quickstart we will learn how to:
 
     ```php
     <?php
-    
+
     $db->sync();
     ```
 
