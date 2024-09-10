@@ -68,80 +68,32 @@ Extensions are experimental. [Join us on Discord](https://discord.gg/turso) to a
 
 </Warning>
 
-The extensions **enabled by default** in all databases are:
-
-<CardGroup>
-  <Card title="JSON" href="https://www.sqlite.org/json1.html">
-    Work with JSON data in SQLite.
-  </Card>
-  <Card title="Full-Text Search" href="https://www.sqlite.org/fts5.html">
-    Full-text search and indexing.
-  </Card>
-  <Card title="R*Tree" href="https://www.sqlite.org/rtree.html">
-    Indexing and querying spatial data.
-  </Card>
-</CardGroup>
-
-You can enable the following extensions when creating a new database using the [CLI](/cli) or [API](/api-reference/databases):
-
 <Info>
   If you're looking to enable vector extensions, you should instead consider
   using the native [libSQL vector datatype](/features/ai-and-embeddings).
 </Info>
 
-<CardGroup>
-  <Card title="sqlite-vec" href="https://github.com/asg017/sqlite-vec">
-    The Vector Search successor to `sqlite-vss`.
-  </Card>
-  <Card
-    title="SQLean Crypto"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md"
-  >
-    Hashing, message digest, encoding, and decoding.
-  </Card>
-  <Card
-    title="SQLean Fuzzy"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md"
-  >
-    Fuzzy string matching and phonetics. A fork of Spellfix1 with improvements.
-  </Card>
-  <Card
-    title="SQLean Math"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/math.md"
-  >
-    Advanced mathematical calculations.
-  </Card>
-  <Card
-    title="SQLean Regexp"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/regexp.md"
-  >
-    Regular expressions with SQLite.
-  </Card>
-  <Card
-    title="SQLean Stats"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/stats.md"
-  >
-    Common statistical functions with SQLite.
-  </Card>
-  <Card
-    title="SQLean Text"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/text.md"
-  >
-    String manipulation (reverse, split) with SQLite.
-  </Card>
-  <Card
-    title="SQLean Unicode"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/text.md"
-  >
-    Case-insensitive string comparison for Unicode strings.
-  </Card>
-  <Card
-    title="SQLean UUID"
-    href="https://github.com/nalgeon/sqlean/blob/main/docs/uuid.md"
-  >
-    Limited support for RFC 4122 compliant UUIDs.
-  </Card>
-</CardGroup>
+The extensions **enabled by default** in all databases are:
+
+| Extension                                    | Description                         |
+| -------------------------------------------- | ----------------------------------- |
+| [JSON](https://www.sqlite.org/json1.html)    | Work with JSON data in SQLite.      |
+| [FTS5](https://www.sqlite.org/fts5.html)     | Full-text search and indexing.      |
+| [R\*Tree](https://www.sqlite.org/rtree.html) | Indexing and querying spatial data. |
+
+You can enable the following extensions when creating a new database using the [CLI](/cli) or [API](/api-reference/databases):
+
+| Extension                                                                     | Version | Description                                                                 |
+| ----------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- |
+| [sqlite-vec](https://github.com/asg017/sqlite-vec)                            | 0.1.0   | The Vector Search successor to `sqlite-vss`.                                |
+| [SQLean Crypto](https://github.com/nalgeon/sqlean/blob/main/docs/crypto.md)   | 0.24.1  | Hashing, message digest, encoding, and decoding.                            |
+| [SQLean Fuzzy](https://github.com/nalgeon/sqlean/blob/main/docs/fuzzy.md)     | 0.24.1  | Fuzzy string matching and phonetics. A fork of Spellfix1 with improvements. |
+| [SQLean Math](https://github.com/nalgeon/sqlean/blob/main/docs/math.md)       | 0.24.1  | Advanced mathematical calculations.                                         |
+| [SQLean Regexp](https://github.com/nalgeon/sqlean/blob/main/docs/regexp.md)   | 0.24.1  | Regular expressions with SQLite.                                            |
+| [SQLean Stats](https://github.com/nalgeon/sqlean/blob/main/docs/stats.md)     | 0.24.1  | Common statistical functions with SQLite.                                   |
+| [SQLean Text](https://github.com/nalgeon/sqlean/blob/main/docs/text.md)       | 0.24.1  | String manipulation (reverse, split) with SQLite.                           |
+| [SQLean Unicode](https://github.com/nalgeon/sqlean/blob/main/docs/unicode.md) | 0.24.1  | Case-insensitive string comparison for Unicode strings.                     |
+| [SQLean UUID](https://github.com/nalgeon/sqlean/blob/main/docs/uuid.md)       | 0.24.1  | Limited support for RFC 4122 compliant UUIDs.                               |
 
 You can enable all extensions when creating a new database using the [CLI](/cli/db/create) or [API](/api-reference/databases/create):
 
