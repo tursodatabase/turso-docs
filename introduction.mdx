@@ -4,16 +4,19 @@ description: SQLite for Production. Powered by libSQL.
 sidebarTitle: Introduction
 ---
 
-Turso is a SQLite-compatible database built on [libSQL](/libsql), the Open Contribution fork of SQLite. It enables scaling to hundreds of thousands of databases per organization and supports replication to any location, including your own servers, for microsecond-latency access.
+<Frame>
+
+![Turso Quickstart](/images/turso-banner.png)
+
+</Frame>
 
 ## New to Turso?
 
-Start using Turso with your existing SQLite database, or create one with Turso.
+Turso is a SQLite-compatible database built on [libSQL](/libsql), the Open Contribution fork of SQLite.
 
 <CardGroup cols={2}>
   <Card
-    horizontal
-    title="Quickstart"
+    title="Get Started"
     icon={
       <svg
         width="25"
@@ -43,20 +46,79 @@ Start using Turso with your existing SQLite database, or create one with Turso.
     Create your first database
   </Card>
   <Card
-    horizontal
     title="Embedded Replicas"
+    icon={
+      <svg viewBox="0 0 216 216" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m25.3 114.3 15.9 48c1.5 4.5 5 8 9.5 9.5l48 15.9c5.3 1.8 11.2.4 15.2-3.6l76.7-76.7c3-3 4.6-7.1 4.3-11.4l-3.7-64c-.3-5.5-4.7-10-10.3-10.3l-64-3.7c-4.2-.2-8.4 1.3-11.4 4.3l-76.6 76.8c-4 4-5.4 9.9-3.6 15.2z"
+          fill="none"
+          stroke="#1ebca1"
+          stroke-miterlimit="10"
+          stroke-width="19.2"
+        />
+        <path
+          d="m119.2 82.2 6.5-1.5c2.9-.7 5.8 1.2 6.5 4.1.2.8.2 1.6 0 2.4l-1.5 6.5c-3.3 12.4-21.1 8.4-18.8-4.2.8-3.8 3.8-6.5 7.3-7.3z"
+          fill="#1ebca1"
+        />
+        <path
+          d="m21.1 191.8 99.8-99.8"
+          fill="none"
+          stroke="#1ebca1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="19.2"
+        />
+        <g fill="#1ebca1">
+          <path d="m141.8 142.4c-1.4 1.4-3.5 1.9-5.4 1.3l-13.3-4.4c-2-.7-4.3-.1-5.8 1.4l-8.9 8.9c-1.8 1.8-1.1 4.8 1.3 5.6l20.6 6.8c8.9 2.9 18.4.6 25-5.9" />
+          <path d="m107 177.2c-1.4 1.4-3.5 1.9-5.4 1.3l-14.6-4.8c-1.2-.4-2.5 0-3.4.8l-9.9 9.9c-1.8 1.8-1.1 4.8 1.3 5.6l20.6 6.8c8.9 2.9 18.4.6 25-5.9" />
+          <path d="m175.2 109c-1.4 1.4-3.5 1.9-5.4 1.3l-13.3-4.4c-2-.7-4.3-.1-5.8 1.4l-8.9 8.9c-1.8 1.8-1.1 4.8 1.3 5.6l20.6 6.8c8.9 2.9 18.4.6 25-5.9" />
+        </g>
+      </svg>
+    }
     href="/features/embedded-replicas/introduction"
   >
     Get zero latency reads on-device
   </Card>
-  <Card horizontal title="AI & Embeddings" href="/features/ai-and-embeddings">
+  <Card
+    title="AI & Embeddings"
+    icon={
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1ebca1">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+      </svg>
+    }
+    href="/features/ai-and-embeddings"
+  >
     Vector is just another datatype
   </Card>
-  <Card horizontal title="Multi-DB Schemas" href="/features/multi-db-schemas">
+  <Card title="Multi-DB Schemas" icon="boxes-stacked" href="/features/multi-db-schemas">
     Share schema across multiple databases
   </Card>
-  <Card horizontal title="Edge Replicas" href="/features/data-edge">
+  <Card icon="globe" title="Edge Replicas" href="/features/data-edge">
     Get low latency with edge replicas
+  </Card>
+  <Card
+    icon={
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#1ebca1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+        />
+      </svg>
+    }
+    title="Backups and Recovery"
+    href="/features/point-in-time-recovery"
+
+>
+
+    Restore your database to any point in time
+
   </Card>
 </CardGroup>
 
@@ -71,11 +133,42 @@ Learn how to manage, distribute and integrate your databases with the CLI, API a
   <Card title="Turso Platform API" icon="database" href="/api-reference">
     Manage groups, databases, and API tokens with the Turso API.
   </Card>
-  <Card title="Client SDKs" icon="brackets-curly" href="/sdk">
+  <Card
+    title="Client SDKs"
+    icon={
+      <svg viewBox="0 0 216 216" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m25.3 114.3 15.9 48c1.5 4.5 5 8 9.5 9.5l48 15.9c5.3 1.8 11.2.4 15.2-3.6l76.7-76.7c3-3 4.6-7.1 4.3-11.4l-3.7-64c-.3-5.5-4.7-10-10.3-10.3l-64-3.7c-4.2-.2-8.4 1.3-11.4 4.3l-76.6 76.8c-4 4-5.4 9.9-3.6 15.2z"
+          fill="none"
+          stroke="#1ebca1"
+          stroke-miterlimit="10"
+          stroke-width="19.2"
+        />
+        <path
+          d="m119.2 82.2 6.5-1.5c2.9-.7 5.8 1.2 6.5 4.1.2.8.2 1.6 0 2.4l-1.5 6.5c-3.3 12.4-21.1 8.4-18.8-4.2.8-3.8 3.8-6.5 7.3-7.3z"
+          fill="#1ebca1"
+        />
+        <path
+          d="m21.1 191.8 99.8-99.8"
+          fill="none"
+          stroke="#1ebca1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="19.2"
+        />
+        <g fill="#1ebca1">
+          <path d="m141.8 142.4c-1.4 1.4-3.5 1.9-5.4 1.3l-13.3-4.4c-2-.7-4.3-.1-5.8 1.4l-8.9 8.9c-1.8 1.8-1.1 4.8 1.3 5.6l20.6 6.8c8.9 2.9 18.4.6 25-5.9" />
+          <path d="m107 177.2c-1.4 1.4-3.5 1.9-5.4 1.3l-14.6-4.8c-1.2-.4-2.5 0-3.4.8l-9.9 9.9c-1.8 1.8-1.1 4.8 1.3 5.6l20.6 6.8c8.9 2.9 18.4.6 25-5.9" />
+          <path d="m175.2 109c-1.4 1.4-3.5 1.9-5.4 1.3l-13.3-4.4c-2-.7-4.3-.1-5.8 1.4l-8.9 8.9c-1.8 1.8-1.1 4.8 1.3 5.6l20.6 6.8c8.9 2.9 18.4.6 25-5.9" />
+        </g>
+      </svg>
+    }
+    href="/sdk"
+  >
     Connect and integrate Turso into your application with one of our libSQL
     drivers.
   </Card>
-  <Card title="Tutorials" icon="code" href="https://turso.tech/blog">
+  <Card title="Tutorials" icon="newspaper" href="https://turso.tech/blog">
     Learn how to work with Turso and your favorite language or framework.
   </Card>
 </CardGroup>
@@ -88,12 +181,12 @@ Join the Turso community to ask questions, discuss best practices, and share tip
   <Card title="Discord" icon="discord" href="https://discord.gg/turso" />
   <Card
     title="GitHub"
-    icon="github"
+    icon="star"
     href="https://github.com/tursodatabase"
   ></Card>
   <Card
-    title="Twitter / X"
-    icon="twitter"
+    title="X (Twitter)"
+    icon="x-twitter"
     href="https://twitter.com/tursodatabase"
   ></Card>
 </CardGroup>

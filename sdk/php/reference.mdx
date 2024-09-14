@@ -25,31 +25,35 @@ $db = new LibSQL(":memory:");
 
 ## Local Development
 
-Establishing a connection to a local database is straightforward with LibSQL. You have 3 options:
+Establishing a connection to a local database is straightforward with libSQL. You have 3 options:
 
-   1. **Standard DSN Connection:** If you're using a DSN string, use the following format:
-      ```php
-      $db = new LibSQL("libsql:dbname=database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
-      ```
-        - This option utilizes a Data Source Name (DSN) string to specify the database location.
-        - The DSN format is `libsql:dbname=database.db`.
-        - Additional parameters include **connection flags** and an optional **encryption key**.
+1.  **Standard DSN Connection:** If you're using a DSN string, use the following format:
 
-   2. **Standard SQLite Connection:** For direct SQLite connections, simply provide the database file name:
-      ```php
-      $db = new LibSQL("database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
-      ```
-        - In this setup, the database filename alone is provided, without a DSN.
-        - The database file name is directly specified, e.g., `"database.db"`.
-        - Similar to the DSN connection, it also allows for setting **connection flags** and an optional **encryption key**.
+    ```php
+    $db = new LibSQL("libsql:dbname=database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
+    ```
 
-   3. **Standard LibSQL Connection:** Alternatively, you can specify the file protocol explicitly:
-      ```php
-      $db = new LibSQL("file:database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
-      ```
-        - This option resembles the DSN connection but uses the file protocol in the DSN string.
-        - The DSN string format is `"file:database.db"`.
-        - **Connection flags** and an **encryption key** can also be specified.
+    - This option utilizes a Data Source Name (DSN) string to specify the database location.
+    - The DSN format is `libsql:dbname=database.db`.
+    - Additional parameters include **connection flags** and an optional **encryption key**.
+
+2.  **Standard SQLite Connection:** For direct SQLite connections, simply provide the database file name:
+
+    ```php
+    $db = new LibSQL("database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
+    ```
+
+    - In this setup, the database filename alone is provided, without a DSN.
+    - The database file name is directly specified, e.g., `"database.db"`.
+    - Similar to the DSN connection, it also allows for setting **connection flags** and an optional **encryption key**.
+
+3.  **Standard libSQL Connection:** Alternatively, you can specify the file protocol explicitly:
+    ```php
+    $db = new LibSQL("file:database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
+    ```
+    - This option resembles the DSN connection but uses the file protocol in the DSN string.
+    - The DSN string format is `"file:database.db"`.
+    - **Connection flags** and an **encryption key** can also be specified.
 
 ## Remote Connection
 
@@ -78,11 +82,13 @@ $db = new LibSQL($config);
 <Expandable defaultOpen="true">
 
 <ResponseField name="url" type="string" required>
-  Specifies the local database path filename using relative path `/home/turso/app/database.db` remember the back-slash at the begining.
+  Specifies the local database path filename using relative path
+  `/home/turso/app/database.db` remember the back-slash at the begining.
 </ResponseField>
 
 <ResponseField name="authToken" type="string" required>
-  Authentication token for secure access. Generate from Get the database authentication token command
+  Authentication token for secure access. Generate from Get the database
+  authentication token command
 </ResponseField>
 
 <ResponseField name="syncUrl" type="string" required>
@@ -90,11 +96,13 @@ $db = new LibSQL($config);
 </ResponseField>
 
 <ResponseField name="syncInterval" type="integer">
-  Integer value representing synchronization interval in seconds (optional, default: `5`).
+  Integer value representing synchronization interval in seconds (optional,
+  default: `5`).
 </ResponseField>
 
 <ResponseField name="read_your_writes" type="boolean">
-  Boolean value indicating whether to read your writes (optional, default: `true`).
+  Boolean value indicating whether to read your writes (optional, default:
+  `true`).
 </ResponseField>
 
 <ResponseField name="encryptionKey" type="string">

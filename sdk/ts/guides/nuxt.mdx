@@ -22,7 +22,24 @@ Before you start, make sure you:
 
 <Step title="Configure database credentials">
 
-<Snippet file="retrieve-database-credentials.mdx" />
+Get the database URL:
+
+```bash
+turso db show --url <database-name>
+```
+
+Get the database authentication token:
+
+```bash
+turso db tokens create <database-name>
+```
+
+Assign credentials to the environment variables inside `.env`.
+
+```bash
+NUXT_TURSO_DATABASE_URL=
+NUXT_TURSO_AUTH_TOKEN=
+```
 
 </Step>
 
@@ -42,12 +59,12 @@ export default defineNuxtConfig({
 <Note>
   Make sure that names of the keys in the `runtimeConfig` object match the names
   of your environment variables. Read more about this
-  [here](https://nitro.unjs.io/guide/configuration#runtime-configuration).
+  [here](https://nuxt.com/docs/guide/going-further/runtime-config).
 </Note>
 
 </Step>
 
-<Step title="Configure LibSQL Client.">
+<Step title="Configure libSQL Client.">
 
 ```ts server/utils/turso.ts
 import { createClient } from "@libsql/client";
