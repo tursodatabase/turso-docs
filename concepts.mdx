@@ -44,14 +44,14 @@ All databases are part of a "group", dictating their primary storage location an
 
 ## Locations
 
-Turso optimizes data access with control over data storage and replication across global locations. Your databases form a [group](#groups) with a primary and optional replica locations, ensuring low latency. Turso handles synchronization automatically across its [data edge](/features/data-edge).
+Depending on your chosen cloud provider, Fly or AWS, you can deploy to a variety of locations. Your databases form a [group](#groups) with a primary and optional replica locations. Turso handles synchronization from the primary to replicas automatically across its [data edge](/features/data-edge).
 
 - **Primary**
   - All databases have a primary location (region) where data is stored, and can't be changed. You can configure the primary location for groups using the Turso CLI and Turso Platform API.
 - **Replicas**
   - Databases can be replicated to other regions closer to your users by adding more locations to the group your database belongs to.
 
-<Accordion title="Expand list of locations">
+<Accordion title="Fly locations">
 
 | Code  | Location                     |
 | ----- | ---------------------------- |
