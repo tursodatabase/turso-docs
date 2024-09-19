@@ -151,8 +151,16 @@ turso db shell parent-db "CREATE TABLE users (id INT PRIMARY KEY, name TEXT);"
 ## Things to know
 
 - Schema databases cannot be shared across groups or globally via an organization/account.
-- You can `INSERT` rows into the parent database that can be querified by the child database(s).
+- You can (but not recommended) `INSERT` rows into the parent database that can be queried by the child database(s).
   - Be aware of any constraints that may conflict with the child database(s).
 - You can't delete a parent database if it has one or more child databases.
-- You can't create or delete a database if there are any migrations running.
-  - Make sure any application querying the child databases handle any databases not yet updated with the schema.
+- When a migration is applied to the schema database:
+  - It's first run as a dry-run on the schema and all other associated databases.
+  - If successful, a migration job is created.
+  - Tasks are created for each database that references this schema.
+  - The migration is then applied to each referencing database.
+  - Finally, if all tasks succeed, the migration is applied to the schema database itself.
+  - You can't create or delete a database if there are any migrations running.
+- **During a migration, all databases are locked to write operations.**
+- Make sure any application querying the child databases handle any databases not yet updated with the schema.
+- You cannot apply schema changes to a child database directly. You must use the parent (schema) database.
