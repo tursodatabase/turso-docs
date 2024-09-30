@@ -111,6 +111,30 @@ $db = new LibSQL($config);
 
 </Expandable>
 
+## Load SQLite Extension
+
+You can load the SQLite Extension
+
+<CodeGroup>
+
+```php Load Single Extension
+$db = new LibSQL("database.db");
+$db->enableLoadExtension(true);
+$db->loadExtensions('/path/to/sqlite-extensions/sqlean/text.so');
+```
+
+```php Load Multiple Extensions
+$db = new LibSQL("database.db");
+$db->enableLoadExtension(true);
+$db->loadExtensions([
+  '/path/to/sqlite-extensions/sqlean/text.so',
+  '/path/to/sqlite-extensions/sqlean/math.so',
+  '/path/to/sqlite-extensions/sqlean/time.so'
+]);
+```
+
+</CodeGroup>
+
 ## Simple Query
 
 You can pass a string to `execute()` to invoke a SQL statement, as well as optional arguments:
@@ -131,7 +155,12 @@ $db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
 
 </CodeGroup>
 
-You can pass constant in `fetchArray` method: `LibSQL::LIBSQL_ASSOC`, `LibSQL::LIBSQL_NUM`, `LibSQL::LIBSQL_BOTH`, or `LibSQL::LIBSQL_ALL`, default is `LibSQL::LIBSQL_BOTH`.
+You can pass constant in `fetchArray` method: 
+- `LibSQL::LIBSQL_BOTH` &mdash; (default mode) fetch the result in both associative array and numerical array
+- `LibSQL::LIBSQL_LAZY` &mdash; fetch the result in associative array in lazy mode and iterate over a set of data without needing to build an array in memory
+- `LibSQL::LIBSQL_ASSOC` &mdash; fetch the result in associative array
+- `LibSQL::LIBSQL_NUM` &mdash; fetch the result in numerical array
+- `LibSQL::LIBSQL_ALL` &mdash; fetch result in standard libSQL HTTP results
 
 ## Prepared Statements
 
@@ -155,7 +184,12 @@ $stmt->query([1])->fetchArray();
 
 </CodeGroup>
 
-You can pass constant in `fetchArray` method: `LibSQL::LIBSQL_ASSOC`, `LibSQL::LIBSQL_NUM`, `LibSQL::LIBSQL_BOTH`, or `LibSQL::LIBSQL_ALL`, default is `LibSQL::LIBSQL_BOTH`.
+You can pass constant in `fetchArray` method:
+- `LibSQL::LIBSQL_BOTH` &mdash; (default mode) fetch the result in both associative array and numerical array
+- `LibSQL::LIBSQL_LAZY` &mdash; fetch the result in associative array in lazy mode and iterate over a set of data without needing to build an array in memory
+- `LibSQL::LIBSQL_ASSOC` &mdash; fetch the result in associative array
+- `LibSQL::LIBSQL_NUM` &mdash; fetch the result in numerical array
+- `LibSQL::LIBSQL_ALL` &mdash; fetch result in standard libSQL HTTP results
 
 ## Placeholders
 
