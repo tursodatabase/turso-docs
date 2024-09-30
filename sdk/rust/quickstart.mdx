@@ -43,11 +43,13 @@ You must first create a `Database` object and then open a `Connection` to it:
 ```rust
 use libsql::Builder;
 
-let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
-let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+let url = std::env::var("TURSO_DATABASE_URL").expect("TURSO_DATABASE_URL must be set");
+let token = std::env::var("TURSO_AUTH_TOKEN").expect("TURSO_AUTH_TOKEN must be set");
 
-let mut db = Builder::new_remote_replica("local.db", &url, &token).build().await.unwrap();
-let conn = db.connect().unwrap();
+let db = Builder::new_remote_replica("local.db", url, token)
+    .build()
+    .await?;
+let conn = db.connect()?;
 ```
 
   </Accordion>
@@ -57,7 +59,7 @@ let conn = db.connect().unwrap();
 use libsql::Builder;
 
 let db = Builder::new_local("local.db").build().await?;
-let conn = db.connect().unwrap();
+let conn = db.connect()?;
 ```
 
   </Accordion>
@@ -66,11 +68,13 @@ let conn = db.connect().unwrap();
 ```rust
 use libsql::Builder;
 
-let url = env::var("LIBSQL_URL").expect("LIBSQL_URL must be set");
-let token = env::var("LIBSQL_AUTH_TOKEN").unwrap_or_default();
+let url = std::env::var("TURSO_DATABASE_URL").expect("TURSO_DATABASE_URL must be set");
+let token = std::env::var("TURSO_AUTH_TOKEN").expect("TURSO_AUTH_TOKEN must be set");
 
-let db = Builder::new_remote(&url, &token).build().await?;
-let conn = db.connect().unwrap();
+let db = Builder::new_remote(url, token)
+    .build()
+    .await?;
+let conn = db.connect()?;
 ```
 
   </Accordion>
@@ -83,7 +87,7 @@ let conn = db.connect().unwrap();
 You can execute a SQL query against your existing database by calling `execute()`:
 
 ```rust
-conn.execute("SELECT * FROM users", ()).await.unwrap();
+conn.execute("SELECT * FROM users", ()).await?;
 ```
 
 If you need to use placeholders for values, you can do that:
@@ -100,15 +104,40 @@ conn.execute("INSERT INTO users (name) VALUES (:name)", libsql::named_params! { 
 
 </CodeGroup>
 
+To retrieve results from a query, you can use the `query()` method:
+
+```rust
+let mut rows = conn.query("SELECT * FROM users", ()).await?;
+
+while let Some(row) = rows.next().await? {
+    let id: i64 = row.get(0)?;
+    let name: String = row.get(1)?;
+    println!("User: {} - {}", id, name);
+}
+```
+
   </Step>
 
   <Step title="Sync (Embedded Replicas only)">
 
-When using embedded replicas you should call `sync()` on the database type to sync your local database with the primary database, unless you are using `periodic_sync` (though there is no issue with calling `sync` with `periodic_sync` enabled):
+When using embedded replicas you should call `sync()` on the database type to sync your local database with the primary database:
 
 ```rust
 db.sync().await.unwrap();
 ```
+
+You can also set up automatic periodic syncing when creating the database:
+
+```rust
+use std::time::Duration;
+
+let db = Builder::new_remote_replica("local.db", url, token)
+    .sync_interval(Duration::from_secs(60))
+    .build()
+    .await?;
+```
+
+This will automatically sync the database every 60 seconds.
 
   </Step>
 </Steps>
