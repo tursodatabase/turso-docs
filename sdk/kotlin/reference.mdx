@@ -27,7 +27,7 @@ require persistence:
 ```kotlin
 import tech.turso.libsql.Libsql
 
-val db = Libsql.open(":memory")
+val db = Libsql.open(":memory:")
 val conn = db.connect()
 ```
 
@@ -66,15 +66,6 @@ remote counterpart:
 ```kotlin
 db.sync() // Call sync manually to update local database (only for EmbeddedReplicaDatabase)
 ```
-
-<Info>
-
-If you require full control over how frames get from your instance of `sqld`
-(libSQL Server), you can do this using `new_local_replica` and `sync_frames`.
-Reach out to us [on Discord](https://discord.gg/turso) if you want to learn
-more.
-
-</Info>
 
 ## Simple query
 

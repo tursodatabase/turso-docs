@@ -102,13 +102,13 @@ If you need to use placeholders for values, you can do that:
 
 <CodeGroup>
 
-```rust Positional
+```kotlin Positional
 db.connect().use {
     it.query("SELECT * FROM users WHERE id = ?", 1)
 }
 ```
 
-```rust Named
+```kotlin Named
 db.connect().use {
     it.query("INSERT INTO users (name) VALUES (:name)", mapOf(":name" to "Iku"))
 }

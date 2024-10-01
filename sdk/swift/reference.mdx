@@ -77,18 +77,9 @@ The `sync` function allows you to sync manually the local database with the remo
 try db.sync() // Call sync manually to update local database
 ```
 
-<Info>
-
-If you require full control over how frames get from your instance of `sqld`
-(libSQL Server), you can do this using `new_local_replica` and `sync_frames`.
-Reach out to us [on Discord](https://discord.gg/turso) if you want to learn
-more.
-
-</Info>
-
 ### Sync Interval
 
-The `sync_interval` function allows you to set an interval for automatic
+The `syncInterval` parameter allows you to set an interval for automatic
 synchronization of the database in the background:
 
 ```swift
@@ -98,7 +89,7 @@ let db = try Libsql.Database(
     path: "./local.db",
     url: <LIBSQL_URL>,
     authToken: <LIBSQL_AUTH_TOKEN>,
-    sync_interval: 300 // Sync every 5 minutes
+    syncInterval: 300 // Sync every 3 seconds
 )
 
 let conn = try db.connect()
@@ -106,7 +97,7 @@ let conn = try db.connect()
 
 ### Read Your Own Writes
 
-The `read_your_writes` function configures the database connection to ensure
+The `readYourWrites` parameter configures the database connection to ensure
 that writes are immediately visible to subsequent read operations initiated by
 the same connection. This is **enabled by default**, and is particularly
 important in distributed systems to ensure consistency from the perspective of
@@ -121,7 +112,7 @@ let db = try Libsql.Database(
     path: "./local.db",
     url: <LIBSQL_URL>,
     authToken: <LIBSQL_AUTH_TOKEN>,
-    read_your_writes: false
+    readYourWrites: false
 )
 
 let conn = try db.connect()
@@ -135,7 +126,7 @@ optional arguments:
 <CodeGroup>
 
 ```swift Execute
-try conn.execute("INSERT INTO users VALUES (?)", 1)
+try conn.execute("INSERT INTO users VALUES (?)", [1])
 ```
 
 ```swift Query
@@ -143,18 +134,19 @@ try conn.query("SELECT * FROM users")
 ```
 
 ```swift Arguments
-try conn.query("SELECT * FROM users WHERE id = ?", 1)
+try conn.query("SELECT * FROM users WHERE id = ?", [1])
 ```
 
 </CodeGroup>
 
 ## Prepared Statements
 
-You can prepare a cached statement using `prepare()` and then execute it with `query()`:
+You can prepare a cached statement using `prepare()` and then execute it with
+`query()`:
 
 ```swift
 let stmt = try conn.prepare("SELECT * FROM users WHERE id = ?")
-stmt.bind(stmt)
+stmt.bind([1])
 stmt.query()
 ```
 
@@ -163,9 +155,10 @@ stmt.query()
 libSQL supports the use of positional and named placeholders within SQL statements:
 
 ```swift Positional
-try conn.query("SELECT * FROM users WHERE id = ?", 1)
+try conn.query("SELECT * FROM users WHERE id = ?", [1])
 ```
 
-<Note>Named arguments are not supported yet.</Note>
+```swift Named 
+try conn.query("SELECT * FROM users WHERE id = :id", [ ":id": 1 ])
+```
 
-<Note>Batch execute and transaction are not supported yet.</Note>
