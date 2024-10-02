@@ -24,7 +24,7 @@ const turso = createClient({
   token: "",
 });
 
-const response = await turso.databases.invalidateTokens("my-db");
+const response = await turso.databases.rotateTokens("my-db");
 ```
 
 </RequestExample>
