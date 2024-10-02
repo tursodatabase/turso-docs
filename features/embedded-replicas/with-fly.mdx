@@ -1,6 +1,6 @@
 ---
-title: Turso + Fly
-sidebarTitle:
+title: Embedded Replicas on Fly
+sidebarTitle: Turso + Fly
 description: Deploy a JavaScript app using [Turso embedded replicas](/features/embedded-replicas) to [Fly.io](https://www.fly.io/).
 ---
 
@@ -30,7 +30,7 @@ Using the Fly CLI, launch it:
 fly launch
 ```
 
-Your application will automatically deploy to Fly.
+Your application will automatically deploy to Fly, but we're not ready yet.
 
   </Step>
 
@@ -64,25 +64,28 @@ RUN apt-get update -qq && \
     update-ca-certificates
 ```
 
+Make sure to also add the following line after any `COPY` commands to copy the certificates:
+
+```dockerfile
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+```
+
     </Step>
 
     <Step title="Configure the libSQL client">
 
     You will want to change the `url` to point to a local file, and set the `syncUrl` to be your Turso database URL:
 
-    <CodeGroup>
+```ts
+import { createClient } from "@libsql/client";
 
-    ```ts Node
-    import { createClient } from '@libsql/client';
-
-    const client = createClient({
-      url: "file:./data/local.db",
-      syncUrl: process.env.TURSO_DATABASE_URL,
-      syncToken: process.env.TURSO_AUTH_TOKEN,
-    });
-    ```
-
-    </CodeGroup>
+const client = createClient({
+  url: "file:./local.db",
+  syncUrl: process.env.TURSO_DATABASE_URL,
+  syncToken: process.env.TURSO_AUTH_TOKEN,
+  syncInterval: 60000,
+});
+```
 
     </Step>
 
