@@ -175,4 +175,94 @@ pnpm run db:studio
 
 </Step>
 
+<Step title="Add Vector Support (Optional)">
+
+You can extend Drizzle to support Turso's native vector &mdash; [learn more](/features/ai-and-embeddings).
+
+Inside `db/schema.ts`, add the following:
+
+```ts
+import { sql } from "drizzle-orm";
+import { customType } from "drizzle-orm/sqlite-core";
+
+const float32Array = customType<{
+  data: number[];
+  config: { dimensions: number };
+  configRequired: true;
+  driverData: Buffer;
+}>({
+  dataType(config) {
+    return `F32_BLOB(${config.dimensions})`;
+  },
+  fromDriver(value: Buffer) {
+    return Array.from(new Float32Array(value.buffer));
+  },
+  toDriver(value: number[]) {
+    return sql`vector32(${JSON.stringify(value)})`;
+  },
+});
+```
+
+Now use the `float32Array` type in your schema wherever you want to store vectors:
+
+```ts
+import { sqliteTable } from "drizzle-orm/sqlite-core";
+
+export const vectorTable = sqliteTable("vector_table", {
+  id: integer("id").primaryKey(),
+  vector: float32Array("vector", { dimensions: 3 }),
+});
+```
+
+<Accordion title="Create an index">
+
+To create a vector index, you'll need to use raw SQL, as Drizzle doesn't have built-in support for vector indexes. You can do this using the `db.run()` method:
+
+```sql
+CREATE INDEX IF NOT EXISTS vector_index
+ON vector_table(vector)
+USING vector_cosine(3)
+```
+
+This creates a cosine similarity index on the `vector` column, assuming 3-dimensional vectors. Adjust the dimension as needed.
+
+</Accordion>
+
+You can now successfully store and query vectors in your database.
+
+```ts
+// Insertion
+await db
+  .insert(vectorTable)
+  .values([{ vector: sql`vector32(${JSON.stringify([1.1, 2.2, 3.3])})` }]);
+
+// Query with vector distance
+const res = await db
+  .select({
+    distance: sql<number>`vector_distance_cos(${vectorTable.vector}, vector32(${JSON.stringify([2.2, 3.3, 4.4])}))`,
+  })
+  .from(vectorTable);
+
+console.log(res);
+
+// Efficient nearest neighbor search using vector_top_k
+const topK = await db
+  .select({
+    id: sql`id`,
+    distance: sql`distance`,
+  })
+  .from(
+    sql`vector_top_k('your_index_name', vector32(${JSON.stringify([2.2, 3.3, 4.4])}), 5)`,
+  )
+  .leftJoin(vectorTable, sql`${vectorTable}.id = id`);
+
+console.log(topK);
+```
+
+<Note>
+  Remember to create appropriate indexes for efficient vector operations.
+</Note>
+
+</Step>
+
 </Steps>
