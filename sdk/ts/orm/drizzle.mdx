@@ -175,13 +175,19 @@ pnpm run db:studio
 
 </Step>
 
-<Step title="Add Vector Support (Optional)">
+</Steps>
+
+## Vector Embeddings
 
 You can extend Drizzle to support Turso's native vector &mdash; [learn more](/features/ai-and-embeddings).
 
+<Steps>
+
+<Step title="Define custom vector type">
+
 Inside `db/schema.ts`, add the following:
 
-```ts
+```typescript
 import { sql } from "drizzle-orm";
 import { customType } from "drizzle-orm/sqlite-core";
 
@@ -203,10 +209,14 @@ const float32Array = customType<{
 });
 ```
 
-Now use the `float32Array` type in your schema wherever you want to store vectors:
+</Step>
 
-```ts
-import { sqliteTable } from "drizzle-orm/sqlite-core";
+<Step title="Create a table with a vector column">
+
+Now where you define the schema, invoke `float32Array` to create a column that stores vectors:
+
+```typescript
+import { sqliteTable, integer } from "drizzle-orm/sqlite-core";
 
 export const vectorTable = sqliteTable("vector_table", {
   id: integer("id").primaryKey(),
@@ -214,29 +224,47 @@ export const vectorTable = sqliteTable("vector_table", {
 });
 ```
 
-<Accordion title="Create an index">
+</Step>
 
-To create a vector index, you'll need to use raw SQL, as Drizzle doesn't have built-in support for vector indexes. You can do this using the `db.run()` method:
+<Step title="Create a vector index">
 
-```sql
-CREATE INDEX IF NOT EXISTS vector_index
-ON vector_table(vector)
-USING vector_cosine(3)
+You will need to use raw SQL to create the index:
+
+```typescript
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+const db = drizzle(client);
+
+await db.run(sql`
+  CREATE INDEX IF NOT EXISTS vector_index
+  ON vector_table(vector)
+  USING vector_cosine(3)
+`);
 ```
 
-This creates a cosine similarity index on the `vector` column, assuming 3-dimensional vectors. Adjust the dimension as needed.
+</Step>
 
-</Accordion>
+<Step title="Insert vector data">
 
-You can now successfully store and query vectors in your database.
-
-```ts
-// Insertion
+```typescript
 await db
   .insert(vectorTable)
   .values([{ vector: sql`vector32(${JSON.stringify([1.1, 2.2, 3.3])})` }]);
+```
 
-// Query with vector distance
+</Step>
+
+<Step title="Query vector data">
+
+Calculate vector distance:
+
+```typescript
 const res = await db
   .select({
     distance: sql<number>`vector_distance_cos(${vectorTable.vector}, vector32(${JSON.stringify([2.2, 3.3, 4.4])}))`,
@@ -244,25 +272,26 @@ const res = await db
   .from(vectorTable);
 
 console.log(res);
+```
 
-// Efficient nearest neighbor search using vector_top_k
+Perform efficient nearest neighbor search:
+
+```typescript
 const topK = await db
   .select({
     id: sql`id`,
     distance: sql`distance`,
   })
   .from(
-    sql`vector_top_k('your_index_name', vector32(${JSON.stringify([2.2, 3.3, 4.4])}), 5)`,
+    sql`vector_top_k('vector_index', vector32(${JSON.stringify([2.2, 3.3, 4.4])}), 5)`,
   )
   .leftJoin(vectorTable, sql`${vectorTable}.id = id`);
 
 console.log(topK);
 ```
 
-<Note>
-  Remember to create appropriate indexes for efficient vector operations.
-</Note>
-
 </Step>
 
 </Steps>
+
+Remember to create appropriate indexes for efficient vector operations and adjust vector dimensions as needed for your use case.
