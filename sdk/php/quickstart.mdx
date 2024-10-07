@@ -4,26 +4,15 @@ sidebarTitle: Quickstart
 description: Get started with Turso and PHP using the libSQL client in a few simple steps.
 ---
 
-<Note>
-
-This SDK is community maintained and may not be officially supported by Turso, or up to date with the latest features. Join the `#libsql-php` channel [on Discord](https://discord.gg/turso) for help and feedback.
-
-</Note>
-
 In this PHP quickstart we will learn how to:
 
-- Install libSQL Native Extension for PHP **(Required)**
+- Install libSQL with Composer
 - Retrieve database credentials
 - Connect to a Turso database
 - Execute a query using SQL
 - Sync changes to local database (optional)
 
 <Steps>
-  <Step title="Install libSQL Native Extension for PHP">
-    Before your start using libSQL in PHP, you need to install and configure your PHP environment:
-    <Snippet file="install-libsql-extension-php.mdx" />
-  </Step>
-
   <Step title="Retrieve database credentials">
     You will need an existing database to continue. If you don't have one, [create
     one](/quickstart).
@@ -34,6 +23,14 @@ In this PHP quickstart we will learn how to:
 
   </Step>
 
+  <Step title="Install">
+    Install the package to your project using composer:
+
+    ```console
+    composer require turso/libsql
+    ```
+  </Step>
+
   <Step title="Connect">
 
     Now connect to your local or remote database using the libSQL connector:
@@ -42,15 +39,32 @@ In this PHP quickstart we will learn how to:
       <Accordion title="Embedded Replica">
 
       ```php
-      <?php
+      use Libsql\Database;
 
-      $config = [
-          "url" => "file:database.db",
-          "syncUrl" => getenv('TURSO_DATABASE_URL'),
-          "authToken" => getenv('TURSO_AUTH_TOKEN')
-      ];
+      $db = new Database(
+          path: 'test.db',
+          url: getenv('TURSO_URL'),
+          authToken: getenv('TURSO_AUTH_TOKEN')
+          syncIterval: 100 // Sync every second
+      );
+      $conn = $db->connect();
+      ```
 
-      $db = new LibSQL($config);
+      </Accordion>
+      <Accordion title="Local only">
+
+      ```php
+      use Libsql\Database;
+
+      $db = new Database(path: "database.db");
+      ```
+
+      Or just:
+
+      ```php
+      use Libsql\Database;
+
+      $db = new Database("database.db");
       ```
 
       </Accordion>
@@ -58,9 +72,17 @@ In this PHP quickstart we will learn how to:
       <Accordion title="Local only">
 
       ```php
-      <?php
+      use Libsql\Database;
 
-      $db = new LibSQL("database.db");
+      $db = new Database(path: "database.db");
+      ```
+
+      Or just:
+
+      ```php
+      use Libsql\Database;
+
+      $db = new Database("database.db");
       ```
 
       </Accordion>
@@ -68,12 +90,12 @@ In this PHP quickstart we will learn how to:
       <Accordion title="Remote only">
 
       ```php
-      <?php
+      use Libsql\Database;
 
-      $url = getenv('TURSO_DATABASE_URL');
-      $token = getenv('TURSO_AUTH_TOKEN');
-
-      $db = new LibSQL("libsql:dbname=$url;authToken=$token");
+      $db = new Database(
+          url: getenv('TURSO_URL'),
+          authToken: getenv('TURSO_AUTH_TOKEN'),
+      )
       ```
 
       </Accordion>
@@ -86,22 +108,19 @@ In this PHP quickstart we will learn how to:
     You can execute SQL queries against your existing database as follows:
 
     ```php
-    <?php
-
-    $createUsers = <<<STMT
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        age INTEGER
-    );
-    INSERT INTO users (name, age) VALUES ('Prof. Ir. Onno Widodo Purbo, M.Eng., Ph.D', 61);
-    INSERT INTO users (name, age) VALUES ('Jim Geovedi', 41);
-    INSERT INTO users (name, age) VALUES ('Nasirun', 59);
-    STMT;
+    $createUsers = "
+      CREATE TABLE IF NOT EXISTS users (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          age INTEGER
+      );
+      INSERT INTO users (name, age) VALUES ('Prof. Ir. Onno Widodo Purbo, M.Eng., Ph.D', 61);
+      INSERT INTO users (name, age) VALUES ('Jim Geovedi', 41);
+      INSERT INTO users (name, age) VALUES ('Nasirun', 59);
+    ";
 
     $db->executeBatch($createUsers);
-
-    $db->query("SELECT * FROM users")->fetchArray(LibSQL::LIBSQL_ASSOC);
+    $db->query("SELECT * FROM users")->fetchArray();
     ```
 
     If you need to use placeholders for values, you can do that:
@@ -109,14 +128,10 @@ In this PHP quickstart we will learn how to:
     <CodeGroup>
 
     ```php Positional
-    <?php
-
     $db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
     ```
 
     ```php Named
-    <?php
-
     $db->query("SELECT * FROM users WHERE id = :id", [":id" => 1])->fetchArray();
     ```
 
@@ -126,7 +141,8 @@ In this PHP quickstart we will learn how to:
 
   <Step title="Sync (Embedded Replicas only)">
 
-    When using embedded replicas you should call `sync()` on the database type to sync your local database with the primary database:
+    When using embedded replicas you should call `sync()` on the database type
+    to sync your local database with the primary database:
 
     ```php
     <?php

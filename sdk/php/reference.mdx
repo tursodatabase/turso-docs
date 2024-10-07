@@ -3,193 +3,148 @@ title: Reference
 description: libSQL PHP Reference
 ---
 
-The libSQL Native Extension for PHP contains everything you need to work with Turso and works flawlessly with all features, because it's build on top libSQL Rust crate and `ext-php-rs` framework to create a new PHP Extension with easy.
-
 ## Installing
 
-Before your start using libSQL in PHP, you need to install and configure your PHP environment.
+Install the package to your project using composer:
 
-<Snippet file="install-libsql-extension-php.mdx" />
+```console
+composer require turso/libsql
+```
 
 ## Initializing
 
-Depending on where and how you plan to use libSQL, you can use a variety of connection types. You can connect to a local database, a remote database, or an in-memory database.
+Make sure to add `use Libsql\Database` to access the `Database` object.
+
+```php
+$db = new Database("local.db")
+```
 
 ## In-Memory Databases
 
-libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don’t require persistence:
+libSQL supports connecting to [in-memory
+databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't
+require persistence:
 
 ```php
-$db = new LibSQL(":memory:");
+$db = new Database(":memory:");
+```
+
+Or the simpler:
+
+```php
+$db = new Database();
 ```
 
 ## Local Development
 
-Establishing a connection to a local database is straightforward with libSQL. You have 3 options:
-
-1.  **Standard DSN Connection:** If you're using a DSN string, use the following format:
-
-    ```php
-    $db = new LibSQL("libsql:dbname=database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
-    ```
-
-    - This option utilizes a Data Source Name (DSN) string to specify the database location.
-    - The DSN format is `libsql:dbname=database.db`.
-    - Additional parameters include **connection flags** and an optional **encryption key**.
-
-2.  **Standard SQLite Connection:** For direct SQLite connections, simply provide the database file name:
-
-    ```php
-    $db = new LibSQL("database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
-    ```
-
-    - In this setup, the database filename alone is provided, without a DSN.
-    - The database file name is directly specified, e.g., `"database.db"`.
-    - Similar to the DSN connection, it also allows for setting **connection flags** and an optional **encryption key**.
-
-3.  **Standard libSQL Connection:** Alternatively, you can specify the file protocol explicitly:
-    ```php
-    $db = new LibSQL("file:database.db", LibSQL::OPEN_READWRITE | LibSQL::OPEN_CREATE, "");
-    ```
-    - This option resembles the DSN connection but uses the file protocol in the DSN string.
-    - The DSN string format is `"file:database.db"`.
-    - **Connection flags** and an **encryption key** can also be specified.
-
-## Remote Connection
-
-For remote databases, you can pass your database URL `libsql://` or `https://` URL to the `LibSQL` constructor:
+You can work locally by passing a path as the first parameter.
 
 ```php
-$db = new LibSQL("libsql:dbname=libsql://[databaseName]-[organizationName].turso.io;authToken=...");
+$db = new Database("local.db")
+```
+
+Or more explicitly:
+
+```php
+$db = new Database(path: "local.db")
+```
+
+## Remote Only
+
+You can use a remote only database by passing `url` and `authToken`.
+
+```php
+$db = new Database(
+    url: getenv('TURSO_URL'),
+    authToken: getenv('TURSO_AUTH_TOKEN'),
+);
 ```
 
 ## Embedded Replicas
 
-You can work with embedded replicas by passing your Turso Database URL to `syncUrl`:
+You can work with embedded replicas by passing a `path`, `url` and `authToken`.
+Embedded replicas can sync from the remote URL and delegate writes to the
+remote primary database:
 
 ```php
-<?php
-
-$config = [
-    "url" => "file:database.db",
-    "syncUrl" => getenv('TURSO_DATABASE_URL'),
-    "authToken" => getenv('TURSO_AUTH_TOKEN')
-];
-
-$db = new LibSQL($config);
+$db = new Database(
+    path: 'test.db',
+    url: getenv('TURSO_URL'),
+    authToken: getenv('TURSO_AUTH_TOKEN'),
+);
 ```
 
-<Expandable defaultOpen="true">
+### Sync Interval
 
-<ResponseField name="url" type="string" required>
-  Specifies the local database path filename using relative path
-  `/home/turso/app/database.db` remember the back-slash at the begining.
-</ResponseField>
+The `sync_interval` function allows you to set an interval for automatic synchronization of the database in the background:
 
-<ResponseField name="authToken" type="string" required>
-  Authentication token for secure access. Generate from Get the database
-  authentication token command
-</ResponseField>
-
-<ResponseField name="syncUrl" type="string" required>
-  URL for synchronization purposes. generate from Get the database URL command
-</ResponseField>
-
-<ResponseField name="syncInterval" type="integer">
-  Integer value representing synchronization interval in seconds (optional,
-  default: `5`).
-</ResponseField>
-
-<ResponseField name="read_your_writes" type="boolean">
-  Boolean value indicating whether to read your writes (optional, default:
-  `true`).
-</ResponseField>
-
-<ResponseField name="encryptionKey" type="string">
-  String value for encryption purposes (optional, default: empty).
-</ResponseField>
-
-</Expandable>
-
-## Load SQLite Extension
-
-You can load the SQLite Extension
-
-<CodeGroup>
-
-```php Load Single Extension
-$db = new LibSQL("database.db");
-$db->enableLoadExtension(true);
-$db->loadExtensions('/path/to/sqlite-extensions/sqlean/text.so');
+```php
+$db = new Database(
+    path: 'test.db',
+    url: getenv('TURSO_URL'),
+    authToken: getenv('TURSO_AUTH_TOKEN'),
+    syncInterval: 300, // Sync every 3 seconds
+);
 ```
 
-```php Load Multiple Extensions
-$db = new LibSQL("database.db");
-$db->enableLoadExtension(true);
-$db->loadExtensions([
-  '/path/to/sqlite-extensions/sqlean/text.so',
-  '/path/to/sqlite-extensions/sqlean/math.so',
-  '/path/to/sqlite-extensions/sqlean/time.so'
-]);
+### Manual Sync
+
+The `sync` function allows you to sync manually the local database with the
+remote counterpart:
+
+```php
+$db->sync()
 ```
 
-</CodeGroup>
+### Read Your Own Writes
+
+The `readYourWrites` parameter configures the database connection to ensure
+that writes are immediately visible to subsequent read operations initiated by
+the same connection. This is **enabled by default**, and is particularly
+important in distributed systems to ensure consistency from the perspective of
+the writing process.
+
+You can disable this behavior by passing `false`:
+
+```php
+$db = new Database(
+    path: 'test.db',
+    url: getenv('TURSO_URL'),
+    authToken: getenv('TURSO_AUTH_TOKEN'),
+    readYourWrites: false,
+);
+```
 
 ## Simple Query
 
-You can pass a string to `execute()` to invoke a SQL statement, as well as optional arguments:
+You can acquire a connection from a database and call `query()` to invoke a
+SQL statement, as well as optional arguments:
 
 <CodeGroup>
 
 ```php Query
-<?php
-
-$db->query("SELECT * FROM users", ())->fetchArray();
+$rows = $conn->query("SELECT * FROM users");
 ```
 
 ```php Arguments
-<?php
+$rows = $conn->query("SELECT * FROM users WHERE id = ?1", [1]);
+```
 
-$db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
+```php Named Arguments
+$rows = $conn->query("SELECT * FROM users WHERE id = :id", [":id" => 1]);
 ```
 
 </CodeGroup>
-
-You can pass constant in `fetchArray` method: 
-- `LibSQL::LIBSQL_BOTH` &mdash; (default mode) fetch the result in both associative array and numerical array
-- `LibSQL::LIBSQL_LAZY` &mdash; fetch the result in associative array in lazy mode and iterate over a set of data without needing to build an array in memory
-- `LibSQL::LIBSQL_ASSOC` &mdash; fetch the result in associative array
-- `LibSQL::LIBSQL_NUM` &mdash; fetch the result in numerical array
-- `LibSQL::LIBSQL_ALL` &mdash; fetch result in standard libSQL HTTP results
 
 ## Prepared Statements
 
-You can prepare a cached statement using `prepare()` and then execute it with `query()`:
+You can prepare a cached statement using `prepare()`, bind parameters, and then
+query it:
 
-<CodeGroup>
-
-```php Query
-<?php
-
-$stmt = $db->prepare("SELECT * FROM users");
-$stmt->query()->fetchArray();
+```php
+$stmt = $conn->prepare("SELECT * FROM users where id = ?");
+$rows = $stmt->bind([1])->query();
 ```
-
-```php Arguments
-<?php
-
-$stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->query([1])->fetchArray();
-```
-
-</CodeGroup>
-
-You can pass constant in `fetchArray` method:
-- `LibSQL::LIBSQL_BOTH` &mdash; (default mode) fetch the result in both associative array and numerical array
-- `LibSQL::LIBSQL_LAZY` &mdash; fetch the result in associative array in lazy mode and iterate over a set of data without needing to build an array in memory
-- `LibSQL::LIBSQL_ASSOC` &mdash; fetch the result in associative array
-- `LibSQL::LIBSQL_NUM` &mdash; fetch the result in numerical array
-- `LibSQL::LIBSQL_ALL` &mdash; fetch result in standard libSQL HTTP results
 
 ## Placeholders
 
@@ -197,28 +152,24 @@ libSQL supports the use of positional and named placeholders within SQL statemen
 
 <CodeGroup>
 
-```php Positional
-<?php
-
-$db->query("SELECT * FROM users WHERE id = ?", [1])->fetchArray();
+```rust Positional
+conn->query("SELECT * FROM users WHERE id = ?", [1]);
 ```
 
-```php Named
-<?php
-
-$db->execute("INSERT INTO users (name) VALUES (:name)", [":name" => "Iku"]);
+```rust Named
+conn->execute("INSERT INTO users (name) VALUES (:name)", [ ":name" => "Iku" ]);
 ```
 
 </CodeGroup>
 
 ## Batch Transactions
 
-A batch consists of multiple SQL statements executed sequentially within an implicit transaction. The backend handles the transaction: success commits all changes, while any failure results in a full rollback with no modifications.
+A batch consists of multiple SQL statements executed sequentially within an
+implicit transaction. The backend handles the transaction: success commits all
+changes, while any failure results in a full rollback with no modifications.
 
 ```php
-<?php
-
-$db->executeBatch("
+$conn->execute_batch("
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL
@@ -231,94 +182,16 @@ $db->executeBatch("
 
 ## Interactive Transactions
 
-Interactive transactions in SQLite ensure the consistency of a series of read and write operations within a transaction's scope. These transactions give you control over when to commit or roll back changes, isolating them from other client activity.
+Interactive transactions in SQLite ensure the consistency of a series of read
+and write operations within a transaction's scope. These transactions give you
+control over when to commit or roll back changes, isolating them from other
+client activity.
 
-- `transaction()` &mdash; with default transaction behavior (`DEFFERED`)
-- You can set another bahavior like: (`DEFFERED`, `WRITE`, `READ`)
-
-<CodeGroup>
-
-```php Default
-<?php
-
-$tx = $db->transaction();
+```php
+$tx = conn->transaction();
 
 $tx->execute("INSERT INTO users (name) VALUES (?1)", ["Iku"]);
 $tx->execute("INSERT INTO users (name) VALUES (?1)", ["Iku 2"]);
 
-$tx->commit();
+tx->commit(); // or, $tx->rollback()
 ```
-
-```php Advanced control
-<?php
-
-$db = new LibSQL(":memory:");
-
-if (!$db) {
-    throw new Exception("Database Not Connected!");
-}
-
-$dataCreation = <<<STMT
-CREATE TABLE IF NOT EXISTS accounts (
-    id INTEGER PRIMARY KEY,
-    name TEXT,
-    balance REAL
-);
-CREATE TABLE IF NOT EXISTS transactions (
-    id INTEGER PRIMARY KEY,
-    from_account_id INTEGER,
-    to_account_id INTEGER,
-    amount REAL,
-    timestamp DATETIME,
-    FOREIGN KEY (from_account_id) REFERENCES accounts(id),
-    FOREIGN KEY (to_account_id) REFERENCES accounts(id)
-);
-INSERT INTO accounts (name, balance) VALUES ('Alice', 1000.0);
-INSERT INTO accounts (name, balance) VALUES ('Bob', 1000.0);
-STMT;
-$db->executeBatch($dataCreation);
-
-function performTransaction(LibSQL $db, int $fromAccountId, int $toAccountId, float $amount)
-{
-    try {
-        $tx = $db->transaction();
-
-        $stmt = $db->prepare("SELECT balance FROM accounts WHERE id = ?");
-        $senderBalance = $stmt->query([$fromAccountId]);
-
-        if (empty($senderBalance['rows'])) {
-            throw new Exception("Sender account not found!");
-        }
-
-        if ($senderBalance['rows'][0]['balance'] < $amount) {
-            throw new Exception("Insufficient funds!");
-        }
-
-        $stmt = $db->prepare("UPDATE accounts SET balance = balance - ? WHERE id = ?");
-        $stmt->execute([$amount, $fromAccountId]);
-
-        $stmt = $db->prepare("UPDATE accounts SET balance = balance + ? WHERE id = ?");
-        $stmt->execute([$amount, $toAccountId]);
-
-        $stmt = $db->prepare("INSERT INTO transactions (from_account_id, to_account_id, amount, timestamp) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$fromAccountId, $toAccountId, $amount, date('Y-m-d H:i:s')]);
-
-        $tx->commit();
-
-        echo "Transaction successful!" . PHP_EOL;
-    } catch (Exception $e) {
-        $tx->rollBack();
-        echo "Transaction failed: " . $e->getMessage() . PHP_EOL;
-    }
-}
-
-echo "Simulating a successful transaction: ";
-performTransaction($db, 1, 2, 100.0);
-
-echo "Simulating an unsuccessful transaction: ";
-performTransaction($db, 1, 2, 10000.0);
-
-$db->close();
-```
-
-</CodeGroup>
