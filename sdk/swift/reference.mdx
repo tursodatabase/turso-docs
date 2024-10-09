@@ -37,7 +37,7 @@ require persistence:
 ```swift
 import Libsql
 
-let db = Libsql.Database(":memory:")
+let db = Database(":memory:")
 let conn = try db.connect()
 ```
 
@@ -48,7 +48,7 @@ You can work locally using an SQLite file:
 ```swift
 import Libsql
 
-let db = Libsql.Database("local.db")
+let db = Database("local.db")
 let conn = try db.connect()
 ```
 
@@ -60,10 +60,10 @@ delegate writes to the remote primary database:
 ```swift
 import Libsql
 
-let db = try Libsql.Database(
+let db = try Database(
     path: "./local.db",
-    url: <LIBSQL_URL>,
-    authToken: <LIBSQL_AUTH_TOKEN>
+    url: "TURSO_DATABASE_URL",
+    authToken: "TURSO_AUTH_TOKEN"
 )
 
 let conn = try db.connect()
@@ -85,10 +85,10 @@ synchronization of the database in the background:
 ```swift
 import Libsql
 
-let db = try Libsql.Database(
+let db = try Database(
     path: "./local.db",
-    url: <LIBSQL_URL>,
-    authToken: <LIBSQL_AUTH_TOKEN>,
+    url: "TURSO_DATABASE_URL",
+    authToken: "TURSO_AUTH_TOKEN"
     syncInterval: 300 // Sync every 3 seconds
 )
 
@@ -108,7 +108,7 @@ You can disable this behavior by passing `false` to the function:
 ```swift
 import Libsql
 
-let db = try Libsql.Database(
+let db = try Database(
     path: "./local.db",
     url: <LIBSQL_URL>,
     authToken: <LIBSQL_AUTH_TOKEN>,
@@ -158,7 +158,6 @@ libSQL supports the use of positional and named placeholders within SQL statemen
 try conn.query("SELECT * FROM users WHERE id = ?", [1])
 ```
 
-```swift Named 
+```swift Named
 try conn.query("SELECT * FROM users WHERE id = :id", [ ":id": 1 ])
 ```
-

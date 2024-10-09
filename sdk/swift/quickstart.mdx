@@ -59,10 +59,11 @@ You must first create a `Database` object and then open a `Connection` to it:
 ```swift
 import Libsql
 
-let db = try Libsql.Database(
+let db = try Database(
     path: "./local.db",
     url: "TURSO_DATABASE_URL",
-    authToken: "TURSO_AUTH_TOKEN"
+    authToken: "TURSO_AUTH_TOKEN",
+    syncInterval: 300
 )
 
 let conn = try db.connect()
@@ -74,7 +75,7 @@ let conn = try db.connect()
 ```swift
 import Libsql
 
-let db = try Libsql.Database(
+let db = try Database(
     path: "./local.db",
 )
 
@@ -87,7 +88,7 @@ let conn = try db.connect()
 ```swift
 import Libsql
 
-let db = try Libsql.Database(
+let db = try Database(
     url: "TURSO_DATABASE_URL",
     authToken: "TURSO_AUTH_TOKEN"
 )
