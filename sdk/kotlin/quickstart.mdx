@@ -52,10 +52,11 @@ You must first create a `Database` object and then open a `Connection` to it:
 import tech.turso.libsql.Libsql
 
 val db = Libsql.open(
-    path = "./replica.db",
-    url = "TURSO_DATABASE_URL",,
+    path = "./local.db",
+    url = "TURSO_DATABASE_URL",
     authToken = "TURSO_AUTH_TOKEN",
 )
+
 val conn = db.connect()
 ```
 

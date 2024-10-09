@@ -51,10 +51,11 @@ delegate writes to the remote primary database:
 import tech.turso.libsql.Libsql
 
 val db = Libsql.open(
-    path = "./replica.db",
-    url = <TURSO_URL>,
-    authToken = <TURSO_AUTH_TOKEN>,
+    path = "./local.db",
+    url = "TURSO_DATABASE_URL",
+    authToken = "TURSO_AUTH_TOKEN",
 )
+
 val conn = db.connect()
 ```
 
