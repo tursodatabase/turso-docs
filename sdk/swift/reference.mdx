@@ -154,6 +154,8 @@ stmt.query()
 
 libSQL supports the use of positional and named placeholders within SQL statements:
 
+<CodeGroup>
+
 ```swift Positional
 try conn.query("SELECT * FROM users WHERE id = ?", [1])
 ```
@@ -161,3 +163,5 @@ try conn.query("SELECT * FROM users WHERE id = ?", [1])
 ```swift Named
 try conn.query("SELECT * FROM users WHERE id = :id", [ ":id": 1 ])
 ```
+
+</CodeGroup>

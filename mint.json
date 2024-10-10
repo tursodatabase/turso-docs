@@ -351,6 +351,10 @@
         {
           "group": "Swift",
           "pages": ["sdk/swift/quickstart", "sdk/swift/reference"]
+        },
+        {
+          "group": "C",
+          "pages": ["sdk/c/quickstart", "sdk/c/reference", "sdk/c/examples"]
         }
       ]
     },
