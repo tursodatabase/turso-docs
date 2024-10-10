@@ -345,7 +345,7 @@
           ]
         },
         {
-          "group": "Kotlin",
+          "group": "Android",
           "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
         },
         {
