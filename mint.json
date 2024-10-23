@@ -345,6 +345,10 @@
           ]
         },
         {
+          "group": "Ruby",
+          "pages": ["sdk/ruby/quickstart", "sdk/ruby/examples"]
+        },
+        {
           "group": "Android",
           "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
         },
