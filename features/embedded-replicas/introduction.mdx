@@ -32,12 +32,12 @@ Embedded replicas provide a smooth switch between local and remote database oper
 You can automatically sync data to your embedded replica using the periodic sync interval property. Simply pass the `syncInterval` parameter when instantiating the client:
 
 ```ts
-import { createClient } from '@libsql/client';
+import { createClient } from "@libsql/client";
 
 const client = createClient({
-  url: 'file:path/to/db-file.db',
-  authToken: '...',
-  syncUrl: '...',
+  url: "file:path/to/db-file.db",
+  authToken: "...",
+  syncUrl: "...",
   syncInterval: 60,
 });
 ```
@@ -54,14 +54,17 @@ Other replicas will see the new data when they call `sync()`, or at the next syn
 
 Embedded Replicas support encryption at rest with one of the libSQL client SDKs. Simply pass the `encryptionKey` parameter when instantiating the client:
 
-```ts
-import { createClient } from '@libsql/client';
+<CodeGroup>
 
-const db = createClient({
-  url: 'file:encrypted.db',
-  encryptionKey: process.env.ENCRYPTION_KEY,
-});
-```
+<Snippet file="encryption-at-rest-typescript.mdx" />
+<Snippet file="encryption-at-rest-golang.mdx" />
+<Snippet file="encryption-at-rest-rust.mdx" />
+<Snippet file="encryption-at-rest-python.mdx" />
+<Snippet file="encryption-at-rest-flutter.mdx" />
+
+</CodeGroup>
+
+<Note>The encryption key used should be generated and managed by you.</Note>
 
 ## Usage
 
@@ -162,16 +165,16 @@ You should call `.sync()` in the background whenever your application wants to s
 - Do not open the local database while the embedded replica is syncing. This can lead to data corruption.
 - In certain contexts, such as serverless environments without a filesystem, you can't use embedded replicas.
 - There are a couple scenarios where you may sync more frames than you might
-    expect. 
-    - A write that causes the internal btree to split at any node would cause many
-        new frames to be written to the replication log.
-    - A server restart that left the on-disk wal in dirty state would regenerate
-        the replication log and sync additional frames.
-    - Removing/invalidating the local files on disk could cause the embedded
-        replica to re-sync from scratch.
+  expect.
+  - A write that causes the internal btree to split at any node would cause many
+    new frames to be written to the replication log.
+  - A server restart that left the on-disk wal in dirty state would regenerate
+    the replication log and sync additional frames.
+  - Removing/invalidating the local files on disk could cause the embedded
+    replica to re-sync from scratch.
 - One frame equals 4kB of data (one on disk page frame), so if you write a 1
-    byte row, it will always show up as a 4kB write since that is the unit in
-    which libsql writes with.
+  byte row, it will always show up as a 4kB write since that is the unit in
+  which libsql writes with.
 
 ## Deployment Guides
 
@@ -182,35 +185,27 @@ You should call `.sync()` in the background whenever your application wants to s
    title="Turso + Fly"
 >
 
-   Deploy a JavaScript project with Embedded Replicas to Fly.io
+Deploy a JavaScript project with Embedded Replicas to Fly.io
+
+</Card>
+
+<Card href="/features/embedded-replicas/with-koyeb" title="Turso + Koyeb">
+  Deploy a JavaScript/Rust project with Embedded Replicas to Koyeb
+</Card>
+
+<Card href="/features/embedded-replicas/with-railway" title="Turso + Railway">
+  Deploy a JavaScript/Rust project with Embedded Replicas to Railway
+</Card>
+
+<Card href="/features/embedded-replicas/with-render" title="Turso + Render">
+  Deploy a JavaScript project with Embedded Replicas to Render
 </Card>
 
 <Card
-   href="/features/embedded-replicas/with-koyeb"
-   title="Turso + Koyeb"
+  href="/features/embedded-replicas/with-akamai"
+  title="Turso + Linode by Akamai"
 >
-   Deploy a JavaScript/Rust project with Embedded Replicas to Koyeb
-</Card>
-
-<Card
-   href="/features/embedded-replicas/with-railway"
-   title="Turso + Railway"
->
-   Deploy a JavaScript/Rust project with Embedded Replicas to Railway
-</Card>
-
-<Card
-   href="/features/embedded-replicas/with-render"
-   title="Turso + Render"
->
-   Deploy a JavaScript project with Embedded Replicas to Render
-</Card>
-
-<Card
-   href="/features/embedded-replicas/with-akamai"
-   title="Turso + Linode by Akamai"
->
-   Deploy a JavaScript/Rust project with Embedded Replicas to Akamai
+  Deploy a JavaScript/Rust project with Embedded Replicas to Akamai
 </Card>
 
 </CardGroup>

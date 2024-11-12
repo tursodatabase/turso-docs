@@ -1,0 +1,6 @@
+```dart Flutter
+final dir = await getApplicationCacheDirectory();
+final path = '${dir.path}/local.db';
+
+final client = LibsqlClient(path)..encryptionKey = '<KEY>';
+```
