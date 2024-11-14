@@ -179,13 +179,13 @@ In order for table-valued function to work query vector **must** have same vecto
 
 ### Settings
 
-LibSQL vector index optionall can accept settings which must be specified as a variadic parameters of the `libsql_vector_idx` function as a strings in the format `key=value`:
+LibSQL vector index optionally can accept settings which must be specified as a variadic parameters of the `libsql_vector_idx` function as a strings in the format `key=value`:
 ```sql
 CREATE INDEX movies_idx 
 ON movies(libsql_vector_idx(embedding, 'metric=l2', 'compress_neighbors=float8'));
 ```
 
-At the momen LibSQL supports following settings:
+At the moment LibSQL supports following settings:
 
 | Setting key                | Value type       | Description |
 | -------------------------- | ---------------- | ----------- |
