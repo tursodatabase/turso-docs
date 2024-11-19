@@ -133,17 +133,27 @@ ASC;
 
 ### Understanding Distance Results
 
-The `vector_distance_cos` function calculates the cosine distance, which equals 1 - [cosine
-similarity](https://en.wikipedia.org/wiki/Cosine_similarity). Therefore:
+The `vector_distance_cos` function calculates the cosine distance, which is defined at:
 
-- A distance close to 0 (including very small negative numbers like `-6.394e-14`) indicates that the vectors are nearly identical or exactly matching
-- Values closer to 1 indicate that the vectors are dissimilar
-- Typical distance values for non-matching vectors often appear as decimal numbers between 0 and 1
+- Cosine Distance = 1 &mdash; [Cosine Similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+
+The cosine distance ranges from 0 to 2, where:
+
+- A distance close to 0 indicates that the vectors are nearly identical or exactly matching.
+- A distance close to 1 indicates that the vectors are orthogonal (perpendicular).
+- A distance close to 2 indicates that the vectors are pointing in opposite directions.
 
 <Note>
-  Note: Very small negative numbers close to zero (on the order of `10^-14`) are
-  due to floating-point arithmetic precision and should be interpreted as
-  effectively zero, indicating an exact or near-exact match between vectors.
+  Very small negative numbers close to zero (for example, `-10^-14`) may
+  occasionally appear due to floating-point arithmetic precision. These should
+  be interpreted as effectively zero, indicating an exact or near-exact match
+  between vectors.
+
+```sql
+SELECT vector_distance_cos('[1000]', '[1000]');
+-- Output: -2.0479999918166e-09
+```
+
 </Note>
 
 ### Vector Limitations
