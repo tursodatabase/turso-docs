@@ -80,10 +80,10 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 import { createClient } from "@libsql/client";
 
 const client = createClient({
-  url: "file:./local.db",
+  url: "file:./app/data/local.db",
   syncUrl: process.env.TURSO_DATABASE_URL,
-  syncToken: process.env.TURSO_AUTH_TOKEN,
-  syncInterval: 60000,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+  syncInterval: 60,
 });
 ```
 
