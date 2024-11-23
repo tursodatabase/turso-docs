@@ -88,7 +88,7 @@ Begin by declaring a column used for storing vectors with the `F32_BLOB` datatyp
 CREATE TABLE movies (
   title    TEXT,
   year     INT,
-  full_emb F32_BLOB(4), -- 4-dimensional f32 vector
+  full_emb F32_BLOB(4) -- 4-dimensional f32 vector
 );
 ```
 
@@ -106,7 +106,7 @@ VALUES
   ('Napoleon', 2023, vector32('[0.800, 0.579, 0.481, 0.229]')),
   ('Black Hawk Down', 2001, vector32('[0.406, 0.027, 0.378, 0.056]')),
   ('Gladiator', 2000, vector32('[0.698, 0.140, 0.073, 0.125]')),
-  ('Blade Runner', 1982, vector32('[0.379, 0.637, 0.011, 0.647]'))
+  ('Blade Runner', 1982, vector32('[0.379, 0.637, 0.011, 0.647]'));
 ```
 
 Popular tools like [LangChain](https://www.langchain.com), [Hugging Face](https://huggingface.co) or [OpenAI](https://turso.tech/blog/how-to-generate-and-store-openai-vector-embeddings-with-turso) can be used to generate embeddings.
@@ -262,7 +262,7 @@ VALUES
   ('Napoleon', 2023, vector32('[0.800, 0.579, 0.481, 0.229]')),
   ('Black Hawk Down', 2001, vector32('[0.406, 0.027, 0.378, 0.056]')),
   ('Gladiator', 2000, vector32('[0.698, 0.140, 0.073, 0.125]')),
-  ('Blade Runner', 1982, vector32('[0.379, 0.637, 0.011, 0.647]'))
+  ('Blade Runner', 1982, vector32('[0.379, 0.637, 0.011, 0.647]'));
 ```
 
 Popular tools like [LangChain](https://www.langchain.com), [Hugging Face](https://huggingface.co) or [OpenAI](https://turso.tech/blog/how-to-generate-and-store-openai-vector-embeddings-with-turso) can be used to generate embeddings.
