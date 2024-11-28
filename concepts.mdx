@@ -29,7 +29,7 @@ Instances are categorized into two types: primary and replica.
 
 ## Groups
 
-All databases are part of a "group", dictating their primary storage location and replication across distinct VMs ([locations](#locations)), each replica (volume) is capped at 100GB. This setup ensures databases share resources yet remain isolated.
+All databases are part of a "group", dictating their primary storage location and replication across distinct VMs ([locations](/cloud-providers#locations)), each replica (volume) is capped at 100GB. This setup ensures databases share resources yet remain isolated.
 
 <Note>Enterprise plans can have higher limits on storage.</Note>
 
@@ -41,56 +41,3 @@ All databases are part of a "group", dictating their primary storage location an
   Creating more than one group is limited to Scaler, Pro and Enterprise plans.
   You can add additional groups if you have overages enabled.
 </Warning>
-
-## Locations
-
-Depending on your chosen cloud provider, Fly or AWS, you can deploy to a variety of locations. Your databases form a [group](#groups) with a primary and optional replica locations. Turso handles synchronization from the primary to replicas automatically across its [data edge](/features/data-edge).
-
-- **Primary**
-  - All databases have a primary location (region) where data is stored, and can't be changed. You can configure the primary location for groups using the Turso CLI and Turso Platform API.
-- **Replicas**
-  - Databases can be replicated to other regions closer to your users by adding more locations to the group your database belongs to.
-
-<Accordion title="Fly locations">
-
-| Code  | Location                     |
-| ----- | ---------------------------- |
-| `ams` | Amsterdam, Netherlands       |
-| `arn` | Stockholm, Sweden            |
-| `bog` | Bogotá, Colombia             |
-| `bos` | Boston, Massachusetts (US)   |
-| `cdg` | Paris, France                |
-| `den` | Denver, Colorado (US)        |
-| `dfw` | Dallas, Texas (US)           |
-| `ewr` | Secaucus, NJ (US)            |
-| `fra` | Frankfurt, Germany           |
-| `gdl` | Guadalajara, Mexico          |
-| `gig` | Rio de Janeiro, Brazil       |
-| `gru` | São Paulo, Brazil            |
-| `hkg` | Hong Kong, Hong Kong         |
-| `iad` | Ashburn, Virginia (US)       |
-| `jnb` | Johannesburg, South Africa   |
-| `lax` | Los Angeles, California (US) |
-| `lhr` | London, United Kingdom       |
-| `mad` | Madrid, Spain                |
-| `mia` | Miami, Florida (US)          |
-| `nrt` | Tokyo, Japan                 |
-| `ord` | Chicago, Illinois (US)       |
-| `otp` | Bucharest, Romania           |
-| `qro` | Querétaro, Mexico            |
-| `scl` | Santiago, Chile              |
-| `sea` | Seattle, Washington (US)     |
-| `sin` | Singapore, Singapore         |
-| `sjc` | San Jose, California (US)    |
-| `syd` | Sydney, Australia            |
-| `waw` | Warsaw, Poland               |
-| `yul` | Montreal, Canada             |
-| `yyz` | Toronto, Canada              |
-
-</Accordion>
-
-<Info>
-
-You can fetch the list of supported locations as JSON when building with the [Platform API](/api-reference/locations) or using the [Turso CLI](/cli/db/locations).
-
-</Info>
