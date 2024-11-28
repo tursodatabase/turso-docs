@@ -1,11 +1,11 @@
 ---
 title: Cloud Providers
-description:
+description: Turso is available on AWS and Fly.
 ---
 
 ## AWS (Public Beta)
 
-AWS is the default cloud provider for new Turso users. Existing users can create a new [database group](/concepts#groups) on AWS, but you can't move existing databases from Fly to AWS.
+AWS is the default cloud provider for new Turso users. Existing users can create a new [database group](/concepts#groups) on AWS.
 
 | Feature               | Fly   | AWS   |
 | --------------------- | ----- | ----- |
@@ -27,16 +27,16 @@ AWS is the default cloud provider for new Turso users. Existing users can create
 
 ### AWS Locations
 
-| Code                    | Location    |
-| ----------------------- | ----------- |
-| US East (N. Virginia)   | `us-east-1` |
-| US West (Oregon)        | `us-west-2` |
-| US West (N. California) | `us-west-1` |
-| Europe (Paris)          | `eu-west-3` |
+| Code        | Location                |
+| ----------- | ----------------------- |
+| `us-east-1` | US East (N. Virginia)   |
+| `us-west-2` | US West (Oregon)        |
+| `us-west-1` | US West (N. California) |
+| `eu-west-3` | Europe (Paris)          |
 
 ## Fly
 
-You can deploy to a variety of locations on Fly. Your databases form a [group](#groups) with a primary and optional replica locations. Turso handles synchronization from the primary to replicas automatically across its [data edge](/features/data-edge).
+You can deploy and replicate to many locations on Fly. Your databases form a [group](#groups) with a primary and optional replica locations. Turso handles synchronization from the primary to replicas automatically across its [data edge](/features/data-edge).
 
 - **Primary**
   - All databases have a primary location (region) where data is stored, and can't be changed. You can configure the primary location for groups using the Turso CLI and Turso Platform API.
@@ -84,3 +84,8 @@ You can deploy to a variety of locations on Fly. Your databases form a [group](#
 You can fetch the list of supported locations as JSON when building with the [Platform API](/api-reference/locations) or using the [Turso CLI](/cli/db/locations).
 
 </Info>
+
+## Things to know
+
+- You can't transfer databases between cloud providers.
+- AWS restrictions are temporary, and will be lifted incremently during the beta.
