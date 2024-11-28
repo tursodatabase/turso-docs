@@ -86,7 +86,8 @@
         "quickstart",
         "concepts",
         "local-development",
-        "libsql"
+        "libsql",
+        "cloud-providers"
       ]
     },
     {
@@ -784,7 +785,7 @@
     },
     {
       "source": "/locations",
-      "destination": "/concepts#locations"
+      "destination": "/cloud-providers#locations"
     },
     {
       "source": "/cli/db/wakeup",
