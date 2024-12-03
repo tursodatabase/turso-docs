@@ -164,3 +164,4 @@ turso db shell parent-db "CREATE TABLE users (id INT PRIMARY KEY, name TEXT);"
 - **During a migration, all databases are locked to write operations.**
 - Make sure any application querying the child databases handle any databases not yet updated with the schema.
 - You cannot apply schema changes to a child database directly. You must use the parent (schema) database.
+- You can check the status of a migration using the `/jobs` endpoint &mdash; [learn more](/sdk/http/reference#schema-migration-jobs).
