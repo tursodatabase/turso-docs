@@ -436,7 +436,9 @@ Turso provides a managed multi-tenant schema system &mdash; [Multi-DB Schemas](/
 
 The `/v1/jobs` endpoint lets you monitor the status of schema migrations.
 
-<Warning>Not available on AWS.</Warning>
+<Warning>
+  Currently not available on AWS for Free, Hobby and Scaler plans.
+</Warning>
 
 ### `GET /v1/jobs`
 
@@ -565,7 +567,7 @@ curl -X GET 'https://[databaseName]-[organizationName].turso.io/v1/jobs/:id' \
 You can listen to changes committed to your database using the `/beta/listen` endpoint:
 
 <Snippet file="technical-preview-banner.mdx" />
-<Warning>Not available on AWS.</Warning>
+<Warning>Currently not available on AWS for Free, Hobby and Scaler plans.</Warning>
 <Info>
   Your database group must be using the version `v0.24.18` or greater &mdash; `turso group update <group-name> --version latest`
 </Info>
