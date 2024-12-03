@@ -430,15 +430,17 @@ COMMIT;
 
 If you're using [multi-db schemas](/features/multi-db-schemas), or vector databases, you will see statements that represent internally managed tables.
 
-## Schema Migration Jobs
+## Schema Migration Status
 
-Turso provides a managed multi-tenant schema system &mdash; [multi-db schemas](/features/multi-db-schemas). You can create a shared schema for other databases and when the parent database schema is updated, changes are propogated to the child databases.
+Turso provides a managed multi-tenant schema system &mdash; [Multi-DB Schemas](/features/multi-db-schemas). This feature allows you to create a single database that shares its schema automatically with any related child databases. Changes to the parent database automatically propogate to the related databases.
 
-The `/jobs` endpoint lets you check the status of those migrations.
+The `/v1/jobs` endpoint lets you monitor the status of schema migrations.
 
 <Warning>Not available on AWS.</Warning>
 
-### `GET /jobs`
+### `GET /v1/jobs`
+
+Returns a summary of all migration jobs for a schema:
 
 <CodeGroup>
 
@@ -462,42 +464,6 @@ curl -X GET 'https://[databaseName]-[organizationName].turso.io/v1/jobs' \
     {
       "job_id": 39,
       "status": "RunSuccess"
-    },
-    {
-      "job_id": 38,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 37,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 36,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 28,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 13,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 12,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 11,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 10,
-      "status": "RunSuccess"
-    },
-    {
-      "job_id": 9,
-      "status": "RunSuccess"
     }
   ]
 }
@@ -505,7 +471,28 @@ curl -X GET 'https://[databaseName]-[organizationName].turso.io/v1/jobs' \
 
 </CodeGroup>
 
-### `GET /jobs/:id`
+#### Response Fields
+
+<ResponseField name="schema_version" type="number">
+  Current version of the schema.
+</ResponseField>
+
+<ResponseField name="migrations" type="array">
+  List of migration jobs
+  <Expandable title="Migration Object">
+    <ResponseField name="job_id" type="number">
+      Unique ID for the migration job.
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Current status of the job. Possible values: `WaitingDryRun`,
+      `DryRunSuccess`, `DryRunFailure`, `WaitingRun`, `RunSuccess`, `RunFailure`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### `GET /v1/jobs/:id`
+
+Returns detailed information about a specific migration job.
 
 <CodeGroup>
 
@@ -516,29 +503,62 @@ curl -X GET 'https://[databaseName]-[organizationName].turso.io/v1/jobs/:id' \
 
 ```json Example Response
 {
-  "job_id": 13,
+  "job_id": 1,
   "status": "RunSuccess",
+  "error": null,
   "progress": [
     {
-      "namespace": "28211856-d584-402d-869b-a947306f648d",
-      "status": "RunSuccess",
+      "namespace": "db1",
+      "status": "Success",
       "error": null
     },
     {
-      "namespace": "911b6376-448f-4426-9aa5-9799fec228b1",
-      "status": "RunSuccess",
-      "error": null
-    },
-    {
-      "namespace": "d6cf31c8-735b-46b5-af6e-3bc5207eb75e",
-      "status": "RunSuccess",
-      "error": null
+      "namespace": "db2",
+      "status": "Failure",
+      "error": "Connection lost"
     }
   ]
 }
 ```
 
 </CodeGroup>
+
+#### Path Parameters
+
+<ParamField path="id" type="number" required>
+  The ID of the migration job.
+</ParamField>
+
+#### Response Fields
+
+<ResponseField name="job_id" type="number">
+  Unique ID of the migration job.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Overall status of the job. Possible values are the same as in the `/v1/jobs`
+  endpoint.
+</ResponseField>
+
+<ResponseField name="error" type="string">
+  Error message if the job failed, null otherwise.
+</ResponseField>
+
+<ResponseField name="progress" type="array">
+  List of migration statuses for the individual databases.
+  <Expandable title="Progress Object">
+    <ResponseField name="namespace" type="string">
+      Name of the database.
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Status of migration for this database. Possible values: `Enqueued`,
+      `DryRunSuccess`, `DryRunFailure`, `Run`, `Success`, `Failure`
+    </ResponseField>
+    <ResponseField name="error" type="string">
+      Error message if migration failed for this database, null otherwise.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
 
 ## Listen to changes
 
