@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Create
-openapi: "POST /v1/organizations/{organizationName}/databases"
+openapi: "POST /v1/organizations/{organizationSlug}/databases"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{

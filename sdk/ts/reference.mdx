@@ -74,7 +74,7 @@ import { createClient } from "@libsql/client";
 
 const client = createClient({
   url: "file:path/to/db-file.db",
-  syncUrl: "libsql://[databaseName]-[organizationName].turso.io",
+  syncUrl: "libsql://[databaseName]-[organizationSlug].turso.io",
   authToken: "...",
 });
 ```
@@ -98,7 +98,7 @@ import { createClient } from "@libsql/client";
 
 const client = createClient({
   url: "file:path/to/db-file.db",
-  syncUrl: "libsql://[databaseName]-[organizationName].turso.io",
+  syncUrl: "libsql://[databaseName]-[organizationSlug].turso.io",
   syncInterval: 60,
   authToken: "...",
 });
@@ -161,7 +161,7 @@ const result = await client.batch(
       args: ["Iku"],
     },
   ],
-  "write"
+  "write",
 );
 ```
 
@@ -178,7 +178,7 @@ const result = await client.batch(
       args: { name: "Iku" },
     },
   ],
-  "write"
+  "write",
 );
 ```
 
@@ -216,7 +216,7 @@ const result = await client.batch(
       args: ["Iku 2"],
     },
   ],
-  "write"
+  "write",
 );
 ```
 

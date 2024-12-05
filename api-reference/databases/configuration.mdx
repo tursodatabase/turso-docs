@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Retrieve Configuration
-openapi: "GET /v1/organizations/{organizationName}/databases/{databaseName}/configuration"
+openapi: "GET /v1/organizations/{organizationSlug}/databases/{databaseName}/configuration"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X GET 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}/configuration' \
+curl -L -X GET 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases/{databaseName}/configuration' \
   -H 'Authorization: Bearer TOKEN'
 ```
 

@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Delete
-openapi: "DELETE /v1/organizations/{organizationName}/databases/{databaseName}"
+openapi: "DELETE /v1/organizations/{organizationSlug}/databases/{databaseName}"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}' \
+curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases/{databaseName}' \
   -H 'Authorization: Bearer TOKEN'
 ```
 

@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Usage
-openapi: "GET /v1/organizations/{organizationName}/databases/{databaseName}/usage"
+openapi: "GET /v1/organizations/{organizationSlug}/databases/{databaseName}/usage"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X GET 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}/usage?from=2023-01-01T00:00:00Z&to=2023-02-01T00:00:00Z' \
+curl -L -X GET 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases/{databaseName}/usage?from=2023-01-01T00:00:00Z&to=2023-02-01T00:00:00Z' \
 -H 'Authorization: Bearer TOKEN'
 ```
 

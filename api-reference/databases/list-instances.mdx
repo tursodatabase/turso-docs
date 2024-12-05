@@ -1,12 +1,12 @@
 ---
 sidebarTitle: List Instances
-openapi: "GET /v1/organizations/{organizationName}/databases/{databaseName}/instances"
+openapi: "GET /v1/organizations/{organizationSlug}/databases/{databaseName}/instances"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}/instances \
+curl -L https://api.turso.tech/v1/organizations/{organizationSlug}/databases/{databaseName}/instances \
   -H 'Authorization: Bearer TOKEN'
 ```
 

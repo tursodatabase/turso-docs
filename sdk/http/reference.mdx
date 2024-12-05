@@ -17,7 +17,7 @@ It's recommended you use a [native SDK](/sdk).
 Simply replace your database URL protocol `libsql://` with `https://`:
 
 ```bash
-https://[databaseName]-[organizationName].turso.io
+https://[databaseName]-[organizationSlug].turso.io
 ```
 
 You can obtain your database base URL from the Turso CLI:
@@ -375,7 +375,7 @@ To obtain the current version of the server running your database you can use th
 <CodeGroup>
 
 ```bash Request
-curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/version' \
+curl -L -X GET 'https://[databaseName]-[organizationSlug].turso.io/version' \
   -H 'Authorization: Bearer TOKEN'
 ```
 
@@ -392,7 +392,7 @@ To check the health of your database, you can use the `/health` endpoint which r
 <CodeGroup>
 
 ```bash Request
-curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/health' \
+curl -L -X GET 'https://[databaseName]-[organizationSlug].turso.io/health' \
   -H 'Authorization: Bearer TOKEN'
 ```
 
@@ -409,7 +409,7 @@ You can dump the database using the `/dump` endpoint:
 <CodeGroup>
 
 ```bash Request
-curl -L -X GET 'https://[databaseName]-[organizationName].turso.io/dump' \
+curl -L -X GET 'https://[databaseName]-[organizationSlug].turso.io/dump' \
   -H 'Authorization: Bearer TOKEN'
 ```
 
@@ -447,7 +447,7 @@ Returns a summary of all migration jobs for a schema:
 <CodeGroup>
 
 ```bash Request
-curl -X GET 'https://[databaseName]-[organizationName].turso.io/v1/jobs' \
+curl -X GET 'https://[databaseName]-[organizationSlug].turso.io/v1/jobs' \
      -H 'Authorization: Bearer TOKEN'
 ```
 
@@ -499,7 +499,7 @@ Returns detailed information about a specific migration job.
 <CodeGroup>
 
 ```bash Request
-curl -X GET 'https://[databaseName]-[organizationName].turso.io/v1/jobs/:id' \
+curl -X GET 'https://[databaseName]-[organizationSlug].turso.io/v1/jobs/:id' \
      -H 'Authorization: Bearer TOKEN'
 ```
 
@@ -575,7 +575,7 @@ You can listen to changes committed to your database using the `/beta/listen` en
 ### `GET /beta/listen`
 
 ```bash Request
-curl -L 'https://[primary-instance-id]-[databaseName]-[organizationName].turso.io/beta/listen?table=TABLE_NAME' \
+curl -L 'https://[primary-instance-id]-[databaseName]-[organizationSlug].turso.io/beta/listen?table=TABLE_NAME' \
 -H 'Authorization: Bearer TOKEN'
 ```
 

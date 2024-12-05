@@ -78,7 +78,7 @@ const locations = await turso.locations.list();
 
 <Info>
 
-The `organizationName` is the name of your organization or personal account.
+The `organizationSlug` is the name of your organization or personal account.
 
 </Info>
 
@@ -93,7 +93,7 @@ Begin by creating a group, giving it a `name` and primary `location`:
 <CodeGroup>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -124,7 +124,7 @@ Now create your first database in the group you created above:
 <CodeGroup>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -155,7 +155,7 @@ Add another location to your group to replicate your database to another region:
 <CodeGroup>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}' \
   -H 'Authorization: Bearer TOKEN'
 ```
 

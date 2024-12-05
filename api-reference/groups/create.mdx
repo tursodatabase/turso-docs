@@ -1,6 +1,6 @@
 ---
 sidebarTitle: Create
-openapi: "POST /v1/organizations/{organizationName}/groups"
+openapi: "POST /v1/organizations/{organizationSlug}/groups"
 ---
 
 <Warning>
@@ -10,7 +10,7 @@ openapi: "POST /v1/organizations/{organizationName}/groups"
 <RequestExample>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups' \
 -H 'Authorization: Bearer TOKEN' \
 -H 'Content-Type: application/json' \
 -d '{

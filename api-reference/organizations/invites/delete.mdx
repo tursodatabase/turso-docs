@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Delete Invite
-openapi: "DELETE /v1/organizations/{organizationName}/invites/{email}"
+openapi: "DELETE /v1/organizations/{organizationSlug}/invites/{email}"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X DELETE https://api.turso.tech/v1/organizations/{organizationName}/invites/{email} \
+curl -L -X DELETE https://api.turso.tech/v1/organizations/{organizationSlug}/invites/{email} \
   -H 'Authorization: Bearer TOKEN'
 ```
 

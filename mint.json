@@ -448,6 +448,7 @@
           "group": "Organizations",
           "pages": [
             "api-reference/organizations/list",
+            "api-reference/organizations/retrieve",
             "api-reference/organizations/update",
             "api-reference/organizations/plans",
             "api-reference/organizations/subscription",
@@ -460,7 +461,9 @@
           "group": "Members",
           "pages": [
             "api-reference/organizations/members/list",
+            "api-reference/organizations/members/retrieve",
             "api-reference/organizations/members/add",
+            "api-reference/organizations/members/update",
             "api-reference/organizations/members/remove"
           ]
         },

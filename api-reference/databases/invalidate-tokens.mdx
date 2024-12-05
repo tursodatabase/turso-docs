@@ -1,6 +1,6 @@
 ---
 sidebarTitle: Invalidate Tokens
-openapi: "POST /v1/organizations/{organizationName}/databases/{databaseName}/auth/rotate"
+openapi: "POST /v1/organizations/{organizationSlug}/databases/{databaseName}/auth/rotate"
 ---
 
 <Warning>
@@ -12,7 +12,7 @@ A short downtime is required to complete the changes.
 <RequestExample>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}/auth/rotate' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases/{databaseName}/auth/rotate' \
 -H 'Authorization: Bearer TOKEN'
 ```
 

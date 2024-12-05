@@ -15,14 +15,14 @@
     }
   ],
   "paths": {
-    "/v1/organizations/{organizationName}/databases": {
+    "/v1/organizations/{organizationSlug}/databases": {
       "get": {
         "summary": "List Databases",
         "description": "Returns a list of databases belonging to the organization or user.",
         "operationId": "listDatabases",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "name": "group",
@@ -68,7 +68,7 @@
         "operationId": "createDatabase",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "requestBody": {
@@ -137,14 +137,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}": {
       "get": {
         "summary": "Retrieve Database",
         "description": "Returns a database belonging to the organization or user.",
         "operationId": "getDatabase",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/databaseName"
@@ -178,7 +178,7 @@
         "operationId": "deleteDatabase",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/databaseName"
@@ -209,14 +209,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/configuration": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/configuration": {
       "get": {
         "summary": "Retrieve Database Configuration",
         "description": "Retrieve an individual database configuration belonging to the organization or user.",
         "operationId": "getDatabaseConfiguration",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/databaseName"
@@ -241,7 +241,7 @@
         "operationId": "updateDatabaseConfiguration",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/databaseName"
@@ -273,10 +273,10 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/dumps": {
+    "/v1/organizations/{organizationSlug}/databases/dumps": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/organizationName"
+          "$ref": "#/components/parameters/organizationSlug"
         }
       ],
       "post": {
@@ -324,14 +324,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/instances": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/instances": {
       "get": {
         "summary": "List Database Instances",
         "description": "Returns a list of instances of a database. Instances are the individual primary or replica databases in each region defined by the group.",
         "operationId": "listDatabaseInstances",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/databaseName"
@@ -360,14 +360,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/instances/{instanceName}": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/instances/{instanceName}": {
       "get": {
         "summary": "Retrieve Database Instance",
         "description": "Return the individual database instance by name.",
         "operationId": "getDatabaseInstance",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/databaseName"
@@ -396,13 +396,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/auth/tokens": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/auth/tokens": {
       "post": {
         "summary": "Generate Database Auth Token",
         "description": "Generates an authorization token for the specified database.",
         "operationId": "createDatabaseToken",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/databaseName" },
           {
             "name": "expiration",
@@ -476,13 +476,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/usage": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/usage": {
       "get": {
         "summary": "Retrieve Database Usage",
         "description": "Fetch activity usage for a database in a given time period.",
         "operationId": "getDatabaseUsage",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/databaseName" },
           {
             "name": "from",
@@ -545,13 +545,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/stats": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/stats": {
       "get": {
         "summary": "Retrieve Database Stats",
         "description": "Fetch the top queries of a database, including the count of rows read and written.",
         "operationId": "getDatabaseStats",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/databaseName" }
         ],
         "responses": {
@@ -581,13 +581,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/databases/{databaseName}/auth/rotate": {
+    "/v1/organizations/{organizationSlug}/databases/{databaseName}/auth/rotate": {
       "post": {
         "summary": "Invalidate All Database Auth Tokens",
         "description": "Invalidates all authorization tokens for the specified database.",
         "operationId": "invalidateDatabaseTokens",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/databaseName" }
         ],
         "responses": {
@@ -601,14 +601,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups": {
+    "/v1/organizations/{organizationSlug}/groups": {
       "get": {
         "summary": "List Groups",
         "description": "Returns a list of groups belonging to the organization or user.",
         "operationId": "listGroups",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "responses": {
@@ -638,7 +638,7 @@
         "operationId": "createGroup",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "requestBody": {
@@ -690,14 +690,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}": {
       "get": {
         "summary": "Retrieve Group",
         "description": "Returns a group belonging to the organization or user.",
         "operationId": "getGroup",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/groupName"
@@ -730,7 +730,7 @@
         "operationId": "deleteGroup",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/groupName"
@@ -759,14 +759,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}/transfer": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/transfer": {
       "post": {
         "summary": "Transfer Group",
         "description": "Transfer a group to another organization that you own or a member of.",
         "operationId": "transferGroup",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/groupName"
@@ -782,7 +782,7 @@
                 "properties": {
                   "organization": {
                     "type": "string",
-                    "description": "The name of the organization to transfer the group to."
+                    "description": "The slug of the organization to transfer the group to."
                   }
                 }
               }
@@ -807,14 +807,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}/unarchive": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/unarchive": {
       "post": {
         "summary": "Unarchive Group",
         "description": "Unarchive a group that has been archived due to inactivity.",
         "operationId": "transferGroup",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/groupName"
@@ -844,13 +844,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}": {
       "post": {
         "summary": "Add Location to Group",
         "description": "Adds a location to the specified group.",
         "operationId": "addLocationToGroup",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/groupName" },
           {
             "name": "location",
@@ -914,7 +914,7 @@
         "description": "Removes a location from the specified group.",
         "operationId": "removeLocationFromGroup",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/groupName" },
           {
             "name": "location",
@@ -974,14 +974,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}/update": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/update": {
       "post": {
         "summary": "Update Databases in a Group",
         "description": "Updates all databases in the group to the latest libSQL version.",
         "operationId": "updateGroupDatabases",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/groupName"
@@ -998,13 +998,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}/auth/tokens": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/auth/tokens": {
       "post": {
         "summary": "Create Group Auth Token",
         "description": "Generates an authorization token for the specified group.",
         "operationId": "createGroupToken",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/groupName" },
           {
             "name": "expiration",
@@ -1078,13 +1078,13 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/groups/{groupName}/auth/rotate": {
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/auth/rotate": {
       "post": {
         "summary": "Invalidate All Group Auth Tokens",
         "description": "Invalidates all authorization tokens for the specified group.",
         "operationId": "invalidateGroupTokens",
         "parameters": [
-          { "$ref": "#/components/parameters/organizationName" },
+          { "$ref": "#/components/parameters/organizationSlug" },
           { "$ref": "#/components/parameters/groupName" }
         ],
         "responses": {
@@ -1189,14 +1189,59 @@
       }
     },
 
-    "/v1/organizations/{organizationName}": {
+    "/v1/organizations/{organizationSlug}": {
+      "get": {
+        "summary": "Retrieve Organization",
+        "description": "Retrieve details of a specific organization.",
+        "operationId": "getOrganization",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationSlug"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organization": {
+                      "$ref": "#/components/schemas/Organization"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Organization not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message",
+                      "example": "organization not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
       "patch": {
         "summary": "Update Organization",
         "description": "Update an organization you own or are a member of.",
         "operationId": "updateOrganization",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "requestBody": {
@@ -1237,14 +1282,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/plans": {
+    "/v1/organizations/{organizationSlug}/plans": {
       "get": {
         "summary": "List Plans",
         "description": "Returns a list of available plans and their quotas.",
         "operationId": "listOrganizationPlans",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "responses": {
@@ -1277,14 +1322,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/invoices": {
+    "/v1/organizations/{organizationSlug}/invoices": {
       "get": {
         "summary": "List Invoices",
         "description": "Returns a list of invoices for the organization.",
         "operationId": "listOrganizationInvoices",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "name": "type",
@@ -1353,14 +1398,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/subscription": {
+    "/v1/organizations/{organizationSlug}/subscription": {
       "get": {
         "summary": "Current Subscription",
         "description": "Returns the current subscription details for the organization.",
         "operationId": "getOrganizationSubscription",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "responses": {
@@ -1399,14 +1444,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/usage": {
+    "/v1/organizations/{organizationSlug}/usage": {
       "get": {
         "summary": "Organization Usage",
         "description": "Fetch current billing cycle usage for an organization.",
         "operationId": "getOrganizationUsage",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "responses": {
@@ -1485,14 +1530,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/members": {
+    "/v1/organizations/{organizationSlug}/members": {
       "get": {
         "summary": "List Members",
         "description": "Returns a list of members part of the organization.",
         "operationId": "listOrganizationMembers",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "responses": {
@@ -1522,7 +1567,7 @@
         "operationId": "addOrganizationMember",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "requestBody": {
@@ -1539,7 +1584,7 @@
                   },
                   "role": {
                     "type": "string",
-                    "enum": ["admin", "member"],
+                    "enum": ["admin", "member", "viewer"],
                     "description": "The role given to the user.",
                     "default": "member"
                   }
@@ -1595,7 +1640,7 @@
                     "error": {
                       "type": "string",
                       "description": "The error message",
-                      "example": "user [username] is already a member of organization [organizationName]"
+                      "example": "user [username] is already a member of organization [organizationSlug]"
                     }
                   }
                 }
@@ -1606,14 +1651,172 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/members/{username}": {
+    "/v1/organizations/{organizationSlug}/members/{username}": {
+      "get": {
+        "summary": "Retrieve Member",
+        "description": "Retrieve details of a specific member in the organization.",
+        "operationId": "getOrganizationMember",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationSlug"
+          },
+          {
+            "$ref": "#/components/parameters/username"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "member": {
+                      "$ref": "#/components/schemas/Member"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Member not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message",
+                      "example": "could not find member"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Member Role",
+        "description": "Update the role of an organization member. Only organization admins or owners can perform this action.",
+        "operationId": "updateMemberRole",
+        "parameters": [
+          { "$ref": "#/components/parameters/organizationSlug" },
+          { "$ref": "#/components/parameters/username" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "enum": ["admin", "member", "viewer"],
+                    "description": "The new role to assign to the member."
+                  }
+                },
+                "required": ["role"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "member": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "description": "The username of the updated member."
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "The email of the updated member."
+                        },
+                        "role": {
+                          "type": "string",
+                          "description": "The new role of the updated member.",
+                          "enum": ["admin", "member", "viewer"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message",
+                      "example": "invalid role"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message",
+                      "example": "updating member roles is only allowed for admin or owner"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message",
+                      "example": "could not find user [username]"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
       "delete": {
         "summary": "Remove Member",
         "description": "Remove a user from the organization by username.",
         "operationId": "removeOrganizationMember",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/username"
@@ -1645,7 +1848,7 @@
                     "error": {
                       "type": "string",
                       "description": "The error message",
-                      "example": "user [username] is not a member of org [organizationName]"
+                      "example": "user [username] is not a member of org [organizationSlug]"
                     }
                   }
                 }
@@ -1656,14 +1859,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/invites": {
+    "/v1/organizations/{organizationSlug}/invites": {
       "get": {
         "summary": "List Invites",
         "description": "Returns a list of invites for the organization.",
         "operationId": "listOrganizationInvites",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "responses": {
@@ -1693,7 +1896,7 @@
         "operationId": "inviteOrganizationMember",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           }
         ],
         "requestBody": {
@@ -1710,7 +1913,7 @@
                   },
                   "role": {
                     "type": "string",
-                    "enum": ["admin", "member"],
+                    "enum": ["admin", "member", "viewer"],
                     "description": "The role given to the user.",
                     "default": "member"
                   }
@@ -1740,14 +1943,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/invites/{email}": {
+    "/v1/organizations/{organizationSlug}/invites/{email}": {
       "delete": {
         "summary": "Delete Invite",
         "description": "Delete an invite for the organization by email.",
         "operationId": "deleteOrganizationInviteByEmail",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "in": "path",
@@ -1908,14 +2111,14 @@
       }
     },
 
-    "/v1/organizations/{organizationName}/audit-logs": {
+    "/v1/organizations/{organizationSlug}/audit-logs": {
       "get": {
         "summary": "List Audit Logs",
         "description": "Return the audit logs for the given organization, ordered by the `created_at` field in descending order.",
         "operationId": "listOrganizationAuditLogs",
         "parameters": [
           {
-            "$ref": "#/components/parameters/organizationName"
+            "$ref": "#/components/parameters/organizationSlug"
           },
           {
             "$ref": "#/components/parameters/page_size"
@@ -2038,6 +2241,21 @@
             "type": "boolean",
             "description": "Returns the current status for blocked writes.",
             "example": false
+          },
+          "plan_id": {
+            "type": "string",
+            "description": "The pricing plan identifier this organization is subscribed to.",
+            "example": "hobby"
+          },
+          "plan_timeline": {
+            "type": "string",
+            "description": "The billing cycle for the paid plan, if any.",
+            "example": "monthly"
+          },
+          "platform": {
+            "type": "string",
+            "description": "The external platform this organization is managed by. Will be empty for Turso managed organizations.",
+            "example": "vercel"
           }
         }
       },
@@ -2051,9 +2269,9 @@
           },
           "role": {
             "type": "string",
-            "description": "The role assigned to the member. Will be `owner`, `admin` or `member`.",
+            "description": "The role assigned to the member.",
             "example": "owner",
-            "enum": ["owner", "admin", "member"]
+            "enum": ["owner", "admin", "member", "viewer"]
           },
           "email": {
             "type": "string",
@@ -2088,7 +2306,7 @@
           },
           "Role": {
             "type": "string",
-            "enum": ["admin", "member"],
+            "enum": ["admin", "member", "viewer"],
             "description": "The assigned role for the invited user.",
             "example": "member"
           },
@@ -2211,7 +2429,7 @@
           "Hostname": {
             "type": "string",
             "description": "The DNS hostname used for client libSQL and HTTP connections.",
-            "example": "[databaseName]-[organizationName].turso.io"
+            "example": "[databaseName]-[organizationSlug].turso.io"
           },
           "block_reads": {
             "type": "boolean",
@@ -2302,7 +2520,7 @@
           "hostname": {
             "type": "string",
             "description": "The DNS hostname used for client libSQL and HTTP connections (specific to this instance only).",
-            "example": "[databaseName]-[organizationName].turso.io"
+            "example": "[databaseName]-[organizationSlug].turso.io"
           }
         }
       },
@@ -2335,7 +2553,7 @@
               "url": {
                 "type": "string",
                 "description": "The URL returned by [upload dump](/api-reference/databases/upload-dump) can be used with the `dump` seed type.",
-                "example": "https://api.turso.tech/v1/{organizationName}/databases/dumps/{dumpId}"
+                "example": "https://api.turso.tech/v1/{organizationSlug}/databases/dumps/{dumpId}"
               },
               "timestamp": {
                 "type": "string",
@@ -2693,14 +2911,14 @@
       }
     },
     "parameters": {
-      "organizationName": {
+      "organizationSlug": {
         "in": "path",
-        "name": "organizationName",
+        "name": "organizationSlug",
         "required": true,
         "schema": {
           "type": "string"
         },
-        "description": "The name of the organization or user."
+        "description": "The slug of the organization or user account."
       },
       "groupName": {
         "name": "groupName",

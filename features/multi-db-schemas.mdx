@@ -97,7 +97,7 @@ Make sure you have an API Token, and know your Organization name:
 Create a database and set the `is_schema` field to `true`:
 
 ```bash
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -124,7 +124,7 @@ turso db shell parent-db
 Create one or more child databases and pass the `schema` field the name of your parent database:
 
 ```bash
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{

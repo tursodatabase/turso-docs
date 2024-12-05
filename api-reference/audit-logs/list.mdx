@@ -1,6 +1,6 @@
 ---
 sidebarTitle: List
-openapi: "GET /v1/organizations/{organizationName}/audit-logs"
+openapi: "GET /v1/organizations/{organizationSlug}/audit-logs"
 ---
 
 <Warning>Audit Logs are limited to paid plans.</Warning>
@@ -8,7 +8,7 @@ openapi: "GET /v1/organizations/{organizationName}/audit-logs"
 <RequestExample>
 
 ```bash cURL
-curl -L https://api.turso.tech/v1/organizations/{organizationName}/audit-logs \
+curl -L https://api.turso.tech/v1/organizations/{organizationSlug}/audit-logs \
   -H 'Authorization: Bearer TOKEN'
 ```
 

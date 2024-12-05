@@ -1,6 +1,6 @@
 ---
 sidebarTitle: Unarchive
-openapi: "POST /v1/organizations/{organizationName}/groups/{groupName}/unarchive"
+openapi: "POST /v1/organizations/{organizationSlug}/groups/{groupName}/unarchive"
 ---
 
 <Info>
@@ -12,7 +12,7 @@ Databases get archived after 10 days of inactivity for users on a free plan &mda
 <RequestExample>
 
 ```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups/{groupName}/unarchive' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups/{groupName}/unarchive' \
 -H 'Authorization: Bearer TOKEN' \
 ```
 

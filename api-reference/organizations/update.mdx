@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Update
-openapi: "PATCH /v1/organizations/{organizationName}"
+openapi: "PATCH /v1/organizations/{organizationSlug}"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X PATCH https://api.turso.tech/v1/organizations/{organizationName} \
+curl -L -X PATCH https://api.turso.tech/v1/organizations/{organizationSlug} \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{

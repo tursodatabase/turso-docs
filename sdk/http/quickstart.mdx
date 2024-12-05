@@ -70,7 +70,7 @@ You must append to the Base URL the actual pipeline URL that accepts requests &m
 <CodeGroup>
 
 ```ts JavaScript (Fetch)
-const url = "https://[databaseName]-[organizationName].turso.io/v2/pipeline";
+const url = "https://[databaseName]-[organizationSlug].turso.io/v2/pipeline";
 const authToken = "...";
 
 fetch(url, {
@@ -96,7 +96,7 @@ require 'net/http'
 require 'json'
 require 'uri'
 
-url = "https://[databaseName]-[organizationName].turso.io/v2/pipeline"
+url = "https://[databaseName]-[organizationSlug].turso.io/v2/pipeline"
 auth_token = "..."
 
 uri = URI(url)

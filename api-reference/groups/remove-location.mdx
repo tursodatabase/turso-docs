@@ -1,12 +1,12 @@
 ---
 sidebarTitle: Remove Location
-openapi: "DELETE /v1/organizations/{organizationName}/groups/{groupName}/locations/{location}"
+openapi: "DELETE /v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}"
 ---
 
 <RequestExample>
 
 ```bash cURL
-curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}' \
+curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}' \
 -H 'Authorization: Bearer TOKEN'
 ```
 

@@ -24,7 +24,7 @@ turso db create my-new-database-branch --from-db my-existing-database
 ```
 
 ```bash Platform API
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/databases' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases' \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{

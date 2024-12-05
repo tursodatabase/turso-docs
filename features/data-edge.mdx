@@ -43,7 +43,7 @@ turso group locations add <group-name> <location-code>
 ```
 
 ```bash Platform API
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}' \
+curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}' \
   -H 'Authorization: Bearer TOKEN'
 ```
 
@@ -60,7 +60,7 @@ turso group locations remove <group-name> <...location-codes>
 ```
 
 ```bash Platform API
-curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationName}/groups/{groupName}/locations/{location}' \
+curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}' \
   -H 'Authorization: Bearer TOKEN'
 ```
 
