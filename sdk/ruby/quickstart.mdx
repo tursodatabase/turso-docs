@@ -30,20 +30,18 @@ In this Ruby quickstart we will learn how to:
     Inside your Ruby project, install the following Rubygem:
 
     ```bash
-    gem install turso_libsql
+    bundle add turso_libsql
     ```
 
   </Step>
 
   <Step title="Connect">
 
-You must first initialize libSQL, create a `libsql_database_t` object, and then open a `libsql_connection_t` to it:
-
 <AccordionGroup>
   <Accordion title="Embedded Replicas">
 
 ```rb
-require_relative 'turso_libsql'
+require 'turso_libsql'
 
 db =Libsql::Database.new(
   path: 'local.db',
@@ -57,7 +55,7 @@ db =Libsql::Database.new(
   <Accordion title="Local only">
 
 ```rb
-require_relative 'turso_libsql'
+require 'turso_libsql'
 
 db = Libsql::Database.new(path: 'local.db')
 ```
@@ -66,7 +64,7 @@ db = Libsql::Database.new(path: 'local.db')
   <Accordion title="Remote only">
 
 ```rb
-require_relative 'turso_libsql'
+require 'turso_libsql'
 
 db = Libsql::Database.new(
   url: ENV['TURSO_DATABASE_URL'],

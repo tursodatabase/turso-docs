@@ -350,6 +350,16 @@
           "pages": ["sdk/ruby/quickstart", "sdk/ruby/examples"]
         },
         {
+          "group": "ActiveRecord",
+          "pages": [
+            "sdk/activerecord/quickstart",
+            {
+              "group": "Guides",
+              "pages": ["sdk/activerecord/guides/rails"]
+            }
+          ]
+        },
+        {
           "group": "Android",
           "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
         },
