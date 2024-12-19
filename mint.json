@@ -336,8 +336,7 @@
             "sdk/php/reference",
             "sdk/php/examples",
             {
-              "group": "Guides",
-              "pages": ["sdk/php/guides/laravel"]
+              "group": "Guides"
             },
             {
               "group": "ORMs",
