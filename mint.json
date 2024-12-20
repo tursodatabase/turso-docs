@@ -336,9 +336,6 @@
             "sdk/php/reference",
             "sdk/php/examples",
             {
-              "group": "Guides"
-            },
-            {
               "group": "ORMs",
               "pages": ["sdk/php/orm/doctrine-dbal"]
             }
