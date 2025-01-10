@@ -7,6 +7,8 @@ Turso's embedded replicas are a game-changer for SQLite, making it more flexible
 
 Embedded replicas provide a smooth switch between local and remote database operations, allowing the same database to adapt to various scenarios effortlessly. They also ensure speedy data access by syncing local copies with the remote database, enabling microsecond-level read operations &mdash; a significant advantage for scenarios demanding quick data retrieval.
 
+<Warning>Support for Embedded Replicas on AWS is coming soon</Warning>
+
 ## How it works
 
 1. You configure a local file to be your main database.
@@ -131,6 +133,42 @@ let build = Builder::new_remote_replica("file:replica.db", "libsql://...", "..."
 let client = build.connect()?;
 ```
 
+```php PHP
+use Libsql\Database;
+
+$db = new Database(
+    path: 'replica.db',
+    url: getenv('TURSO_URL'),
+    authToken: getenv('TURSO_AUTH_TOKEN'),
+    syncInterval: 300 // Sync every 5 minutes
+);
+$conn = $db->connect();
+```
+
+```php Laravel
+// config/database.php
+return [
+    "default" => env("DB_CONNECTION", "libsql"),
+
+    "connections" => [
+        "libsql" => [
+            "driver" => "libsql",
+            "database" => database_path("database.db"),
+            "url" => env("TURSO_DATABASE_URL"),
+            "password" => env("TURSO_AUTH_TOKEN"),
+            "sync_interval" => env("TURSO_SYNC_INTERVAL", 300),
+        ],
+        // ...
+    ],
+];
+
+// .env
+DB_CONNECTION=libsql
+TURSO_DATABASE_URL=libsql://...
+TURSO_AUTH_TOKEN=...
+TURSO_SYNC_INTERVAL=300
+```
+
 </CodeGroup>
 
 You can sync changes from the remote database to the local replica manually:
@@ -149,6 +187,10 @@ if err := connector.Sync(); err != nil {
 
 ```rust Rust
 client.sync().await?;
+```
+
+```php PHP
+$db->sync();
 ```
 
 </CodeGroup>

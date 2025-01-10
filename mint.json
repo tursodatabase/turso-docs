@@ -39,12 +39,12 @@
   },
   "tabs": [
     {
-      "name": "Turso CLI",
-      "url": "cli"
+      "name": "libSQL SDKs",
+      "url": "sdk"
     },
     {
-      "name": "Client SDKs",
-      "url": "sdk"
+      "name": "Turso CLI",
+      "url": "cli"
     },
     {
       "name": "Platform API",
@@ -249,7 +249,7 @@
       ]
     },
     {
-      "group": "Client SDKs",
+      "group": "libSQL SDKs",
       "pages": [
         "sdk/introduction",
         "sdk/authentication",
@@ -338,6 +338,10 @@
             {
               "group": "ORMs",
               "pages": ["sdk/php/orm/doctrine-dbal"]
+            },
+            {
+              "group": "Guides",
+              "pages": ["sdk/php/guides/laravel"]
             }
           ]
         },
