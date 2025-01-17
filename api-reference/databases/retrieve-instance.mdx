@@ -18,7 +18,10 @@ const turso = createClient({
   token: "",
 });
 
-const instance = await turso.databases.retrieveInstance("my-db", "lhr");
+const instance = await turso.databases.retrieveInstance(
+  "my-db",
+  "instanceName",
+);
 ```
 
 </RequestExample>

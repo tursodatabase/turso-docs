@@ -11,14 +11,11 @@ AWS is the default cloud provider for new Turso users. Existing users can create
 | --------------------- | ----- | ----- |
 | Vector                | ✅    | ✅    |
 | File Size Limit       | 100GB | 1GB\* |
-| Replication           | ✅    | ❌    |
 | Point-in-time Restore | ✅    | ℹ️    |
 | Branching             | ✅    | ✅    |
 | Embedded Syncs        | ✅    | ℹ️    |
 | Upload SQLite Files   | ✅    | ℹ️    |
 | API-Level DB Lock     | ✅    | ℹ️    |
-| Schema Databases      | ✅    | ℹ️    |
-| SQLite `ATTACH`       | ✅    | ℹ️    |
 | Extensions            | ✅    | ℹ️    |
 | Bring Your Own S3     | ✅    | ℹ️    |
 
@@ -36,12 +33,7 @@ AWS is the default cloud provider for new Turso users. Existing users can create
 
 ## Fly
 
-You can deploy and replicate to many locations on Fly. Your databases form a [group](#groups) with a primary and optional replica locations. Turso handles synchronization from the primary to replicas automatically across its [data edge](/features/data-edge).
-
-- **Primary**
-  - All databases have a primary location (region) where data is stored, and can't be changed. You can configure the primary location for groups using the Turso CLI and Turso Platform API.
-- **Replicas**
-  - Databases can be replicated to other regions closer to your users by adding more locations to the group your database belongs to.
+You can create a [group](#groups) for many databases that share a single location below:
 
 ### Fly Locations
 
