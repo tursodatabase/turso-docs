@@ -6,17 +6,16 @@ sidebarTitle: shell
 You can connect directly to a Turso database by using the following command:
 
 ```bash
-turso db shell <database-name | replica-url> [sql] [flags]
+turso db shell <database-name> [sql] [flags]
 ```
 
 ## Flags
 
-| Flag                         | Description                                                        |
-| ---------------------------- | ------------------------------------------------------------------ |
-| `--attach <database-name>`   | List of database names with attach claim to be added to the token. |
-| `--instance <instance>`      | Connect to the specified database instance.                        |
-| `--location <location-code>` | Connect to the database at the specified location.                 |
-| `--proxy <url>`              | The proxy to use when connecting to the database.                  |
+| Flag                         | Description                                        |
+| ---------------------------- | -------------------------------------------------- |
+| `--instance <instance>`      | Connect to the specified database instance.        |
+| `--location <location-code>` | Connect to the database at the specified location. |
+| `--proxy <url>`              | The proxy to use when connecting to the database.  |
 
 ## Examples
 
@@ -56,12 +55,4 @@ If you're using `turso dev` locally, you can use the shell by providing the URL 
 
 ```bash
 turso db shell http://127.0.0.1:8080
-```
-
-### Connect using a specific database location
-
-You can connect to a database in a specific location using the `--location` flag:
-
-```bash
-turso db shell <database-name> --location nrt
 ```

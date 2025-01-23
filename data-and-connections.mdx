@@ -7,32 +7,17 @@ Turso, an extension of [libSQL](/libsql) (a SQLite fork), modifies the consisten
 
 ## Establishing Connections
 
-Database operations begin with a client establishing either an HTTP or websocket connection to a server instance. Following this, an internal SQLite database connection is set up within the server to facilitate the operations.
+Database operations begin with a client establishing either an HTTP or websocket connection to a database. Following this, an internal SQLite database connection is set up within the server to facilitate the operations.
 
 ## Data Consistency
 
-Database operations are tightly controlled to maintain order and data integrity, with primary instances handling all writes in a serialized manner and replicas managing local reads.
+Database operations are tightly controlled to maintain order and data integrity.
 
 ### Primary Database Operations
 
 - All operations are linearizable, maintaining an ordered history.
 - Writes are fully serialized, with subsequent writes awaiting transaction completion.
 - Users should exercise caution with long-running or abandoned transactions to prevent blocking other writes.
-
-### Replica Operations & Reads
-
-- **Forwarding Writes to the Primary:**
-  - All writes are forwarded to the primary, ensuring serialized application.
-- **Replication Process:**
-  - Changes from the primary are eventually propagated to each replica, with a latency of 200-300ms.
-  - New connections may encounter stale data until a write operation updates the replication index.
-  - Replicas do not guarantee immediate reflection of primary's changes, leading to potential data differences across replicas.
-  - Monotonic reads are maintained, ensuring read operations retrieve data newer than previously accessed data on the same instance.
-- **Immediate Read-After-Write Consistency:**
-  - Replication index tracking enables immediate read-after-write consistency.
-  - Clients track replication frames to ensure awareness of the most recent data state across replicas.
-  - Replicas manage requests based on the client's replication index, ensuring consistent data access.
-  - Developers can utilize a driver to track replication frames, guaranteeing consistency between read and write operations.
 
 ## Transactional Consistency
 

@@ -9,7 +9,6 @@ description: Welcome to Turso! Get started with Turso in minutes.
 2. Signup to Turso
 3. Create your first Turso Database
 4. Connect to Database Shell
-5. Replicate Database to another region
 
 <Steps>
 
@@ -122,26 +121,6 @@ When you're ready to move onto the next step, you'll want to to quit the shell:
 ```sql
 .quit
 ```
-
-</Step>
-
-<Step title="Replicate Database to another region">
-
-Adding a database replica is an easy as adding another location to the "group" your database belongs to.
-
-First, you can fetch a list of supported locations using the Turso CLI:
-
-```bash
-turso db locations
-```
-
-Pick a location for your database to replicate it to and pass the three-digit code to the `groups locations add` command:
-
-```bash
-turso group locations add default nrt
-```
-
-**Congratulations**! Your data is now replicated and closer to users in two regions.
 
 </Step>
 

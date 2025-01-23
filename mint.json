@@ -55,7 +55,7 @@
     {
       "name": "Docs",
       "icon": "book-open-cover",
-      "url": "/"
+      "url": "/introduction"
     },
     {
       "name": "Turso Homepage",
@@ -81,14 +81,7 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": [
-        "introduction",
-        "quickstart",
-        "concepts",
-        "local-development",
-        "libsql",
-        "cloud-providers"
-      ]
+      "pages": ["introduction", "quickstart", "local-development", "libsql"]
     },
     {
       "group": "Product",
@@ -111,12 +104,18 @@
             }
           ]
         },
-        "features/multi-db-schemas",
-        "features/attach-database",
-        "features/data-edge",
         "features/branching",
         "features/point-in-time-recovery",
-        "features/scale-to-zero"
+        "features/scale-to-zero",
+        {
+          "group": "Deprecated",
+          "pages": [
+            "features/multi-db-schemas",
+            "features/attach-database",
+            "features/data-edge",
+            "cloud-providers"
+          ]
+        }
       ]
     },
     {
@@ -172,19 +171,6 @@
             {
               "group": "tokens",
               "pages": ["cli/db/tokens/create", "cli/db/tokens/invalidate"]
-            },
-            {
-              "group": "config",
-              "pages": [
-                {
-                  "group": "attach",
-                  "pages": [
-                    "cli/db/config/attach/allow",
-                    "cli/db/config/attach/disallow",
-                    "cli/db/config/attach/show"
-                  ]
-                }
-              ]
             }
           ]
         },
@@ -197,14 +183,6 @@
             "cli/group/update",
             "cli/group/destroy",
             "cli/group/transfer",
-            {
-              "group": "locations",
-              "pages": [
-                "cli/group/locations/add",
-                "cli/group/locations/list",
-                "cli/group/locations/remove"
-              ]
-            },
             {
               "group": "tokens",
               "pages": [
@@ -431,8 +409,6 @@
             "api-reference/groups/create",
             "api-reference/groups/retrieve",
             "api-reference/groups/delete",
-            "api-reference/groups/add-location",
-            "api-reference/groups/remove-location",
             "api-reference/groups/transfer",
             "api-reference/groups/unarchive",
             "api-reference/groups/update-database-versions",
@@ -522,6 +498,42 @@
     }
   },
   "redirects": [
+    {
+      "source": "/concepts",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/api-reference/groups/add-location",
+      "destination": "/api-reference"
+    },
+    {
+      "source": "/api-reference/groups/remove-location",
+      "destination": "/api-reference"
+    },
+    {
+      "source": "/cli/db/config/attach/show",
+      "destination": "/cli"
+    },
+    {
+      "source": "/cli/db/config/attach/disallow",
+      "destination": "/cli"
+    },
+    {
+      "source": "/cli/db/config/attach/list",
+      "destination": "/cli"
+    },
+    {
+      "source": "/cli/group/locations/add",
+      "destination": "/cli"
+    },
+    {
+      "source": "/cli/group/locations/remove",
+      "destination": "/cli"
+    },
+    {
+      "source": "/cli/group/locations/list",
+      "destination": "/cli"
+    },
     {
       "source": "/tutorials",
       "destination": "https://turso.tech/blog"

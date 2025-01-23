@@ -148,32 +148,6 @@ const database = await turso.databases.create("my-db", "ams");
 
 </Step>
 
-<Step title="Replicate Database to another region">
-
-Add another location to your group to replicate your database to another region:
-
-<CodeGroup>
-
-```bash cURL
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/groups/{groupName}/locations/{location}' \
-  -H 'Authorization: Bearer TOKEN'
-```
-
-```ts Node.js
-import { createClient } from "@tursodatabase/api";
-
-const turso = createClient({
-  org: "...",
-  token: "",
-});
-
-const group = await turso.groups.addLocation("default", "ams");
-```
-
-</CodeGroup>
-
-</Step>
-
 <Step title="Connect to your database">
 
 You now have a database, distributed across multiple regions that you can connect to using one of the official or experimental SDKs:
