@@ -1495,7 +1495,7 @@
                               "description": "The number of locations allowed for the specific plan.",
                               "example": 3
                             },
-                            "storage": {
+                            "storage_bytes": {
                               "type": "integer",
                               "description": "The amount of storage allowed for the specific plan, in bytes.",
                               "example": 9000000000
