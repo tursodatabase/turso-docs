@@ -565,6 +565,7 @@
                     "top_queries": {
                       "type": "array",
                       "description": "The top queries performed on the given database as well as the total rows read and written.",
+                      "nullable": true,
                       "items": {
                         "$ref": "#/components/schemas/DatabaseStatsOutput"
                       }
