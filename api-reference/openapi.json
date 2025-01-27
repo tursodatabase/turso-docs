@@ -1412,23 +1412,28 @@
                   "type": "object",
                   "properties": {
                     "subscription": {
-                      "type": "string",
-                      "description": "The name of the plan for the current subscription.",
-                      "example": "scaler"
-                    },
-                    "overages": {
-                      "type": "boolean",
-                      "description": "Whether overages are enabled for the organization."
-                    },
-                    "plan": {
-                      "type": "string",
-                      "description": "The name of the plan for the current subscription.",
-                      "example": "scaler"
-                    },
-                    "timeline": {
-                      "type": "string",
-                      "description": "Whether the plan is billed monthly or yearly.",
-                      "example": "monthly"
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the plan for the current subscription.",
+                          "example": "scaler"
+                        },
+                        "overages": {
+                          "type": "boolean",
+                          "description": "Whether overages are enabled for the organization."
+                        },
+                        "plan": {
+                          "type": "string",
+                          "description": "The name of the plan for the current subscription.",
+                          "example": "scaler"
+                        },
+                        "timeline": {
+                          "type": "string",
+                          "description": "Whether the plan is billed monthly or yearly.",
+                          "example": "monthly"
+                        }
+                      }
                     }
                   }
                 }
