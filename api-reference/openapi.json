@@ -2646,7 +2646,8 @@
                 "usage": {
                   "rows_read": 0,
                   "rows_written": 0,
-                  "storage_bytes": 4096
+                  "storage_bytes": 4096,
+                  "bytes_synced": 0
                 }
               },
               {
@@ -2654,7 +2655,8 @@
                 "usage": {
                   "rows_read": 0,
                   "rows_written": 0,
-                  "storage_bytes": 4096
+                  "storage_bytes": 4096,
+                  "bytes_synced": 0
                 }
               }
             ]
@@ -2665,7 +2667,8 @@
             "example": {
               "rows_read": 0,
               "rows_written": 0,
-              "storage_bytes": 8192
+              "storage_bytes": 8192,
+              "bytes_synced": 0
             }
           }
         }
@@ -2688,6 +2691,11 @@
             "type": "integer",
             "example": 0,
             "description": "The total storage used."
+          },
+          "bytes_synced": {
+              "type": "integer",
+              "example": 0,
+              "description": "The total bytes synced."
           }
         }
       },
