@@ -1301,18 +1301,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the plan.",
-                      "example": "starter"
-                    },
-                    "price": {
-                      "type": "string",
-                      "description": "The monthly price of the plan.",
-                      "example": "0"
-                    },
-                    "quotas": {
-                      "$ref": "#/components/schemas/PlanQuotas"
+                    "plans": {
+                      "type": "array",
+                      "description": "List of available plans.",
+                      "items": {
+                        "$ref": "#/components/schemas/OrganizationPlan"
+                      }
                     }
                   }
                 }
@@ -2812,6 +2806,47 @@
         }
       },
 
+      "OrganizationPlan": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the plan.",
+            "example": "starter"
+          },
+          "price": {
+            "type": "string",
+            "description": "The monthly price of the plan.",
+            "example": "0"
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanPrice"
+            }
+          },
+          "quotas": {
+            "$ref": "#/components/schemas/PlanQuotas"
+          }
+        }
+      },
+
+      "PlanPrice": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Price of the available plan.",
+            "example": "29"
+          },
+          "timeline": {
+            "type": "string",
+            "description": "Payment regularity.",
+            "example": "monthly"
+          }
+        }
+      },
+
       "PlanQuotas": {
         "type": "object",
         "properties": {
@@ -2827,6 +2862,7 @@
           },
           "databases": {
             "type": "integer",
+            "nullable": true,
             "description": "The number of databases allowed for the specific plan.",
             "example": 500
           },
