@@ -265,6 +265,8 @@ try {
 ```
 
 ```ts Batch Usage
+let transaction: Transaction | null = null
+
 try {
   const records = [
     { name: "Alice", age: 30 },
@@ -272,7 +274,7 @@ try {
     { name: "Charlie", age: 35 },
   ];
 
-  const transaction = await client.transaction("write");
+  transaction = await client.transaction("write");
 
   for (const record of records) {
     await transaction.execute({
@@ -284,7 +286,7 @@ try {
   await transaction.commit();
 } catch (e) {
   console.error(e);
-  await transaction.rollback();
+  if (transaction) await transaction.rollback();
 }
 ```
 
