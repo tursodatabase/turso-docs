@@ -53,11 +53,6 @@
   ],
   "anchors": [
     {
-      "name": "Docs",
-      "icon": "book-open-cover",
-      "url": "/introduction"
-    },
-    {
       "name": "Turso Homepage",
       "icon": "house",
       "url": "https://turso.tech"
