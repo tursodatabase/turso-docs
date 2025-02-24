@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "willow",
   "name": "Turso",
   "colors": {
     "primary": "#1EBCA1",
@@ -445,16 +445,6 @@
                 ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "anchor": "Docs",
-        "icon": "book-open-cover",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": ["introduction"]
           }
         ]
       },
