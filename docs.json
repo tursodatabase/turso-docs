@@ -9,437 +9,351 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "anchors": [
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Turso Homepage",
+          "icon": "house",
+          "href": "https://turso.tech"
+        },
+        {
+          "anchor": "Blog & Tutorials",
+          "icon": "newspaper",
+          "href": "https://turso.tech/blog"
+        },
+        {
+          "anchor": "Discord",
+          "icon": "discord",
+          "href": "https://discord.gg/turso"
+        },
+        {
+          "anchor": "GitHub",
+          "icon": "github",
+          "href": "https://github.com/tursodatabase"
+        }
+      ]
+    },
+
+    "tabs": [
       {
-        "anchor": "Documentation",
-        "icon": "book-open",
-        "tabs": [
+        "tab": "Documentation",
+        "groups": [
           {
-            "tab": "Documentation",
-            "groups": [
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "local-development",
+              "libsql"
+            ]
+          },
+          {
+            "group": "Product",
+            "pages": [
+              "features/platform-api",
+              "features/ai-and-embeddings",
               {
-                "group": "Getting Started",
-                "pages": ["quickstart", "local-development", "libsql"]
-              },
-              {
-                "group": "Product",
+                "group": "Embedded Replicas",
                 "pages": [
-                  "features/platform-api",
-                  "features/ai-and-embeddings",
+                  "features/embedded-replicas/introduction",
                   {
-                    "group": "Embedded Replicas",
+                    "group": "Platform Guides",
                     "pages": [
-                      "features/embedded-replicas/introduction",
-                      {
-                        "group": "Platform Guides",
-                        "pages": [
-                          "features/embedded-replicas/with-fly",
-                          "features/embedded-replicas/with-render",
-                          "features/embedded-replicas/with-koyeb",
-                          "features/embedded-replicas/with-railway",
-                          "features/embedded-replicas/with-akamai"
-                        ]
-                      }
-                    ]
-                  },
-                  "features/branching",
-                  "features/point-in-time-recovery",
-                  "features/scale-to-zero",
-                  "features/sqlite-extensions",
-                  {
-                    "group": "Deprecated",
-                    "pages": [
-                      "features/multi-db-schemas",
-                      "features/attach-database",
-                      "features/data-edge",
-                      "cloud-providers"
+                      "features/embedded-replicas/with-fly",
+                      "features/embedded-replicas/with-render",
+                      "features/embedded-replicas/with-koyeb",
+                      "features/embedded-replicas/with-railway",
+                      "features/embedded-replicas/with-akamai"
                     ]
                   }
                 ]
               },
+              "features/branching",
+              "features/point-in-time-recovery",
+              "features/scale-to-zero",
               {
-                "group": "Help",
+                "group": "Deprecated",
                 "pages": [
-                  "support",
-                  "help/usage-and-billing",
-                  "data-and-connections"
+                  "features/multi-db-schemas",
+                  "features/attach-database",
+                  "features/data-edge",
+                  "cloud-providers"
                 ]
               }
             ]
           },
           {
-            "tab": "libSQL SDKs",
-            "groups": [
+            "group": "Help",
+            "pages": [
+              "support",
+              "help/usage-and-billing",
+              "data-and-connections"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "libSQL SDKs",
+        "groups": [
+          {
+            "group": "libSQL SDKs",
+            "pages": [
+              "sdk/introduction",
+              "sdk/authentication",
               {
-                "group": "libSQL SDKs",
+                "group": "libSQL Remote Protocol",
+                "pages": ["sdk/http/quickstart", "sdk/http/reference"]
+              }
+            ]
+          },
+          {
+            "group": "Official SDKs",
+            "pages": [
+              {
+                "group": "TypeScript / JS",
                 "pages": [
-                  "sdk/introduction",
-                  "sdk/authentication",
+                  "sdk/ts/quickstart",
+                  "sdk/ts/reference",
+                  "sdk/ts/examples",
                   {
-                    "group": "libSQL Remote Protocol",
-                    "pages": ["sdk/http/quickstart", "sdk/http/reference"]
+                    "group": "Guides",
+                    "pages": [
+                      "sdk/ts/guides/nextjs",
+                      "sdk/ts/guides/remix",
+                      "sdk/ts/guides/astro",
+                      "sdk/ts/guides/nuxt",
+                      "sdk/ts/guides/qwik",
+                      "sdk/ts/guides/sveltekit",
+                      "sdk/ts/guides/quasar",
+                      "sdk/ts/guides/elysia",
+                      "sdk/ts/guides/hono"
+                    ]
+                  },
+                  {
+                    "group": "ORMs",
+                    "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+                  },
+                  {
+                    "group": "Integrations",
+                    "pages": ["sdk/ts/integrations/sentry"]
                   }
                 ]
               },
               {
-                "group": "Official SDKs",
+                "group": "Rust",
                 "pages": [
+                  "sdk/rust/quickstart",
+                  "sdk/rust/reference",
+                  "sdk/rust/examples",
                   {
-                    "group": "TypeScript / JS",
+                    "group": "Guides",
                     "pages": [
-                      "sdk/ts/quickstart",
-                      "sdk/ts/reference",
-                      "sdk/ts/examples",
-                      {
-                        "group": "Guides",
-                        "pages": [
-                          "sdk/ts/guides/nextjs",
-                          "sdk/ts/guides/remix",
-                          "sdk/ts/guides/astro",
-                          "sdk/ts/guides/nuxt",
-                          "sdk/ts/guides/qwik",
-                          "sdk/ts/guides/sveltekit",
-                          "sdk/ts/guides/quasar",
-                          "sdk/ts/guides/elysia",
-                          "sdk/ts/guides/hono"
-                        ]
-                      },
-                      {
-                        "group": "ORMs",
-                        "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
-                      },
-                      {
-                        "group": "Integrations",
-                        "pages": ["sdk/ts/integrations/sentry"]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "Rust",
-                    "pages": [
-                      "sdk/rust/quickstart",
-                      "sdk/rust/reference",
-                      "sdk/rust/examples",
-                      {
-                        "group": "Guides",
-                        "pages": [
-                          "sdk/rust/guides/actix",
-                          "sdk/rust/guides/axum",
-                          "sdk/rust/guides/rocket",
-                          "sdk/rust/guides/tauri"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "Go",
-                    "pages": [
-                      "sdk/go/quickstart",
-                      "sdk/go/reference",
-                      "sdk/go/examples"
-                    ]
-                  },
-                  {
-                    "group": "Python",
-                    "pages": [
-                      "sdk/python/quickstart",
-                      "sdk/python/reference",
-                      "sdk/python/examples",
-                      {
-                        "group": "Guides",
-                        "pages": ["sdk/python/guides/flask"]
-                      },
-                      {
-                        "group": "ORMs",
-                        "pages": ["sdk/python/orm/sqlalchemy"]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "PHP",
-                    "pages": [
-                      "sdk/php/quickstart",
-                      "sdk/php/reference",
-                      "sdk/php/examples",
-                      {
-                        "group": "ORMs",
-                        "pages": ["sdk/php/orm/doctrine-dbal"]
-                      },
-                      {
-                        "group": "Guides",
-                        "pages": ["sdk/php/guides/laravel"]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "Ruby",
-                    "pages": ["sdk/ruby/quickstart", "sdk/ruby/examples"]
-                  },
-                  {
-                    "group": "ActiveRecord",
-                    "pages": [
-                      "sdk/activerecord/quickstart",
-                      {
-                        "group": "Guides",
-                        "pages": ["sdk/activerecord/guides/rails"]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "Android",
-                    "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
-                  },
-                  {
-                    "group": "Swift",
-                    "pages": ["sdk/swift/quickstart", "sdk/swift/reference"]
-                  },
-                  {
-                    "group": "C",
-                    "pages": [
-                      "sdk/c/quickstart",
-                      "sdk/c/reference",
-                      "sdk/c/examples"
+                      "sdk/rust/guides/actix",
+                      "sdk/rust/guides/axum",
+                      "sdk/rust/guides/rocket",
+                      "sdk/rust/guides/tauri"
                     ]
                   }
                 ]
               },
               {
-                "group": "Community SDKs",
+                "group": "Go",
                 "pages": [
+                  "sdk/go/quickstart",
+                  "sdk/go/reference",
+                  "sdk/go/examples"
+                ]
+              },
+              {
+                "group": "Python",
+                "pages": [
+                  "sdk/python/quickstart",
+                  "sdk/python/reference",
+                  "sdk/python/examples",
                   {
-                    "group": "Flutter / Dart",
-                    "pages": [
-                      "sdk/flutter/quickstart",
-                      "sdk/flutter/reference",
-                      "sdk/flutter/examples",
-                      {
-                        "group": "Integrations",
-                        "pages": ["sdk/flutter/integrations/drift"]
-                      }
-                    ]
+                    "group": "Guides",
+                    "pages": ["sdk/python/guides/flask"]
+                  },
+                  {
+                    "group": "ORMs",
+                    "pages": ["sdk/python/orm/sqlalchemy"]
                   }
+                ]
+              },
+              {
+                "group": "PHP",
+                "pages": [
+                  "sdk/php/quickstart",
+                  "sdk/php/reference",
+                  "sdk/php/examples",
+                  {
+                    "group": "ORMs",
+                    "pages": ["sdk/php/orm/doctrine-dbal"]
+                  },
+                  {
+                    "group": "Guides",
+                    "pages": ["sdk/php/guides/laravel"]
+                  }
+                ]
+              },
+              {
+                "group": "Ruby",
+                "pages": ["sdk/ruby/quickstart", "sdk/ruby/examples"]
+              },
+              {
+                "group": "ActiveRecord",
+                "pages": [
+                  "sdk/activerecord/quickstart",
+                  {
+                    "group": "Guides",
+                    "pages": ["sdk/activerecord/guides/rails"]
+                  }
+                ]
+              },
+              {
+                "group": "Android",
+                "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
+              },
+              {
+                "group": "Swift",
+                "pages": ["sdk/swift/quickstart", "sdk/swift/reference"]
+              },
+              {
+                "group": "C",
+                "pages": [
+                  "sdk/c/quickstart",
+                  "sdk/c/reference",
+                  "sdk/c/examples"
                 ]
               }
             ]
           },
           {
-            "tab": "Turso CLI",
-            "groups": [
+            "group": "Community SDKs",
+            "pages": [
               {
-                "group": "Turso CLI",
+                "group": "Flutter / Dart",
                 "pages": [
-                  "cli/introduction",
-                  "cli/installation",
-                  "cli/authentication",
-                  "cli/upgrading",
-                  "cli/help",
-                  "cli/headless-mode"
-                ]
-              },
-              {
-                "group": "Commands",
-                "pages": [
+                  "sdk/flutter/quickstart",
+                  "sdk/flutter/reference",
+                  "sdk/flutter/examples",
                   {
-                    "group": "auth",
-                    "pages": [
-                      "cli/auth/login",
-                      "cli/auth/logout",
-                      "cli/auth/signup",
-                      "cli/auth/token",
-                      "cli/auth/whoami",
-                      {
-                        "group": "api-tokens",
-                        "pages": [
-                          "cli/auth/api-tokens/mint",
-                          "cli/auth/api-tokens/list",
-                          "cli/auth/api-tokens/revoke"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "group": "contact",
-                    "pages": ["cli/contact/bookmeeting", "cli/contact/feedback"]
-                  },
-                  {
-                    "group": "db",
-                    "pages": [
-                      "cli/db/list",
-                      "cli/db/create",
-                      "cli/db/show",
-                      "cli/db/destroy",
-                      "cli/db/inspect",
-                      "cli/db/shell",
-                      "cli/db/locations",
-                      {
-                        "group": "tokens",
-                        "pages": [
-                          "cli/db/tokens/create",
-                          "cli/db/tokens/invalidate"
-                        ]
-                      }
-                    ]
-                  },
-                  "cli/dev",
-                  {
-                    "group": "group",
-                    "pages": [
-                      "cli/group/list",
-                      "cli/group/create",
-                      "cli/group/update",
-                      "cli/group/destroy",
-                      "cli/group/transfer",
-                      {
-                        "group": "tokens",
-                        "pages": [
-                          "cli/group/tokens/create",
-                          "cli/group/tokens/invalidate"
-                        ]
-                      },
-                      "cli/group/unarchive"
-                    ]
-                  },
-                  {
-                    "group": "org",
-                    "pages": [
-                      "cli/org/switch",
-                      "cli/org/list",
-                      "cli/org/create",
-                      "cli/org/billing",
-                      {
-                        "group": "members",
-                        "pages": [
-                          "cli/org/members/list",
-                          "cli/org/members/invite",
-                          "cli/org/members/add",
-                          "cli/org/members/rm"
-                        ]
-                      },
-                      "cli/org/destroy"
-                    ]
-                  },
-                  {
-                    "group": "plan",
-                    "pages": [
-                      "cli/plan/show",
-                      "cli/plan/select",
-                      "cli/plan/upgrade",
-                      {
-                        "group": "overages",
-                        "pages": [
-                          "cli/plan/overages/disable",
-                          "cli/plan/overages/enable"
-                        ]
-                      }
-                    ]
+                    "group": "Integrations",
+                    "pages": ["sdk/flutter/integrations/drift"]
                   }
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        "tab": "Turso CLI",
+        "groups": [
+          {
+            "group": "Turso CLI",
+            "pages": [
+              "cli/introduction",
+              "cli/installation",
+              "cli/authentication",
+              "cli/upgrading",
+              "cli/help",
+              "cli/headless-mode"
+            ]
           },
           {
-            "tab": "Platform API",
-            "groups": [
+            "group": "Commands",
+            "pages": [
               {
-                "group": "API",
+                "group": "auth",
                 "pages": [
-                  "api-reference/introduction",
-                  "api-reference/quickstart",
-                  "api-reference/authentication",
-                  "api-reference/response-codes"
+                  "cli/auth/login",
+                  "cli/auth/logout",
+                  "cli/auth/signup",
+                  "cli/auth/token",
+                  "cli/auth/whoami",
+                  {
+                    "group": "api-tokens",
+                    "pages": [
+                      "cli/auth/api-tokens/mint",
+                      "cli/auth/api-tokens/list",
+                      "cli/auth/api-tokens/revoke"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Resources",
+                "group": "contact",
+                "pages": ["cli/contact/bookmeeting", "cli/contact/feedback"]
+              },
+              {
+                "group": "db",
                 "pages": [
+                  "cli/db/list",
+                  "cli/db/create",
+                  "cli/db/show",
+                  "cli/db/destroy",
+                  "cli/db/inspect",
+                  "cli/db/shell",
+                  "cli/db/locations",
                   {
-                    "group": "Databases",
-                    "icon": "database",
+                    "group": "tokens",
                     "pages": [
-                      "api-reference/databases/list",
-                      "api-reference/databases/create",
-                      "api-reference/databases/retrieve",
-                      "api-reference/databases/configuration",
-                      "api-reference/databases/update-configuration",
-                      "api-reference/databases/usage",
-                      "api-reference/databases/stats",
-                      "api-reference/databases/delete",
-                      "api-reference/databases/list-instances",
-                      "api-reference/databases/retrieve-instance",
-                      "api-reference/databases/create-token",
-                      "api-reference/databases/invalidate-tokens",
-                      "api-reference/databases/upload-dump"
+                      "cli/db/tokens/create",
+                      "cli/db/tokens/invalidate"
+                    ]
+                  }
+                ]
+              },
+              "cli/dev",
+              {
+                "group": "group",
+                "pages": [
+                  "cli/group/list",
+                  "cli/group/create",
+                  "cli/group/update",
+                  "cli/group/destroy",
+                  "cli/group/transfer",
+                  {
+                    "group": "tokens",
+                    "pages": [
+                      "cli/group/tokens/create",
+                      "cli/group/tokens/invalidate"
                     ]
                   },
+                  "cli/group/unarchive"
+                ]
+              },
+              {
+                "group": "org",
+                "pages": [
+                  "cli/org/switch",
+                  "cli/org/list",
+                  "cli/org/create",
+                  "cli/org/billing",
                   {
-                    "group": "Groups",
-                    "icon": "sitemap",
+                    "group": "members",
                     "pages": [
-                      "api-reference/groups/list",
-                      "api-reference/groups/create",
-                      "api-reference/groups/retrieve",
-                      "api-reference/groups/delete",
-                      "api-reference/groups/transfer",
-                      "api-reference/groups/unarchive",
-                      "api-reference/groups/update-database-versions",
-                      "api-reference/groups/create-token",
-                      "api-reference/groups/invalidate-tokens"
+                      "cli/org/members/list",
+                      "cli/org/members/invite",
+                      "cli/org/members/add",
+                      "cli/org/members/rm"
                     ]
                   },
+                  "cli/org/destroy"
+                ]
+              },
+              {
+                "group": "plan",
+                "pages": [
+                  "cli/plan/show",
+                  "cli/plan/select",
+                  "cli/plan/upgrade",
                   {
-                    "group": "Locations",
-                    "icon": "location-dot",
+                    "group": "overages",
                     "pages": [
-                      "api-reference/locations/list",
-                      "api-reference/locations/closest-region"
-                    ]
-                  },
-                  {
-                    "group": "Organizations",
-                    "icon": "user-group",
-                    "pages": [
-                      "api-reference/organizations/list",
-                      "api-reference/organizations/retrieve",
-                      "api-reference/organizations/update",
-                      "api-reference/organizations/plans",
-                      "api-reference/organizations/subscription",
-                      "api-reference/organizations/invoices",
-                      "api-reference/organizations/usage"
-                    ]
-                  },
-                  {
-                    "group": "Members",
-                    "icon": "user",
-                    "pages": [
-                      "api-reference/organizations/members/list",
-                      "api-reference/organizations/members/retrieve",
-                      "api-reference/organizations/members/add",
-                      "api-reference/organizations/members/update",
-                      "api-reference/organizations/members/remove"
-                    ]
-                  },
-                  {
-                    "group": "Invites",
-                    "icon": "envelope",
-                    "pages": [
-                      "api-reference/organizations/invites/list",
-                      "api-reference/organizations/invites/create",
-                      "api-reference/organizations/invites/delete"
-                    ]
-                  },
-                  {
-                    "group": "Audit Logs",
-                    "icon": "list",
-                    "pages": ["api-reference/audit-logs/list"]
-                  },
-                  {
-                    "group": "API Tokens",
-                    "icon": "key",
-                    "pages": [
-                      "api-reference/tokens/create",
-                      "api-reference/tokens/validate",
-                      "api-reference/tokens/list",
-                      "api-reference/tokens/revoke"
+                      "cli/plan/overages/disable",
+                      "cli/plan/overages/enable"
                     ]
                   }
                 ]
@@ -449,24 +363,123 @@
         ]
       },
       {
-        "anchor": "Turso Homepage",
-        "href": "https://turso.tech",
-        "icon": "house"
-      },
-      {
-        "anchor": "Blog & Tutorials",
-        "href": "https://turso.tech/blog",
-        "icon": "newspaper"
-      },
-      {
-        "anchor": "Discord",
-        "href": "https://discord.gg/turso",
-        "icon": "discord"
-      },
-      {
-        "anchor": "GitHub",
-        "href": "https://github.com/tursodatabase",
-        "icon": "github"
+        "tab": "Platform API",
+        "groups": [
+          {
+            "group": "API",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/quickstart",
+              "api-reference/authentication",
+              "api-reference/response-codes"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              {
+                "group": "Databases",
+                "icon": "database",
+                "pages": [
+                  "api-reference/databases/list",
+                  "api-reference/databases/create",
+                  "api-reference/databases/retrieve",
+                  "api-reference/databases/configuration",
+                  "api-reference/databases/update-configuration",
+                  "api-reference/databases/usage",
+                  "api-reference/databases/stats",
+                  "api-reference/databases/delete",
+                  "api-reference/databases/list-instances",
+                  "api-reference/databases/retrieve-instance",
+                  "api-reference/databases/create-token",
+                  "api-reference/databases/invalidate-tokens",
+                  "api-reference/databases/upload-dump"
+                ]
+              },
+              {
+                "group": "Groups",
+                "icon": "sitemap",
+                "pages": [
+                  "api-reference/groups/list",
+                  "api-reference/groups/create",
+                  "api-reference/groups/retrieve",
+                  "api-reference/groups/delete",
+                  "api-reference/groups/transfer",
+                  "api-reference/groups/unarchive",
+                  "api-reference/groups/update-database-versions",
+                  "api-reference/groups/create-token",
+                  "api-reference/groups/invalidate-tokens"
+                ]
+              },
+              {
+                "group": "Locations",
+                "icon": "location-dot",
+                "pages": [
+                  "api-reference/locations/list",
+                  "api-reference/locations/closest-region"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Organizations",
+            "pages": [
+              {
+                "group": "Organizations",
+                "icon": "user-group",
+                "pages": [
+                  "api-reference/organizations/list",
+                  "api-reference/organizations/retrieve",
+                  "api-reference/organizations/update",
+                  "api-reference/organizations/plans",
+                  "api-reference/organizations/subscription",
+                  "api-reference/organizations/invoices",
+                  "api-reference/organizations/usage"
+                ]
+              },
+              {
+                "group": "Members",
+                "icon": "user",
+                "pages": [
+                  "api-reference/organizations/members/list",
+                  "api-reference/organizations/members/retrieve",
+                  "api-reference/organizations/members/add",
+                  "api-reference/organizations/members/update",
+                  "api-reference/organizations/members/remove"
+                ]
+              },
+              {
+                "group": "Invites",
+                "icon": "envelope",
+                "pages": [
+                  "api-reference/organizations/invites/list",
+                  "api-reference/organizations/invites/create",
+                  "api-reference/organizations/invites/delete"
+                ]
+              },
+              {
+                "group": "Audit Logs",
+                "icon": "list",
+                "pages": ["api-reference/audit-logs/list"]
+              }
+            ]
+          },
+          {
+            "group": "API Tokens",
+            "pages": [
+              {
+                "group": "API Tokens",
+                "icon": "key",
+                "pages": [
+                  "api-reference/tokens/create",
+                  "api-reference/tokens/validate",
+                  "api-reference/tokens/list",
+                  "api-reference/tokens/revoke"
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   },
