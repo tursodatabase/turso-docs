@@ -34,7 +34,7 @@ If you're using libsql locally or an sqlite file, you can ignore passing `authTo
 
 </Info>
 
-## In-Memory Databases
+## In-Memory Databases {8}
 
 libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't require persistence:
 
@@ -50,7 +50,7 @@ const client = createClient({
 
 You can work locally using an SQLite file and passing the path to `createClient`:
 
-```ts
+```ts {4}
 import { createClient } from "@libsql/client";
 
 const client = createClient({
@@ -69,7 +69,7 @@ The `@libsql/client/web` does not support local file URLs.
 
 You can work with embedded replicas by passing your Turso Database URL to `syncUrl`:
 
-```ts
+```ts {5}
 import { createClient } from "@libsql/client";
 
 const client = createClient({
@@ -93,7 +93,7 @@ await client.sync();
 
 You can automatically sync at intervals by configuring the `syncInterval` (seconds) property when instantiating a new libSQL client:
 
-```ts
+```ts {6}
 import { createClient } from "@libsql/client";
 
 const client = createClient({
@@ -111,6 +111,20 @@ To enable encryption on a SQLite file, pass the `encryptionKey`:
 <Snippet file="encryption-at-rest-typescript.mdx" />
 
 Encrypted databases appear as raw data and cannot be read as standard SQLite databases. You must use the libSQL client for any operations &mdash; [learn more](/libsql#encryption-at-rest).
+
+## Concurrency
+
+By default, the client performs up to `20` concurrent requests. You can set this option to a higher
+number to increase the concurrency limit. You can also set this option to `undefined` to disable concurrency
+completely:
+
+```ts {4}
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+  concurrency: 10,
+});
+```
 
 ## Response
 
@@ -265,7 +279,7 @@ try {
 ```
 
 ```ts Batch Usage
-let transaction: Transaction | null = null
+let transaction: Transaction | null = null;
 
 try {
   const records = [
