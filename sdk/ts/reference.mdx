@@ -34,11 +34,11 @@ If you're using libsql locally or an sqlite file, you can ignore passing `authTo
 
 </Info>
 
-## In-Memory Databases {8}
+## In-Memory Databases
 
 libSQL supports connecting to [in-memory databases](https://www.sqlite.org/inmemorydb.html) for cases where you don't require persistence:
 
-```ts
+```ts {4}
 import { createClient } from "@libsql/client";
 
 const client = createClient({
