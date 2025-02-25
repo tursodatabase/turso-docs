@@ -7,7 +7,6 @@ Developers can build locally with Turso using either of the following methods:
 
 - [SQLite](#sqlite) &mdash; local SQLite database file
 - [Turso CLI](#turso-cli) &mdash; managed libSQL server
-- [libSQL Server](#libsql-server) &mdash; self managed libSQL server
 - [Turso Database](#turso-database) &mdash; remote Turso database
 
 ## Using a dump locally
@@ -166,20 +165,6 @@ If you want to persist changes, or use a production dump, you can pass the `--db
 turso dev --db-file local.db
 ```
 
-## libSQL Server
-
-You can build and run libSQL server (`sqld`) yourself locally, or inside your own infrastructure using the source code:
-
-<CardGroup cols={2}>
-
-<Card
-  title="tursodatabase/libsql"
-  icon="github"
-  href="https://github.com/tursodatabase/libsql"
-/>
-
-</CardGroup>
-
 ## Turso Database
 
 If you already have a database created with Turso, you can use that same one in development by passing the `url` option to your SDK.
@@ -198,5 +183,5 @@ During development you can easily connect to a SQLite, libSQL, or Turso database
 - [Outerbase](https://www.outerbase.com) &mdash; Runs in the browser
 - [TablePlus](https://tableplus.com) &mdash; macOS, Windows, and Linux
 - [Dataflare](https://dataflare.app) &mdash; Paid (with limited free version) macOS, Windows, and Linux
-- [libSQL Studio](https://github.com/invisal/libsql-studio) - Runs in the browser
+- [Outerbase Studio](https://libsqlstudio.com) - Runs in the browser
 - [DBeaver](https://dbeaver.io) - macOS, Windows, and Linux
