@@ -83,6 +83,10 @@
             ]
           },
           {
+            "group": "Cloud",
+            "pages": ["cloud/durability"]
+          },
+          {
             "group": "Help",
             "pages": [
               "support",
