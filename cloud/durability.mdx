@@ -69,17 +69,6 @@ Let's break it down:
 - The commit (c1) to database d2 that happens 4ms into the window only waits the remaining 6ms
 - The second commit (c2) to database d1 that arrives exactly at the end of the commit window has no added latency
 
-<Note>
-  Pro customers never share data with databases from other organizations. For
-  the Free, Developer, and Scaler tier, commit data is shared across databases
-  from other organizations, but encrypted individually with a per-organization
-  key.
-</Note>
-
-## Offline writes durability guarantees
-
-Turso databases can work in offline modes, where writes happen in a local SQLite file, and later sent to Turso Cloud. This is achieved by calling the `sync()` method on the database object. Turso Cloud standard durability guarantees and commit latency apply after the `sync()` method is called.
-
 ## Testing methodology
 
 Turso Cloud server is written from the ground up to use Deterministic Simulation Testing. DST, for short, is a technique that automatically tests the code across a variety of possible, randomly generated inputs, and upon any failure generates a seed that deterministically reproduces the issue with all its preconditions.
