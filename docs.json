@@ -295,6 +295,7 @@
                 "pages": [
                   "cli/db/list",
                   "cli/db/create",
+                  "cli/db/import",
                   "cli/db/show",
                   "cli/db/destroy",
                   "cli/db/inspect",
