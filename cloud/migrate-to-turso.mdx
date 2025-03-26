@@ -180,7 +180,11 @@ curl -X POST "https://api.turso.tech/v1/organizations/{organizationSlug}/databas
   }'
 ```
 
-The `seed` parameter with `"type": "database_upload"` indicates that you plan to upload a database file.
+<Note>
+
+The `seed` parameter with `"type": "database_upload"` indicates that you plan to upload a database file. If you don't proceed to upload a database, this database will count towards your quota, but will not be usable.
+
+</Note>
 
 </Step>
 
