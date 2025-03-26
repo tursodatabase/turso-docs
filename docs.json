@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "willow",
+  "theme": "mint",
   "name": "Turso",
   "colors": {
     "primary": "#1EBCA1",
@@ -84,7 +84,7 @@
           },
           {
             "group": "Cloud",
-            "pages": ["cloud/durability"]
+            "pages": ["cloud/migrate-to-turso", "cloud/durability"]
           },
           {
             "group": "Help",
