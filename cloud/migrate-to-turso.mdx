@@ -11,6 +11,70 @@ This guide will walk you through the process of migrating your existing SQLite d
 
 </Frame>
 
+## Preparing to Migrate
+
+Before importing your SQLite database to Turso, you need to ensure it's compatible with Turso's requirements. Specifically, your SQLite database should be using WAL (Write-Ahead Logging) mode.
+
+<Steps>
+
+<Step title="Open your SQLite database">
+
+Use the SQLite command-line tool or any SQLite client to open your database:
+
+```bash
+sqlite3 path/to/your/database.db
+```
+
+</Step>
+
+<Step title="Set WAL journal mode">
+
+Run the following command to switch your database to WAL mode:
+
+```sql
+PRAGMA journal_mode='wal';
+```
+
+This should return `wal` to confirm the change was successful.
+
+</Step>
+
+<Step title="Checkpoint and truncate the WAL file">
+
+Execute a checkpoint to ensure all changes are written to the main database file and truncate the WAL file:
+
+```sql
+PRAGMA wal_checkpoint(truncate);
+```
+
+</Step>
+
+<Step title="Verify the journal mode">
+
+Confirm that your database is now in WAL mode:
+
+```sql
+PRAGMA journal_mode;
+```
+
+This should return `wal`.
+
+</Step>
+
+<Step title="Close the database">
+
+Exit the SQLite shell:
+
+```sql
+.exit
+```
+
+Your database is now ready for migration to Turso.
+
+</Step>
+
+</Steps>
+
 ## Using the CLI
 
 You can create a new database from a local SQLite file using the Turso CLI:
@@ -138,7 +202,7 @@ This token will be used to authenticate your upload request, and future requests
 Finally, upload your SQLite database file:
 
 ```bash
-curl -X POST "https://{databaseName}.turso.io/v1/upload" \
+curl -X POST "https://{databaseName}-{organizationSlug}.turso.io/v1/upload" \
   -H "Authorization: Bearer DATABASE_TOKEN" \
   --data-binary @/path/to/your/database.db
 ```
