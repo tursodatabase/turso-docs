@@ -10,7 +10,10 @@ curl -L -X PATCH 'https://api.turso.tech/v1/organizations/{organizationSlug}/dat
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
-      "size_limit": "500mb"
+      "size_limit": "500mb",
+      "delete_protection": true,
+      "block_reads": false,
+      "block_writes": false
   }'
 ```
 

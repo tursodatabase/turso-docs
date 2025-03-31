@@ -408,6 +408,8 @@
                   "api-reference/groups/list",
                   "api-reference/groups/create",
                   "api-reference/groups/retrieve",
+                  "api-reference/groups/configuration",
+                  "api-reference/groups/update-configuration",
                   "api-reference/groups/delete",
                   "api-reference/groups/transfer",
                   "api-reference/groups/unarchive",

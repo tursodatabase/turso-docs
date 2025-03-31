@@ -760,6 +760,70 @@
       }
     },
 
+    "/v1/organizations/{organizationSlug}/groups/{groupName}/configuration": {
+      "get": {
+        "summary": "Retrieve Group Configuration",
+        "description": "Retrieve an individual group configuration belonging to the organization or user.",
+        "operationId": "getGroupConfiguration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationSlug"
+          },
+          {
+            "$ref": "#/components/parameters/groupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupConfigurationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Group Configuration",
+        "description": "Update a group configuration belonging to the organization or user.",
+        "operationId": "updateGroupConfiguration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationSlug"
+          },
+          {
+            "$ref": "#/components/parameters/groupName"
+          }
+        ],
+        "requestBody": {
+          "description": "The configuration to be applied to the chosen group.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupConfigurationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupConfigurationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/v1/organizations/{organizationSlug}/groups/{groupName}/transfer": {
       "post": {
         "summary": "Transfer Group",
@@ -2692,9 +2756,9 @@
             "description": "The total storage used."
           },
           "bytes_synced": {
-              "type": "integer",
-              "example": 0,
-              "description": "The total bytes synced."
+            "type": "integer",
+            "example": 0,
+            "description": "The total bytes synced."
           }
         }
       },
@@ -2743,6 +2807,11 @@
             "type": "boolean",
             "description": "Block all database writes.",
             "example": false
+          },
+          "delete_protection": {
+            "type": "boolean",
+            "description": "Prevent the database from being deleted.",
+            "example": true
           }
         }
       },
@@ -2768,6 +2837,11 @@
             "type": "boolean",
             "description": "The current status for blocked writes.",
             "example": false
+          },
+          "delete_protection": {
+            "type": "boolean",
+            "description": "Prevent the database from being deleted.",
+            "example": true
           }
         }
       },
@@ -2807,6 +2881,27 @@
             "type": "boolean",
             "description": "Groups on the free tier get archived after some inactivity.",
             "example": false
+          }
+        }
+      },
+
+      "GroupConfigurationInput": {
+        "type": "object",
+        "properties": {
+          "delete_protection": {
+            "type": "boolean",
+            "description": "Prevent the group from being deleted.",
+            "example": true
+          }
+        }
+      },
+      "GroupConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "delete_protection": {
+            "type": "boolean",
+            "description": "Prevent the group from being deleted.",
+            "example": true
           }
         }
       },
