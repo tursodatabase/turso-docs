@@ -413,7 +413,6 @@
                   "api-reference/groups/delete",
                   "api-reference/groups/transfer",
                   "api-reference/groups/unarchive",
-                  "api-reference/groups/update-database-versions",
                   "api-reference/groups/create-token",
                   "api-reference/groups/invalidate-tokens"
                 ]
