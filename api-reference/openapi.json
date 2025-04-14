@@ -273,57 +273,6 @@
       }
     },
 
-    "/v1/organizations/{organizationSlug}/databases/dumps": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/organizationSlug"
-        }
-      ],
-      "post": {
-        "summary": "Upload SQLite Dump",
-        "description": "Upload a SQL dump to be used when [creating a new database](/api-reference/databases/create) from seed.",
-        "operationId": "uploadDatabaseDump",
-        "requestBody": {
-          "description": "Database dump file to be uploaded.",
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "Database dump file."
-                  }
-                },
-                "required": ["file"]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful upload of the database dump.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "dump_url": {
-                      "type": "string",
-                      "format": "uri",
-                      "description": "URL of the uploaded database dump."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
     "/v1/organizations/{organizationSlug}/databases/{databaseName}/instances": {
       "get": {
         "summary": "List Database Instances",
@@ -2505,11 +2454,6 @@
             "description": "The current status for blocked writes.",
             "example": false
           },
-          "allow_attach": {
-            "type": "boolean",
-            "description": "The current status for allowing the database to be attached to another.",
-            "example": false
-          },
           "regions": {
             "type": "array",
             "items": {
@@ -2523,35 +2467,14 @@
             "description": "The primary region location code the group the database belongs to.",
             "example": "lhr"
           },
-          "type": {
-            "type": "string",
-            "description": "The string representing the object type.",
-            "default": "logical",
-            "example": "logical"
-          },
-          "version": {
-            "type": "string",
-            "description": "The current libSQL version the database is running.",
-            "example": "0.22.22"
-          },
           "group": {
             "type": "string",
             "description": "The name of the group the database belongs to.",
             "example": "default"
           },
-          "is_schema": {
+          "delete_protection": {
             "type": "boolean",
-            "description": "If this database controls other child databases then this will be `true`. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example": false
-          },
-          "schema": {
-            "type": "string",
-            "description": "The name of the parent database that owns the schema for this database. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example": ""
-          },
-          "archived": {
-            "type": "boolean",
-            "description": "The current status of the database. If `true`, the database is archived and requires a manual unarchive step.",
+            "description": "The current status for delete protection. If enabled, the database cannot be deleted.",
             "example": false
           }
         }
@@ -2605,7 +2528,7 @@
             "properties": {
               "type": {
                 "type": "string",
-                "enum": ["database", "dump"],
+                "enum": ["database", "database_upload"],
                 "description": "The type of seed to be used to create a new database.",
                 "example": "database"
               },
@@ -2613,11 +2536,6 @@
                 "type": "string",
                 "description": "The name of the existing database when `database` is used as a seed type.",
                 "example": "my-db"
-              },
-              "url": {
-                "type": "string",
-                "description": "The URL returned by [upload dump](/api-reference/databases/upload-dump) can be used with the `dump` seed type.",
-                "example": "https://api.turso.tech/v1/{organizationSlug}/databases/dumps/{dumpId}"
               },
               "timestamp": {
                 "type": "string",
@@ -2629,16 +2547,6 @@
           "size_limit": {
             "type": "string",
             "description": "The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb."
-          },
-          "is_schema": {
-            "type": "boolean",
-            "description": "Mark this database as the parent schema database that updates child databases with any schema changes. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example": true
-          },
-          "schema": {
-            "type": "string",
-            "description": "The name of the parent database to use as the schema. See [Multi-DB Schemas](/features/multi-db-schemas).",
-            "example": "my-parent-db"
           }
         },
         "required": ["name", "group"]
@@ -2796,7 +2704,8 @@
           },
           "allow_attach": {
             "type": "boolean",
-            "description": "Allow or disallow attaching databases to the current database."
+            "description": "Allow or disallow attaching databases to the current database.",
+            "deprecated": true
           },
           "block_reads": {
             "type": "boolean",
@@ -2826,7 +2735,8 @@
           "allow_attach": {
             "type": "boolean",
             "description": "Allow or disallow attaching databases to the current database.",
-            "example": true
+            "example": true,
+            "deprecated": true
           },
           "block_reads": {
             "type": "boolean",
@@ -2857,7 +2767,8 @@
           "version": {
             "type": "string",
             "description": "The current libSQL server version the databases in that group are running.",
-            "example": "v0.23.7"
+            "example": "v0.23.7",
+            "deprecated": true
           },
           "uuid": {
             "type": "string",
@@ -2870,16 +2781,17 @@
               "type": "string"
             },
             "description": "An array of location keys the group is located.",
-            "example": ["lhr", "ams", "bos"]
+            "example": ["lhr", "ams", "bos"],
+            "deprecated": true
           },
           "primary": {
             "type": "string",
             "description": "The primary location key.",
-            "example": "lhr"
+            "example": "us-east-1"
           },
-          "archived": {
+          "delete_protection": {
             "type": "boolean",
-            "description": "Groups on the free tier get archived after some inactivity.",
+            "description": "The current status for delete protection. If enabled, the group and all its databases cannot be deleted.",
             "example": false
           }
         }
