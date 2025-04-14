@@ -2384,6 +2384,11 @@
               "user-signup",
               "db-create",
               "db-delete",
+              "db-protect",
+              "db-unprotect",
+              "db-token-create",
+              "group-token-create",
+              "user-token-create",
               "instance-create",
               "instance-delete",
               "org-create",
@@ -2395,8 +2400,11 @@
               "org-set-overages",
               "group-create",
               "group-delete",
-              "mfa-enable",
-              "mfa-disable"
+              "group-unarchive",
+              "group-protect",
+              "group-unprotect",
+              "db-aunrchive",
+              "user-delete"
             ]
           },
           "message": {
