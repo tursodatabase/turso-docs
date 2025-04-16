@@ -38,7 +38,16 @@
             "schema": {
               "type": "string"
             },
-            "description": "The schema database name that can be used to get databases that belong to that parent schema."
+            "description": "The schema database name that can be used to get databases that belong to that parent schema.",
+            "deprecated": true
+          },
+          {
+            "name": "parent",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter database branches by using their parent database ID."
           }
         ],
         "responses": {
@@ -2468,7 +2477,8 @@
               "type": "string"
             },
             "description": "A list of regions for the group the database belongs to.",
-            "example": ["lhr", "bos", "nrt"]
+            "example": ["lhr", "bos", "nrt"],
+            "deprecated": true
           },
           "primaryRegion": {
             "type": "string",
@@ -2484,6 +2494,26 @@
             "type": "boolean",
             "description": "The current status for delete protection. If enabled, the database cannot be deleted.",
             "example": false
+          },
+          "parent": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The parent database identifier."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the parent database."
+              },
+              "branched_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The timestamp when the database was branched from the parent.",
+                "example": "2025-04-15T13:14:34.468213117Z"
+              }
+            }
           }
         }
       },
