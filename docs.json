@@ -71,6 +71,7 @@
               "features/branching",
               "features/point-in-time-recovery",
               "features/scale-to-zero",
+              "features/sqlite-extensions",
               {
                 "group": "Deprecated",
                 "pages": [

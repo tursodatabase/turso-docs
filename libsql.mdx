@@ -65,54 +65,9 @@ libSQL's encryption leverages existing, proven encryption solutions, integrating
 
 ## Extensions
 
-<Warning>
-
-Extensions are experimental. [Join us on Discord](https://discord.gg/turso) to add your suggestions and feedback.
-
-</Warning>
-
 <Info>
   If you're looking to enable vector extensions, you should instead consider
   using the native [libSQL vector datatype](/features/ai-and-embeddings).
 </Info>
 
-| Extension                                                                     | Version  | Installed | Description                                                                 |
-| ----------------------------------------------------------------------------- | -------- | --------- | --------------------------------------------------------------------------- |
-| [JSON](https://www.sqlite.org/json1.html)                                     | Built-in | Default   | Work with JSON data in SQLite.                                              |
-| [FTS5](https://www.sqlite.org/fts5.html)                                      | Built-in | Default   | Full-text search and indexing.                                              |
-| [R\*Tree](https://www.sqlite.org/rtree.html)                                  | Built-in | Default   | Indexing and querying spatial data.                                         |
-| [sqlite-vec](https://github.com/asg017/sqlite-vec/tree/v0.1.1)                | 0.1.0    | Opt-in    | The Vector Search successor to `sqlite-vss`.                                |
-| [SQLean Crypto](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/crypto.md) | 0.24.1   | Opt-in    | Hashing, message digest, encoding, and decoding.                            |
-| [SQLean Fuzzy](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/fuzzy.md)   | 0.24.1   | Opt-in    | Fuzzy string matching and phonetics. A fork of Spellfix1 with improvements. |
-| [SQLean Math](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/math.md)     | 0.24.1   | Opt-in    | Advanced mathematical calculations.                                         |
-| [SQLean Regexp](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/regexp.md) | 0.24.1   | Opt-in    | Regular expressions with SQLite.                                            |
-| [SQLean Stats](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/stats.md)   | 0.24.1   | Opt-in    | Common statistical functions with SQLite.                                   |
-| [SQLean Text](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/text.md)     | 0.24.1   | Opt-in    | String manipulation (reverse, split) with SQLite.                           |
-| [SQLean UUID](https://github.com/nalgeon/sqlean/blob/0.24.1/docs/uuid.md)     | 0.24.1   | Opt-in    | Limited support for RFC 4122 compliant UUIDs.                               |
-
-You can enable all extensions when creating a new database using the [CLI](/cli/db/create) or [API](/api-reference/databases/create):
-
-<CodeGroup>
-
-```bash Turso CLI
-turso db create [database-name] --enable-extensions
-```
-
-```bash Platform API
-curl -L -X POST 'https://api.turso.tech/v1/organizations/{organizationSlug}/databases' \
-  -H 'Authorization: Bearer TOKEN' \
-  -H 'Content-Type: application/json' \
-  -d '{
-      "name": "new-database",
-      "group": "default",
-      "extensions": "all"
-  }'
-```
-
-</CodeGroup>
-
-If you already have a group created with extensions disabled, you can update all databases in a group to enable extensions:
-
-```bash
-turso group update <group-name> --extensions all
-```
+A full list of supported extensions can be found [here](/features/sqlite-extensions).
