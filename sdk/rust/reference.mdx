@@ -185,6 +185,12 @@ You can prepare a cached statement using `prepare()` and then execute it with `q
 let stmt = db_conn.prepare("SELECT * FROM users").await?;
 
 db_conn.query(&stmt, [&1]).await?;
+
+// reset state when calling with different parameters
+stmt.reset();
+
+db_conn.query(&stmt, [&2]).await?;
+
 ```
 
 ## Placeholders
