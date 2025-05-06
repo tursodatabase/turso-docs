@@ -1,5 +1,12 @@
 {
   "openapi": "3.0.1",
+  "api": {
+    "mdx": {
+      "auth": {
+        "method": "bearer"
+      }
+    }
+  },
   "info": {
     "title": "Turso Platform API",
     "description": "API description here",
