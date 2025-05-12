@@ -327,7 +327,15 @@
                       "cli/group/tokens/invalidate"
                     ]
                   },
-                  "cli/group/unarchive"
+                  "cli/group/unarchive",
+                  {
+                    "group": "aws-migration",
+                    "pages": [
+                      "cli/group/aws-migration/start",
+                      "cli/group/aws-migration/info",
+                      "cli/group/aws-migration/abort"
+                    ]
+                  }
                 ]
               },
               {
