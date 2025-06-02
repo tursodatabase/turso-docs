@@ -77,8 +77,7 @@
                 "pages": [
                   "features/multi-db-schemas",
                   "features/attach-database",
-                  "features/data-edge",
-                  "cloud-providers"
+                  "features/data-edge"
                 ]
               }
             ]
@@ -858,7 +857,11 @@
     },
     {
       "source": "/locations",
-      "destination": "/cloud-providers#locations"
+      "destination": "/"
+    },
+    {
+      "source": "/cloud-providers",
+      "destination": "/"
     },
     {
       "source": "/cli/db/wakeup",
