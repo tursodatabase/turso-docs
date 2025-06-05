@@ -51,20 +51,66 @@ class Foo(Base):
 
 </Step>
 
-<Step title="Construct SQLAlchemy URL for Turso">
+<Step title="Create engine">
 
-```py app.py
+<AccordionGroup>
+  <Accordion title="Embedded Replicas">
+
+```python
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
 TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL")
 TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN")
 
-dbUrl = f"sqlite+{TURSO_DATABASE_URL}/?authToken={TURSO_AUTH_TOKEN}&secure=true"
-
-engine = create_engine(dbUrl, connect_args={'check_same_thread': False}, echo=True)
+engine = create_engine(
+     "sqlite+libsql:///embedded.db",
+     connect_args={
+         "auth_token": TURSO_AUTH_TOKEN,
+         "sync_url": TURSO_DATABASE_URL,
+     },
+)
 ```
 
+  </Accordion>
+  <Accordion title="Remote only">
+
+```python
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+
+TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL")
+TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN")
+
+engine = create_engine(
+    f"sqlite+{TURSO_DATABASE_URL}?secure=true",
+    connect_args={
+        "auth_token": TURSO_AUTH_TOKEN,
+    },
+)
+```
+
+  </Accordion>
+  <Accordion title="Memory Only">
+
+
+```python
+from sqlalchemy import create_engine
+
+engine = create_engine("sqlite+libsql://")
+```
+
+  </Accordion>
+  <Accordion title="Local only">
+
+```python
+from sqlalchemy import create_engine
+
+engine = create_engine("sqlite+libsql:///local.db")
+```
+
+  </Accordion>
+</AccordionGroup>
 </Step>
 
 <Step title="Query">
