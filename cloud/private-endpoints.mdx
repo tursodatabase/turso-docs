@@ -1,0 +1,87 @@
+---
+title: Private Endpoints
+description: Learn how to configure private endpoints for your Turso Database on AWS.
+---
+
+Set up an AWS VPC endpoint to securely access Turso databases through AWS PrivateLink, keeping all traffic within AWS's private network.
+
+## Prerequisites
+
+- Existing VPC in `us-east-1` region
+- Subnets in availability zones `use1-az4` or `use1-az6`
+- IAM permissions to create VPC endpoints and modify security groups
+- Active Turso account with configured databases
+
+## Configuration
+
+| Parameter     | Value                                                     |
+| ------------- | --------------------------------------------------------- |
+| Service Name  | `com.amazonaws.vpce.us-east-1.vpce-svc-0608537f5fdfeaabc` |
+| Region        | `us-east-1`                                               |
+| Supported AZs | `use1-az4`, `use1-az6`                                    |
+
+## Setup
+
+<Steps>
+  <Step title="Create VPC Endpoint">
+    Navigate to **VPC Dashboard** → **Endpoints** → **Create endpoint** and configure:
+
+    <AccordionGroup>
+    <Accordion title="Basic Settings">
+        - **Name**: Enter a descriptive name (e.g., `turso-database-endpoint`)
+        - **Service category**: Select "Other endpoint services"
+        - **Service name**: Enter `com.amazonaws.vpce.us-east-1.vpce-svc-0608537f5fdfeaabc`
+        - Click **Verify service**
+    </Accordion>
+    <Accordion title="Network Configuration">
+        - Select your **VPC**
+        - Enable **DNS name**
+        - Choose **IPv4** for DNS record type
+        - Select subnets in supported AZs (use1-az4 and/or use1-az6)
+        - Configure security groups and click **Create endpoint**
+    </Accordion>
+    </AccordionGroup>
+
+  </Step>
+  <Step title="Configure Security Groups">
+    Update security groups to allow proper communication:
+
+    **VPC Endpoint Security Group:**
+    - Inbound: Allow HTTPS (port 443) from your application security groups
+
+    **Application Security Groups:**
+
+    - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
+    </Step>
+    <Step title="Update Application Connections">
+        Replace public Turso endpoints with the new VPC endpoint URL format:
+        ```bash
+        <database-name>.aws-us-east-1.turso.io
+        ```
+
+        Example Connection:
+        ```bash
+        curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-us-east-1.turso.io
+        ```
+    </Step>
+
+    <Step title="Verify Setup">
+        Test your VPC endpoint configuration from within your VPC:
+
+        ```bash
+        # Test connectivity
+        curl -v https://<your-database-name>.aws-us-east-1.turso.io
+
+        # Verify private routing (should show traffic staying within AWS network)
+        traceroute <your-database-name>.aws-us-east-1.turso.io
+        ```
+    </Step>
+
+</Steps>
+
+## Important Notes
+
+- Traffic remains within AWS's private network
+- Standard AWS VPC endpoint pricing applies
+- Applications can access the endpoint from any AZ in your VPC
+- Configuration is specific to `us-east-1` region

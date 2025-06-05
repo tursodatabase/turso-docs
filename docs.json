@@ -84,7 +84,11 @@
           },
           {
             "group": "Cloud",
-            "pages": ["cloud/migrate-to-turso", "cloud/durability"]
+            "pages": [
+              "cloud/migrate-to-turso",
+              "cloud/durability",
+              "cloud/private-endpoints"
+            ]
           },
           {
             "group": "Help",
