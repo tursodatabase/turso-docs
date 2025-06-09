@@ -67,6 +67,7 @@ In this Laravel quickstart we will learn how to:
                       "driver" => "libsql",
                       "url" => env("TURSO_DATABASE_URL"),
                       "password" => env("TURSO_AUTH_TOKEN"),
+                      "database" => env('TURSO_DATABASE', 'default'),
                   ],
                   // ...
               ],
