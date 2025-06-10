@@ -9,7 +9,7 @@ You can work with [embedded replicas](/features/embedded-replicas) that can sync
 ```py
 import os
 
-import libsql_experimental as libsql
+import libsql
 
 conn = libsql.connect("local.db", sync_url=os.getenv("LIBSQL_URL"),
                       auth_token=os.getenv("LIBSQL_AUTH_TOKEN"))
