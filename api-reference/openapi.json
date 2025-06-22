@@ -834,7 +834,7 @@
       "post": {
         "summary": "Unarchive Group",
         "description": "Unarchive a group that has been archived due to inactivity.",
-        "operationId": "transferGroup",
+        "operationId": "unarchiveGroup",
         "parameters": [
           {
             "$ref": "#/components/parameters/organizationSlug"
