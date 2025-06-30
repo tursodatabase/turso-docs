@@ -1,6 +1,6 @@
 ---
-title: Welcome to Turso Cloud
-description: The next evolution of SQLite.
+title: Welcome to Turso 👋
+description: The small database to power your big dreams in the age of AI.
 sidebarTitle: Introduction
 ---
 
@@ -10,43 +10,62 @@ sidebarTitle: Introduction
 
 </Frame>
 
-## New to Turso?
+Turso is the small database to power your big dreams in the age of AI. The most efficient way to build for traditional applications, smart devices, embodied AI, agents, and anything in between.
 
-Turso is a SQLite-compatible database built on [libSQL](/libsql), the Open Contribution fork of SQLite.
+<Note>
+  These docs are focused on **Turso Cloud** &mdash; our fully managed database
+  service. For information about the open-source Turso database engine, visit
+  [Turso on GitHub](https://github.com/tursodatabase/turso).
+</Note>
+
+## Turso Database
+
+An embedded database engine that goes anywhere. Offline, in the browser, or on-device — **the next evolution of SQLite.**
+
+- **Vector Search** — Native similarity search for AI apps and RAG workflows, no extensions required.
+- **Async Design** — Modern async primitives such as Linux `io_uring` to keep your apps responsive.
+- **Concurrent Writes** (soon) — Multiple writers, zero conflicts, without locking.
+- **Observability** (soon) — Out of the box with open telemetry integration.
+- **SQLite Compatible** — Fully backwards compatible SQLite, but built for the next generation of agents.
+- **Open Contribution** — Take your seat at the table and contribute to the next evolution of SQLite.
+
+Get started with [Turso](https://github.com/tursodatabase/turso) shell:
+
+```bash
+curl -sSL tur.so/install | sh
+```
+
+Get started with Go, Java, JavaScript, Python, Rust, and Wasm using one of the [available bindings](https://github.com/tursodatabase/turso/tree/main/bindings) in progress.
+
+## Turso Cloud
+
+Create unlimited SQLite databases in the cloud for production workloads. Serverless access or sync. Turso Cloud is a SQLite-compatible database built on [libSQL](/libsql).
 
 <CardGroup cols={2}>
   <Card
-    title="Get Started"
+    title="Vector Search"
     icon={
       <svg
-        width="25"
-        viewBox="0 0 48 43"
-        fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#1ebca1"
       >
-        <g clip-path="url(#clip0_172_7499)">
-          <path
-            d="M32.32 20.36L32.82 27.08L33.01 29.59L30.57 30.21C29.06 30.59 26.99 31.12 24 31.12C21.01 31.12 18.94 30.59 17.43 30.21L14.99 29.59L15.18 27.08L15.68 20.36L7.79999 17.62C8.26999 22.97 10.11 33.84 10.66 34.9C11.3 36.12 14.69 39.62 17.34 40.96C17.34 40.96 18.3 39.94 18.89 39.04C19.63 39.92 23.48 43.01 24 43.01C24.52 43.01 28.37 39.92 29.11 39.04C29.7 39.94 30.66 40.96 30.66 40.96C33.31 39.62 36.7 36.12 37.34 34.9C37.89 33.84 39.73 22.97 40.2 17.62L32.32 20.36Z"
-            fill="#1EBCA1"
-          />
-          <path
-            d="M29.15 18.28L48 11.73C46.88 4.99 41 0.01 41 0.01V7.42L37.51 8.32L35.32 5.67L33.45 9.37L24 11.82L14.55 9.37L12.68 5.67L10.49 8.32L7 7.42V0C7 0 1.12 4.99 0 11.72L18.85 18.27L18.18 27.29C19.79 27.7 21.48 28.11 24.01 28.11C26.54 28.11 28.23 27.7 29.84 27.29L29.17 18.27L29.15 18.28Z"
-            fill="#1EBCA1"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_172_7499">
-            <rect width="48" height="43" fill="white" />
-          </clipPath>
-        </defs>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+        />
       </svg>
     }
-    href="/quickstart"
+    href="/features/ai-and-embeddings"
   >
-    Create your first database
+    Native similarity search for AI apps and RAG workflows, no extensions
+    required.
   </Card>
   <Card
-    title="Embedded Replicas"
+    title="Replication & Sync"
     icon={
       <svg viewBox="0 0 216 216" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -77,18 +96,88 @@ Turso is a SQLite-compatible database built on [libSQL](/libsql), the Open Contr
     }
     href="/features/embedded-replicas/introduction"
   >
-    Get zero latency reads on-device
+    Keep devices in sync with each other on demand with Turso Cloud.
   </Card>
   <Card
-    title="AI & Embeddings"
+    title="Branching"
     icon={
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1ebca1">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#1ebca1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+        />
       </svg>
     }
-    href="/features/ai-and-embeddings"
+    href="/features/branching"
   >
-    Vector is just another datatype
+    Create isolated Copy-on-Write branches super fast.
+  </Card>
+  <Card
+    title="Analytics"
+    icon={
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#1ebca1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
+        />
+      </svg>
+    }
+  >
+    Monitor performance and usage across databases.
+  </Card>
+  <Card
+    title="Team Access"
+    icon={
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#1ebca1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+        />
+      </svg>
+    }
+  >
+    Collaborate on databases with members, and manage access permissions.
+  </Card>
+  <Card
+    title="Fully Managed"
+    icon={
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#1ebca1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+        />
+      </svg>
+    }
+  >
+    We handle infrastructure, scaling, and security.
   </Card>
   <Card
     icon={
@@ -108,11 +197,8 @@ Turso is a SQLite-compatible database built on [libSQL](/libsql), the Open Contr
     }
     title="Backups and Recovery"
     href="/features/point-in-time-recovery"
-
->
-
+  >
     Restore your database to any point in time
-
   </Card>
 </CardGroup>
 
@@ -125,7 +211,7 @@ Learn how to manage, distribute and integrate your databases with the CLI, API a
     Manage groups, databases, and API tokens with the Turso CLI.
   </Card>
   <Card title="Turso Platform API" icon="database" href="/api-reference">
-    Manage groups, databases, and API tokens with the Turso API.
+    Programmatically manage groups and databases using the Platform API.
   </Card>
   <Card
     title="Client SDKs"
@@ -167,9 +253,9 @@ Learn how to manage, distribute and integrate your databases with the CLI, API a
   </Card>
 </CardGroup>
 
-## Join the community
+## Community
 
-Join the Turso community to ask questions, discuss best practices, and share tips.
+Join the Turso community to ask questions, share what you're working on, discuss best practices, and share tips on [Discord](https://discord.gg/turso), [Twitter](https://twitter.com/tursodatabase), and [LinkedIn](https://www.linkedin.com/company/turso).
 
 <CardGroup cols={3}>
   <Card title="Discord" icon="discord" href="https://discord.gg/turso" />
