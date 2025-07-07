@@ -74,8 +74,8 @@ Now connect to your local or remote database using the libSQL connector:
 
     func main() {
         dbName := "local.db"
-        primaryUrl := "libsql://[DATABASE].turso.io"
-        authToken := "..."
+        primaryUrl := "[TURSO_DATABASE_URL]"
+        authToken := "[TURSO_AUTH_TOKEN]"
 
         dir, err := os.MkdirTemp("", "libsql-*")
         if err != nil {
@@ -141,7 +141,7 @@ Now connect to your local or remote database using the libSQL connector:
     )
 
     func main() {
-      url := "libsql://[DATABASE].turso.io?authToken=[TOKEN]"
+      url := "[TURSO_DATABASE_URL]?authToken=[TURSO_AUTH_TOKEN]"
 
       db, err := sql.Open("libsql", url)
       if err != nil {
