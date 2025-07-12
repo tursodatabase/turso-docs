@@ -2274,7 +2274,7 @@
           "plan_id": {
             "type": "string",
             "description": "The pricing plan identifier this organization is subscribed to.",
-            "example": "hobby"
+            "example": "developer"
           },
           "plan_timeline": {
             "type": "string",
