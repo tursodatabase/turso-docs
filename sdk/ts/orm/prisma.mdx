@@ -91,7 +91,7 @@ const prisma = new PrismaClient({ adapter })
 
 ```ts Edge Runtimes
 import { PrismaClient } from "@prisma/client";
-import { PrismaLibSQL } from "@prisma/adapter-libsql/web";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client/web";
 
 const adapter = new PrismaLibSQL({
