@@ -79,9 +79,9 @@ Begin by declaring a column used for storing vectors with the `F32_BLOB` datatyp
 
 ```sql
 CREATE TABLE movies (
-  title    TEXT,
-  year     INT,
-  full_emb F32_BLOB(4) -- 4-dimensional f32 vector
+  title     TEXT,
+  year      INT,
+  embedding F32_BLOB(4) -- 4-dimensional f32 vector
 );
 ```
 
@@ -113,11 +113,9 @@ You can now write queries combining vectors and standard SQLite data:
 ```sql
 SELECT title,
        vector_extract(embedding),
-       vector_distance_cos(embedding, vector32('[0.064, 0.777, 0.661, 0.687]'))
+       vector_distance_cos(embedding, vector32('[0.064, 0.777, 0.661, 0.687]')) AS distance
 FROM movies
-ORDER BY
-       vector_distance_cos(embedding, vector32('[0.064, 0.777, 0.661, 0.687]'))
-ASC;
+ORDER BY distance ASC;
 ```
 
 </Step>
@@ -126,7 +124,7 @@ ASC;
 
 ### Understanding Distance Results
 
-The `vector_distance_cos` function calculates the cosine distance, which is defined at:
+The `vector_distance_cos` function calculates the cosine distance, which is defined as:
 
 - Cosine Distance = 1 &mdash; [Cosine Similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
 
@@ -195,13 +193,13 @@ WHERE year >= 2000;
 
 ### Query
 
-At the moment vector index must be queried **explicitly** with special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions). The function accepts index name, query vector and amount of neighbors to return. This function searches for `k` approximate nearest neighbors and returns `ROWID` of these rows or `PRIMARY KEY` if base index [do not have ROWID](https://www.sqlite.org/withoutrowid.html).
+At the moment vector index must be queried **explicitly** with special `vector_top_k(idx_name, q_vector, k)` [table-valued function](https://www.sqlite.org/vtab.html#table_valued_functions). The function accepts index name, query vector and amount of neighbors to return. This function searches for `k` approximate nearest neighbors and returns `ROWID` of these rows or `PRIMARY KEY` if base index [does not have ROWID](https://www.sqlite.org/withoutrowid.html).
 
 In order for table-valued function to work query vector **must** have the same vector type and dimensionality.
 
 ### Settings
 
-LibSQL vector index optionally can accept settings which must be specified as a variadic parameters of the `libsql_vector_idx` function as a strings in the format `key=value`:
+LibSQL vector index optionally can accept settings which must be specified as variadic parameters of the `libsql_vector_idx` function as strings in the format `key=value`:
 
 ```sql
 CREATE INDEX movies_idx
@@ -235,9 +233,9 @@ Begin by declaring a column used for storing vectors with the `F32_BLOB` datatyp
 
 ```sql
 CREATE TABLE movies (
-  title    TEXT,
-  year     INT,
-  full_emb F32_BLOB(4), -- 4-dimensional f32 vector
+  title     TEXT,
+  year      INT,
+  embedding F32_BLOB(4) -- 4-dimensional f32 vector
 );
 ```
 
