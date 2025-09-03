@@ -1,0 +1,80 @@
+---
+title: Quickstart
+---
+
+<Steps>
+
+<Step title="Install">
+
+You can install the latest `turso` release with:
+
+```bash
+curl -sSL tur.so/install | sh
+```
+
+</Step>
+
+<Step title="Launch">
+
+Then launch the interactive shell:
+
+```bash
+tursodb
+```
+
+This will start the Turso interactive shell where you can execute SQL statements:
+
+```
+Turso
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database
+turso>
+```
+
+</Step>
+
+<Step title="Execute">
+
+Now you can execute SQL statements in the interactive shell:
+
+<AccordionGroup>
+  <Accordion title="Create a table">
+    Create a table for users:
+
+```sql
+CREATE TABLE users (id INT, username TEXT);
+```
+
+  </Accordion>
+
+  <Accordion title="Insert data">
+    Insert some data into the users table:
+
+```sql
+INSERT INTO users VALUES (1, 'alice');
+INSERT INTO users VALUES (2, 'bob');
+```
+
+  </Accordion>
+
+  <Accordion title="Query data">
+    Query all users from the table:
+
+```sql
+SELECT * FROM users;
+```
+
+This will return:
+
+```
+1|alice
+2|bob
+```
+
+  </Accordion>
+</AccordionGroup>
+
+</Step>
+
+</Steps>
