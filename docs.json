@@ -20,11 +20,6 @@
           "href": "https://turso.tech"
         },
         {
-          "anchor": "Blog & Tutorials",
-          "icon": "newspaper",
-          "href": "https://turso.tech/blog"
-        },
-        {
           "anchor": "Discord",
           "icon": "discord",
           "href": "https://discord.gg/turso"
@@ -32,22 +27,40 @@
         {
           "anchor": "GitHub",
           "icon": "github",
-          "href": "https://github.com/tursodatabase"
+          "href": "https://github.com/tursodatabase/turso"
         }
       ]
     },
 
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "Turso Database (Alpha)",
         "groups": [
           {
             "group": "Turso Database",
-            "pages": ["introduction"]
+            "pages": ["introduction", "tursodb/quickstart", "tursodb/changelog"]
           },
           {
-            "group": "Help",
-            "pages": ["support"]
+            "group": "Connect",
+            "pages": [
+              {
+                "group": "Bindings",
+                "pages": [
+                  "connect/command-line",
+                  "connect/rust",
+                  "connect/dart",
+                  "connect/javascript",
+                  "connect/python",
+                  "connect/go",
+                  "connect/java",
+                  "connect/webassembly"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Sync",
+            "pages": ["sync/turso-cloud"]
           }
         ]
       },
@@ -497,10 +510,6 @@
   },
   "navbar": {
     "links": [
-      {
-        "label": "API Status",
-        "href": "https://status.turso.tech"
-      },
       {
         "label": "Dashboard",
         "href": "https://turso.tech/app"
