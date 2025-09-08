@@ -46,14 +46,12 @@
               {
                 "group": "Bindings",
                 "pages": [
-                  "connect/command-line",
-                  "connect/rust",
-                  "connect/dart",
                   "connect/javascript",
                   "connect/python",
                   "connect/go",
-                  "connect/java",
-                  "connect/webassembly"
+                  "connect/rust",
+                  "connect/dart",
+                  "connect/java"
                 ]
               }
             ]
