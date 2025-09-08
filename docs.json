@@ -299,6 +299,7 @@
                       "cli/db/create",
                       "cli/db/import",
                       "cli/db/show",
+                      "cli/db/export",
                       "cli/db/destroy",
                       "cli/db/inspect",
                       "cli/db/shell",
