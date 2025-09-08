@@ -1,0 +1,70 @@
+---
+title: Connect to Turso using JavaScript
+sidebarTitle: JavaScript
+---
+
+<Steps>
+
+<Step title="Install">
+
+Add the Turso database package to your JavaScript project:
+
+```bash
+npm i @tursodatabase/database
+```
+
+</Step>
+
+<Step title="Connect">
+
+Here's how you can connect to a local SQLite database:
+
+```javascript
+import { connect } from "@tursodatabase/database";
+
+const db = await connect("sqlite.db");
+```
+
+</Step>
+
+<Step title="Create table">
+
+Create a table for users:
+
+```javascript
+const createTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL
+  )
+`);
+createTable.run();
+```
+
+</Step>
+
+<Step title="Insert data">
+
+Insert some data into the users table:
+
+```javascript
+const insertUser = db.prepare("INSERT INTO users (username) VALUES (?)");
+insertUser.run("alice");
+insertUser.run("bob");
+```
+
+</Step>
+
+<Step title="Query data">
+
+Query all users from the table:
+
+```javascript
+const stmt = db.prepare("SELECT * FROM users");
+const users = stmt.all();
+console.log(users);
+```
+
+</Step>
+
+</Steps>
