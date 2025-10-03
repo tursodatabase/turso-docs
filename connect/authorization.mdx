@@ -1,0 +1,129 @@
+---
+title: Authorization Quickstart
+sidebarTitle: Authorization
+---
+
+This guide shows you how to configure authorization for your Turso databases using JSON Web Key Sets (JWKS) and an authentication provider.
+
+## Overview
+
+Turso supports authorization through JWT tokens issued by your authentication provider. You can either:
+
+- Create database or group tokens via Turso CLI
+- Let your authentication provider issue tokens using JWKS
+
+This quickstart focuses on the JWKS approach, which allows you to leverage your existing authentication infrastructure.
+
+<Info>
+  During the Turso Beta, we only support Clerk & Auth0 as OIDC providers.
+</Info>
+
+<Steps>
+
+<Step title="Setup Authentication Provider">
+
+First, configure your authentication provider to issue JWT tokens. This example uses [Clerk](https://clerk.com).
+
+### Configure JWT Permissions
+
+Use the Turso CLI to generate a JWT template with fine-grained permissions:
+
+```bash
+# Full access to all tables
+turso org jwks template --scope full-access
+
+# Read-only access to all tables
+turso org jwks template --scope read-only
+
+# Fine-grained permissions for specific tables
+turso org jwks template \
+  --database <database-name> \
+  --permissions all:read \
+  --permissions comments:insert \
+  --permissions posts:insert,update
+```
+
+Available flags:
+
+- `--database` or `-d`: Specify the database name
+- `--group` or `-g`: Specify the group name
+- `--scope` or `-s`: Set scope to `full-access` or `read-only`
+- `--permissions` or `-p`: Define table-level permissions in format `<table-name|all>:<action1>,<action2>`
+
+### Configure JWT Template
+
+Set up a JWT template in your auth provider to include permissions based on user metadata. This allows you to control access at the table and action level.
+
+For example, you can configure your JWT template to:
+
+- Grant admin users `delete` permissions
+- Grant moderator users `update` and `read` permissions
+- Grant regular users `read` permissions only
+
+The permissions are based on user metadata (e.g., role, group membership) and embedded in the JWT token.
+
+<Warning>
+  If you don't setup a JWT template with specific permissions, the generated
+  tokens will have access to **all databases in all groups** by default.
+</Warning>
+
+</Step>
+
+<Step title="Add JWKS Endpoint to Turso">
+
+Add your authentication provider's JWKS endpoint to your Turso organization.
+
+### Using the CLI
+
+```bash
+turso org jwks save <jwks-url>
+```
+
+### Using the Dashboard
+
+Navigate to your organization settings in the [Turso Dashboard](https://turso.tech/app) and add the JWKS endpoint URL.
+
+</Step>
+
+<Step title="Use Tokens in Your Application">
+
+Pass the JWT token from your authentication provider when creating the database client:
+
+```javascript
+import { createClient } from "@tursodatabase/serverless";
+
+// Get the JWT token from your auth provider
+const authToken = await getAuthToken(); // e.g., from Clerk, Auth0, etc.
+
+const db = createClient({
+  url: "https://<db>.turso.io",
+  authToken, // Use the JWT from your auth provider
+});
+
+// Now all database operations use the authorization token
+const result = await db.execute("SELECT * FROM users");
+```
+
+The `authToken` can be:
+
+- A JWT token issued by your authentication provider (via JWKS)
+- A database token created with `turso db tokens create <db>`
+- A group token for accessing multiple databases
+
+</Step>
+
+</Steps>
+
+## Managing JWKS Endpoints
+
+### List JWKS Endpoints
+
+```bash
+turso org jwks list
+```
+
+### Remove JWKS Endpoint
+
+```bash
+turso org jwks remove <jwks-url>
+```
