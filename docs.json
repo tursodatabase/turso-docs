@@ -43,6 +43,7 @@
           {
             "group": "Connect",
             "pages": [
+              "connect/authorization",
               {
                 "group": "Bindings",
                 "pages": [
