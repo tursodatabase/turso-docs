@@ -44,17 +44,37 @@ Turso Database with encryption is perfect for:
 
 ## Generate an Encryption Key
 
-First, generate a secure 32-byte encryption key in hexadecimal format:
+Generate a secure encryption key in hexadecimal format. The key size depends on the cipher you choose:
 
-```bash
-openssl rand -hex 32
-```
+<Tabs>
+  <Tab title="256-bit (32 bytes)">
+    For AEGIS-256 variants and AES-256-GCM:
 
-This will output a key similar to:
+    ```bash
+    openssl rand -hex 32
+    ```
 
-```
-2d7a30108d3eb3e45c90a732041fe54778bdcf707c76749fab7da335d1b39c1d
-```
+    Output example:
+    ```
+    2d7a30108d3eb3e45c90a732041fe54778bdcf707c76749fab7da335d1b39c1d
+    ```
+
+  </Tab>
+
+  <Tab title="128-bit (16 bytes)">
+    For AEGIS-128 variants and AES-128-GCM:
+
+    ```bash
+    openssl rand -hex 16
+    ```
+
+    Output example:
+    ```
+    5f3e2a8c9b1d4f6e7a2c8d4b9e1f3a6c
+    ```
+
+  </Tab>
+</Tabs>
 
 <Warning>
   **Store your key securely!** If you lose the encryption key, you will not be
@@ -119,35 +139,39 @@ SELECT * FROM secrets;
 
 ## Supported Ciphers
 
-Turso Database supports two AEAD encryption algorithms:
+Turso Database supports multiple variants of two AEAD encryption algorithms, offering different trade-offs between performance and compatibility.
 
-<CardGroup cols={2}>
-  <Card title="AEGIS-256" icon="bolt">
-    **Recommended for most use cases**
+### AES-GCM
 
-    - Extremely fast performance
-    - Modern cryptographic design
-    - Better security features
+NIST-approved standard for compliance requirements. Widely supported across industries.
 
-    ```
-    cipher=aegis256
-    ```
+| Cipher          | Key Size           | URI Value   | Use Case                             |
+| --------------- | ------------------ | ----------- | ------------------------------------ |
+| **AES-128-GCM** | 128-bit (16 bytes) | `aes128gcm` | Compliance with 128-bit requirements |
+| **AES-256-GCM** | 256-bit (32 bytes) | `aes256gcm` | Maximum security for compliance      |
 
-  </Card>
+### AEGIS
 
-  <Card title="AES-GCM" icon="shield-check">
-    **For compliance requirements**
+Modern, high-performance cipher family optimized for speed. **Recommended for most use cases.**
 
-    - NIST-approved standard
-    - Widely supported
-    - Industry standard
+| Cipher          | Key Size           | URI Value    | Use Case                               |
+| --------------- | ------------------ | ------------ | -------------------------------------- |
+| **AEGIS-128L**  | 128-bit (16 bytes) | `aegis128l`  | Balanced performance, 128-bit security |
+| **AEGIS-128X2** | 128-bit (16 bytes) | `aegis128x2` | 2x parallel processing                 |
+| **AEGIS-128X4** | 128-bit (16 bytes) | `aegis128x4` | 4x parallel processing, maximum speed  |
+| **AEGIS-256**   | 256-bit (32 bytes) | `aegis256`   | Balanced 256-bit security              |
+| **AEGIS-256X2** | 256-bit (32 bytes) | `aegis256x2` | 2x parallel processing, 256-bit        |
+| **AEGIS-256X4** | 256-bit (32 bytes) | `aegis256x4` | 4x parallel, maximum speed & security  |
 
-    ```
-    cipher=aesgcm256
-    ```
+<Info>
 
-  </Card>
-</CardGroup>
+**Choosing a cipher:**
+
+- Use `aegis128L` for 128 bit encryption, `aegis256` for 256 bit encryption (default recommendation)
+- Use the other AEGIS variants if your hardware supports it `aegis128X2` `aegis128X4` `aegis256x2` `aegis256x4`
+- For AES, use `aes128gcm` for 128 bit encryption, `aes256gcm` for 256 bit encryption
+
+</Info>
 
 ## URI Parameters
 
@@ -157,10 +181,23 @@ When creating or opening an encrypted database, use the following URI format:
 file:database.db?cipher=CIPHER&hexkey=HEX_KEY
 ```
 
-| Parameter | Required | Description                          | Values                  |
-| --------- | -------- | ------------------------------------ | ----------------------- |
-| `cipher`  | Yes      | Encryption algorithm                 | `aegis256`, `aesgcm256` |
-| `hexkey`  | Yes      | 32-byte encryption key in hex format | 64-character hex string |
+| Parameter | Required | Description                  | Values                                                   |
+| --------- | -------- | ---------------------------- | -------------------------------------------------------- |
+| `cipher`  | Yes      | Encryption algorithm         | See [Supported Ciphers](#supported-ciphers)              |
+| `hexkey`  | Yes      | Encryption key in hex format | 32-character hex (128-bit) or 64-character hex (256-bit) |
+
+**Example URIs:**
+
+```bash
+# AEGIS-256 with 256-bit key
+file:encrypted.db?cipher=aegis256&hexkey=2d7a30108d3eb3e45c90a732041fe54778bdcf707c76749fab7da335d1b39c1d
+
+# AES-128-GCM with 128-bit key
+file:encrypted.db?cipher=aes128gcm&hexkey=5f3e2a8c9b1d4f6e7a2c8d4b9e1f3a6c
+
+# AEGIS-256X4 (max performance) with 256-bit key
+file:encrypted.db?cipher=aegis256x4&hexkey=2d7a30108d3eb3e45c90a732041fe54778bdcf707c76749fab7da335d1b39c1d
+```
 
 ## Performance
 
