@@ -38,7 +38,12 @@
         "groups": [
           {
             "group": "Turso Database",
-            "pages": ["introduction", "tursodb/quickstart", "tursodb/changelog"]
+            "pages": [
+              "introduction",
+              "tursodb/quickstart",
+              "tursodb/encryption",
+              "tursodb/changelog"
+            ]
           },
           {
             "group": "Connect",
