@@ -42,12 +42,11 @@ yarn add @libsql/client @prisma/adapter-libsql
 
 </Step>
 
-<Step title="Enable the `driverAdapters` preview feature flag:">
+<Step title="Configure your Prisma schema">
 
 ```js prisma/schema.prisma
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -55,6 +54,10 @@ datasource db {
   url      = "file:./dev.db"
 }
 ```
+
+<Note>
+For Prisma versions 5.x, you may need to add `previewFeatures = ["driverAdapters"]` to the generator block. This is no longer required in Prisma 6.x and later.
+</Note>
 
 </Step>
 
