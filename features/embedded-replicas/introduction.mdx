@@ -23,7 +23,8 @@ Embedded replicas provide a smooth switch between local and remote database oper
 
 4. You write to a database:
 
-   - Writes are always sent to the remote primary database configured at `syncUrl`.
+   - Writes are sent to the remote primary database configured at `syncUrl` by default.
+   - You can write locally if you set the `offline` config option to `true`.
    - Any write transactions with reads are also sent to the remote primary database.
    - Once the write is successful, the local database is updated with the changes automatically (read your own writes &mdash; can be disabled).
 
