@@ -65,6 +65,10 @@
           {
             "group": "Sync",
             "pages": ["sync/turso-cloud"]
+          },
+          {
+            "group": "Guides",
+            "pages": ["guides/agent-databases"]
           }
         ]
       },
