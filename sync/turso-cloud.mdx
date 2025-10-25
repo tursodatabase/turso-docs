@@ -57,12 +57,12 @@ You can perform regular database operations alongside sync:
 
 ```javascript
 // Execute SQL statements
-await db.execute(
+await db.exec(
   "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)",
 );
 
 // Insert data
-await db.execute("INSERT INTO users (name) VALUES (?)", ["Alice"]);
+await db.exec("INSERT INTO users (name) VALUES (?)", ["Alice"]);
 
 // Query data
 const result = await db.execute("SELECT * FROM users");
