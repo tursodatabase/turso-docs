@@ -493,6 +493,25 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "AgentFS",
+        "groups": [
+          {
+            "group": "AgentFS",
+            "pages": [
+              "agentfs/introduction",
+              "agentfs/quickstart"
+            ]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "agentfs/sdk/typescript",
+              "agentfs/sdk/rust"
+            ]
+          }
+        ]
       }
     ]
   },
