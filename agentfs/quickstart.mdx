@@ -38,10 +38,9 @@ Let's build a simple agent that maintains conversation history and generates fil
     ```typescript
     import { AgentFS } from 'agentfs-sdk';
 
-    // Initialize AgentFS with a local database
-    const agent = await AgentFS.open(
-      './my-agent.db'
-    );
+    // Initialize AgentFS with persistent storage
+    const agent = await AgentFS.open({ id: 'my-agent' });
+    // Creates: .agentfs/my-agent.db
 
     // Store agent configuration
     await agent.kv.set('agent:id', 'assistant-001');
@@ -103,7 +102,7 @@ Let's build a simple agent that maintains conversation history and generates fil
   </Tab>
   <Tab title="Rust">
     ```rust
-    use agentfs::AgentFS;
+    use agentfs::{AgentFS, AgentFSOptions};
     use serde::{Serialize, Deserialize};
     use chrono::Utc;
 
@@ -117,10 +116,11 @@ Let's build a simple agent that maintains conversation history and generates fil
     #[tokio::main]
     async fn main() -> Result<(),
       Box<dyn std::error::Error>> {
-        // Initialize AgentFS with a local database
+        // Initialize AgentFS with persistent storage
         let agent = AgentFS::open(
-          "./my-agent.db"
+          AgentFSOptions::with_id("my-agent")
         ).await?;
+        // Creates: .agentfs/my-agent.db
 
         // Store agent configuration
         agent.kv.set("agent:id", "assistant-001").await?;

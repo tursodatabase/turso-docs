@@ -17,8 +17,12 @@ bun add agentfs-sdk
 ```typescript
 import { AgentFS } from 'agentfs-sdk';
 
-// Open or create an agent filesystem
-const agent = await AgentFS.open('./agent.db');
+// Persistent storage with identifier
+const agent = await AgentFS.open({ id: 'my-agent' });
+// Creates: .agentfs/my-agent.db
+
+// Or use ephemeral in-memory database
+const ephemeralAgent = await AgentFS.open();
 
 // Use the three main APIs
 // Key-value store
@@ -35,21 +39,26 @@ await agent.tools.record(...);
 
 The main entry point for all AgentFS operations.
 
-#### `AgentFS.open(path: string, options?: AgentFSOptions)`
+#### `AgentFS.open(options?: AgentFSOptions)`
 
 Creates or opens an AgentFS database.
 
 ```typescript
 interface AgentFSOptions {
-  // Optional configuration
-  readonly?: boolean;  // Open in read-only mode
+  /**
+   * Optional unique identifier for the agent.
+   * - If provided: Creates persistent storage at `.agentfs/{id}.db`
+   * - If omitted: Uses ephemeral in-memory database
+   */
+  id?: string;
 }
 
-const agent = await AgentFS.open('./my-agent.db');
-const readOnlyAgent = await AgentFS.open(
-  './agent.db',
-  { readonly: true }
-);
+// Persistent storage
+const agent = await AgentFS.open({ id: 'my-agent' });
+// Creates: .agentfs/my-agent.db
+
+// Ephemeral in-memory database
+const ephemeralAgent = await AgentFS.open();
 ```
 
 #### Properties
@@ -354,7 +363,7 @@ AgentFS works in browser environments using WebAssembly:
   <script type="module">
     import { AgentFS } from 'https://unpkg.com/agentfs-sdk/dist/browser.js';
 
-    const agent = await AgentFS.open('browser-agent.db');
+    const agent = await AgentFS.open({ id: 'browser-agent' });
 
     // All APIs work the same in browser
     await agent.kv.set('browser:data', { platform: 'web' });
