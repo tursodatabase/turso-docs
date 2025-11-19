@@ -1,0 +1,400 @@
+---
+title: AgentFS Quickstart
+description: Build your first stateful AI agent with AgentFS in 5 minutes
+sidebarTitle: Quickstart
+---
+
+Get up and running with AgentFS to build stateful, auditable AI agents in just a few minutes.
+
+## Prerequisites
+
+- Node.js 18+ or Rust 1.70+
+- Basic familiarity with async/await programming
+- An AI/LLM API key (optional, for agent examples)
+
+## Installation
+
+<Tabs>
+  <Tab title="TypeScript/JavaScript">
+    ```bash
+    npm install agentfs-sdk
+    ```
+  </Tab>
+  <Tab title="Rust">
+    ```toml
+    [dependencies]
+    agentfs = "0.1"
+    tokio = { version = "1", features = ["full"] }
+    ```
+  </Tab>
+</Tabs>
+
+## Create Your First Agent
+
+Let's build a simple agent that maintains conversation history and generates files.
+
+<Tabs>
+  <Tab title="TypeScript">
+    ```typescript
+    import { AgentFS } from 'agentfs-sdk';
+
+    // Initialize AgentFS with a local database
+    const agent = await AgentFS.open(
+      './my-agent.db'
+    );
+
+    // Store agent configuration
+    await agent.kv.set('agent:id', 'assistant-001');
+    await agent.kv.set(
+      'agent:created',
+      new Date().toISOString()
+    );
+
+    // Create a conversation history
+    const conversations = [];
+
+    async function addMessage(role: string, content: string) {
+      const message = {
+        role,
+        content,
+        timestamp: Date.now()
+      };
+
+      conversations.push(message);
+
+      // Persist to AgentFS
+      await agent.kv.set('conversations', conversations);
+
+      // Also save as a file for easy access
+      const filename = `/conversations/${Date.now()}.json`;
+      await agent.fs.writeFile(
+        filename,
+        JSON.stringify(message, null, 2)
+      );
+
+      // Track this as a tool call
+      await agent.tools.record(
+        'save_message',
+        Date.now() / 1000,
+        Date.now() / 1000 + 0.1,
+        { role, contentLength: content.length },
+        { saved: true, filename }
+      );
+    }
+
+    // Example usage
+    await addMessage(
+      'user',
+      'Hello, can you help me with a task?'
+    );
+    await addMessage(
+      'assistant',
+      'Of course! I'd be happy to help.'
+    );
+
+    // Retrieve conversation history
+    const history = await agent.kv.get('conversations');
+    console.log('Conversation history:', history);
+
+    // List all conversation files
+    const files = await agent.fs.readdir('/conversations');
+    console.log('Saved conversations:', files);
+    ```
+  </Tab>
+  <Tab title="Rust">
+    ```rust
+    use agentfs::AgentFS;
+    use serde::{Serialize, Deserialize};
+    use chrono::Utc;
+
+    #[derive(Serialize, Deserialize)]
+    struct Message {
+        role: String,
+        content: String,
+        timestamp: i64,
+    }
+
+    #[tokio::main]
+    async fn main() -> Result<(),
+      Box<dyn std::error::Error>> {
+        // Initialize AgentFS with a local database
+        let agent = AgentFS::open(
+          "./my-agent.db"
+        ).await?;
+
+        // Store agent configuration
+        agent.kv.set("agent:id", "assistant-001").await?;
+        agent.kv.set(
+          "agent:created",
+          Utc::now().to_rfc3339()
+        ).await?;
+
+        // Create a message
+        let message = Message {
+            role: "user".to_string(),
+            content: "Hello, can you help me with a task?"
+              .to_string(),
+            timestamp: Utc::now().timestamp_millis(),
+        };
+
+        // Save message to filesystem
+        let filename = format!(
+          "/conversations/{}.json",
+          message.timestamp
+        );
+        let json = serde_json::to_string_pretty(
+          &message
+        )?;
+        agent.fs.write_file(
+          &filename,
+          json.as_bytes()
+        ).await?;
+
+        // Track as tool call
+        agent.tools.record(
+            "save_message",
+            Utc::now().timestamp() as f64,
+            Utc::now().timestamp() as f64 + 0.1,
+            serde_json::json!({
+                "role": message.role,
+                "contentLength": message.content.len()
+            }),
+            serde_json::json!({
+                "saved": true,
+                "filename": filename
+            })
+        ).await?;
+
+        // List saved conversations
+        let files = agent.fs.readdir("/conversations").await?;
+        println!("Saved conversations: {:?}", files);
+
+        Ok(())
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Working with Files
+
+AgentFS provides a POSIX-like filesystem API for managing agent-generated content:
+
+```typescript
+// Create directories
+await agent.fs.mkdir('/reports');
+await agent.fs.mkdir('/reports/2024');
+
+// Write files
+const report = "# Q4 2024 Analysis\n\nKey findings...";
+await agent.fs.writeFile(
+  '/reports/2024/q4-analysis.md',
+  report
+);
+
+// Read files
+const content = await agent.fs.readFile(
+  '/reports/2024/q4-analysis.md'
+);
+console.log(content.toString());
+
+// List directory contents
+const reports = await agent.fs.readdir('/reports/2024');
+console.log('Available reports:', reports);
+
+// Check file metadata
+const stats = await agent.fs.stat(
+  '/reports/2024/q4-analysis.md'
+);
+console.log('File size:', stats.size);
+console.log('Created:', new Date(stats.ctime * 1000));
+```
+
+## Managing Agent State
+
+Use the key-value store for fast access to agent configuration and state:
+
+```typescript
+// Store structured data
+await agent.kv.set('user:preferences', {
+  theme: 'dark',
+  language: 'en',
+  notifications: true
+});
+
+// Store conversation context
+await agent.kv.set('context:current', {
+  topic: 'data analysis',
+  tools: ['calculator', 'chart_generator'],
+  startTime: Date.now()
+});
+
+// Retrieve values
+const preferences = await agent.kv.get('user:preferences');
+const context = await agent.kv.get('context:current');
+
+// Delete keys
+await agent.kv.delete('context:previous');
+
+// List all keys with a prefix
+const userKeys = await agent.kv.list({ prefix: 'user:' });
+console.log('User data keys:', userKeys);
+```
+
+## Tracking Tool Calls
+
+Every tool invocation can be automatically tracked for debugging and compliance:
+
+```typescript
+// Record a web search
+const startTime = Date.now() / 1000;
+const results = await performWebSearch(
+  'AgentFS tutorial'
+);
+const endTime = Date.now() / 1000;
+
+await agent.tools.record(
+  'web_search',
+  startTime,
+  endTime,
+  { query: 'AgentFS tutorial', maxResults: 10 },
+  {
+    resultsFound: results.length,
+    topResult: results[0]?.url
+  }
+);
+
+// Record an API call
+await agent.tools.record(
+  'openai_completion',
+  Date.now() / 1000,
+  Date.now() / 1000 + 2.5,
+  { model: 'gpt-4', temperature: 0.7 },
+  { tokensUsed: 1500, success: true }
+);
+
+// Query tool usage
+const recentTools = await agent.tools.list({ limit: 10 });
+console.log('Recent tool calls:', recentTools);
+
+// Get specific tool call
+const toolCall = await agent.tools.get(recentTools[0].id);
+console.log('Tool details:', toolCall);
+```
+
+## Querying Agent History
+
+Since AgentFS is built on Turso, you can query your agent's behavior with SQL:
+
+```typescript
+// Get the underlying database connection
+const db = agent.db;
+
+// Find all files created in the last hour
+const recentFiles = await db.prepare(`
+  SELECT * FROM events
+  WHERE type = 'file_write'
+  AND timestamp > datetime('now', '-1 hour')
+  ORDER BY timestamp DESC
+`).all();
+
+// Analyze tool usage patterns
+const toolStats = await db.prepare(`
+  SELECT
+    name as tool_name,
+    COUNT(*) as usage_count,
+    AVG(julianday(ended_at) -
+        julianday(started_at)) * 86400
+        as avg_duration_seconds
+  FROM toolcalls
+  GROUP BY name
+  ORDER BY usage_count DESC
+`).all();
+
+console.log('Tool usage statistics:', toolStats);
+```
+
+## Best Practices
+
+### 1. Structure Your Filesystem
+
+Organize files logically for easy navigation:
+
+```
+/
+├── conversations/     # Chat histories
+├── outputs/          # Generated content
+├── cache/           # Temporary data
+├── logs/            # Agent logs
+└── config/          # Configuration files
+```
+
+### 2. Use Consistent Key Naming
+
+Adopt a naming convention for KV store keys:
+
+```typescript
+// Good: Hierarchical and clear
+await agent.kv.set(
+  'user:123:preferences', {...}
+);
+await agent.kv.set(
+  'session:abc:context', {...}
+);
+await agent.kv.set(
+  'cache:api:response:xyz', {...}
+);
+
+// Avoid: Flat and ambiguous
+await agent.kv.set('prefs', {...});
+await agent.kv.set('data1', {...});
+```
+
+### 3. Track Important Operations
+
+Record tool calls for critical operations:
+
+```typescript
+async function generateReport(data: any) {
+  const start = Date.now() / 1000;
+
+  try {
+    const report = await createReport(data);
+
+    await agent.tools.record(
+      'generate_report',
+      start,
+      Date.now() / 1000,
+      { dataSize: data.length },
+      { success: true, reportId: report.id }
+    );
+
+    return report;
+  } catch (error) {
+    await agent.tools.record(
+      'generate_report',
+      start,
+      Date.now() / 1000,
+      { dataSize: data.length },
+      { success: false, error: error.message }
+    );
+    throw error;
+  }
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="TypeScript SDK Reference" icon="js" href="/agentfs/sdk/typescript">
+    Complete API documentation for TypeScript/JavaScript
+  </Card>
+  <Card title="Rust SDK Reference" icon="rust" href="/agentfs/sdk/rust">
+    Complete API documentation for Rust
+  </Card>
+  <Card title="Examples" icon="github" href="https://github.com/tursodatabase/agentfs/tree/main/examples">
+    Browse complete example applications
+  </Card>
+  <Card title="Architecture Guide" icon="book" href="/agentfs/architecture">
+    Deep dive into AgentFS internals
+  </Card>
+</CardGroup>
