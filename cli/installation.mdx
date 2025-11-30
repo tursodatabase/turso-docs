@@ -29,6 +29,15 @@ curl -sSfL https://get.tur.so/install.sh | bash
 
 Installing the Turso CLI on Windows requires that you have [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) installed.
 
+> **_NOTE:_**
+Starting from Ubuntu 22.04 LTS, Ubuntu on WSL no longer bundles wslu by default.
+If you don't install it, certain commands such as turso auth login may fail with the error:
+'Error: failed to open auth URL: exec: "xdg-open,x-www-browser,www-browser": executable file not found in $PATH'
+To fix this, install wslu from its official PPA: <br>
+  `sudo add-apt-repository ppa:wslutilities/wslu` <br>
+  `sudo apt update` <br>
+  `sudo apt install wslu` <br>
+
 Once WSL is installed, run the following in PowerShell:
 
 ```bash
