@@ -48,9 +48,9 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
         - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
       </Step>
       <Step title="Update Application Connections">
-          Replace public Turso endpoints with the new VPC endpoint URL format:
+          Make sure you are using the regional Turso URL format:
           ```bash
-          curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-us-east-1.turso.io
+          curl https://<database_name>-<organization_slug>.aws-us-east-1.turso.io
           ```
       </Step>
 
@@ -59,10 +59,10 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
 
           ```bash
           # Test connectivity
-          curl -v https://<your-database-name>.aws-us-east-1.turso.io
+          curl -v https://<database_name>-<organization_slug>.aws-us-east-1.turso.io
 
           # Verify private routing (should show traffic staying within AWS network)
-          traceroute -T <your-database-name>.aws-us-east-1.turso.io
+          traceroute -T <database_name>-<organization_slug>.aws-us-east-1.turso.io
           ```
       </Step>
     </Steps>
@@ -101,9 +101,9 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
         - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
       </Step>
       <Step title="Update Application Connections">
-          Replace public Turso endpoints with the new VPC endpoint URL format:
+          Make sure you are using the regional Turso URL format:
           ```bash
-          curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-us-east-2.turso.io
+          curl https://<database_name>-<organization_slug>.aws-us-east-2.turso.io
           ```
       </Step>
 
@@ -112,10 +112,10 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
 
           ```bash
           # Test connectivity
-          curl -v https://<your-database-name>.aws-us-east-2.turso.io
+          curl -v https://<database_name>-<organization_slug>.aws-us-east-2.turso.io
 
           # Verify private routing (should show traffic staying within AWS network)
-          traceroute -T <your-database-name>.aws-us-east-2.turso.io
+          traceroute -T <database_name>-<organization_slug>.aws-us-east-2.turso.io
           ```
       </Step>
     </Steps>
@@ -154,9 +154,9 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
         - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
       </Step>
       <Step title="Update Application Connections">
-          Replace public Turso endpoints with the new VPC endpoint URL format:
+          Make sure you are using the regional Turso URL format:
           ```bash
-          curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-us-west-2.turso.io
+          curl https://<database_name>-<organization_slug>.aws-us-west-2.turso.io
           ```
       </Step>
 
@@ -165,10 +165,10 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
 
           ```bash
           # Test connectivity
-          curl -v https://<your-database-name>.aws-us-west-2.turso.io
+          curl -v https://<database_name>-<organization_slug>.aws-us-west-2.turso.io
 
           # Verify private routing (should show traffic staying within AWS network)
-          traceroute -T <your-database-name>.aws-us-west-2.turso.io
+          traceroute -T <database_name>-<organization_slug>.aws-us-west-2.turso.io
           ```
       </Step>
     </Steps>
@@ -207,9 +207,9 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
         - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
       </Step>
       <Step title="Update Application Connections">
-          Replace public Turso endpoints with the new VPC endpoint URL format:
+          Make sure you are using the regional Turso URL format:
           ```bash
-          curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-eu-west-1.turso.io
+          curl https://<database_name>-<organization_slug>.aws-eu-west-1.turso.io
           ```
       </Step>
 
@@ -218,10 +218,10 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
 
           ```bash
           # Test connectivity
-          curl -v https://<your-database-name>.aws-eu-west-1.turso.io
+          curl -v https://<database_name>-<organization_slug>.aws-eu-west-1.turso.io
 
           # Verify private routing (should show traffic staying within AWS network)
-          traceroute -T <your-database-name>.aws-eu-west-1.turso.io
+          traceroute -T <database_name>-<organization_slug>.aws-eu-west-1.turso.io
           ```
       </Step>
     </Steps>
@@ -260,9 +260,9 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
         - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
       </Step>
       <Step title="Update Application Connections">
-          Replace public Turso endpoints with the new VPC endpoint URL format:
+          Make sure you are using the regional Turso URL format:
           ```bash
-          curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-ap-south-1.turso.io
+          curl https://<database_name>-<organization_slug>.aws-ap-south-1.turso.io
           ```
       </Step>
 
@@ -271,10 +271,10 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
 
           ```bash
           # Test connectivity
-          curl -v https://<your-database-name>.aws-ap-south-1.turso.io
+          curl -v https://<database_name>-<organization_slug>.aws-ap-south-1.turso.io
 
           # Verify private routing (should show traffic staying within AWS network)
-          traceroute -T <your-database-name>.aws-ap-south-1.turso.io
+          traceroute -T <database_name>-<organization_slug>.aws-ap-south-1.turso.io
           ```
       </Step>
     </Steps>
@@ -313,9 +313,9 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
         - Outbound: Allow HTTPS (port 443) to the VPC endpoint security group
       </Step>
       <Step title="Update Application Connections">
-          Replace public Turso endpoints with the new VPC endpoint URL format:
+          Make sure you are using the regional Turso URL format:
           ```bash
-          curl -H "Host: <database-name>.turso.io" https://<database-name>.aws-ap-northeast-1.turso.io
+          curl https://<database_name>-<organization_slug>.aws-ap-northeast-1.turso.io
           ```
       </Step>
 
@@ -324,10 +324,10 @@ Set up an AWS VPC endpoint to securely access Turso databases through AWS Privat
 
           ```bash
           # Test connectivity
-          curl -v https://<your-database-name>.aws-ap-northeast-1.turso.io
+          curl -v https://<database_name>-<organization_slug>.aws-ap-northeast-1.turso.io
 
           # Verify private routing (should show traffic staying within AWS network)
-          traceroute -T <your-database-name>.aws-ap-northeast-1.turso.io
+          traceroute -T <database_name>-<organization_slug>.aws-ap-northeast-1.turso.io
           ```
       </Step>
     </Steps>
