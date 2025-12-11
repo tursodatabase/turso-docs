@@ -9,7 +9,12 @@
   },
   "favicon": "/favicon.svg",
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude"]
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
   },
   "navigation": {
     "global": {
@@ -31,7 +36,6 @@
         }
       ]
     },
-
     "tabs": [
       {
         "tab": "Turso Database (Beta)",
@@ -64,11 +68,16 @@
           },
           {
             "group": "Sync",
-            "pages": ["sync/turso-cloud"]
+            "pages": [
+              "sync/usage",
+              "sync/partial"
+            ]
           },
           {
             "group": "Guides",
-            "pages": ["guides/agent-databases"]
+            "pages": [
+              "guides/agent-databases"
+            ]
           }
         ]
       },
@@ -125,7 +134,10 @@
               "sdk/authentication",
               {
                 "group": "libSQL Remote Protocol",
-                "pages": ["sdk/http/quickstart", "sdk/http/reference"]
+                "pages": [
+                  "sdk/http/quickstart",
+                  "sdk/http/reference"
+                ]
               },
               {
                 "group": "Official SDKs",
@@ -152,11 +164,16 @@
                       },
                       {
                         "group": "ORMs",
-                        "pages": ["sdk/ts/orm/drizzle", "sdk/ts/orm/prisma"]
+                        "pages": [
+                          "sdk/ts/orm/drizzle",
+                          "sdk/ts/orm/prisma"
+                        ]
                       },
                       {
                         "group": "Integrations",
-                        "pages": ["sdk/ts/integrations/sentry"]
+                        "pages": [
+                          "sdk/ts/integrations/sentry"
+                        ]
                       }
                     ]
                   },
@@ -193,11 +210,15 @@
                       "sdk/python/examples",
                       {
                         "group": "Guides",
-                        "pages": ["sdk/python/guides/flask"]
+                        "pages": [
+                          "sdk/python/guides/flask"
+                        ]
                       },
                       {
                         "group": "ORMs",
-                        "pages": ["sdk/python/orm/sqlalchemy"]
+                        "pages": [
+                          "sdk/python/orm/sqlalchemy"
+                        ]
                       }
                     ]
                   },
@@ -209,17 +230,24 @@
                       "sdk/php/examples",
                       {
                         "group": "ORMs",
-                        "pages": ["sdk/php/orm/doctrine-dbal"]
+                        "pages": [
+                          "sdk/php/orm/doctrine-dbal"
+                        ]
                       },
                       {
                         "group": "Guides",
-                        "pages": ["sdk/php/guides/laravel"]
+                        "pages": [
+                          "sdk/php/guides/laravel"
+                        ]
                       }
                     ]
                   },
                   {
                     "group": "Ruby",
-                    "pages": ["sdk/ruby/quickstart", "sdk/ruby/examples"]
+                    "pages": [
+                      "sdk/ruby/quickstart",
+                      "sdk/ruby/examples"
+                    ]
                   },
                   {
                     "group": "ActiveRecord",
@@ -227,17 +255,25 @@
                       "sdk/activerecord/quickstart",
                       {
                         "group": "Guides",
-                        "pages": ["sdk/activerecord/guides/rails"]
+                        "pages": [
+                          "sdk/activerecord/guides/rails"
+                        ]
                       }
                     ]
                   },
                   {
                     "group": "Android",
-                    "pages": ["sdk/kotlin/quickstart", "sdk/kotlin/reference"]
+                    "pages": [
+                      "sdk/kotlin/quickstart",
+                      "sdk/kotlin/reference"
+                    ]
                   },
                   {
                     "group": "Swift",
-                    "pages": ["sdk/swift/quickstart", "sdk/swift/reference"]
+                    "pages": [
+                      "sdk/swift/quickstart",
+                      "sdk/swift/reference"
+                    ]
                   },
                   {
                     "group": "C",
@@ -260,7 +296,9 @@
                       "sdk/flutter/examples",
                       {
                         "group": "Integrations",
-                        "pages": ["sdk/flutter/integrations/drift"]
+                        "pages": [
+                          "sdk/flutter/integrations/drift"
+                        ]
                       }
                     ]
                   }
@@ -300,7 +338,10 @@
                   },
                   {
                     "group": "contact",
-                    "pages": ["cli/contact/bookmeeting", "cli/contact/feedback"]
+                    "pages": [
+                      "cli/contact/bookmeeting",
+                      "cli/contact/feedback"
+                    ]
                   },
                   {
                     "group": "db",
@@ -476,7 +517,9 @@
                   {
                     "group": "Audit Logs",
                     "icon": "list",
-                    "pages": ["api-reference/audit-logs/list"]
+                    "pages": [
+                      "api-reference/audit-logs/list"
+                    ]
                   },
                   {
                     "group": "API Tokens",
