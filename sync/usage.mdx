@@ -1,5 +1,5 @@
 ---
-title: Sync
+title: Usage
 description: How to enable and use sync with Turso across TypeScript, Python, and Go.
 ---
 
@@ -9,21 +9,16 @@ This guide shows how to set up a Turso database and use the sync features from y
 
 <Step title="1. Setup Turso Cloud database">
 
-Follow our Quickstart to install the CLI, create a database, and get your connection info:
-<Info>
-Quickstart: https://docs.turso.tech/quickstart
-</Info>
+- Follow our [Quickstart](/quickstart) to install the CLI, create a database
 
-Once your database is created (for example, my-db):
-
-- Get the database URL (libsql://...) with:
-```bash
-turso db show my-db
+- Get the database URL (`libsql://...`):
+```
+turso db show <db>
 ```
 
 - Create a token for your app:
-```bash
-turso db tokens create my-db
+```
+turso db tokens create <db>
 ```
 
 </Step>
@@ -32,18 +27,12 @@ turso db tokens create my-db
 
 You need three essentials to enable sync:
 - Local path: where the local, synced tursodb file is stored
-- Remote URL: your Turso Cloud URL (libsql://...)
+- Remote URL: your Turso Cloud URL (`libsql://...`)
 - Auth token: Turso token to authenticate requests
-
-<Note>
-On first startup, your local database will be bootstrapped from the remote. Ensure the remote is online for the initial connect.  
-If you prefer to start with an empty local database when it's missing and avoid bootstrapping, set the `bootstrap_if_empty`/`BootstrapIfEmpty` option to `false`.
-</Note>
 
 <CodeGroup>
 
-```ts
-// TypeScript
+```ts TypeScript
 import { connect } from '@tursodatabase/sync';
 
 const db = await connect({
@@ -55,8 +44,7 @@ const db = await connect({
 });
 ```
 
-```py
-# Python
+```py Python
 import os
 import turso.sync
 
@@ -69,16 +57,11 @@ conn = turso.sync.connect(
 )
 ```
 
-```go
-// Go
+```go Go
 package main
 
 import (
-	"context"
-	"log"
-	"os"
-
-	"turso" // import path may differ in your project
+	"turso"
 )
 
 db, err := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
@@ -91,6 +74,14 @@ db, err := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
 ```
 
 </CodeGroup>
+
+<Note>
+On the first run, the local database is automatically bootstrapped from the remote &mdash; so the remote must be reachable during the initial connect.
+
+If you set `bootstrap_if_empty` to `false`, the local database will start empty instead.
+You can bootstrap or update it later at any time by explicitly calling `pull()`.
+</Note>
+
 </Step>
 
 <Step title="3. Push changes">
@@ -99,16 +90,14 @@ Push sends your local changes to the Turso server. Under the hood, logical state
 
 <CodeGroup>
 
-```ts
-// TypeScript
+```ts TypeScript
 await db.exec("CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, body TEXT)");
 await db.exec("INSERT INTO notes VALUES ('n1', 'hello')");
 
 await db.push();
 ```
 
-```py
-# Python
+```py Python
 conn.execute("CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, body TEXT)")
 conn.commit()
 conn.execute("INSERT INTO notes VALUES ('n1', 'hello')")
@@ -117,10 +106,9 @@ conn.commit()
 conn.push()
 ```
 
-```go
-// Go
+```go Go
 // create *sql.DB instance
-conn, err := db.Connect(context.Background())
+conn, err := db.Connect(ctx)
 if err != nil {
   return err
 }
@@ -151,21 +139,18 @@ Pull fetches remote changes and applies them locally. It returns a boolean indic
 
 <CodeGroup>
 
-```ts
-// TypeScript
+```ts TypeScript
 // Returns true if anything changed locally
 const changed = await db.pull();
 console.info('pulled changes:', changed);
 ```
 
-```py
-# Python
+```py Python
 changed = conn.pull()
 print("pulled changes:", changed)
 ```
 
-```go
-// Go
+```go Go
 changed, err := db.Pull(ctx)
 if err != nil {
 	return err
@@ -182,18 +167,15 @@ Checkpoint compacts the local WAL to bound local disk usage while preserving syn
 
 <CodeGroup>
 
-```ts
-// TypeScript
+```ts TypeScript
 await db.checkpoint();
 ```
 
-```py
-# Python
+```py Python
 conn.checkpoint()
 ```
 
-```go
-// Go
+```go Go
 if err := db.Checkpoint(ctx); err != nil {
 	return err
 }
@@ -208,12 +190,12 @@ Stats help you observe sync behavior and usage (WAL sizes, last push/pull times,
 
 <CodeGroup>
 
-```ts
-// TypeScript
+```ts TypeScript
 const s = await db.stats();
 console.info({
-  mainWal: s.mainWal,                 // bytes
-  revertWal: s.revertWal,             // bytes
+  cdcOperations: s.cdcOperations,
+  mainWalSize: s.mainWalSize,
+  revertWalSize: s.revertWalSize,
   networkReceivedBytes: s.networkReceivedBytes,
   networkSentBytes: s.networkSentBytes,
   lastPullUnixTime: s.lastPullUnixTime,
@@ -222,10 +204,10 @@ console.info({
 });
 ```
 
-```py
-# Python
+```py Python
 s = conn.stats()
 print({
+    "cdc_operations": s.cdc_operations,
     "main_wal_size": s.main_wal_size,
     "revert_wal_size": s.revert_wal_size,
     "network_received_bytes": s.network_received_bytes,
@@ -236,18 +218,18 @@ print({
 })
 ```
 
-```go
-// Go
+```go Go
 s, err := db.Stats(ctx)
 if err != nil {
 	return err
 }
-log.Printf("stats: mainWal=%d revertWal=%d rx=%d tx=%d lastPull=%d lastPush=%d revision=%s",
-	s.MainWalSize,
+log.Printf("stats: cdc=%v, main=%d revert=%d rx=%d tx=%d pull=%d push=%d revision=%s",
+  s.CdcOperations,
+  s.MainWalSize,
   s.RevertWalSize,
   s.NetworkReceivedBytes,
   s.NetworkSentBytes,
-	s.LastPullUnixTime,
+  s.LastPullUnixTime,
   s.LastPushUnixTime,
   s.Revision,
 )

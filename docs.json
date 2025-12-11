@@ -69,7 +69,8 @@
           {
             "group": "Sync",
             "pages": [
-              "sync/usage"
+              "sync/usage",
+              "sync/partial"
             ]
           },
           {
