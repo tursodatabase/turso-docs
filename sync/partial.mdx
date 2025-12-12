@@ -3,9 +3,14 @@ title: Partial sync
 description: Sync only what you need. Faster cold starts and lower bandwidth by lazily fetching database pages on demand.
 ---
 
+<Note>
+This particular usage uses the Turso Cloud to sync the local Turso databases and assumes that you have an account.
+</Note>
+
 Partial sync lets your app open and use a database without downloading the entire file.
-The client lazily fetches pages of the database file from Turso when a query touches data that is not present locally.
-This reduces startup time and network usage for large databases, while remaining fully compatible with push/pull.
+The client lazily fetches pages of the database file from the Turso Cloud when a query touches data that is not present locally.
+This reduces startup time and network usage for large databases, while remaining fully compatible with the push/pull methods used
+by Turso's standard `sync` solution.
 
 {/* <!--
 Suggested diagram: "Cold start with partial sync"
