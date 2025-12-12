@@ -86,7 +86,7 @@ await agent.kv.set('session:current', 'abc-123');
 await agent.kv.set('counter', 42);
 ```
 
-#### `kv.get<T>(key: string): Promise<T | null>`
+#### `kv.get<T>(key: string): Promise<T | undefined>`
 
 Retrieve a value with automatic deserialization.
 
@@ -110,28 +110,19 @@ Remove a key-value pair.
 await agent.kv.delete('session:expired');
 ```
 
-#### `kv.list(options?: ListOptions)`
+#### `kv.list(prefix: string): Promise<{ key: string, value: any }[]>`
 
-List keys with optional filtering.
+List keys matching a prefix.
 
 ```typescript
-interface ListOptions {
-  prefix?: string;  // Filter by key prefix
-  limit?: number;   // Maximum results
-  cursor?: string;  // Pagination cursor
+// List all user keys
+const userEntries = await agent.kv.list('user:');
+for (const { key, value } of userEntries) {
+  console.log(key, value);
 }
 
-// List all user keys
-const userKeys = await agent.kv.list(
-  { prefix: 'user:' }
-);
-
-// Paginated listing
-const page1 = await agent.kv.list({ limit: 10 });
-const page2 = await agent.kv.list({
-  limit: 10,
-  cursor: page1.cursor
-});
+// List all keys (empty prefix)
+const allEntries = await agent.kv.list('');
 ```
 
 ### Filesystem API
@@ -151,13 +142,17 @@ const imageBuffer = await fetch(url).then(r => r.arrayBuffer());
 await agent.fs.writeFile('/images/chart.png', Buffer.from(imageBuffer));
 ```
 
-#### `fs.readFile(path: string): Promise<Buffer>`
+#### `fs.readFile(path: string, options?: BufferEncoding): Promise<Buffer | string>`
 
-Read file contents as a Buffer.
+Read file contents. Returns a Buffer by default, or a string if encoding is specified.
 
 ```typescript
+// Read as Buffer (default)
 const data = await agent.fs.readFile('/reports/summary.md');
 const text = data.toString('utf-8');
+
+// Read as string with encoding
+const content = await agent.fs.readFile('/reports/summary.md', 'utf-8');
 
 // For JSON files
 const jsonData = await agent.fs.readFile('/config.json');
@@ -224,24 +219,25 @@ await agent.fs.deleteFile('/reports/old.md');
 
 Record and query agent tool invocations for debugging and compliance.
 
-#### `tools.record(name, startTime, endTime, input, output)`
+#### `tools.record(name, started_at, completed_at, parameters?, result?, error?): Promise<number>`
 
 Record a tool invocation.
 
 ```typescript
 await agent.tools.record(
   name: string,           // Tool identifier
-  startTime: number,      // Unix timestamp (seconds)
-  endTime: number,        // Unix timestamp (seconds)
-  input: any,            // Tool input (JSON-serializable)
-  output: any            // Tool output (JSON-serializable)
+  started_at: number,     // Unix timestamp (seconds)
+  completed_at: number,   // Unix timestamp (seconds)
+  parameters?: any,       // Tool parameters (JSON-serializable)
+  result?: any,           // Tool result (JSON-serializable)
+  error?: string          // Error message if failed
 );
 
 // Example: Track an API call
 const start = Date.now() / 1000;
 const response = await callOpenAI(prompt);
 
-await agent.tools.record(
+const id = await agent.tools.record(
   'openai_completion',
   start,
   Date.now() / 1000,
@@ -250,13 +246,15 @@ await agent.tools.record(
 );
 ```
 
-#### `tools.get(id: string)`
+#### `tools.get(id: number): Promise<ToolCall | undefined>`
 
 Get details of a specific tool call.
 
 ```typescript
-const toolCall = await agent.tools.get('call_123abc');
-console.log('Duration:', toolCall.endTime - toolCall.startTime, 'seconds');
+const toolCall = await agent.tools.get(42);
+if (toolCall) {
+  console.log('Duration:', toolCall.duration_ms, 'ms');
+}
 ```
 
 ## Browser Support
