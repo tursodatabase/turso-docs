@@ -134,14 +134,6 @@ const page2 = await agent.kv.list({
 });
 ```
 
-#### `kv.clear()`
-
-Remove all key-value pairs.
-
-```typescript
-await agent.kv.clear();
-```
-
 ### Filesystem API
 
 POSIX-like filesystem operations for managing agent data.
@@ -170,18 +162,6 @@ const text = data.toString('utf-8');
 // For JSON files
 const jsonData = await agent.fs.readFile('/config.json');
 const config = JSON.parse(jsonData.toString());
-```
-
-#### `fs.mkdir(path: string, options?: MkdirOptions)`
-
-Create a directory.
-
-```typescript
-interface MkdirOptions {
-  recursive?: boolean;  // Create parent directories if needed
-}
-
-await agent.fs.mkdir('/reports/2024/Q4', { recursive: true });
 ```
 
 #### `fs.readdir(path: string): Promise<string[]>`
@@ -232,41 +212,12 @@ if (await agent.fs.exists('/reports/draft.md')) {
 }
 ```
 
-#### `fs.rm(path: string, options?: RmOptions)`
+#### `fs.deleteFile(path: string)`
 
-Remove a file or directory.
-
-```typescript
-interface RmOptions {
-  recursive?: boolean;  // Remove directories and contents
-  force?: boolean;     // Don't error if doesn't exist
-}
-
-// Remove a file
-await agent.fs.rm('/reports/old.md');
-
-// Remove directory tree
-await agent.fs.rm('/archive', { recursive: true });
-
-// Safe removal
-await agent.fs.rm('/maybe-exists.txt', { force: true });
-```
-
-#### `fs.rename(oldPath: string, newPath: string)`
-
-Move or rename a file or directory.
+Delete a file.
 
 ```typescript
-await agent.fs.rename('/reports/draft.md', '/reports/final.md');
-await agent.fs.rename('/temp', '/archive/2024');
-```
-
-#### `fs.copyFile(src: string, dest: string)`
-
-Copy a file to a new location.
-
-```typescript
-await agent.fs.copyFile('/reports/template.md', '/reports/new-report.md');
+await agent.fs.deleteFile('/reports/old.md');
 ```
 
 ### Tool Call Tracking API
@@ -299,34 +250,6 @@ await agent.tools.record(
 );
 ```
 
-#### `tools.list(options?: ToolListOptions)`
-
-Query recorded tool calls.
-
-```typescript
-interface ToolListOptions {
-  limit?: number;      // Maximum results
-  offset?: number;     // Skip results
-  name?: string;       // Filter by tool name
-  since?: number;      // After timestamp
-  until?: number;      // Before timestamp
-}
-
-// Get recent tool calls
-const recent = await agent.tools.list({ limit: 10 });
-
-// Get specific tool usage
-const searches = await agent.tools.list({
-  name: 'web_search',
-  limit: 100
-});
-
-// Get calls from last hour
-const lastHour = await agent.tools.list({
-  since: Date.now() / 1000 - 3600
-});
-```
-
 #### `tools.get(id: string)`
 
 Get details of a specific tool call.
@@ -334,22 +257,6 @@ Get details of a specific tool call.
 ```typescript
 const toolCall = await agent.tools.get('call_123abc');
 console.log('Duration:', toolCall.endTime - toolCall.startTime, 'seconds');
-```
-
-#### `tools.delete(id: string)`
-
-Remove a tool call record.
-
-```typescript
-await agent.tools.delete('call_123abc');
-```
-
-#### `tools.clear()`
-
-Remove all tool call records.
-
-```typescript
-await agent.tools.clear();
 ```
 
 ## Browser Support
