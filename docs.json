@@ -94,6 +94,7 @@
               "cloud/migrate-to-turso",
               "cloud/durability",
               "cloud/private-endpoints",
+              "cloud/encryption",
               "data-and-connections",
               "help/usage-and-billing",
               "features/ai-and-embeddings",
