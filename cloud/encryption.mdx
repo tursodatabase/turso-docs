@@ -2,7 +2,9 @@
 title: Encryption
 ---
 
-Turso Cloud provides native encryption for data at rest using industry-standard AEAD algorithms. Each database page is encrypted individually, ensuring data integrity and security across all environments. Database encryption is available on the [Enterprise plan](https://tur.so/turso-enterprise-chat).
+While the entirety of data held at the Turso Cloud is encrypted at rest at the volume level (See [Our trust page](https://trust.turso.tech) for details), customers of Turso Cloud Enterprise can also encrypt individual databases with their own keys.
+
+Turso Cloud provides database-level native encryption for data at rest using industry-standard AEAD algorithms. Each database page is encrypted individually, ensuring data integrity and security across all environments. Database encryption is available on the [Enterprise plan](https://tur.so/turso-enterprise-chat).
 
 <Info>
   **You hold the keys.** Each database can be encrypted with its own unique key that only you control. Turso never sees or stores your encryption keys. Encryption works seamlessly with both remote queries and sync.
@@ -13,7 +15,7 @@ Turso Cloud provides native encryption for data at rest using industry-standard 
 - **Data integrity**: Built-in authentication tags prevent tampering and corruption
 - **In-memory keys**: Encryption keys are never stored on disk
 
-Turso Cloud with encryption is perfect for:
+Turso Cloud with inidividual database encryption is perfect for:
 
 <CardGroup cols={2}>
     <Card title="AI Agents" icon="robot">
