@@ -38,7 +38,7 @@
 
 ## Support
 
-Join us [on Discord](https://tur.so/discord-c) to get help using this SDK. Report security issues [via email](mailto:security@turso.tech).
+Join us [on Discord](https://tur.so/discord) to get help using this SDK. Report security issues [via email](mailto:security@turso.tech).
 
 ## Contributors
 

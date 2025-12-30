@@ -27,7 +27,7 @@
         {
           "anchor": "Discord",
           "icon": "discord",
-          "href": "https://discord.gg/turso"
+          "href": "https://tur.so/discord"
         },
         {
           "anchor": "GitHub",
@@ -594,7 +594,7 @@
   },
   "footer": {
     "socials": {
-      "discord": "https://discord.gg/turso",
+      "discord": "https://tur.so/discord",
       "github": "https://github.com/tursodatabase",
       "twitter": "https://twitter.com/tursodatabase",
       "linkedin": "https://www.linkedin.com/company/turso"
