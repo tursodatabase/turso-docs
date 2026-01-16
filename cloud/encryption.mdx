@@ -150,6 +150,14 @@ Encrypted databases support [branching](/features/branching), and [point-in-time
 turso db create my-secret-db-fork --remote-encryption-key "YOUR_SECRET_KEY" --from-db my-secret-db
 ```
 
+## Rekeying
+Rekeying is not supported yet. However, you can export the database and create a new one with a different cipher and key:
+
+```bash
+turso db export my-secret-db --remote-encryption-key "YOUR_SECRET_KEY"
+turso db create my-new-secret-db --remote-encryption-key "YOUR_NEW_SECRET_KEY" --remote-encryption-cipher aegis256 --from-file my-secret-db.db
+```
+
 ## Supported Ciphers
 
 Turso Cloud supports multiple variants of three AEAD encryption algorithms, offering different trade-offs between performance and compatibility.
