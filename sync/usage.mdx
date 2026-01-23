@@ -5,6 +5,10 @@ description: How to enable and use sync with Turso across TypeScript, Python, an
 
 This guide shows how to set up a Turso database and use the sync features from your application.
 
+<Note>
+This particular usage uses the Turso Cloud to sync the local Turso databases and assumes that you have an account.
+</Note>
+
 <Steps>
 
 <Step title="1. Setup Turso Cloud database">
@@ -28,7 +32,7 @@ turso db tokens create <db>
 You need three essentials to enable sync:
 - Local path: where the local, synced tursodb file is stored
 - Remote URL: your Turso Cloud URL (`libsql://...`)
-- Auth token: Turso token to authenticate requests
+- Auth token: Turso Cloud token to authenticate requests
 
 <CodeGroup>
 
@@ -86,7 +90,7 @@ You can bootstrap or update it later at any time by explicitly calling `pull()`.
 
 <Step title="3. Push changes">
 
-Push sends your local changes to the Turso server. Under the hood, logical statements are sent, and on conflicts the strategy is "last push wins".
+Push sends your local changes to the Turso Cloud server. Under the hood, logical statements are sent, and on conflicts the strategy is "last push wins".
 
 <CodeGroup>
 

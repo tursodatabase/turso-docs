@@ -8,17 +8,35 @@ Build stateful AI agents with the AgentFS TypeScript SDK, supporting both Node.j
 
 ## Installation
 
-```bash
-bun add agentfs-sdk
-```
+<Tabs>
+  <Tab title="npm">
+    ```bash
+    npm install agentfs-sdk
+    ```
+  </Tab>
+  <Tab title="bun">
+    ```bash
+    bun add agentfs-sdk
+    ```
+  </Tab>
+  <Tab title="deno">
+    ```typescript
+    import { AgentFS } from "npm:agentfs-sdk";
+    ```
+  </Tab>
+</Tabs>
 
 ## Quick Start
 
 ```typescript
 import { AgentFS } from 'agentfs-sdk';
 
-// Open or create an agent filesystem
-const agent = await AgentFS.open('./agent.db');
+// Persistent storage with identifier
+const agent = await AgentFS.open({ id: 'my-agent' });
+// Creates: .agentfs/my-agent.db
+
+// Or use ephemeral in-memory database
+const ephemeralAgent = await AgentFS.open();
 
 // Use the three main APIs
 // Key-value store
@@ -35,21 +53,26 @@ await agent.tools.record(...);
 
 The main entry point for all AgentFS operations.
 
-#### `AgentFS.open(path: string, options?: AgentFSOptions)`
+#### `AgentFS.open(options?: AgentFSOptions)`
 
 Creates or opens an AgentFS database.
 
 ```typescript
 interface AgentFSOptions {
-  // Optional configuration
-  readonly?: boolean;  // Open in read-only mode
+  /**
+   * Optional unique identifier for the agent.
+   * - If provided: Creates persistent storage at `.agentfs/{id}.db`
+   * - If omitted: Uses ephemeral in-memory database
+   */
+  id?: string;
 }
 
-const agent = await AgentFS.open('./my-agent.db');
-const readOnlyAgent = await AgentFS.open(
-  './agent.db',
-  { readonly: true }
-);
+// Persistent storage
+const agent = await AgentFS.open({ id: 'my-agent' });
+// Creates: .agentfs/my-agent.db
+
+// Ephemeral in-memory database
+const ephemeralAgent = await AgentFS.open();
 ```
 
 #### Properties
@@ -77,7 +100,7 @@ await agent.kv.set('session:current', 'abc-123');
 await agent.kv.set('counter', 42);
 ```
 
-#### `kv.get<T>(key: string): Promise<T | null>`
+#### `kv.get<T>(key: string): Promise<T | undefined>`
 
 Retrieve a value with automatic deserialization.
 
@@ -101,36 +124,19 @@ Remove a key-value pair.
 await agent.kv.delete('session:expired');
 ```
 
-#### `kv.list(options?: ListOptions)`
+#### `kv.list(prefix: string): Promise<{ key: string, value: any }[]>`
 
-List keys with optional filtering.
+List keys matching a prefix.
 
 ```typescript
-interface ListOptions {
-  prefix?: string;  // Filter by key prefix
-  limit?: number;   // Maximum results
-  cursor?: string;  // Pagination cursor
+// List all user keys
+const userEntries = await agent.kv.list('user:');
+for (const { key, value } of userEntries) {
+  console.log(key, value);
 }
 
-// List all user keys
-const userKeys = await agent.kv.list(
-  { prefix: 'user:' }
-);
-
-// Paginated listing
-const page1 = await agent.kv.list({ limit: 10 });
-const page2 = await agent.kv.list({
-  limit: 10,
-  cursor: page1.cursor
-});
-```
-
-#### `kv.clear()`
-
-Remove all key-value pairs.
-
-```typescript
-await agent.kv.clear();
+// List all keys (empty prefix)
+const allEntries = await agent.kv.list('');
 ```
 
 ### Filesystem API
@@ -150,29 +156,21 @@ const imageBuffer = await fetch(url).then(r => r.arrayBuffer());
 await agent.fs.writeFile('/images/chart.png', Buffer.from(imageBuffer));
 ```
 
-#### `fs.readFile(path: string): Promise<Buffer>`
+#### `fs.readFile(path: string, options?: BufferEncoding): Promise<Buffer | string>`
 
-Read file contents as a Buffer.
+Read file contents. Returns a Buffer by default, or a string if encoding is specified.
 
 ```typescript
+// Read as Buffer (default)
 const data = await agent.fs.readFile('/reports/summary.md');
 const text = data.toString('utf-8');
+
+// Read as string with encoding
+const content = await agent.fs.readFile('/reports/summary.md', 'utf-8');
 
 // For JSON files
 const jsonData = await agent.fs.readFile('/config.json');
 const config = JSON.parse(jsonData.toString());
-```
-
-#### `fs.mkdir(path: string, options?: MkdirOptions)`
-
-Create a directory.
-
-```typescript
-interface MkdirOptions {
-  recursive?: boolean;  // Create parent directories if needed
-}
-
-await agent.fs.mkdir('/reports/2024/Q4', { recursive: true });
 ```
 
 #### `fs.readdir(path: string): Promise<string[]>`
@@ -223,65 +221,37 @@ if (await agent.fs.exists('/reports/draft.md')) {
 }
 ```
 
-#### `fs.rm(path: string, options?: RmOptions)`
+#### `fs.deleteFile(path: string)`
 
-Remove a file or directory.
-
-```typescript
-interface RmOptions {
-  recursive?: boolean;  // Remove directories and contents
-  force?: boolean;     // Don't error if doesn't exist
-}
-
-// Remove a file
-await agent.fs.rm('/reports/old.md');
-
-// Remove directory tree
-await agent.fs.rm('/archive', { recursive: true });
-
-// Safe removal
-await agent.fs.rm('/maybe-exists.txt', { force: true });
-```
-
-#### `fs.rename(oldPath: string, newPath: string)`
-
-Move or rename a file or directory.
+Delete a file.
 
 ```typescript
-await agent.fs.rename('/reports/draft.md', '/reports/final.md');
-await agent.fs.rename('/temp', '/archive/2024');
-```
-
-#### `fs.copyFile(src: string, dest: string)`
-
-Copy a file to a new location.
-
-```typescript
-await agent.fs.copyFile('/reports/template.md', '/reports/new-report.md');
+await agent.fs.deleteFile('/reports/old.md');
 ```
 
 ### Tool Call Tracking API
 
 Record and query agent tool invocations for debugging and compliance.
 
-#### `tools.record(name, startTime, endTime, input, output)`
+#### `tools.record(name, started_at, completed_at, parameters?, result?, error?): Promise<number>`
 
 Record a tool invocation.
 
 ```typescript
 await agent.tools.record(
   name: string,           // Tool identifier
-  startTime: number,      // Unix timestamp (seconds)
-  endTime: number,        // Unix timestamp (seconds)
-  input: any,            // Tool input (JSON-serializable)
-  output: any            // Tool output (JSON-serializable)
+  started_at: number,     // Unix timestamp (seconds)
+  completed_at: number,   // Unix timestamp (seconds)
+  parameters?: any,       // Tool parameters (JSON-serializable)
+  result?: any,           // Tool result (JSON-serializable)
+  error?: string          // Error message if failed
 );
 
 // Example: Track an API call
 const start = Date.now() / 1000;
 const response = await callOpenAI(prompt);
 
-await agent.tools.record(
+const id = await agent.tools.record(
   'openai_completion',
   start,
   Date.now() / 1000,
@@ -290,57 +260,15 @@ await agent.tools.record(
 );
 ```
 
-#### `tools.list(options?: ToolListOptions)`
-
-Query recorded tool calls.
-
-```typescript
-interface ToolListOptions {
-  limit?: number;      // Maximum results
-  offset?: number;     // Skip results
-  name?: string;       // Filter by tool name
-  since?: number;      // After timestamp
-  until?: number;      // Before timestamp
-}
-
-// Get recent tool calls
-const recent = await agent.tools.list({ limit: 10 });
-
-// Get specific tool usage
-const searches = await agent.tools.list({
-  name: 'web_search',
-  limit: 100
-});
-
-// Get calls from last hour
-const lastHour = await agent.tools.list({
-  since: Date.now() / 1000 - 3600
-});
-```
-
-#### `tools.get(id: string)`
+#### `tools.get(id: number): Promise<ToolCall | undefined>`
 
 Get details of a specific tool call.
 
 ```typescript
-const toolCall = await agent.tools.get('call_123abc');
-console.log('Duration:', toolCall.endTime - toolCall.startTime, 'seconds');
-```
-
-#### `tools.delete(id: string)`
-
-Remove a tool call record.
-
-```typescript
-await agent.tools.delete('call_123abc');
-```
-
-#### `tools.clear()`
-
-Remove all tool call records.
-
-```typescript
-await agent.tools.clear();
+const toolCall = await agent.tools.get(42);
+if (toolCall) {
+  console.log('Duration:', toolCall.duration_ms, 'ms');
+}
 ```
 
 ## Browser Support
@@ -354,7 +282,7 @@ AgentFS works in browser environments using WebAssembly:
   <script type="module">
     import { AgentFS } from 'https://unpkg.com/agentfs-sdk/dist/browser.js';
 
-    const agent = await AgentFS.open('browser-agent.db');
+    const agent = await AgentFS.open({ id: 'browser-agent' });
 
     // All APIs work the same in browser
     await agent.kv.set('browser:data', { platform: 'web' });

@@ -3,9 +3,14 @@ title: Partial sync
 description: Sync only what you need. Faster cold starts and lower bandwidth by lazily fetching database pages on demand.
 ---
 
+<Note>
+This particular usage uses the Turso Cloud to sync the local Turso databases and assumes that you have an account.
+</Note>
+
 Partial sync lets your app open and use a database without downloading the entire file.
-The client lazily fetches pages of the database file from Turso when a query touches data that is not present locally.
-This reduces startup time and network usage for large databases, while remaining fully compatible with push/pull.
+The client lazily fetches pages of the database file from the Turso Cloud when a query touches data that is not present locally.
+This reduces startup time and network usage for large databases, while remaining fully compatible with the push/pull methods used
+by Turso's standard `sync` solution.
 
 {/* <!--
 Suggested diagram: "Cold start with partial sync"
@@ -133,6 +138,8 @@ db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
 
 ### Segment size (batched lazy reads)
 
+<Frame>
+
 <div id="seg-viz" style={{ margin: '2rem 0', padding: '1rem 0.5rem', background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)', borderRadius: '12px', border: '1px solid #2a2a4a', overflowX: 'auto' }}>
   <style>{`
     #s1-cell-1, #s1-cell-2, #s1-cell-3, #s1-cell-4, #s1-cell-5, #s1-cell-6, #s1-cell-7, #s1-cell-8, #s1-cell-9, #s1-cell-10, #s1-cell-11, #s1-cell-12 { cursor: pointer; }
@@ -229,7 +236,10 @@ db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
   </p>
 </div>
 
-When the client needs a page that isn't present locally, partial sync performs an on-demand fetch from the remote database.
+</Frame>
+
+When the client needs a page that isn’t present locally, partial sync performs an on-demand fetch from the remote database.
+
 To reduce round-trips and speed up these fetches, you can configure the **segment size**: instead of requesting a single page, the client downloads a whole *segment* of pages in one request.
 
 This lets the client amortize network overhead and hydrate nearby pages that are likely to be accessed soon.
@@ -300,6 +310,8 @@ turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
 </CodeGroup>
 
 ### Prefetch
+
+<Frame>
 
 <div style={{ margin: '2rem 0', padding: '1.5rem', background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)', borderRadius: '12px', border: '1px solid #2a2a4a' }}>
   <style>{`
@@ -507,6 +519,8 @@ turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
     </g>
   </svg>
 </div>
+
+</Frame>
 
 Prefetch is an optional optimization that builds on top of lazy page fetches.
 When enabled, the client not only retrieves the pages required by the current query, but also **inspects the structure of the newly downloaded pages and recent access patterns** to predict which pages are likely to be needed next.

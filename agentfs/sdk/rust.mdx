@@ -21,13 +21,17 @@ serde_json = "1"
 ## Quick Start
 
 ```rust
-use agentfs::AgentFS;
+use agentfs::{AgentFS, AgentFSOptions};
 use anyhow::Result;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // Open or create an agent filesystem
-    let agent = AgentFS::open("./agent.db").await?;
+    // Persistent storage with identifier
+    let agent = AgentFS::open(AgentFSOptions::with_id("my-agent")).await?;
+    // Creates: .agentfs/my-agent.db
+
+    // Or use ephemeral in-memory database
+    let ephemeral = AgentFS::open(AgentFSOptions::ephemeral()).await?;
 
     // Use the three main APIs
     agent.kv.set("key", "value").await?;              // Key-value store
@@ -44,24 +48,38 @@ async fn main() -> Result<()> {
 
 The main entry point for all AgentFS operations.
 
-#### `AgentFS::open(path: impl AsRef<Path>)`
+#### `AgentFS::open(options: AgentFSOptions)`
 
 Creates or opens an AgentFS database.
 
 ```rust
 use agentfs::{AgentFS, AgentFSOptions};
 
-// Simple open
-let agent = AgentFS::open("./my-agent.db").await?;
+// Persistent storage with identifier
+let agent = AgentFS::open(AgentFSOptions::with_id("my-agent")).await?;
+// Creates: .agentfs/my-agent.db
 
-// With options
-let agent = AgentFS::open_with_options(
-    "./agent.db",
-    AgentFSOptions {
-        readonly: false,
-        create_if_missing: true,
-    }
-).await?;
+// Ephemeral in-memory database
+let ephemeral = AgentFS::open(AgentFSOptions::ephemeral()).await?;
+```
+
+**AgentFSOptions Configuration:**
+
+```rust
+pub struct AgentFSOptions {
+    /// Optional unique identifier for the agent.
+    /// - If Some(id): Creates persistent storage at `.agentfs/{id}.db`
+    /// - If None: Uses ephemeral in-memory database
+    pub id: Option<String>,
+}
+
+impl AgentFSOptions {
+    /// Create options for a persistent agent with the given ID
+    pub fn with_id(id: impl Into<String>) -> Self;
+
+    /// Create options for an ephemeral in-memory agent
+    pub fn ephemeral() -> Self;
+}
 ```
 
 #### Fields

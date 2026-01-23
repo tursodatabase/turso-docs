@@ -27,7 +27,7 @@
         {
           "anchor": "Discord",
           "icon": "discord",
-          "href": "https://discord.gg/turso"
+          "href": "https://tur.so/discord"
         },
         {
           "anchor": "GitHub",
@@ -38,7 +38,7 @@
     },
     "tabs": [
       {
-        "tab": "Turso Database (Beta)",
+        "tab": "Turso Database (beta)",
         "groups": [
           {
             "group": "Turso Database",
@@ -94,6 +94,7 @@
               "cloud/migrate-to-turso",
               "cloud/durability",
               "cloud/private-endpoints",
+              "cloud/encryption",
               "data-and-connections",
               "help/usage-and-billing",
               "features/ai-and-embeddings",
@@ -538,20 +539,39 @@
         ]
       },
       {
-        "tab": "AgentFS",
+        "tab": "AgentFS (alpha)",
         "groups": [
           {
             "group": "AgentFS",
             "pages": [
               "agentfs/introduction",
-              "agentfs/quickstart"
+              "agentfs/installation"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "agentfs/guides/sandbox",
+              "agentfs/guides/sessions",
+              "agentfs/guides/auditing",
+              "agentfs/guides/overlay",
+              "agentfs/guides/mcp",
+              "agentfs/guides/sync",
+              "agentfs/guides/nfs"
             ]
           },
           {
             "group": "SDKs",
             "pages": [
               "agentfs/sdk/typescript",
+              "agentfs/sdk/python",
               "agentfs/sdk/rust"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "agentfs/reference/cli"
             ]
           }
         ]
@@ -593,7 +613,7 @@
   },
   "footer": {
     "socials": {
-      "discord": "https://discord.gg/turso",
+      "discord": "https://tur.so/discord",
       "github": "https://github.com/tursodatabase",
       "twitter": "https://twitter.com/tursodatabase",
       "linkedin": "https://www.linkedin.com/company/turso"
