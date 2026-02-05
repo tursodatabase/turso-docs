@@ -2599,8 +2599,8 @@
             "properties": {
               "encryption_key": {
                 "type": "string",
-                "description": "Base64-encoded encryption key (32 bytes).",
-                "example": "base64-encoded-32-byte-key"
+                "description": "Base64-encoded encryption key. Key size depends on cipher: 32 bytes for aes256gcm, chacha20poly1305, aegis256 variants; 16 bytes for aes128gcm, aegis128l variants.",
+                "example": "base64-encoded-key"
               },
               "encryption_cipher": {
                 "type": "string",
