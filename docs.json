@@ -536,6 +536,12 @@
                 ]
               }
             ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/vercel"
+            ]
           }
         ]
       },
