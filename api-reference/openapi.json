@@ -2574,7 +2574,7 @@
               "type": {
                 "type": "string",
                 "enum": ["database", "database_upload"],
-                "description": "The type of seed to be used to create a new database.",
+                "description": "The type of seed to be used to create a new database. Use `database` to copy from an existing database, or `database_upload` to [upload a SQLite database file](/api-reference/databases/upload).",
                 "example": "database"
               },
               "name": {
@@ -2592,6 +2592,33 @@
           "size_limit": {
             "type": "string",
             "description": "The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb."
+          },
+          "remote_encryption": {
+            "type": "object",
+            "description": "Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = \"database_upload\"`), or forking from an encrypted database (required when the source database is encrypted).",
+            "properties": {
+              "encryption_key": {
+                "type": "string",
+                "description": "Base64-encoded encryption key (32 bytes).",
+                "example": "base64-encoded-32-byte-key"
+              },
+              "encryption_cipher": {
+                "type": "string",
+                "enum": [
+                  "aes256gcm",
+                  "aes128gcm",
+                  "chacha20poly1305",
+                  "aegis128l",
+                  "aegis128x2",
+                  "aegis128x4",
+                  "aegis256",
+                  "aegis256x2",
+                  "aegis256x4"
+                ],
+                "description": "The encryption cipher to use.",
+                "example": "aes256gcm"
+              }
+            }
           }
         },
         "required": ["name", "group"]

@@ -446,6 +446,7 @@
                     "pages": [
                       "api-reference/databases/list",
                       "api-reference/databases/create",
+                      "api-reference/databases/upload",
                       "api-reference/databases/retrieve",
                       "api-reference/databases/configuration",
                       "api-reference/databases/update-configuration",
