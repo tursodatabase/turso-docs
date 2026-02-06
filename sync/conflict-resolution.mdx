@@ -1,0 +1,238 @@
+---
+title: Conflict Resolution
+description: Understanding how TursoDb sync handles concurrent changes and resolves conflicts.
+---
+
+When multiple clients make changes to the same database and sync with the remote, conflicts can occur. This guide explains how TursoDb sync handles these situations.
+
+## Overview
+
+TursoDb sync uses a **"last push wins"** conflict resolution strategy. When you push changes to the remote server, your changes are applied on top of the current remote state. If another client pushed changes before you, your push will still succeed—your changes simply become the latest version.
+
+## How Sync Works Under the Hood
+
+Understanding the sync architecture helps clarify conflict resolution:
+
+### Change Data Capture (CDC)
+
+TursoDb tracks every row-level change you make locally using a CDC mechanism:
+- `INSERT` operations are captured with the new row data
+- `UPDATE` operations capture the changed values  
+- `DELETE` operations capture the removed row
+
+These changes are stored locally until you call `push()`.
+
+### Push Operation
+
+When you push:
+1. Your local changes (stored in the CDC log) are sent to the remote server
+2. The server applies your changes to the remote database
+3. Changes are applied *logically* (row-by-row), not as raw bytes
+4. The server records which client made which changes and when
+
+### Pull Operation
+
+When you pull:
+1. The server sends any frames you haven't seen yet
+2. Your local database is rolled back to the last synced state
+3. Remote changes are applied
+4. Your unpushed local changes are *replayed* on top of the new remote state
+
+This rollback-and-replay approach is why conflicts resolve automatically—your local changes are always replayed on top of the latest remote state.
+
+## Conflict Scenarios
+
+### Scenario 1: Non-overlapping Changes
+
+Two clients modify different rows:
+
+| Client A | Client B |
+|----------|----------|
+| `UPDATE users SET name='Alice' WHERE id=1` | `UPDATE users SET name='Bob' WHERE id=2` |
+| `push()` | `push()` |
+
+**Result**: Both changes are preserved. No conflict.
+
+### Scenario 2: Same Row, Different Columns
+
+Two clients modify different columns of the same row:
+
+| Client A | Client B |
+|----------|----------|
+| `UPDATE users SET name='Alice' WHERE id=1` | `UPDATE users SET email='bob@example.com' WHERE id=1` |
+| `push()` | `push()` |
+
+**Result**: The last push wins for the entire row. If Client B pushes last, the row will have whatever values Client B's local copy had (which may not include Client A's name change if B hadn't pulled first).
+
+<Warning>
+If you need both changes to be preserved, ensure clients pull before pushing to get the latest remote state.
+</Warning>
+
+### Scenario 3: Same Row, Same Column
+
+Two clients modify the same column:
+
+| Client A | Client B |
+|----------|----------|
+| `UPDATE users SET name='Alice' WHERE id=1` | `UPDATE users SET name='Bob' WHERE id=1` |
+| `push()` | `push()` |
+
+**Result**: Whichever client pushed last "wins". If Client B pushes second, the name will be "Bob".
+
+### Scenario 4: Delete vs Update
+
+One client deletes a row, another updates it:
+
+| Client A | Client B |
+|----------|----------|
+| `DELETE FROM users WHERE id=1` | `UPDATE users SET name='Bob' WHERE id=1` |
+| `push()` | `push()` |
+
+**Result**: Last push wins. If the delete pushes last, the row is deleted. If the update pushes last, the row exists with the updated value.
+
+### Scenario 5: Insert with Same Primary Key
+
+Two clients insert rows with the same primary key:
+
+| Client A | Client B |
+|----------|----------|
+| `INSERT INTO users (id, name) VALUES (1, 'Alice')` | `INSERT INTO users (id, name) VALUES (1, 'Bob')` |
+| `push()` | `push()` |
+
+**Result**: The second push will effectively overwrite the first (like an UPSERT). The final row will have the data from Client B if they pushed last.
+
+## Best Practices
+
+### 1. Pull Before Push
+
+To minimize unexpected overwrites, pull the latest changes before pushing:
+
+<CodeGroup>
+
+```ts TypeScript
+await db.pull();
+// Now you have the latest remote state
+// Make your changes with full context
+await db.exec("UPDATE users SET name='Alice' WHERE id=1");
+await db.push();
+```
+
+```py Python
+conn.pull()
+# Now you have the latest remote state
+# Make your changes with full context
+conn.execute("UPDATE users SET name='Alice' WHERE id=1")
+conn.commit()
+conn.push()
+```
+
+```go Go
+db.Pull(ctx)
+// Now you have the latest remote state
+// Make your changes with full context
+conn.ExecContext(ctx, "UPDATE users SET name='Alice' WHERE id=1")
+db.Push(ctx)
+```
+
+</CodeGroup>
+
+### 2. Use Application-Level Conflict Detection
+
+For critical data where you can't afford "last push wins", implement optimistic locking:
+
+```sql
+-- Add a version column
+ALTER TABLE users ADD COLUMN version INTEGER DEFAULT 1;
+
+-- When updating, check and increment version
+UPDATE users 
+SET name = 'Alice', version = version + 1 
+WHERE id = 1 AND version = 5;
+-- If 0 rows affected, someone else modified the row
+```
+
+### 3. Design for Eventual Consistency
+
+Structure your schema to minimize conflicts:
+
+- Use UUIDs instead of auto-increment for primary keys (prevents insert conflicts)
+- Make operations append-only where possible (insert events rather than update state)
+- Partition data by user/client when it makes sense
+
+### 4. Use Timestamps for Merge Logic
+
+For data that truly needs custom merge logic at the application layer:
+
+```sql
+CREATE TABLE documents (
+  id TEXT PRIMARY KEY,
+  content TEXT,
+  updated_at INTEGER,
+  updated_by TEXT
+);
+```
+
+Your application can then implement custom logic based on timestamps when conflicts are detected.
+
+## What Happens During Pull After Remote Changes
+
+When you pull and there are both remote changes and local unpushed changes:
+
+1. **Rollback**: Your local database is rolled back to the last synced state (using the revert WAL)
+2. **Apply Remote**: All new remote frames are applied
+3. **Replay Local**: Your unpushed local changes are replayed on top
+
+This means your local changes are always applied *after* remote changes during a pull. If you then push, your replayed changes become the new "last push".
+
+<Note>
+The rollback-and-replay happens atomically. If anything fails, your database remains in its previous state.
+</Note>
+
+## Sync State and Revisions
+
+Each sync operation updates your local revision tracking:
+
+- `revision`: Current sync point with the remote
+- `last_pull_unix_time`: When you last pulled
+- `last_push_unix_time`: When you last pushed  
+- `cdc_operations`: Number of unpushed local changes
+
+Use `stats()` to inspect sync state:
+
+<CodeGroup>
+
+```ts TypeScript
+const s = await db.stats();
+console.log('Unpushed changes:', s.cdcOperations);
+console.log('Last pull:', new Date(s.lastPullUnixTime * 1000));
+console.log('Last push:', new Date(s.lastPushUnixTime * 1000));
+```
+
+```py Python
+s = conn.stats()
+print(f"Unpushed changes: {s.cdc_operations}")
+print(f"Last pull: {s.last_pull_unix_time}")
+print(f"Last push: {s.last_push_unix_time}")
+```
+
+```go Go
+s, _ := db.Stats(ctx)
+log.Printf("Unpushed changes: %d", s.CdcOperations)
+log.Printf("Last pull: %d", s.LastPullUnixTime)
+log.Printf("Last push: %d", s.LastPushUnixTime)
+```
+
+</CodeGroup>
+
+## Summary
+
+| Aspect | Behavior |
+|--------|----------|
+| Strategy | Last push wins |
+| Granularity | Row-level |
+| Local changes on pull | Rolled back and replayed |
+| Schema changes | Tracked and synced |
+| Atomicity | All-or-nothing for each push/pull |
+
+The "last push wins" strategy is simple and predictable. For most applications, pulling before pushing and using optimistic locking for critical data provides sufficient conflict handling without complex merge logic.
+```
