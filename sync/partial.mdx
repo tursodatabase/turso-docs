@@ -45,7 +45,7 @@ const db = await connect({
   path: './app.db',
   url: 'libsql://...',
   authToken: process.env.TURSO_AUTH_TOKEN,
-  partialSync: {
+  partialSyncExperimental: {
     bootstrapStrategy: { kind: 'prefix', length: 128 * 1024 }, // 128 KiB
   },
 });
@@ -93,7 +93,7 @@ const db = await connect({
   path: './app.db',
   url: 'libsql://...',
   authToken: process.env.TURSO_AUTH_TOKEN,
-  partialSync: {
+  partialSyncExperimental: {
     bootstrapStrategy: {
       kind: 'query',
       query: `SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100`,
@@ -185,7 +185,7 @@ Conversely, very sparse/random-access workloads may benefit from smaller segment
 ```ts TypeScript
 await connect({
   ...
-  partialSync: {
+  partialSyncExperimental: {
     bootstrapStrategy: { kind: 'prefix', length: 128 * 1024 }, // 128 KiB
     segmentSize: 16 * 1024,
   },
@@ -233,7 +233,7 @@ This reduces the number of future on-demand fetches and helps avoid stalls durin
 ```ts TypeScript
 await connect({
   ...
-  partialSync: {
+  partialSyncExperimental: {
     bootstrapStrategy: { kind: 'prefix', length: 128 * 1024 }, // 128 KiB
     prefetch: true,
   },
