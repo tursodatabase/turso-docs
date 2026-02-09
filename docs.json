@@ -115,7 +115,6 @@
               },
               "features/branching",
               "features/point-in-time-recovery",
-              "features/scale-to-zero",
               "features/sqlite-extensions",
               {
                 "group": "Deprecated",
@@ -867,6 +866,10 @@
     },
     {
       "source": "/data-and-connections",
+      "destination": "/turso-cloud"
+    },
+    {
+      "source": "/features/scale-to-zero",
       "destination": "/turso-cloud"
     },
     {
