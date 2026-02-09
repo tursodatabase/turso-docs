@@ -14,20 +14,20 @@ Goal: Turso is a full rewrite of SQLite (not a fork), provides the highest densi
 - [x] `libsql.mdx:44-46` — "libSQL will remain SQLite compatible by providing the same API and file format" — Turso no longer uses the SQLite file format
 - [x] `libsql.mdx:52` — "integrating them directly into the fork of SQLite"
 - [x] `libsql.mdx:10` — "designed to be a drop-in replacement for SQLite"
-- [ ] `data-and-connections.mdx:6` — "Turso, an extension of libSQL (a SQLite fork)"
-- [ ] `introduction.mdx:40` — "The next evolution of SQLite" — better than "fork" but still frames Turso as derivative
-- [ ] `turso-cloud.mdx:3,13` — "Your fully managed SQLite-compatible database platform"
+- [x] `data-and-connections.mdx:6` — "Turso, an extension of libSQL (a SQLite fork)" — PAGE REMOVED
+- [x] `introduction.mdx:40` — "The next evolution of SQLite" — KEPT, accurate
+- [x] `turso-cloud.mdx:3,13` — "Your fully managed SQLite-compatible database platform" — KEPT, accurate for Turso Cloud
 
 The entire `libsql.mdx` page needs a rewrite. The "Why fork SQLite?" framing is historical.
 
 ## 2. Edge / replication language still pervasive
 
 - [ ] `features/data-edge.mdx` (entire file) — Deprecated but still fully documented with API examples and CLI commands. Still linked from nav (`docs.json:126`).
-- [ ] `features/embedded-replicas/introduction.mdx:6` — "without needing to relying on Turso's edge network" — links to deprecated data-edge page
-- [ ] `quickstart.mdx:17` — "create replicas in other regions" — replication is deprecated, yet this is in the first quickstart step
-- [ ] `cli/group/locations/add.mdx:6` — "You can replicate databases globally by adding locations to a group" — no deprecation warning
-- [ ] `cli/group/locations/remove.mdx:14` — "All database replicas belonging to the provided group will be immediately removed" — no deprecation warning
-- [ ] `features/scale-to-zero.mdx:7` — mentions "Existing free users will be moved from Fly to AWS"
+- [x] `features/embedded-replicas/introduction.mdx:6` — "without needing to relying on Turso's edge network" — removed, added Turso Sync note
+- [x] `quickstart.mdx:17` — "create replicas in other regions" — removed
+- [x] `cli/group/locations/add.mdx:6` — "You can replicate databases globally by adding locations to a group" — added deprecation warning
+- [x] `cli/group/locations/remove.mdx:14` — "All database replicas belonging to the provided group will be immediately removed" — added deprecation warning
+- [x] `features/scale-to-zero.mdx:7` — mentions "Existing free users will be moved from Fly to AWS" — PAGE REMOVED
 - [ ] `turso-cloud.mdx:39` — Feature card: "Replication & Sync" — "Replication" reinforces the old edge model
 
 ## 3. Fly.io location codes and infrastructure references
@@ -35,7 +35,7 @@ The entire `libsql.mdx` page needs a rewrite. The "Why fork SQLite?" framing is 
 - [ ] `api-reference/openapi.json:883-1171` — Full list of Fly.io location codes (`iad`, `lhr`, `nrt`, `sin`, `ams`, `fra`, etc.) in the OpenAPI schema
 - [ ] `features/embedded-replicas/with-fly.mdx` (entire file) — Full Fly.io deployment guide
 - [ ] `features/embedded-replicas/introduction.mdx:226-230` — Cards linking to Fly.io deployment guide
-- [ ] `features/scale-to-zero.mdx:7` — "moved from Fly to AWS"
+- [x] `features/scale-to-zero.mdx:7` — "moved from Fly to AWS" — PAGE REMOVED
 
 ## 4. "Distributed database" and server-centric framing
 
@@ -44,7 +44,7 @@ The entire `libsql.mdx` page needs a rewrite. The "Why fork SQLite?" framing is 
 - [ ] `libsql.mdx:10` — "scales globally with Turso over HTTP" — implies old global replication
 - [ ] `libsql.mdx:38` — "Turso manages the distribution of libSQL instances"
 - [ ] `libsql.mdx:40` — "you don't need to worry about managing libSQL instances, or configuring replication"
-- [ ] `data-and-connections.mdx:6` — "modifies the consistency model due to its network-accessible and replicated nature"
+- [x] `data-and-connections.mdx:6` — "modifies the consistency model due to its network-accessible and replicated nature" — PAGE REMOVED
 - [ ] `local-development.mdx:9` — "managed libSQL server" — server-centric framing
 - [ ] `local-development.mdx:45` — "Works with non-serverless based Turso SDKs" — outdated SDK terminology
 
@@ -52,8 +52,8 @@ The entire `libsql.mdx` page needs a rewrite. The "Why fork SQLite?" framing is 
 
 - [ ] `turso-cloud.mdx:13` — "provides the performance and reliability of SQLite with the convenience and scalability of a modern cloud database service"
 - [ ] `turso-cloud.mdx:199` — "Learn how to manage, distribute and integrate your databases"
-- [ ] `quickstart.mdx:57` — "create your first database in a location closest to you"
-- [ ] `quickstart.mdx:63` — "The Turso CLI automatically detected your closest region to create a database"
+- [x] `quickstart.mdx:57` — "create your first database in a location closest to you" — removed location language
+- [x] `quickstart.mdx:63` — "The Turso CLI automatically detected your closest region to create a database" — removed
 
 ## 6. Embedded Replicas vs. new Sync — potential confusion
 
