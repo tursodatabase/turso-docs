@@ -95,7 +95,6 @@
               "cloud/durability",
               "cloud/private-endpoints",
               "cloud/encryption",
-              "data-and-connections",
               "help/usage-and-billing",
               "features/ai-and-embeddings",
               {
@@ -864,7 +863,11 @@
     },
     {
       "source": "/reference/data-consistency",
-      "destination": "/data-and-connections"
+      "destination": "/turso-cloud"
+    },
+    {
+      "source": "/data-and-connections",
+      "destination": "/turso-cloud"
     },
     {
       "source": "/reference/extensions",
