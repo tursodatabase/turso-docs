@@ -52,7 +52,6 @@
           {
             "group": "Connect",
             "pages": [
-              "connect/authorization",
               {
                 "group": "Bindings",
                 "pages": [
@@ -131,6 +130,15 @@
             "pages": [
               "sdk/introduction",
               "sdk/authentication",
+              {
+                "group": "Authorization",
+                "pages": [
+                  "sdk/authorization",
+                  "sdk/authorization/tokens",
+                  "sdk/authorization/jwks",
+                  "sdk/authorization/fine-grained-permissions"
+                ]
+              },
               {
                 "group": "libSQL Remote Protocol",
                 "pages": [

@@ -1,0 +1,51 @@
+---
+title: Platform Tokens
+---
+
+Create tokens for a single database or all databases in a group using the CLI:
+
+```bash
+# Token for a single database
+turso db tokens create <database-name>
+
+# Token for all databases in a group
+turso group tokens create <group-name>
+```
+
+You can control token scope and expiration:
+
+| Flag | Description |
+| --- | --- |
+| `-r`, `--read-only` | Create a read-only token (queries only, no writes) |
+| `-e`, `--expiration` | Set token expiration (`never`, `7d`, `30d`, etc.) |
+| `--attach` | Allow `ATTACH` access to additional databases |
+
+<CodeGroup>
+
+```bash Read-only token
+turso db tokens create mydb --read-only
+```
+
+```bash Token with 7-day expiration
+turso db tokens create mydb --expiration 7d
+```
+
+```bash Token with attach access
+turso db tokens create mydb --attach otherdb
+```
+
+</CodeGroup>
+
+You can also create tokens using the [Platform API](/api-reference/databases/create-token).
+
+## Invalidating Tokens
+
+You can invalidate all existing tokens for a database or group, which rotates the signing keys:
+
+```bash
+# Invalidate all tokens for a database
+turso db tokens invalidate <database-name>
+
+# Invalidate all tokens for a group (and all its databases)
+turso group tokens invalidate <group-name>
+```
