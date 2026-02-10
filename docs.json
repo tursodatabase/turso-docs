@@ -97,7 +97,6 @@
               "cloud/durability",
               "cloud/private-endpoints",
               "cloud/encryption",
-              "data-and-connections",
               "help/usage-and-billing",
               "features/ai-and-embeddings",
               {
@@ -118,7 +117,6 @@
               },
               "features/branching",
               "features/point-in-time-recovery",
-              "features/scale-to-zero",
               "features/sqlite-extensions",
               {
                 "group": "Deprecated",
@@ -448,6 +446,7 @@
                     "pages": [
                       "api-reference/databases/list",
                       "api-reference/databases/create",
+                      "api-reference/databases/upload",
                       "api-reference/databases/retrieve",
                       "api-reference/databases/configuration",
                       "api-reference/databases/update-configuration",
@@ -541,7 +540,7 @@
         ]
       },
       {
-        "tab": "AgentFS (alpha)",
+        "tab": "AgentFS (beta)",
         "groups": [
           {
             "group": "AgentFS",
@@ -865,7 +864,15 @@
     },
     {
       "source": "/reference/data-consistency",
-      "destination": "/data-and-connections"
+      "destination": "/turso-cloud"
+    },
+    {
+      "source": "/data-and-connections",
+      "destination": "/turso-cloud"
+    },
+    {
+      "source": "/features/scale-to-zero",
+      "destination": "/turso-cloud"
     },
     {
       "source": "/reference/extensions",
