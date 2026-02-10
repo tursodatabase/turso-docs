@@ -1,0 +1,28 @@
+---
+title: Authorization
+sidebarTitle: Overview
+---
+
+Turso uses JWT (JSON Web Token) based authorization to control access to your databases. You can create tokens with different scopes and fine-grained permissions to restrict what operations each client can perform.
+
+There are two ways to issue JWT tokens for database access:
+
+- **[Platform Tokens](/sdk/authorization/tokens)** — Create tokens directly via the Turso CLI or Platform API.
+- **[External Auth Providers](/sdk/authorization/jwks)** — Let your authentication provider (e.g., Clerk, Auth0) issue tokens using JWKS.
+
+Both approaches support [fine-grained permissions](/sdk/authorization/fine-grained-permissions) to control access at the table and action level.
+
+All tokens are passed as the `authToken` when creating a database client:
+
+```javascript
+import { createClient } from "@tursodatabase/serverless";
+
+const db = createClient({
+  url: "<your-database-url>",
+  authToken: "<your-token>",
+});
+```
+
+<Note>
+  You can get your database URL with `turso db show <database-name> --url`.
+</Note>
