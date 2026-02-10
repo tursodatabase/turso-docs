@@ -70,7 +70,9 @@
             "group": "Sync",
             "pages": [
               "sync/usage",
-              "sync/partial"
+              "sync/partial",
+              "sync/conflict-resolution",
+              "sync/checkpoint"
             ]
           },
           {
