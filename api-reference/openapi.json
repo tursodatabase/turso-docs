@@ -881,7 +881,7 @@
             "required": true,
             "schema": { "type": "string" },
             "description": "The location code to add to the group.",
-            "example": "ams"
+            "example": "aws-us-east-1"
           }
         ],
         "responses": {
@@ -901,9 +901,9 @@
                 "example": {
                   "group": {
                     "archived": false,
-                    "locations": ["lhr", "ams"],
+                    "locations": ["aws-us-east-1", "aws-eu-west-1"],
                     "name": "default",
-                    "primary": "lhr",
+                    "primary": "aws-us-east-1",
                     "uuid": "f1dec998-8f7f-11ee-907d-a2a821fd08b9"
                   }
                 }
@@ -964,9 +964,9 @@
                 "example": {
                   "group": {
                     "archived": false,
-                    "locations": ["lhr", "ams"],
+                    "locations": ["aws-us-east-1", "aws-eu-west-1"],
                     "name": "default",
-                    "primary": "lhr",
+                    "primary": "aws-us-east-1",
                     "uuid": "f1dec998-8f7f-11ee-907d-a2a821fd08b9"
                   }
                 }
@@ -1144,41 +1144,12 @@
                   },
                   "example": {
                     "locations": {
-                      "ams": "Amsterdam, Netherlands",
-                      "arn": "Stockholm, Sweden",
-                      "atl": "Atlanta, Georgia (US)",
-                      "bog": "Bogotá, Colombia",
-                      "bom": "Mumbai, India",
-                      "bos": "Boston, Massachusetts (US)",
-                      "cdg": "Paris, France",
-                      "den": "Denver, Colorado (US)",
-                      "dfw": "Dallas, Texas (US)",
-                      "ewr": "Secaucus, NJ (US)",
-                      "eze": "Ezeiza, Argentina",
-                      "fra": "Frankfurt, Germany",
-                      "gdl": "Guadalajara, Mexico",
-                      "gig": "Rio de Janeiro, Brazil",
-                      "gru": "São Paulo, Brazil",
-                      "hkg": "Hong Kong, Hong Kong",
-                      "iad": "Ashburn, Virginia (US)",
-                      "jnb": "Johannesburg, South Africa",
-                      "lax": "Los Angeles, California (US)",
-                      "lhr": "London, United Kingdom",
-                      "mad": "Madrid, Spain",
-                      "mia": "Miami, Florida (US)",
-                      "nrt": "Tokyo, Japan",
-                      "ord": "Chicago, Illinois (US)",
-                      "otp": "Bucharest, Romania",
-                      "phx": "Phoenix, Arizona (US)",
-                      "qro": "Querétaro, Mexico",
-                      "scl": "Santiago, Chile",
-                      "sea": "Seattle, Washington (US)",
-                      "sin": "Singapore, Singapore",
-                      "sjc": "San Jose, California (US)",
-                      "syd": "Sydney, Australia",
-                      "waw": "Warsaw, Poland",
-                      "yul": "Montreal, Canada",
-                      "yyz": "Toronto, Canada"
+                      "aws-ap-northeast-1": "AWS AP NorthEast (Tokyo)",
+                      "aws-ap-south-1": "AWS AP South (Mumbai)",
+                      "aws-eu-west-1": "AWS EU West (Ireland)",
+                      "aws-us-east-1": "AWS US East (Virginia)",
+                      "aws-us-east-2": "AWS US East (Ohio)",
+                      "aws-us-west-2": "AWS US West (Oregon)"
                     }
                   }
                 }
@@ -2484,13 +2455,13 @@
               "type": "string"
             },
             "description": "A list of regions for the group the database belongs to.",
-            "example": ["lhr", "bos", "nrt"],
+            "example": ["aws-us-east-1"],
             "deprecated": true
           },
           "primaryRegion": {
             "type": "string",
             "description": "The primary region location code the group the database belongs to.",
-            "example": "lhr"
+            "example": "aws-us-east-1"
           },
           "group": {
             "type": "string",
@@ -2536,7 +2507,7 @@
           "name": {
             "type": "string",
             "description": "The name of the instance (location code).",
-            "example": "lhr"
+            "example": "aws-us-east-1"
           },
           "type": {
             "type": "string",
@@ -2547,7 +2518,7 @@
           "region": {
             "type": "string",
             "description": "The location code for the region this instance is located.",
-            "example": "lhr"
+            "example": "aws-us-east-1"
           },
           "hostname": {
             "type": "string",
@@ -2853,7 +2824,7 @@
               "type": "string"
             },
             "description": "An array of location keys the group is located.",
-            "example": ["lhr", "ams", "bos"],
+            "example": ["aws-us-east-1"],
             "deprecated": true
           },
           "primary": {
@@ -2991,7 +2962,7 @@
         "required": ["name", "location"],
         "example": {
           "name": "new-group",
-          "location": "lhr"
+          "location": "aws-us-east-1"
         }
       },
       "Group": {

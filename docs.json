@@ -95,7 +95,6 @@
               "cloud/durability",
               "cloud/private-endpoints",
               "cloud/encryption",
-              "data-and-connections",
               "help/usage-and-billing",
               "features/ai-and-embeddings",
               {
@@ -116,7 +115,6 @@
               },
               "features/branching",
               "features/point-in-time-recovery",
-              "features/scale-to-zero",
               "features/sqlite-extensions",
               {
                 "group": "Deprecated",
@@ -864,7 +862,15 @@
     },
     {
       "source": "/reference/data-consistency",
-      "destination": "/data-and-connections"
+      "destination": "/turso-cloud"
+    },
+    {
+      "source": "/data-and-connections",
+      "destination": "/turso-cloud"
+    },
+    {
+      "source": "/features/scale-to-zero",
+      "destination": "/turso-cloud"
     },
     {
       "source": "/reference/extensions",
