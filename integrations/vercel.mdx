@@ -113,7 +113,7 @@ The `@tursodatabase/vercel-experimental` package is in beta. It may still contai
 
 The `@tursodatabase/vercel-experimental` package replicates SQLite database pages into the serverless function itself. Reads execute against the local copy with no network round-trips. Writes go directly to the remote database for durability and consistency. This approach is ideal for read-heavy workloads where per-query network latency is the dominant cost.
 
-- **Per-tenant isolation** — Each user, workspace, or session can have its own database with independent storage limits
+- **Per-tenant isolation and sharding** — Each agent, workspace, or session can have its own database with independent storage limits
 - **Colocation of compute and data** — Business logic runs next to the database, enabling zero-hop reads and many queries per request
 - **Automatic on-demand provisioning** — Databases are created implicitly when `createDb()` is called, no redeploy or binding management needed
 
