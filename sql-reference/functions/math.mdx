@@ -106,7 +106,7 @@ acosh(X)
 |-----------|------|-------------|
 | `X` | REAL or INTEGER | Value >= 1.0 |
 
-**Returns:** REAL. The inverse hyperbolic cosine of X. Returns NULL if X < 1.0.
+**Returns:** REAL. The inverse hyperbolic cosine of X. Returns NULL if X &lt; 1.0.
 
 ---
 
@@ -298,7 +298,7 @@ ln(X)
 |-----------|------|-------------|
 | `X` | REAL or INTEGER | Value > 0 |
 
-**Returns:** REAL. The natural logarithm (base e) of X. Returns NULL if X <= 0.
+**Returns:** REAL. The natural logarithm (base e) of X. Returns NULL if X &lt;= 0.
 
 ```sql
 SELECT ln(1);         -- 0.0
@@ -340,7 +340,7 @@ log10(X)
 |-----------|------|-------------|
 | `X` | REAL or INTEGER | Value > 0 |
 
-**Returns:** REAL. The base-10 logarithm of X. Returns NULL if X <= 0.
+**Returns:** REAL. The base-10 logarithm of X. Returns NULL if X &lt;= 0.
 
 ```sql
 SELECT log10(100);   -- 2.0
@@ -359,7 +359,7 @@ log2(X)
 |-----------|------|-------------|
 | `X` | REAL or INTEGER | Value > 0 |
 
-**Returns:** REAL. The base-2 logarithm of X. Returns NULL if X <= 0.
+**Returns:** REAL. The base-2 logarithm of X. Returns NULL if X &lt;= 0.
 
 ```sql
 SELECT log2(256);   -- 8.0

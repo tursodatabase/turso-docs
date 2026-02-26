@@ -21,6 +21,104 @@ DOCS_JSON = os.path.join(REPO_ROOT, "docs.json")
 
 LINK_REWRITE = ("/docs/sql-reference/", "/sql-reference/")
 
+# Regex for {#heading-id} anchors in headings (not valid MDX)
+HEADING_ANCHOR_RE = re.compile(r"\s*\{#[\w-]+\}\s*$")
+
+# Matches bare < that would confuse the MDX parser (outside code fences).
+# Catches <=, <', <letter-that-isn't-a-known-component, etc.
+# We skip < that starts a known Mintlify/HTML component tag.
+KNOWN_TAGS = {"Info", "Note", "Warning", "Tip", "Check", "Accordion", "AccordionGroup",
+              "Card", "CardGroup", "Tab", "Tabs", "CodeGroup", "code", "br", "hr",
+              "em", "strong", "sub", "sup", "a", "img", "table", "thead", "tbody",
+              "tr", "th", "td", "ul", "ol", "li", "p", "div", "span", "pre"}
+
+def fix_mdx_compat(content: str) -> str:
+    """Fix MDX compatibility issues in content outside code fences."""
+    lines = content.split("\n")
+    result = []
+    in_code_fence = False
+
+    for line in lines:
+        # Track code fence boundaries
+        stripped = line.lstrip()
+        if stripped.startswith("```"):
+            if in_code_fence:
+                in_code_fence = False
+            else:
+                in_code_fence = True
+            result.append(line)
+            continue
+
+        if in_code_fence:
+            result.append(line)
+            continue
+
+        # Outside code fences: fix issues
+
+        # Strip {#heading-id} anchors from headings
+        if stripped.startswith("#"):
+            line = HEADING_ANCHOR_RE.sub("", line)
+
+        # Escape bare < that would be parsed as JSX
+        # Process character by character to handle inline code spans
+        line = _escape_bare_angles(line)
+
+        result.append(line)
+
+    return "\n".join(result)
+
+
+def _escape_bare_angles(line: str) -> str:
+    """Escape < characters that would confuse MDX, skipping inline code spans."""
+    # Don't process lines that are markdown table headers (|---|)
+    # Table cell < seems to be handled OK by mintlify, but let's be safe
+    # for content outside tables too.
+
+    parts = []
+    i = 0
+    in_backtick = False
+
+    while i < len(line):
+        ch = line[i]
+
+        # Toggle inline code spans
+        if ch == "`":
+            in_backtick = not in_backtick
+            parts.append(ch)
+            i += 1
+            continue
+
+        if in_backtick:
+            parts.append(ch)
+            i += 1
+            continue
+
+        if ch == "<":
+            # Check if this starts a known tag (or closing tag)
+            after = line[i + 1:] if i + 1 < len(line) else ""
+            if after.startswith("/"):
+                after = after[1:]
+
+            # Check if it's a known component/HTML tag
+            is_known = False
+            for tag in KNOWN_TAGS:
+                if after.startswith(tag) and (
+                    len(after) == len(tag) or after[len(tag)] in " >\t\n/"
+                ):
+                    is_known = True
+                    break
+
+            if is_known:
+                parts.append(ch)
+            else:
+                parts.append("&lt;")
+        else:
+            parts.append(ch)
+
+        i += 1
+
+    return "".join(parts)
+
 # Preferred ordering for navigation. Files not listed here are appended
 # alphabetically at the end of their group.
 
@@ -102,6 +200,7 @@ def copy_and_rewrite(src_dir: str, dest_dir: str) -> list[str]:
                 content = f.read()
 
             content = content.replace(LINK_REWRITE[0], LINK_REWRITE[1])
+            content = fix_mdx_compat(content)
 
             with open(dest_path, "w") as f:
                 f.write(content)

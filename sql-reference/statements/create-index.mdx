@@ -95,7 +95,7 @@ CREATE INDEX idx_items_total ON items (quantity * unit_price);
 
 Each expression in the index must be a deterministic expression that references only columns of the indexed table. Aggregate functions and subqueries are not allowed.
 
-## Custom Index Methods {#using-method}
+## Custom Index Methods
 
 <Info>
 **Turso Extension**: Custom index methods extend indexing beyond B-trees. This feature is experimental and must be [enabled before use](/sql-reference/experimental-features).
