@@ -79,6 +79,59 @@
             "pages": [
               "guides/agent-databases"
             ]
+          },
+          {
+            "group": "SQL Reference",
+            "pages": [
+              "sql-reference/compatibility",
+              "sql-reference/data-types",
+              "sql-reference/expressions",
+              {
+                "group": "Statements",
+                "pages": [
+                  "sql-reference/statements/create-table",
+                  "sql-reference/statements/alter-table",
+                  "sql-reference/statements/create-index",
+                  "sql-reference/statements/create-view",
+                  "sql-reference/statements/create-materialized-view",
+                  "sql-reference/statements/create-trigger",
+                  "sql-reference/statements/create-type",
+                  "sql-reference/statements/create-virtual-table",
+                  "sql-reference/statements/drop-table",
+                  "sql-reference/statements/drop-index",
+                  "sql-reference/statements/drop-view",
+                  "sql-reference/statements/drop-trigger",
+                  "sql-reference/statements/drop-type",
+                  "sql-reference/statements/select",
+                  "sql-reference/statements/insert",
+                  "sql-reference/statements/update",
+                  "sql-reference/statements/delete",
+                  "sql-reference/statements/replace",
+                  "sql-reference/statements/upsert",
+                  "sql-reference/statements/explain",
+                  "sql-reference/statements/transactions",
+                  "sql-reference/statements/attach-database",
+                  "sql-reference/statements/detach-database",
+                  "sql-reference/statements/analyze"
+                ]
+              },
+              {
+                "group": "Functions",
+                "pages": [
+                  "sql-reference/functions/scalar",
+                  "sql-reference/functions/aggregate",
+                  "sql-reference/functions/window",
+                  "sql-reference/functions/math",
+                  "sql-reference/functions/date-time",
+                  "sql-reference/functions/json",
+                  "sql-reference/functions/vector",
+                  "sql-reference/functions/fts"
+                ]
+              },
+              "sql-reference/extensions",
+              "sql-reference/pragmas",
+              "sql-reference/experimental-features"
+            ]
           }
         ]
       },
