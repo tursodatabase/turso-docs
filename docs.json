@@ -77,7 +77,10 @@
           {
             "group": "Guides",
             "pages": [
-              "guides/agent-databases"
+              "guides/agent-databases",
+              "guides/content-caching",
+              "guides/ai-memory",
+              "guides/code-indexing"
             ]
           },
           {
