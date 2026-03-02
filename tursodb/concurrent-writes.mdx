@@ -1,0 +1,65 @@
+---
+title: Concurrent Writes
+---
+
+Turso with default configuration only allows one connection to write at a time. With MVCC (Multi-Version Concurrency Control), multiple connections can write simultaneously. If two transactions modify the same data, one will receive a conflict error and must roll back and retry.
+
+## Enable MVCC
+
+Set the journal mode on your database connection:
+
+```sql
+PRAGMA journal_mode = 'mvcc';
+```
+
+## BEGIN CONCURRENT
+
+Use `BEGIN CONCURRENT` instead of `BEGIN` to start a transaction that allows other writers to proceed in parallel:
+
+```sql
+BEGIN CONCURRENT;
+-- your writes here
+COMMIT;
+```
+
+If two transactions touch the same rows, one will receive a conflict error and must roll back and retry. Transactions that write to non-overlapping data proceed without conflict.
+
+## Handling Conflicts
+
+Your application must detect conflict errors and retry the transaction.
+
+## Example
+
+```rust
+use turso::{Builder, Error};
+
+fn is_retryable(e: &Error) -> bool {
+    matches!(e, Error::Busy(_) | Error::BusySnapshot(_))
+        || matches!(e, Error::Error(msg) if msg.contains("conflict"))
+}
+
+let conn = db.connect()?;
+conn.pragma_update("journal_mode", "'mvcc'").await?;
+
+loop {
+    conn.execute("BEGIN CONCURRENT", ()).await?;
+    let result = conn
+        .execute("INSERT INTO hits VALUES (?)", (val,))
+        .await
+        .and(conn.execute("COMMIT", ()).await);
+
+    match result {
+        Ok(_) => break,
+        Err(ref e) if is_retryable(e) => {
+            let _ = conn.execute("ROLLBACK", ()).await;
+            // back off and retry
+        }
+        Err(e) => {
+            let _ = conn.execute("ROLLBACK", ()).await;
+            return Err(e);
+        }
+    }
+}
+```
+
+Try the full [example here](https://github.com/tursodatabase/turso/blob/main/bindings/rust/examples/concurrent_writes.rs).
