@@ -41,19 +41,12 @@
         "tab": "Turso Database (beta)",
         "groups": [
           {
-            "group": "Turso Database",
+            "group": "Getting Started",
             "pages": [
               "introduction",
               "tursodb/quickstart",
-              "tursodb/encryption",
-              "tursodb/changelog"
-            ]
-          },
-          {
-            "group": "Connect",
-            "pages": [
               {
-                "group": "Bindings",
+                "group": "Connect",
                 "pages": [
                   "connect/javascript",
                   "connect/python",
@@ -66,18 +59,19 @@
             ]
           },
           {
-            "group": "Sync",
-            "pages": [
-              "sync/usage",
-              "sync/partial",
-              "sync/conflict-resolution",
-              "sync/checkpoint"
-            ]
-          },
-          {
             "group": "Guides",
             "pages": [
+              "tursodb/encryption",
               "guides/vector-search",
+              {
+                "group": "Sync",
+                "pages": [
+                  "sync/usage",
+                  "sync/partial",
+                  "sync/conflict-resolution",
+                  "sync/checkpoint"
+                ]
+              },
               "guides/agent-databases",
               "guides/content-caching",
               "guides/ai-memory",
@@ -135,6 +129,12 @@
               "sql-reference/extensions",
               "sql-reference/pragmas",
               "sql-reference/experimental-features"
+            ]
+          },
+          {
+            "group": "Changelog",
+            "pages": [
+              "tursodb/changelog"
             ]
           }
         ]
