@@ -61,6 +61,7 @@
           {
             "group": "Guides",
             "pages": [
+              "tursodb/concurrent-writes",
               "tursodb/encryption",
               "guides/vector-search",
               {
