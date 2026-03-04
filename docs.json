@@ -59,11 +59,11 @@
             ]
           },
           {
-            "group": "Guides",
+            "group": "Fundamentals",
             "pages": [
+              "tursodb/cdc",
               "tursodb/concurrent-writes",
               "tursodb/encryption",
-              "tursodb/cdc",
               "guides/vector-search",
               {
                 "group": "Sync",
@@ -73,11 +73,16 @@
                   "sync/conflict-resolution",
                   "sync/checkpoint"
                 ]
-              },
+              }
+            ]
+          },
+          {
+            "group": "AI and Agents",
+            "pages": [
               "guides/agent-databases",
-              "guides/content-caching",
               "guides/ai-memory",
-              "guides/code-indexing"
+              "guides/code-indexing",
+              "guides/content-caching"
             ]
           },
           {
