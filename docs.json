@@ -69,6 +69,7 @@
                 "group": "Sync",
                 "pages": [
                   "sync/usage",
+                  "sync/local-sync-server",
                   "sync/partial",
                   "sync/conflict-resolution",
                   "sync/checkpoint"
