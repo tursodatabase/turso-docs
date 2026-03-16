@@ -566,11 +566,7 @@ curl -X GET 'https://[databaseName]-[organizationSlug].turso.io/v1/jobs/:id' \
 
 You can listen to changes committed to your database using the `/beta/listen` endpoint:
 
-<Warning>
-
-This is currently in technical preview. [Join us in Discord](https://tur.so/discord) to report any issues.
-
-</Warning>
+<Snippet file="technical-preview-banner.mdx"/>
 <Warning>Currently not available on AWS for Free, Developer and Scaler plans.</Warning>
 <Info>
   Your database group must be using the version `v0.24.18` or greater &mdash; `turso group update <group-name> --version latest`
