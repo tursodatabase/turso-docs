@@ -49,7 +49,7 @@ stripe projects add turso/database --config '{"name": "my-db", "location": "aws-
 stripe projects env --sync
 ```
 
-After `env --sync`, the `.env` file will contain `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` ready for use with `@libsql/client` or any Turso SDK.
+After `env --sync`, the `.env` file will contain `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` ready for use with `@tursodatabase/serverless` (or `@tursodatabase/sync` for pull/push sync capabilities).
 
 ## Reading state (safe, autonomous)
 
@@ -68,21 +68,9 @@ stripe projects env --refresh --json
 
 ## Dangerous operations — require explicit user consent
 
-### Removing a database
-
 <Warning>
-**Database removal is irreversible and causes permanent data loss.** The database and all its data are destroyed immediately. There is no undo, no recycle bin, no recovery period. An agent must NEVER remove a database without explicit, unambiguous confirmation from the user for that specific database by name.
+**ANY DESTRUCTIVE ACTION MUST BE DONE THROUGH EXPLICIT USER CONSENT.** An agent must NEVER perform destructive operations (removing databases, downgrading plans, rotating credentials, etc.) autonomously. Always ask the user for explicit, unambiguous confirmation before proceeding with any operation that could result in data loss, service disruption, or billing changes.
 </Warning>
-
-When the user explicitly confirms removal of a specific database:
-
-```bash
-stripe projects remove <resource-name> --yes
-```
-
-### Removing a plan
-
-Removing a plan resource downgrades the account to the free `starter` tier. This may cause services to exceed the starter quotas, potentially resulting in throttling or data becoming inaccessible. Always warn the user about these consequences before proceeding.
 
 ### Rotating credentials
 
@@ -142,18 +130,3 @@ curl -s https://region.turso.io
 
 The `server` field contains the closest AWS location code, ready to use directly as the `location` value in `--config`.
 
-## Summary of safety rules
-
-| Operation | Autonomous | Requires user consent |
-| --- | --- | --- |
-| `stripe projects init` | Yes | |
-| `stripe projects status` | Yes | |
-| `stripe projects catalog turso` | Yes | |
-| `stripe projects add turso/database` | Yes | |
-| `stripe projects env` / `env --sync` / `env --refresh` | Yes | |
-| `stripe projects add turso/<paid-plan>` | | Yes — billing impact |
-| `stripe projects upgrade` | | Yes — billing impact |
-| `stripe projects billing update` | | Yes — payment method change |
-| `stripe projects remove` (database) | | Yes — **irreversible data loss** |
-| `stripe projects remove` (plan) | | Yes — downgrade consequences |
-| `stripe projects rotate` | | Yes — **invalidates all existing tokens** |
