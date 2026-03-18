@@ -33,7 +33,7 @@ stripe projects status --json
 ## Security: never read secrets
 
 <Warning>
-**NEVER read `.env` files or any file that may contain Turso credentials (`TURSO_AUTH_TOKEN`, `TURSO_DATABASE_URL`).** This includes direct reads (`cat .env`), wildcards (`cat *`), and any command that could print directory contents where a `.env` file exists. Credentials are managed exclusively through `stripe projects env` commands — there is no reason to read them from disk.
+**NEVER read `.env` files or any file that may contain Turso credentials.** This includes direct reads (`cat .env`), wildcards (`cat *`), and any command that could print directory contents where a `.env` file exists. Credentials are managed exclusively through `stripe projects env` commands — there is no reason to read them from disk.
 </Warning>
 
 ## Provisioning a database (safe, autonomous)
@@ -49,7 +49,7 @@ stripe projects add turso/database --config '{"name": "my-db", "location": "aws-
 stripe projects env --sync
 ```
 
-After `env --sync`, the `.env` file will contain `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` ready for use with `@tursodatabase/serverless` (or `@tursodatabase/sync` for pull/push sync capabilities).
+After `env --sync`, the `.env` file will contain `<DB_NAME>_DATABASE_URL` and `<DB_NAME>_AUTH_TOKEN` for each provisioned database (e.g. `MY_DB_DATABASE_URL`, `MY_DB_AUTH_TOKEN`), ready for use with `@tursodatabase/serverless` (or `@tursodatabase/sync` for pull/push sync capabilities).
 
 ## Reading state (safe, autonomous)
 
