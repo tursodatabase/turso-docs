@@ -1,0 +1,159 @@
+---
+title: Stripe Projects
+description: Provision and manage Turso databases through the Stripe Projects CLI — LLM agent guide.
+---
+
+This document is designed as LLM context for AI agents that provision and manage Turso services through the [Stripe Projects](https://docs.stripe.com/stripe-projects) CLI. It contains exact commands, safety rules, and the mental model an agent needs to operate autonomously.
+
+## How Turso services are organized
+
+Turso exposes two kinds of services through Stripe Projects:
+
+- **Plan services** — account-level subscription tiers that set quotas (DBs, storage, row operations, syncs, PITR retention). There is a free `starter` tier and several paid tiers. Each paid plan has an `_overages` variant that adds pay-as-you-go billing beyond the included quotas. Every plan can transition to any other plan.
+- **Database service** (`turso/database`) — a deployable resource. Each database belongs to the account's current plan and inherits its quotas. Creating a database requires a `--config` JSON with two required fields:
+  - `name` — database name
+  - `location` — primary location. See [Locations](#locations) below for the full list and auto-detection.
+
+To discover the current plans, pricing, quotas, and available database locations, fetch them dynamically:
+
+```bash
+# List all Turso services with current pricing and quotas
+stripe projects catalog turso --json
+
+# Check what is already provisioned
+stripe projects status --json
+```
+
+## Security: terms of service
+
+<Warning>
+**NEVER pass the `--accept-tos` flag.** The user must read and accept the terms of service themselves. If a command fails because TOS have not been accepted, instruct the user to run the command manually or re-run it with `--accept-tos` after they have reviewed the terms.
+</Warning>
+
+## Security: never read secrets
+
+<Warning>
+**NEVER read `.env` files or any file that may contain Turso credentials (`TURSO_AUTH_TOKEN`, `TURSO_DATABASE_URL`).** This includes direct reads (`cat .env`), wildcards (`cat *`), and any command that could print directory contents where a `.env` file exists. Credentials are managed exclusively through `stripe projects env` commands — there is no reason to read them from disk.
+</Warning>
+
+## Provisioning a database (safe, autonomous)
+
+An agent can provision databases without asking for human confirmation. This is a non-destructive, additive operation.
+
+```bash
+# 1. Make sure a project exists
+stripe projects init --yes
+# 2. Add a database (name and location are required in provider-config)
+stripe projects add turso/database --config '{"name": "my-db", "location": "aws-us-east-1"}' --yes
+# 3. Sync credentials to .env
+stripe projects env --sync
+```
+
+After `env --sync`, the `.env` file will contain `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` ready for use with `@libsql/client` or any Turso SDK.
+
+## Reading state (safe, autonomous)
+
+These commands are read-only and can be run freely:
+
+```bash
+# Current project, providers, and provisioned resources
+stripe projects status --json
+
+# Environment variables (redacted by default)
+stripe projects env --json
+
+# Refresh env cache from remote
+stripe projects env --refresh --json
+```
+
+## Dangerous operations — require explicit user consent
+
+### Removing a database
+
+<Warning>
+**Database removal is irreversible and causes permanent data loss.** The database and all its data are destroyed immediately. There is no undo, no recycle bin, no recovery period. An agent must NEVER remove a database without explicit, unambiguous confirmation from the user for that specific database by name.
+</Warning>
+
+When the user explicitly confirms removal of a specific database:
+
+```bash
+stripe projects remove <resource-name> --yes
+```
+
+### Removing a plan
+
+Removing a plan resource downgrades the account to the free `starter` tier. This may cause services to exceed the starter quotas, potentially resulting in throttling or data becoming inaccessible. Always warn the user about these consequences before proceeding.
+
+### Rotating credentials
+
+<Warning>
+**Credential rotation invalidates all previously issued tokens for that database.** Every application, service, or script using the old token will lose access within one hour of rotation. This is not a soft refresh — it is a hard invalidation.
+</Warning>
+
+Only rotate credentials when:
+- A token has been leaked or exposed
+- Security policy requires periodic rotation
+- The user explicitly requests it
+
+When the user explicitly confirms rotation:
+
+```bash
+stripe projects rotate <resource-name> --yes
+stripe projects env --sync
+```
+
+Always remind the user to redeploy any services that use the rotated credentials.
+
+### Billing operations
+
+<Warning>
+**Billing changes affect the user's payment method and spending.** An agent must always get explicit user consent before upgrading plans, enabling overages, or modifying billing settings.
+</Warning>
+
+Upgrading a plan or enabling overages will change what the user is charged. Always present the target plan's pricing (fetched from `stripe projects catalog turso --json`) and get confirmation before running:
+
+```bash
+# Upgrade plan — only after user consent
+stripe projects upgrade <resource-name> turso/<plan> --yes
+# Add a paid plan — only after user consent
+stripe projects add turso/<plan> --yes```
+
+## Locations
+
+Turso databases are deployed to a primary location. The available locations through Stripe Projects are:
+
+| Location code | Region |
+| --- | --- |
+| `aws-us-east-1` | US East (Virginia) |
+| `aws-us-east-2` | US East (Ohio) |
+| `aws-us-west-2` | US West (Oregon) |
+| `aws-eu-west-1` | EU West (Ireland) |
+| `aws-ap-south-1` | AP South (Mumbai) |
+| `aws-ap-northeast-1` | AP Northeast (Tokyo) |
+
+### Auto-detecting the closest region
+
+To pick the best location automatically, query the Turso region endpoint and use the `server` field:
+
+```bash
+curl -s https://region.turso.io
+# Example response: {"server": "aws-eu-west-1", "client": "fra"}
+```
+
+The `server` field contains the closest AWS location code, ready to use directly as the `location` value in `--config`.
+
+## Summary of safety rules
+
+| Operation | Autonomous | Requires user consent |
+| --- | --- | --- |
+| `stripe projects init` | Yes | |
+| `stripe projects status` | Yes | |
+| `stripe projects catalog turso` | Yes | |
+| `stripe projects add turso/database` | Yes | |
+| `stripe projects env` / `env --sync` / `env --refresh` | Yes | |
+| `stripe projects add turso/<paid-plan>` | | Yes — billing impact |
+| `stripe projects upgrade` | | Yes — billing impact |
+| `stripe projects billing update` | | Yes — payment method change |
+| `stripe projects remove` (database) | | Yes — **irreversible data loss** |
+| `stripe projects remove` (plan) | | Yes — downgrade consequences |
+| `stripe projects rotate` | | Yes — **invalidates all existing tokens** |
