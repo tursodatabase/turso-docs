@@ -612,8 +612,7 @@
           {
             "group": "Integrations",
             "pages": [
-              "integrations/vercel",
-              "integrations/agentic-stripe"
+              "integrations/vercel"
             ]
           }
         ]
