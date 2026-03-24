@@ -157,6 +157,7 @@
               "quickstart",
               "local-development",
               "libsql",
+              "cloud/limitations",
               "cloud/migrate-to-turso",
               "cloud/durability",
               "cloud/private-endpoints",
