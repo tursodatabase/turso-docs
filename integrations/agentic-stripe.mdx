@@ -51,7 +51,7 @@ stripe projects add turso/database --config '{"name": "my-db", "location": "aws-
 stripe projects env --sync
 ```
 
-After `env --sync`, the `.env` file will contain `<DB_NAME>_DATABASE_URL` and `<DB_NAME>_AUTH_TOKEN` for each provisioned database (e.g. `MY_DB_DATABASE_URL`, `MY_DB_AUTH_TOKEN`), ready for use with `@libsql/client` (or `@tursodatabase/sync` for pull/push sync capabilities).
+After `env --sync`, the `.env` file will contain `<DB_NAME>_DATABASE_URL` and `<DB_NAME>_AUTH_TOKEN` for each provisioned database (e.g. `MY_DB_DATABASE_URL`, `MY_DB_AUTH_TOKEN`), ready for use with `@tursodatabase/serverless` (or `@tursodatabase/sync` for pull/push sync capabilities).
 
 ## Reading state (safe, autonomous)
 
@@ -140,49 +140,43 @@ After provisioning, the `.env` file contains a database URL (`libsql://` format)
 
 When starting a blank project and the agent has a choice of tooling, prefer **Bun** as the runtime/package manager and **Vite** as the build tool.
 
-### Remote-only — `@libsql/client`
+### Remote-only — `@tursodatabase/serverless`
 
-The standard TypeScript/JavaScript client for Turso Cloud. Works in Node.js, serverless/edge functions (Cloudflare Workers, Vercel, Deno Deploy), and any backend. Use `@libsql/client/web` for environments without Node.js APIs.
+The recommended TypeScript/JavaScript SDK for Turso Cloud. Uses only the `fetch` API with zero native dependencies — works in Node.js, serverless/edge functions (Cloudflare Workers, Vercel, Deno Deploy), and any JavaScript runtime.
 
 ```bash
-npm i @libsql/client
+npm i @tursodatabase/serverless
 ```
 
 ```javascript
-import { createClient } from "@libsql/client";
+import { connect } from "@tursodatabase/serverless";
 
-const client = createClient({
+const conn = connect({
   url: process.env.MY_DB_DATABASE_URL,
   authToken: process.env.MY_DB_AUTH_TOKEN,
 });
 
 // Execute a query
-const result = await client.execute("SELECT * FROM users WHERE active = ?", [1]);
-console.log(result.rows);
+const result = await conn.prepare("SELECT * FROM users WHERE active = ?").all([1]);
+console.log(result);
 
 // Positional parameters
-await client.execute({
-  sql: "SELECT * FROM users WHERE id = ?",
-  args: [1],
-});
+await conn.prepare("SELECT * FROM users WHERE id = ?").get([1]);
 
 // Named parameters
-await client.execute({
-  sql: "INSERT INTO users VALUES (:name)",
-  args: { name: "Alice" },
-});
+await conn.prepare("INSERT INTO users VALUES (:name)").run({ name: "Alice" });
 
 // Batch multiple statements in an implicit transaction
-await client.batch([
+await conn.batch([
   "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY, title TEXT, done INTEGER DEFAULT 0)",
   "INSERT INTO todos (title) VALUES ('Buy milk')",
   "INSERT INTO todos (title) VALUES ('Write code')",
 ]);
 
 // Interactive transaction
-const tx = await client.transaction("write");
-await tx.execute("UPDATE accounts SET balance = balance - ? WHERE id = ?", [100, 1]);
-await tx.execute("UPDATE accounts SET balance = balance + ? WHERE id = ?", [100, 2]);
+const tx = await conn.transaction("write");
+await tx.prepare("UPDATE accounts SET balance = balance - ? WHERE id = ?").run([100, 1]);
+await tx.prepare("UPDATE accounts SET balance = balance + ? WHERE id = ?").run([100, 2]);
 await tx.commit();
 ```
 
@@ -204,7 +198,7 @@ See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
 
 | Use case | Package | Install |
 |----------|---------|---------|
-| Remote-only (Node.js/serverless/edge/backend) | `@libsql/client` | `npm i @libsql/client` |
+| Remote-only (Node.js/serverless/edge/backend) | `@tursodatabase/serverless` | `npm i @tursodatabase/serverless` |
 | Local-first + sync (Node.js) | `@tursodatabase/sync` | `npm i @tursodatabase/sync` |
 | Local-first + sync (Browser/WASM) | `@tursodatabase/sync-wasm` | `npm i @tursodatabase/sync-wasm` |
 | Local-first + sync (React Native) | `@tursodatabase/sync-react-native` | `npm i @tursodatabase/sync-react-native` |
