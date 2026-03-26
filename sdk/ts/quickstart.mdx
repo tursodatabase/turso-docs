@@ -1,13 +1,12 @@
 ---
-title: Turso Quickstart (TypeScript / JS)
+title: Turso Quickstart (TypeScript)
 sidebarTitle: Quickstart
-description: Get started with Turso and TypeScript using the libSQL client in a few simple steps
+description: Get started with Turso and TypeScript in a few simple steps.
 ---
 
-In this JavaScript quickstart we will learn how to:
+In this quickstart we will learn how to:
 
 - Retrieve database credentials
-- Install the JavaScript libSQL client
 - Connect to a remote Turso database
 - Execute a query using SQL
 
@@ -22,44 +21,106 @@ You will need an existing database to continue. If you don't have one, [create o
 
   </Step>
 
-  <Step title="Install @libsql/client">
+  <Step title="Install">
 
-<Snippet file="install-libsql-client-ts.mdx" />
+<Tabs>
+  <Tab title="@tursodatabase/serverless">
+
+  ```bash
+  npm install @tursodatabase/serverless
+  ```
+
+  </Tab>
+  <Tab title="@libsql/client">
+
+  <Snippet file="install-libsql-client-ts.mdx" />
+
+  </Tab>
+</Tabs>
 
   </Step>
-  <Step title="Initialize a new client">
-    Next add your database URL and auth token:
+  <Step title="Connect to your database">
 
-<Snippet file="configure-libsql-client-ts.mdx" />
+<Tabs>
+  <Tab title="@tursodatabase/serverless">
+
+  ```ts
+  import { connect } from "@tursodatabase/serverless";
+
+  const conn = connect({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  });
+  ```
+
+  For compatibility with the `@libsql/client` API, use the compat module:
+
+  ```ts
+  import { createClient } from "@tursodatabase/serverless/compat";
+
+  const client = createClient({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  });
+  ```
+
+  </Tab>
+  <Tab title="@libsql/client">
+
+  <Snippet file="configure-libsql-client-ts.mdx" />
+
+  </Tab>
+</Tabs>
 
   </Step>
   <Step title="Execute a query using SQL">
 
-You can execute a SQL query against your existing database by calling `execute()`:
+<Tabs>
+  <Tab title="@tursodatabase/serverless">
 
-```ts
-await turso.execute("SELECT * FROM users");
-```
+  ```ts
+  const stmt = conn.prepare("SELECT * FROM users");
+  const rows = await stmt.all();
+  ```
 
-If you need to use placeholders for values, you can do that:
+  If you need to use placeholders for values, you can do that:
 
-<CodeGroup>
+  ```ts
+  const stmt = conn.prepare("SELECT * FROM users WHERE id = ?");
+  const row = await stmt.get([1]);
+  ```
 
-```ts Positional
-await turso.execute({
-  sql: "SELECT * FROM users WHERE id = ?",
-  args: [1],
-});
-```
+  </Tab>
+  <Tab title="@libsql/client">
 
-```ts Named
-await turso.execute({
-  sql: "INSERT INTO users VALUES (:name)",
-  args: { name: "Iku" },
-});
-```
+  You can execute a SQL query against your existing database by calling `execute()`:
 
-</CodeGroup>
+  ```ts
+  await turso.execute("SELECT * FROM users");
+  ```
+
+  If you need to use placeholders for values, you can do that:
+
+  <CodeGroup>
+
+  ```ts Positional
+  await turso.execute({
+    sql: "SELECT * FROM users WHERE id = ?",
+    args: [1],
+  });
+  ```
+
+  ```ts Named
+  await turso.execute({
+    sql: "INSERT INTO users VALUES (:name)",
+    args: { name: "Iku" },
+  });
+  ```
+
+  </CodeGroup>
+
+  </Tab>
+</Tabs>
 
   </Step>
 </Steps>

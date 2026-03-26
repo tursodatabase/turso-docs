@@ -208,7 +208,7 @@
                 ]
               },
               {
-                "group": "libSQL Remote Protocol",
+                "group": "SQL over HTTP",
                 "pages": [
                   "sdk/http/quickstart",
                   "sdk/http/reference"
@@ -218,7 +218,7 @@
                 "group": "Official SDKs",
                 "pages": [
                   {
-                    "group": "TypeScript / JS",
+                    "group": "TypeScript",
                     "pages": [
                       "sdk/ts/quickstart",
                       "sdk/ts/reference",
