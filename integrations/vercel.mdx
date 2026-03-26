@@ -28,7 +28,7 @@ Connect to Turso databases from Vercel serverless and edge environments. Configu
 
 | | `@tursodatabase/serverless` | `@libsql/client` |
 | --- | --- | --- |
-| **Status** | Beta | Production-ready |
+| **Status** | Production-ready | Production-ready |
 | **Dependencies** | Uses only `fetch` — zero native dependencies | Requires Node.js or `/web` subpath |
 | **Concurrent writes** | Planned | Will not be supported |
 | **ORM support** | Not yet supported | Drizzle, Prisma, and others |
@@ -38,11 +38,7 @@ Connect to Turso databases from Vercel serverless and edge environments. Configu
 ### Quickstart
 
 <Tabs>
-  <Tab title="@tursodatabase/serverless (beta)">
-
-  <Warning>
-  This package is in currently in beta. You can use it for limited production use, but if you experience issues, you can use `@libsql/client` instead.
-  </Warning>
+  <Tab title="@tursodatabase/serverless">
 
   The `@tursodatabase/serverless` package connects to Turso using only the `fetch` API — no native dependencies, making it the smallest option for edge and serverless runtimes.
 

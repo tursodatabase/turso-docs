@@ -1,7 +1,18 @@
 ---
 title: Reference
-description: libSQL JavaScript and TypeScript Reference
+description: TypeScript Reference for Turso
 ---
+
+Turso offers two TypeScript packages for connecting to databases over HTTP:
+
+| | `@tursodatabase/serverless` | `@libsql/client` |
+| --- | --- | --- |
+| **Status** | Production-ready | Production-ready |
+| **Dependencies** | Uses only `fetch` — zero native dependencies | Requires Node.js or `/web` subpath |
+| **Concurrent writes** | Planned | Will not be supported |
+| **ORM support** | Not yet supported | Drizzle, Prisma, and others |
+
+**`@tursodatabase/serverless`** is the lightest option with zero native dependencies — and will be the driver to later support concurrent writes. Use **`@libsql/client`** if you need a battle-tested driver today with ORM integration.
 
 The following runtime environments are known to be compatible:
 
@@ -10,21 +21,59 @@ The following runtime environments are known to be compatible:
 - CloudFlare Workers
 - Netlify & Vercel Edge Functions
 
-<Info>
-
-The JavaScript SDK comes with TypeScript bindings and supports environments where either language can be used. Both ESM and CJS modules are provided.
-
-</Info>
-
 ## Installing
 
-<Snippet file="install-libsql-client-ts.mdx" />
+<Tabs>
+  <Tab title="@tursodatabase/serverless">
+
+  ```bash
+  npm install @tursodatabase/serverless
+  ```
+
+  </Tab>
+  <Tab title="@libsql/client">
+
+  <Snippet file="install-libsql-client-ts.mdx" />
+
+  </Tab>
+</Tabs>
 
 ## Initializing
 
-Import `createClient` to initialize a client that you can use to query your database:
+<Tabs>
+  <Tab title="@tursodatabase/serverless">
 
-<Snippet file="configure-libsql-client-ts.mdx" />
+  Import `connect` to initialize a connection that you can use to query your database:
+
+  ```ts
+  import { connect } from "@tursodatabase/serverless";
+
+  const conn = connect({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  });
+  ```
+
+  For compatibility with the `@libsql/client` API, use the compat module:
+
+  ```ts
+  import { createClient } from "@tursodatabase/serverless/compat";
+
+  const client = createClient({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  });
+  ```
+
+  </Tab>
+  <Tab title="@libsql/client">
+
+  Import `createClient` to initialize a client that you can use to query your database:
+
+  <Snippet file="configure-libsql-client-ts.mdx" />
+
+  </Tab>
+</Tabs>
 
 <br />
 
