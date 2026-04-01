@@ -5,8 +5,17 @@ description:
 
 The Turso API uses API tokens to authenticate requests. You can create and revoke API tokens using the [Turso CLI](/cli) and [Authentication API](/api-reference/tokens/create).
 
-API tokens allow access to manage all API resources, including creating and destroying database.
+API tokens can be scoped to a single organization using `--org` when minting them, restricting the token to only manage resources within that organization. Without `--org`, a token grants access to all organizations your account belongs to.
 
+```bash
+# Token scoped to a single organization
+turso auth api-tokens mint my-token --org my-org
+
+# Token with access to all organizations (default)
+turso auth api-tokens mint my-token
+```
+
+- Scope tokens to the minimum organization needed, especially in CI/CD and production environments.
 - Use environment variables when working with API tokens.
 - Never share your API token in public, including repositories, and CI/CD Actions.
 
