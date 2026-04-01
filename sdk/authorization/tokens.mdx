@@ -12,13 +12,13 @@ turso db tokens create <database-name>
 turso group tokens create <group-name>
 ```
 
-You can control token scope and expiration:
+You can control token scope, permissions, and expiration:
 
 | Flag | Description |
 | --- | --- |
 | `-r`, `--read-only` | Create a read-only token (queries only, no writes) |
+| `-p`, `--permissions` | Set [fine-grained permissions](/sdk/authorization/fine-grained-permissions) per table and action |
 | `-e`, `--expiration` | Set token expiration (`never`, `7d`, `30d`, etc.) |
-| `--attach` | Allow `ATTACH` access to additional databases |
 
 <CodeGroup>
 
@@ -30,8 +30,16 @@ turso db tokens create mydb --read-only
 turso db tokens create mydb --expiration 7d
 ```
 
-```bash Token with attach access
-turso db tokens create mydb --attach otherdb
+```bash Fine-grained permissions
+turso db tokens create mydb \
+  -p all:data_read \
+  -p comments:data_add,data_update
+```
+
+```bash Combined scoping
+turso db tokens create mydb \
+  --read-only \
+  --expiration 7d
 ```
 
 </CodeGroup>

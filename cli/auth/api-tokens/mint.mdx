@@ -3,8 +3,28 @@ title: auth api-tokens mint
 sidebarTitle: mint
 ---
 
-To create a new API token for the current organization, run the following command:
+To create a new API token, run the following command:
 
 ```bash
 turso auth api-tokens mint <api-token-name>
 ```
+
+## Flags
+
+| Flag | Description |
+| --- | --- |
+| `--org` | Restrict the token to a specific organization |
+
+## Organization-Scoped Tokens
+
+By default, API tokens grant access to all organizations your account belongs to. Use the `--org` flag to create a token that is restricted to a single organization:
+
+```bash
+turso auth api-tokens mint <api-token-name> --org <organization-slug>
+```
+
+An org-scoped token can only manage resources (groups, databases, members) within that organization. Requests to any other organization will be rejected.
+
+<Warning>
+  The token value is only shown once at creation time. Store it somewhere safe.
+</Warning>
