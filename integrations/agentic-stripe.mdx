@@ -3,7 +3,9 @@ title: Stripe Projects
 description: Provision and manage Turso databases through the Stripe Projects CLI — LLM agent guide.
 ---
 
-This document is designed as LLM context for AI agents that provision and manage Turso services through the [Stripe Projects](https://docs.stripe.com/stripe-projects) CLI. It contains exact commands, safety rules, and the mental model an agent needs to operate autonomously.
+This document is designed as LLM context for AI agents that provision and manage **Turso Cloud** databases through the [Stripe Projects](https://docs.stripe.com/stripe-projects) CLI. It contains exact commands, safety rules, and the mental model an agent needs to operate autonomously.
+
+**Turso Cloud** is a fully managed SQLite-compatible database platform. It uses **libSQL** under the hood. This is distinct from **tursodb/Limbo** — an embedded database engine for local-only use. Databases provisioned through Stripe Projects are Turso Cloud databases accessed over the network.
 
 ## How Turso services are organized
 
@@ -129,4 +131,119 @@ curl -s https://region.turso.io
 ```
 
 The `server` field contains the closest AWS location code, ready to use directly as the `location` value in `--config`.
+
+## Connecting to a provisioned database
+
+After provisioning, the `.env` file contains a database URL (`libsql://` format) and an auth token for each database. The exact environment variable names depend on the database name — **always verify them by running `stripe projects env --json`** before writing connection code.
+
+### Project setup preference
+
+When starting a blank project and the agent has a choice of tooling, prefer **Bun** as the runtime/package manager and **Vite** as the build tool.
+
+### Remote-only — `@tursodatabase/serverless`
+
+The recommended TypeScript/JavaScript SDK for Turso Cloud. Uses only the `fetch` API with zero native dependencies — works in Node.js, serverless/edge functions (Cloudflare Workers, Vercel, Deno Deploy), and any JavaScript runtime.
+
+```bash
+npm i @tursodatabase/serverless
+```
+
+```javascript
+import { connect } from "@tursodatabase/serverless";
+
+const conn = connect({
+  url: process.env.MY_DB_DATABASE_URL,
+  authToken: process.env.MY_DB_AUTH_TOKEN,
+});
+
+// Execute a query
+const result = await conn.prepare("SELECT * FROM users WHERE active = ?").all([1]);
+console.log(result);
+
+// Positional parameters
+await conn.prepare("SELECT * FROM users WHERE id = ?").get([1]);
+
+// Named parameters
+await conn.prepare("INSERT INTO users VALUES (:name)").run({ name: "Alice" });
+
+// Batch multiple statements in an implicit transaction
+await conn.batch([
+  "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY, title TEXT, done INTEGER DEFAULT 0)",
+  "INSERT INTO todos (title) VALUES ('Buy milk')",
+  "INSERT INTO todos (title) VALUES ('Write code')",
+]);
+
+// Interactive transaction
+const tx = await conn.transaction("write");
+await tx.prepare("UPDATE accounts SET balance = balance - ? WHERE id = ?").run([100, 1]);
+await tx.prepare("UPDATE accounts SET balance = balance + ? WHERE id = ?").run([100, 2]);
+await tx.commit();
+```
+
+### Local-first with sync — `@tursodatabase/sync` (BETA)
+
+For apps that need fast local reads, offline support, or embedded replicas that sync with Turso Cloud. Bidirectional sync is currently in **BETA**. Key things to know:
+
+- Sync is **explicit** — there is no automatic background sync. You call `push()` and `pull()` yourself.
+- Run push and pull in **separate loops** so they don't block each other (pull supports long-polling).
+- Conflict resolution is **last-push-wins**.
+- **Never** open a synced database file outside the sync SDK (`tursodb`, `sqlite3`, `better-sqlite3`, etc.) — this corrupts sync state permanently.
+- Call `checkpoint()` periodically to compact the local WAL.
+
+See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
+
+### SDK quick reference
+
+**TypeScript / JavaScript:**
+
+| Use case | Package | Install |
+|----------|---------|---------|
+| Remote-only (Node.js/serverless/edge/backend) | `@tursodatabase/serverless` | `npm i @tursodatabase/serverless` |
+| Local-first + sync (Node.js) | `@tursodatabase/sync` | `npm i @tursodatabase/sync` |
+| Local-first + sync (Browser/WASM) | `@tursodatabase/sync-wasm` | `npm i @tursodatabase/sync-wasm` |
+| Local-first + sync (React Native) | `@tursodatabase/sync-react-native` | `npm i @tursodatabase/sync-react-native` |
+
+**Other languages (remote access via libsql):**
+
+| Language | Package | Install |
+|----------|---------|---------|
+| Python | `libsql` | `pip install libsql` |
+| Go (CGO, full features) | `github.com/tursodatabase/go-libsql` | `go get github.com/tursodatabase/go-libsql` |
+| Go (no CGO, remote-only) | `github.com/tursodatabase/libsql-client-go` | `go get github.com/tursodatabase/libsql-client-go` |
+| Rust | `libsql` | `cargo add libsql` |
+
+For sync SDKs in Rust, Python, and Go, see `https://docs.turso.tech/sync/usage.md`.
+
+## Turso Cloud features
+
+Turso Cloud databases support these features out of the box:
+
+- **Vector search** — native similarity search for AI/RAG workflows, no extensions needed. Supports cosine, L2, and L1 distance functions with DiskANN indexing.
+- **Full-text search** — keyword search with BM25 ranking via built-in FTS support.
+- **AI & embeddings** — native vector types for storing and querying embeddings.
+- **Branching** — create isolated copy-on-write database branches for testing/staging.
+- **Point-in-time recovery** — restore databases to any previous point in time (retention depends on plan).
+- **Embedded replicas** — local replicas that sync with Turso Cloud for fast reads and offline support.
+- **SQLite extensions** — JSON, FTS5, R*Tree, SQLean, UUID, regexp.
+
+## Further reading
+
+For detailed SDK APIs, feature documentation, and code recipes, use these resources:
+
+- **Turso online docs** — `https://docs.turso.tech` (Mintlify — append `.md` to any URL path for raw markdown, e.g. `https://docs.turso.tech/sdk/ts/quickstart.md`). For topics not covered in this document, fetch the relevant page below.
+
+| Topic | URL |
+|-------|-----|
+| TypeScript SDK quickstart | `https://docs.turso.tech/sdk/ts/quickstart.md` |
+| TypeScript SDK reference | `https://docs.turso.tech/sdk/ts/reference.md` |
+| Python SDK quickstart | `https://docs.turso.tech/sdk/python/quickstart.md` |
+| Go SDK quickstart | `https://docs.turso.tech/sdk/go/quickstart.md` |
+| Rust SDK quickstart | `https://docs.turso.tech/sdk/rust/quickstart.md` |
+| Sync usage | `https://docs.turso.tech/sync/usage.md` |
+| Sync conflict resolution | `https://docs.turso.tech/sync/conflict-resolution.md` |
+| AI & embeddings | `https://docs.turso.tech/features/ai-and-embeddings.md` |
+| Embedded replicas | `https://docs.turso.tech/features/embedded-replicas/introduction.md` |
+| Cloud limitations | `https://docs.turso.tech/cloud/limitations.md` |
+| SQLite extensions | `https://docs.turso.tech/features/sqlite-extensions.md` |
+| Full docs index (for LLMs) | `https://docs.turso.tech/llms.txt` |
 
