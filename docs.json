@@ -587,7 +587,10 @@
                     "pages": [
                       "api-reference/organizations/invites/list",
                       "api-reference/organizations/invites/create",
-                      "api-reference/organizations/invites/delete"
+                      "api-reference/organizations/invites/delete",
+                      "api-reference/organizations/invites/list-v2",
+                      "api-reference/organizations/invites/create-v2",
+                      "api-reference/organizations/invites/delete-v2"
                     ]
                   },
                   {
