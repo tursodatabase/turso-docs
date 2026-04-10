@@ -20,3 +20,28 @@ You must be an `owner` or `admin` to invite other users. **You can only invite u
 If a pending invite already exists for the same email, it will be replaced with a new one.
 
 </Info>
+
+<RequestExample>
+
+```bash cURL
+curl -L -X POST https://api.turso.tech/v2/organizations/{organizationSlug}/invites \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com", "role": "member"}'
+```
+
+```ts Node.js
+import { createClient } from "@tursodatabase/api";
+
+const turso = createClient({
+  org: "...",
+  token: "",
+});
+
+const invite = await turso.organizations.invites.create("mycompany", {
+  email: "user@example.com",
+  role: "member",
+});
+```
+
+</RequestExample>

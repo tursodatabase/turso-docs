@@ -10,4 +10,15 @@ curl -L -X DELETE https://api.turso.tech/v2/organizations/{organizationSlug}/inv
   -H 'Authorization: Bearer TOKEN'
 ```
 
+```ts Node.js
+import { createClient } from "@tursodatabase/api";
+
+const turso = createClient({
+  org: "...",
+  token: "",
+});
+
+await turso.organizations.invites.delete("mycompany", "user@example.com");
+```
+
 </RequestExample>
