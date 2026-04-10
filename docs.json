@@ -571,6 +571,13 @@
                     ]
                   },
                   {
+                    "group": "User",
+                    "icon": "circle-user",
+                    "pages": [
+                      "api-reference/user/get-current"
+                    ]
+                  },
+                  {
                     "group": "Members",
                     "icon": "user",
                     "pages": [

@@ -2359,6 +2359,67 @@
           }
         }
       }
+    },
+    "/v1/user": {
+      "get": {
+        "summary": "Get Current User",
+        "description": "Returns information about the currently authenticated user.",
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "description": "The username of the user.",
+                          "example": "iku"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The display name of the user.",
+                          "example": "Iku Turso"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "The primary email address of the user.",
+                          "example": "iku@turso.tech"
+                        },
+                        "avatarUrl": {
+                          "type": "string",
+                          "description": "URL to the user's avatar image.",
+                          "example": "https://avatars.githubusercontent.com/u/12345"
+                        },
+                        "plan": {
+                          "type": "string",
+                          "description": "The user's current plan.",
+                          "example": "scaler"
+                        },
+                        "mfa": {
+                          "type": "boolean",
+                          "description": "Whether the user has multi-factor authentication enabled.",
+                          "example": false
+                        },
+                        "has_pending_invites": {
+                          "type": "boolean",
+                          "description": "Whether the user has pending organization invites waiting to be accepted or declined.",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
