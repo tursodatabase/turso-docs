@@ -14,11 +14,11 @@ curl -L https://api.turso.tech/v2/organizations/{organizationSlug}/invites \
 import { createClient } from "@tursodatabase/api";
 
 const turso = createClient({
-  org: "...",
+  org: "mycompany",
   token: "",
 });
 
-const invites = await turso.organizations.invites("mycompany");
+const invites = await turso.organizations.listInvites();
 ```
 
 </RequestExample>

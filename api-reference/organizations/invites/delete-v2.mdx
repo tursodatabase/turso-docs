@@ -14,11 +14,11 @@ curl -L -X DELETE https://api.turso.tech/v2/organizations/{organizationSlug}/inv
 import { createClient } from "@tursodatabase/api";
 
 const turso = createClient({
-  org: "...",
+  org: "mycompany",
   token: "",
 });
 
-await turso.organizations.invites.delete("mycompany", "user@example.com");
+await turso.organizations.deleteInvite("user@example.com");
 ```
 
 </RequestExample>

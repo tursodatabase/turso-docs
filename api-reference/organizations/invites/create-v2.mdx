@@ -34,14 +34,14 @@ curl -L -X POST https://api.turso.tech/v2/organizations/{organizationSlug}/invit
 import { createClient } from "@tursodatabase/api";
 
 const turso = createClient({
-  org: "...",
+  org: "mycompany",
   token: "",
 });
 
-const invite = await turso.organizations.invites.create("mycompany", {
-  email: "user@example.com",
-  role: "member",
-});
+const invite = await turso.organizations.inviteUser(
+  "user@example.com",
+  "member"
+);
 ```
 
 </RequestExample>
