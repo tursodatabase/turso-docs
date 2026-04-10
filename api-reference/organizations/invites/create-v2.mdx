@@ -1,0 +1,47 @@
+---
+title: Create Invite (v2)
+openapi: "POST /v2/organizations/{organizationSlug}/invites"
+---
+
+<Info>
+
+If you want to invite someone who is already a registered Turso user, you can [add them](/api-reference/organizations/members/add) instead.
+
+</Info>
+
+<Info>
+
+You must be an `owner` or `admin` to invite other users. **You can only invite users to a team and not your personal account.**
+
+</Info>
+
+<Info>
+
+If a pending invite already exists for the same email, it will be replaced with a new one.
+
+</Info>
+
+<RequestExample>
+
+```bash cURL
+curl -L -X POST https://api.turso.tech/v2/organizations/{organizationSlug}/invites \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com", "role": "member"}'
+```
+
+```ts Node.js
+import { createClient } from "@tursodatabase/api";
+
+const turso = createClient({
+  org: "mycompany",
+  token: "",
+});
+
+const invite = await turso.organizations.inviteUser(
+  "user@example.com",
+  "member"
+);
+```
+
+</RequestExample>

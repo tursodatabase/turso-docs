@@ -571,6 +571,13 @@
                     ]
                   },
                   {
+                    "group": "User",
+                    "icon": "circle-user",
+                    "pages": [
+                      "api-reference/user/get-current"
+                    ]
+                  },
+                  {
                     "group": "Members",
                     "icon": "user",
                     "pages": [
@@ -587,7 +594,10 @@
                     "pages": [
                       "api-reference/organizations/invites/list",
                       "api-reference/organizations/invites/create",
-                      "api-reference/organizations/invites/delete"
+                      "api-reference/organizations/invites/delete",
+                      "api-reference/organizations/invites/list-v2",
+                      "api-reference/organizations/invites/create-v2",
+                      "api-reference/organizations/invites/delete-v2"
                     ]
                   },
                   {
