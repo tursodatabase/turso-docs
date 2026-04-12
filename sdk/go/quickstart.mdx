@@ -6,11 +6,6 @@ description: Get started with Turso and Go using the libSQL client in a few simp
 
 The libSQL package is designed to work with [`database/sql`](https://pkg.go.dev/database/sql) to provide the usual methods you'd expect when working with databases in Go.
 
-<Info>
-
-The `go-libsql` package uses CGO. You can use `github.com/tursodatabase/libsql-client-go/libsql` instead, but it doesn't support embedded replicas.
-
-</Info>
 
 In this Go quickstart we will learn how to:
 
@@ -18,7 +13,7 @@ In this Go quickstart we will learn how to:
 - Install Go libSQL
 - Connect to a local or remote Turso database
 - Execute a query using SQL
-- Sync changes to local database (optional)
+- Sync changes to local database
 
 <Steps>
   <Step title="Retrieve database credentials">
@@ -36,7 +31,7 @@ You will need an existing database to continue. If you don't have one, [create o
 First begin by adding libSQL to your project:
 
 <AccordionGroup>
-  <Accordion title="Local / Embedded Replicas">
+  <Accordion title="Local">
     ```bash
     go get github.com/tursodatabase/go-libsql
     ```
@@ -59,50 +54,10 @@ First begin by adding libSQL to your project:
 Now connect to your local or remote database using the libSQL connector:
 
 <AccordionGroup>
-  <Accordion title="Embedded Replicas">
-    ```go
-    package main
-
-    import (
-      "database/sql"
-      "fmt"
-      "os"
-      "path/filepath"
-
-      "github.com/tursodatabase/go-libsql"
-    )
-
-    func main() {
-        dbName := "local.db"
-        primaryUrl := "libsql://[DATABASE].turso.io"
-        authToken := "..."
-
-        dir, err := os.MkdirTemp("", "libsql-*")
-        if err != nil {
-            fmt.Println("Error creating temporary directory:", err)
-            os.Exit(1)
-        }
-        defer os.RemoveAll(dir)
-
-        dbPath := filepath.Join(dir, dbName)
-
-        connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl,
-            libsql.WithAuthToken(authToken),
-        )
-        if err != nil {
-            fmt.Println("Error creating connector:", err)
-            os.Exit(1)
-        }
-        defer connector.Close()
-
-        db := sql.OpenDB(connector)
-        defer db.Close()
-    }
-    ```
-
-  </Accordion>
-
   <Accordion title="Local only">
+
+    <Info>Starting a new project? Consider using [Turso Database](/tursodb/quickstart) for Go — it offers concurrent writes, vector search, and a modern async engine built on the next evolution of SQLite.</Info>
+
     ```go
     package main
 
@@ -203,26 +158,9 @@ queryUsers(db)
 
   </Step>
 
-  <Step title="Sync (Embedded Replicas only)">
+  <Step title="Sync">
 
-When using embedded replicas you should call `Sync()` on the connector to sync your local database with the primary database.
-
-```go
-if err := connector.Sync(); err != nil {
-  fmt.Println("Error syncing database:", err)
-}
-```
-
-The connector can automatically sync your database at a regular interval when using the `WithSyncInterval` option:
-
-```go
-syncInterval := time.Minute
-
-connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl,
-    libsql.WithAuthToken(authToken),
-    libsql.WithSyncInterval(syncInterval),
-)
-```
+If you need to sync your local database with a remote Turso Cloud database (local reads and writes with push/pull to the cloud), use [Turso Sync](/sync/usage). Turso Sync is built on the Turso Database engine and provides true local-first sync with explicit `push()` and `pull()` operations.
 
   </Step>
 </Steps>
