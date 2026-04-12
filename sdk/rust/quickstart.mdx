@@ -10,7 +10,7 @@ In this Rust quickstart we will learn how to:
 - Install the Rust libSQL crate
 - Connect to a local or remote Turso database
 - Execute a query using SQL
-- Sync changes to local database (optional)
+- Sync changes to local database
 
 <Steps>
   <Step title="Retrieve database credentials">
@@ -118,26 +118,9 @@ while let Some(row) = rows.next().await? {
 
   </Step>
 
-  <Step title="Sync (Embedded Replicas only)">
+  <Step title="Sync">
 
-When using embedded replicas you should call `sync()` on the database type to sync your local database with the primary database:
-
-```rust
-db.sync().await.unwrap();
-```
-
-You can also set up automatic periodic syncing when creating the database:
-
-```rust
-use std::time::Duration;
-
-let db = Builder::new_remote_replica("local.db", url, token)
-    .sync_interval(Duration::from_secs(60))
-    .build()
-    .await?;
-```
-
-This will automatically sync the database every 60 seconds.
+If you need to sync your local database with a remote Turso Cloud database (local reads and writes with push/pull to the cloud), use [Turso Sync](/sync/usage). Turso Sync is built on the Turso Database engine and provides true local-first sync with explicit `push()` and `pull()` operations.
 
   </Step>
 </Steps>
