@@ -14,9 +14,9 @@ Before you start, make sure you:
 
 <Steps>
 
-<Step title="Install the libSQL SDK">
+<Step title="Install the Turso serverless SDK">
 
-<Snippet file="install-libsql-client-ts.mdx" />
+<Snippet file="install-turso-serverless-ts.mdx" />
 
 </Step>
 
@@ -64,17 +64,17 @@ export default defineNuxtConfig({
 
 </Step>
 
-<Step title="Configure libSQL Client.">
+<Step title="Configure Turso client">
 
 ```ts server/utils/turso.ts
-import { createClient } from "@libsql/client";
+import { connect } from "@tursodatabase/serverless";
 // You can optionally pass in the event to useRuntimeConfig
 // import { H3Event } from "h3";
 
 export function useTurso(/* event: H3Event */) {
   const { turso } = useRuntimeConfig(/* event */);
 
-  return createClient({
+  return connect({
     url: turso.databaseUrl,
     authToken: turso.authToken,
   });
@@ -88,7 +88,8 @@ export function useTurso(/* event: H3Event */) {
 ```ts server/api/items.get.ts
 export default defineEventHandler(async (event) => {
   const client = useTurso(/* event */);
-  const { rows } = await client.execute("select * from table_name");
+  const stmt = await client.prepare("select * from table_name");
+  const rows = await stmt.all();
 
   return {
     data: {

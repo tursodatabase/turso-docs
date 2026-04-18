@@ -16,9 +16,9 @@ Before you start, make sure you:
 
 <Steps>
 
-<Step title="Install the libSQL SDK">
+<Step title="Install the Turso serverless SDK">
 
-<Snippet file="install-libsql-client-ts.mdx" />
+<Snippet file="install-turso-serverless-ts.mdx" />
 
 </Step>
 
@@ -28,31 +28,19 @@ Before you start, make sure you:
 
 </Step>
 
-<Step title="Configure libSQL Client.">
+<Step title="Configure Turso client">
 
-<CodeGroup>
+`@tursodatabase/serverless` uses only `fetch` — no separate `/web` subpath needed. Works in Node.js, edge runtimes, and serverless environments.
 
-```ts Node.js / Serverless
+```ts
 import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
-import { createClient } from "@libsql/client";
+import { connect } from "@tursodatabase/serverless";
 
-export const turso = createClient({
+export const turso = connect({
   url: TURSO_DATABASE_URL,
   authToken: TURSO_AUTH_TOKEN,
 });
 ```
-
-```ts Edge Runtimes
-import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "$env/static/private";
-import { createClient } from "@libsql/client/web";
-
-export const turso = createClient({
-  url: TURSO_DATABASE_URL,
-  authToken: TURSO_AUTH_TOKEN,
-});
-```
-
-</CodeGroup>
 
 </Step>
 
@@ -64,7 +52,8 @@ export const turso = createClient({
 import { turso } from "$lib/turso.server";
 
 export async function load() {
-  const { rows } = await turso.execute("SELECT * FROM table_name");
+  const stmt = await turso.prepare("SELECT * FROM table_name");
+  const rows = await stmt.all();
 
   return { rows };
 }

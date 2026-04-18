@@ -1,0 +1,8 @@
+```ts
+import { connect } from "@tursodatabase/serverless";
+
+export const turso = connect({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
