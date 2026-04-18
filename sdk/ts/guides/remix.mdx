@@ -16,9 +16,9 @@ Before you start, make sure you:
 
 <Steps>
 
-<Step title="Install the libSQL SDK">
+<Step title="Install the Turso serverless SDK">
 
-<Snippet file="install-libsql-client-ts.mdx" />
+<Snippet file="install-turso-serverless-ts.mdx" />
 
 </Step>
 
@@ -28,9 +28,9 @@ Before you start, make sure you:
 
 </Step>
 
-<Step title="Configure libSQL Client.">
+<Step title="Configure Turso client">
 
-<Snippet file="configure-libsql-client-ts.mdx" />
+<Snippet file="configure-turso-serverless-ts.mdx" />
 
 </Step>
 
@@ -42,7 +42,8 @@ import type { LoaderFunction } from "@remix-run/node";
 import { turso } from "~/lib/turso";
 
 export const loader: LoaderFunction = async () => {
-  const { rows } = await turso.execute("SELECT * from TABLE_NAME");
+  const stmt = await turso.prepare("SELECT * from TABLE_NAME");
+  const rows = await stmt.all();
 
   return {
     items: rows,

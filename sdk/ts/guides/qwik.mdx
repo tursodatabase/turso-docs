@@ -67,7 +67,8 @@ import { tursoClient } from "~/utils/turso";
 export const useFrameworks = routeLoader$(
   async (requestEvent: RequestEventBase) => {
     const db = tursoClient(requestEvent["env"]);
-    const { rows } = await db.execute("select * from table_name");
+    const stmt = await db.prepare("select * from table_name");
+    const rows = await stmt.all();
 
     return {
       items: rows,
