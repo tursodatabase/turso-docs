@@ -1,17 +1,36 @@
 ---
 sidebarTitle: Introduction
-title: Turso Cloud SDKs
+title: Turso SDKs
 ---
 
-Turso provides multiple SDKs that you can use to connect a local SQLite file or remote Turso Cloud database, as well as support for embedded databases. If you're using a language or framework that isn't supported with an official driver, you can use Turso over HTTP.
+## Which package should I use?
+
+| Use case | TypeScript | Python |
+| --- | --- | --- |
+| **Local database** (embedded, on-device, offline) | `@tursodatabase/database` | `pyturso` |
+| **Local database + cloud sync** (push/pull) | `@tursodatabase/sync` | `pyturso` (with sync) |
+| **Remote access** (servers, Docker, serverless, edge — any over-the-wire) | `@tursodatabase/serverless` | `libsql` |
+| **Legacy (libSQL)** — ORM support (Drizzle, Prisma), battle-tested | `@libsql/client` | `libsql` |
+
+**Starting a new project?** Use `@tursodatabase/database` (TypeScript) or `pyturso` (Python). These are built on the Turso Database engine — the ground-up rewrite of SQLite with concurrent writes, async I/O, and true local-first sync.
+
+**Need sync?** Use [Turso Sync](/sync/usage) for local reads and writes with explicit `push()` / `pull()` to Turso Cloud.
+
+**Using an ORM (Drizzle, Prisma)?** Use `@libsql/client` — it has production-ready support from all major ORMs in the ecosystem.
+
+**Migrating from SQLite?** Turso Database is a drop-in replacement. Your existing SQL, schema, and queries work unchanged.
+
+**Already using `@libsql/client` or `libsql`?** These packages are built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. They are fully supported and battle-tested. Consider migrating to the Turso Database packages for better sync support and concurrent writes — but if you run into something that doesn't work yet with the newer packages, `@libsql/client` and `libsql` are reliable fallbacks.
+
+### Why multiple packages in TypeScript?
+
+Keeping `@tursodatabase/database` and `@tursodatabase/serverless` separate means minimal bundle size. `@tursodatabase/serverless` uses only `fetch` — zero native dependencies, so it works in Node.js, Docker containers, serverless functions, edge runtimes, and browsers.
 
 <Info>
   **Need sync?** If you want local reads and writes with push/pull sync to the cloud, use [Turso Sync](/sync/usage). The SDKs below connect to Turso Cloud using libSQL, where embedded replica sync only replicates reads locally — writes go to the cloud.
 </Info>
 
 ## Official SDKs
-
-Turso SDKs are fully compatible with [libSQL](/libsql), so you can use the same SDK to connect to a local database ([SQLite](/local-development#sqlite)), [libSQL server](/local-development#libsql-server), a remote database, or an [embedded replica](/features/embedded-replicas).
 
 <Snippet file="official-sdks.mdx" />
 

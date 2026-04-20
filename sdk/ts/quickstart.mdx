@@ -4,11 +4,88 @@ sidebarTitle: Quickstart
 description: Get started with Turso and TypeScript in a few simple steps.
 ---
 
-In this quickstart we will learn how to:
+In this TypeScript quickstart we will learn how to:
 
-- Retrieve database credentials
-- Connect to a remote Turso database
+- Install the Turso package
+- Connect to a local or remote database
 - Execute a query using SQL
+- Sync changes to the cloud
+
+## Recommended: @tursodatabase/database (Local / Embedded)
+
+`@tursodatabase/database` is the recommended package for local and embedded use cases (Node.js, Electron, mobile, IoT). It is built on the Turso Database engine — a ground-up rewrite of SQLite with concurrent writes (MVCC) and async I/O.
+
+<Steps>
+  <Step title="Install">
+
+```bash
+npm install @tursodatabase/database
+```
+
+  </Step>
+  <Step title="Connect">
+
+```ts
+import { connect } from "@tursodatabase/database";
+
+const db = await connect("app.db");
+```
+
+  </Step>
+  <Step title="Execute">
+
+```ts
+const createTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL
+  )
+`);
+await createTable.run();
+
+const insertUser = db.prepare("INSERT INTO users (username) VALUES (?)");
+await insertUser.run("alice");
+
+const stmt = db.prepare("SELECT * FROM users");
+const users = await stmt.all();
+console.log(users);
+```
+
+  </Step>
+  <Step title="Sync (push and pull)">
+
+If you need to sync your local database with Turso Cloud, use [`@tursodatabase/sync`](/sync/usage):
+
+```bash
+npm install @tursodatabase/sync
+```
+
+```ts
+import { connect } from "@tursodatabase/sync";
+
+const db = await connect({
+  path: "./app.db",
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+await db.exec("INSERT INTO users (username) VALUES ('bob')");
+
+// Push local writes to Turso Cloud
+await db.push();
+
+// Pull remote changes to local database
+const changed = await db.pull();
+```
+
+All reads and writes happen against the local database file — fast, offline-capable. `push()` sends your changes to the cloud. `pull()` brings remote changes down. See [Turso Sync](/sync/usage) for details on conflict resolution, checkpointing, and more.
+
+  </Step>
+</Steps>
+
+## Recommended: @tursodatabase/serverless (Remote / Over-the-Wire)
+
+`@tursodatabase/serverless` is the recommended package for **any application that connects to a remote Turso Cloud database over the network** — including Node.js servers, Docker containers, serverless functions, and edge runtimes (Cloudflare Workers, Vercel Edge, Deno Deploy). It uses only `fetch` — zero native dependencies, works everywhere.
 
 <Steps>
   <Step title="Retrieve database credentials">
@@ -20,107 +97,73 @@ You will need an existing database to continue. If you don't have one, [create o
 <Info>You will want to store these as environment variables.</Info>
 
   </Step>
-
   <Step title="Install">
 
-<Tabs>
-  <Tab title="@tursodatabase/serverless">
-
-  ```bash
-  npm install @tursodatabase/serverless
-  ```
-
-  </Tab>
-  <Tab title="@libsql/client">
-
-  <Snippet file="install-libsql-client-ts.mdx" />
-
-  </Tab>
-</Tabs>
+```bash
+npm install @tursodatabase/serverless
+```
 
   </Step>
   <Step title="Connect to your database">
 
-<Tabs>
-  <Tab title="@tursodatabase/serverless">
+```ts
+import { connect } from "@tursodatabase/serverless";
 
-  ```ts
-  import { connect } from "@tursodatabase/serverless";
+const conn = connect({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
 
-  const conn = connect({
-    url: process.env.TURSO_DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-  });
-  ```
+For compatibility with the `@libsql/client` API, use the compat module:
 
-  For compatibility with the `@libsql/client` API, use the compat module:
+```ts
+import { createClient } from "@tursodatabase/serverless/compat";
 
-  ```ts
-  import { createClient } from "@tursodatabase/serverless/compat";
-
-  const client = createClient({
-    url: process.env.TURSO_DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-  });
-  ```
-
-  </Tab>
-  <Tab title="@libsql/client">
-
-  <Snippet file="configure-libsql-client-ts.mdx" />
-
-  </Tab>
-</Tabs>
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
 
   </Step>
   <Step title="Execute a query using SQL">
 
-<Tabs>
-  <Tab title="@tursodatabase/serverless">
+```ts
+const stmt = await conn.prepare("SELECT * FROM users");
+const rows = await stmt.all();
+```
 
-  ```ts
-  const stmt = conn.prepare("SELECT * FROM users");
-  const rows = await stmt.all();
-  ```
+If you need to use placeholders for values, you can do that:
 
-  If you need to use placeholders for values, you can do that:
+```ts
+const stmt = await conn.prepare("SELECT * FROM users WHERE id = ?");
+const row = await stmt.get([1]);
+```
 
-  ```ts
-  const stmt = conn.prepare("SELECT * FROM users WHERE id = ?");
-  const row = await stmt.get([1]);
-  ```
+  </Step>
+</Steps>
 
-  </Tab>
-  <Tab title="@libsql/client">
+## @libsql/client (ORM & Legacy)
 
-  You can execute a SQL query against your existing database by calling `execute()`:
+Use `@libsql/client` for ORM integration (Drizzle, Prisma) or if you have an existing codebase built on it. See the [reference](/sdk/ts/reference#libsql-client-legacy) for full documentation.
 
-  ```ts
-  await turso.execute("SELECT * FROM users");
-  ```
+<Steps>
+  <Step title="Install">
 
-  If you need to use placeholders for values, you can do that:
+<Snippet file="install-libsql-client-ts.mdx" />
 
-  <CodeGroup>
+  </Step>
+  <Step title="Connect">
 
-  ```ts Positional
-  await turso.execute({
-    sql: "SELECT * FROM users WHERE id = ?",
-    args: [1],
-  });
-  ```
+<Snippet file="configure-libsql-client-ts.mdx" />
 
-  ```ts Named
-  await turso.execute({
-    sql: "INSERT INTO users VALUES (:name)",
-    args: { name: "Iku" },
-  });
-  ```
+  </Step>
+  <Step title="Execute">
 
-  </CodeGroup>
-
-  </Tab>
-</Tabs>
+```ts
+await turso.execute("SELECT * FROM users");
+```
 
   </Step>
   <Step title="Sync">
