@@ -1275,6 +1275,10 @@
                   "overages": {
                     "type": "boolean",
                     "description": "Enable or disable overages for the organization."
+                  },
+                  "require_mfa": {
+                    "type": "boolean",
+                    "description": "Require all members of the organization to have multi-factor authentication enabled. The requesting user must have MFA enabled on their own account before enabling this requirement."
                   }
                 }
               }
@@ -2489,6 +2493,11 @@
             "description": "The name of the organization. Every user has a `personal` organization for their own account.",
             "example": false
           },
+          "require_mfa": {
+            "type": "boolean",
+            "description": "Whether all members of the organization are required to have multi-factor authentication enabled.",
+            "example": false
+          },
           "blocked_reads": {
             "type": "boolean",
             "description": "Returns the current status for blocked reads.",
@@ -2598,7 +2607,8 @@
               "type": "team",
               "overages": false,
               "blocked_reads": false,
-              "blocked_writes": false
+              "blocked_writes": false,
+              "require_mfa": false
             }
           },
           "Accepted": {
