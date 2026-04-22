@@ -2273,7 +2273,7 @@
           }
         ],
         "requestBody": {
-          "description": "The user you want to invite to join Turso, and your organization.",
+          "description": "The user you want to invite to join Turso, and your organization. Provide exactly one of email or username.",
           "required": true,
           "content": {
             "application/json": {
@@ -2282,7 +2282,11 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "The email of the user you want to invite."
+                    "description": "The email of the user you want to invite. Exactly one of email or username must be provided."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "The username of an existing Turso user you want to invite. Exactly one of email or username must be provided."
                   },
                   "role": {
                     "type": "string",
@@ -2294,10 +2298,7 @@
                     "description": "The role given to the user.",
                     "default": "member"
                   }
-                },
-                "required": [
-                  "email"
-                ]
+                }
               }
             }
           }

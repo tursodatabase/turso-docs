@@ -5,7 +5,7 @@ openapi: "POST /v2/organizations/{organizationSlug}/invites"
 
 <Info>
 
-If you want to invite someone who is already a registered Turso user, you can [add them](/api-reference/organizations/members/add) instead.
+You can invite by **email** or by **username** — provide exactly one. When inviting by username, the invite is sent to that user's registered email.
 
 </Info>
 
@@ -23,11 +23,18 @@ If a pending invite already exists for the same email, it will be replaced with 
 
 <RequestExample>
 
-```bash cURL
+```bash Invite by email
 curl -L -X POST https://api.turso.tech/v2/organizations/{organizationSlug}/invites \
   -H 'Authorization: Bearer TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{"email": "user@example.com", "role": "member"}'
+```
+
+```bash Invite by username
+curl -L -X POST https://api.turso.tech/v2/organizations/{organizationSlug}/invites \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"username": "turso-user", "role": "member"}'
 ```
 
 ```ts Node.js
