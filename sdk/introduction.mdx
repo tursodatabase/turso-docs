@@ -5,14 +5,14 @@ title: Turso SDKs
 
 ## Which package should I use?
 
-| Use case | TypeScript | Python |
-| --- | --- | --- |
-| **Local database** (embedded, on-device, offline) | `@tursodatabase/database` | `pyturso` |
-| **Local database + cloud sync** (push/pull) | `@tursodatabase/sync` | `pyturso` (with sync) |
-| **Remote access** (servers, Docker, serverless, edge — any over-the-wire) | `@tursodatabase/serverless` | `libsql` |
-| **Legacy (libSQL)** — ORM support (Drizzle, Prisma), battle-tested | `@libsql/client` | `libsql` |
+| Use case | TypeScript | Python | Go |
+| --- | --- | --- | --- |
+| **Local database** (embedded, on-device, offline) | `@tursodatabase/database` | `pyturso` | `tursogo` |
+| **Local database + cloud sync** (push/pull) | `@tursodatabase/sync` | `pyturso` (with sync) | `tursogo` (with sync) |
+| **Remote access** (servers, Docker, serverless, edge — any over-the-wire) | `@tursodatabase/serverless` | `libsql` | `libsql-client-go` |
+| **Legacy (libSQL)** — ORM support (Drizzle, Prisma), battle-tested | `@libsql/client` | `libsql` | `go-libsql` |
 
-**Starting a new project?** Use `@tursodatabase/database` (TypeScript) or `pyturso` (Python). These are built on the Turso Database engine — the ground-up rewrite of SQLite with concurrent writes, async I/O, and true local-first sync.
+**Starting a new project?** Use `@tursodatabase/database` (TypeScript), `pyturso` (Python), or `tursogo` (Go). These are built on the Turso Database engine — the ground-up rewrite of SQLite with concurrent writes, async I/O, and true local-first sync.
 
 **Need sync?** Use [Turso Sync](/sync/usage) for local reads and writes with explicit `push()` / `pull()` to Turso Cloud.
 
@@ -20,7 +20,7 @@ title: Turso SDKs
 
 **Migrating from SQLite?** Turso Database is a drop-in replacement. Your existing SQL, schema, and queries work unchanged.
 
-**Already using `@libsql/client` or `libsql`?** These packages are built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. They are fully supported and battle-tested. Consider migrating to the Turso Database packages for better sync support and concurrent writes — but if you run into something that doesn't work yet with the newer packages, `@libsql/client` and `libsql` are reliable fallbacks.
+**Already using `@libsql/client`, `libsql`, or `go-libsql`?** These packages are built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. They are fully supported and battle-tested. Consider migrating to the Turso Database packages for better sync support and concurrent writes — but if you run into something that doesn't work yet with the newer packages, `@libsql/client`, `libsql`, and `go-libsql` are reliable fallbacks.
 
 ### Why multiple packages in TypeScript?
 
