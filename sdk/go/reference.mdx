@@ -260,9 +260,7 @@ connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl,
 
 #### Read Your Writes
 
-By default, the database connection ensures that writes are immediately visible to subsequent read operations initiated by the same connection.
-
-You can disable this behaviour using `WithReadYourWrites(false)`:
+By default, after a sync the server must fully catch up with your changes before returning — guaranteeing you always read your own writes. This is safer but **much slower**, since the server must process all pending changes. If you can tolerate eventually-consistent reads, disable this for significantly faster syncs:
 
 ```go
 connector, err := libsql.NewEmbeddedReplicaConnector(dbPath, primaryUrl,
