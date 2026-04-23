@@ -1,19 +1,125 @@
 ---
 title: Turso Quickstart (Go)
 sidebarTitle: Quickstart
-description: Get started with Turso and Go using the libSQL client in a few simple steps.
+description: Get started with Turso and Go in a few simple steps.
 ---
-
-The libSQL package is designed to work with [`database/sql`](https://pkg.go.dev/database/sql) to provide the usual methods you'd expect when working with databases in Go.
-
 
 In this Go quickstart we will learn how to:
 
-- Retrieve database credentials
-- Install Go libSQL
-- Connect to a local or remote Turso database
+- Install the Turso package
+- Connect to a local or remote database
 - Execute a query using SQL
-- Sync changes to local database
+- Sync changes to the cloud
+
+## Recommended: tursogo (Local + Cloud Sync)
+
+`tursogo` is the recommended package for running a local database, including synchronizing it to and from Turso Cloud. It is built on the Turso Database engine — a ground-up rewrite of SQLite with concurrent writes (MVCC) and async I/O. It implements the standard `database/sql` driver interface, so it works as a drop-in replacement for any Go SQLite driver. It ships prebuilt native libraries and uses [purego](https://github.com/ebitengine/purego) for FFI — no CGO required.
+
+<Steps>
+  <Step title="Install">
+
+```bash
+go get turso.tech/database/tursogo
+```
+
+  </Step>
+  <Step title="Connect">
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+
+	_ "turso.tech/database/tursogo"
+)
+
+func main() {
+	db, _ := sql.Open("turso", "app.db")
+	defer db.Close()
+
+	db.Exec(`CREATE TABLE IF NOT EXISTS users (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT NOT NULL
+	)`)
+
+	db.Exec("INSERT INTO users (name) VALUES (?)", "Alice")
+
+	rows, _ := db.Query("SELECT * FROM users")
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		var name string
+		rows.Scan(&id, &name)
+		fmt.Printf("User: %d %s\n", id, name)
+	}
+}
+```
+
+  </Step>
+  <Step title="Sync (push and pull)">
+
+If you need to sync your local database with Turso Cloud, use the sync driver:
+
+```go
+package main
+
+import (
+	"context"
+	"os"
+
+	turso "turso.tech/database/tursogo"
+)
+
+func main() {
+	ctx := context.Background()
+
+	syncDb, _ := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
+		Path:      "app.db",
+		RemoteUrl: os.Getenv("TURSO_DATABASE_URL"),
+		AuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
+	})
+
+	db, _ := syncDb.Connect(ctx)
+	defer db.Close()
+
+	db.ExecContext(ctx, "INSERT INTO users (name) VALUES (?)", "Bob")
+
+	// Push local writes to Turso Cloud
+	syncDb.Push(ctx)
+
+	// Pull remote changes to local database
+	syncDb.Pull(ctx)
+}
+```
+
+All reads and writes happen against the local database file — fast, offline-capable. `Push()` sends your changes to the cloud. `Pull()` brings remote changes down. See the [reference](/sdk/go/reference) for checkpoint, stats, and encryption. See [Turso Sync](/sync/usage) for details on conflict resolution and more.
+
+<Info>
+
+You can test sync locally without a Turso Cloud account by starting a local sync server:
+
+```bash
+tursodb :memory: --sync-server 127.0.0.1:8080
+```
+
+Then set `RemoteUrl` to `http://127.0.0.1:8080` (no `AuthToken` needed). See [Turso Database quickstart](/tursodb/quickstart) for how to install `tursodb`.
+
+</Info>
+
+  </Step>
+</Steps>
+
+## Remote Access (Over-the-Wire)
+
+If your application needs to query a Turso Cloud database directly over the network (e.g., from a web server or serverless function), use the `libsql-client-go` package. It connects to your database via the libSQL wire protocol — no local file needed, pure Go.
+
+<Info>
+
+For most applications, we recommend running a local database with sync (`NewTursoSyncDb`) instead — it gives you faster reads, offline support, and lower latency. Remote access is useful when you cannot store a local database file (e.g., stateless serverless environments).
+
+</Info>
 
 <Steps>
   <Step title="Retrieve database credentials">
@@ -25,142 +131,52 @@ You will need an existing database to continue. If you don't have one, [create o
 <Info>You will want to store these as environment variables.</Info>
 
   </Step>
-
   <Step title="Install">
 
-First begin by adding libSQL to your project:
-
-<AccordionGroup>
-  <Accordion title="Local">
-    ```bash
-    go get github.com/tursodatabase/go-libsql
-    ```
-
-  </Accordion>
-
-  <Accordion title="Remote only">
-    ```bash
-    go get github.com/tursodatabase/libsql-client-go/libsql
-    ```
-
-  </Accordion>
-
-</AccordionGroup>
-
-  </Step>
-
-  <Step title="Connect">
-
-Now connect to your local or remote database using the libSQL connector:
-
-<AccordionGroup>
-  <Accordion title="Local only">
-
-    <Info>Starting a new project? Consider using [Turso Database](/tursodb/quickstart) for Go — it offers concurrent writes, vector search, and a modern async engine built on the next evolution of SQLite.</Info>
-
-    ```go
-    package main
-
-    import (
-      "database/sql"
-      "fmt"
-      "os"
-
-      _ "github.com/tursodatabase/go-libsql"
-    )
-
-    func main() {
-      dbName := "file:./local.db"
-
-      db, err := sql.Open("libsql", dbName)
-      if err != nil {
-        fmt.Fprintf(os.Stderr, "failed to open db %s", err)
-        os.Exit(1)
-      }
-      defer db.Close()
-    }
-    ```
-
-  </Accordion>
-
-  <Accordion title="Remote only">
-    ```go
-    package main
-
-    import (
-      "database/sql"
-      "fmt"
-      "os"
-
-      _ "github.com/tursodatabase/libsql-client-go/libsql"
-    )
-
-    func main() {
-      url := "libsql://[DATABASE].turso.io?authToken=[TOKEN]"
-
-      db, err := sql.Open("libsql", url)
-      if err != nil {
-        fmt.Fprintf(os.Stderr, "failed to open db %s: %s", url, err)
-        os.Exit(1)
-      }
-      defer db.Close()
-    }
-    ```
-
-  </Accordion>
-</AccordionGroup>
-
-  </Step>
-
-  <Step title="Execute">
-
-You can execute a SQL query against your existing database. Create a function to query your database that accepts the pointer to `sql.DB` as an argument:
-
-```go
-type User struct {
-	ID   int
-	Name string
-}
-
-func queryUsers(db *sql.DB)  {
-  rows, err := db.Query("SELECT * FROM users")
-  if err != nil {
-    fmt.Fprintf(os.Stderr, "failed to execute query: %v\n", err)
-    os.Exit(1)
-  }
-  defer rows.Close()
-
-  var users []User
-
-  for rows.Next() {
-    var user User
-
-    if err := rows.Scan(&user.ID, &user.Name); err != nil {
-      fmt.Println("Error scanning row:", err)
-      return
-    }
-
-    users = append(users, user)
-    fmt.Println(user.ID, user.Name)
-  }
-
-  if err := rows.Err(); err != nil {
-    fmt.Println("Error during rows iteration:", err)
-  }
-}
-```
-
-Now inside `func main()` call `queryUsers` and pass in the pointer to `sql.DB`:
-
-```go
-queryUsers(db)
+```bash
+go get github.com/tursodatabase/libsql-client-go/libsql
 ```
 
   </Step>
+  <Step title="Connect and query">
 
-  <Step title="Sync">
+```go
+package main
 
-If you need to sync your local database with a remote Turso Cloud database (local reads and writes with push/pull to the cloud), use [Turso Sync](/sync/usage). Turso Sync is built on the Turso Database engine and provides true local-first sync with explicit `push()` and `pull()` operations.
+import (
+	"database/sql"
+	"fmt"
+	"os"
+
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
+)
+
+func main() {
+	url := os.Getenv("TURSO_DATABASE_URL") + "?authToken=" + os.Getenv("TURSO_AUTH_TOKEN")
+
+	db, _ := sql.Open("libsql", url)
+	defer db.Close()
+
+	rows, _ := db.Query("SELECT * FROM users")
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		var name string
+		rows.Scan(&id, &name)
+		fmt.Printf("User: %d %s\n", id, name)
+	}
+}
+```
 
   </Step>
 </Steps>
+
+## Legacy: go-libsql (Embedded Replicas)
+
+<Warning>
+
+**Usage of embedded replicas is strongly discouraged.** With embedded replicas, reads are local but **writes are sent to the remote database** — this means writes fail when offline, have higher latency, and don't support concurrent writes. Use `tursogo` with `NewTursoSyncDb` instead: all reads and writes are local, and you explicitly sync with `Push()` / `Pull()`.
+
+</Warning>
+
+See the [reference](/sdk/go/reference) for legacy documentation on embedded replicas if you have an existing `go-libsql` codebase.
