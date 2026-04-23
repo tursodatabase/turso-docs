@@ -1897,143 +1897,6 @@
         }
       }
     },
-    "/v1/organizations/{organizationSlug}/invites": {
-      "get": {
-        "summary": "List Invites",
-        "description": "Returns a list of invites for the organization.",
-        "operationId": "listOrganizationInvites",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/organizationSlug"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "invites": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Invite"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Invite Organization Member",
-        "description": "Invite a user (who isn't already a Turso user) to an organization.",
-        "operationId": "inviteOrganizationMember",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/organizationSlug"
-          }
-        ],
-        "requestBody": {
-          "description": "The user you want to invite to join Turso, and your organization.",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "description": "The email of the user you want to invite."
-                  },
-                  "role": {
-                    "type": "string",
-                    "enum": [
-                      "admin",
-                      "member",
-                      "viewer"
-                    ],
-                    "description": "The role given to the user.",
-                    "default": "member"
-                  }
-                },
-                "required": [
-                  "email"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "invited": {
-                      "$ref": "#/components/schemas/Invite"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/organizations/{organizationSlug}/invites/{email}": {
-      "delete": {
-        "summary": "Delete Invite",
-        "description": "Delete an invite for the organization by email.",
-        "operationId": "deleteOrganizationInviteByEmail",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/organizationSlug"
-          },
-          {
-            "in": "path",
-            "name": "email",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "The email of the user invited.",
-              "example": "iku@turso.tech"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response (No Content)"
-          },
-          "404": {
-            "description": "Invite not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "description": "The error code"
-                    },
-                    "error": {
-                      "type": "string",
-                      "description": "The error message (human readable)",
-                      "example": "invite not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/auth/validate": {
       "get": {
         "summary": "Validate API Token",
@@ -2549,73 +2412,6 @@
             "type": "string",
             "description": "The email for the member.",
             "example": "iku@turso.tech"
-          }
-        }
-      },
-      "Invite": {
-        "type": "object",
-        "properties": {
-          "ID": {
-            "type": "integer",
-            "description": "The unique ID for the invite.",
-            "example": 1
-          },
-          "CreatedAt": {
-            "type": "string",
-            "description": "The datetime the invite was created in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Example: `2023-01-01T00:00:00Z`",
-            "example": "2023-01-01T00:00:00Z"
-          },
-          "UpdatedAt": {
-            "type": "string",
-            "description": "The datetime the invite was updated in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Example: `2023-01-01T00:00:00Z`",
-            "example": "2023-01-01T00:00:00Z"
-          },
-          "DeletedAt": {
-            "type": "string",
-            "description": "The datetime the invite was deleted (or revoked) in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Example: `2023-01-01T00:00:00Z`",
-            "example": "2023-01-01T00:00:00Z"
-          },
-          "Role": {
-            "type": "string",
-            "enum": [
-              "admin",
-              "member",
-              "viewer"
-            ],
-            "description": "The assigned role for the invited user.",
-            "example": "member"
-          },
-          "Email": {
-            "type": "string",
-            "description": "The email of the person invited.",
-            "example": "iku@turso.tech"
-          },
-          "OrganizationID": {
-            "type": "integer",
-            "description": "The ID of the organization the user was invited to.",
-            "example": 1
-          },
-          "Token": {
-            "type": "string",
-            "description": "The unique token used to verify the invite.",
-            "example": "3e393245b91b41ebad0980bc98349c9d"
-          },
-          "Organization": {
-            "$ref": "#/components/schemas/Organization",
-            "example": {
-              "name": "turso",
-              "slug": "turso",
-              "type": "team",
-              "overages": false,
-              "blocked_reads": false,
-              "blocked_writes": false,
-              "require_mfa": false
-            }
-          },
-          "Accepted": {
-            "type": "boolean",
-            "description": "The current status of the invite.",
-            "example": false
           }
         }
       },
@@ -3278,11 +3074,6 @@
             "description": "The assigned role for the invited user.",
             "example": "member"
           },
-          "token": {
-            "type": "string",
-            "description": "The unique token used to verify the invite.",
-            "example": "3e393245b91b41ebad0980bc98349c9d"
-          },
           "created_at": {
             "type": "string",
             "description": "The datetime the invite was created in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
@@ -3312,11 +3103,6 @@
             "type": "string",
             "description": "The name of the organization the user was invited to.",
             "example": "mycompany"
-          },
-          "token": {
-            "type": "string",
-            "description": "The unique token used to verify the invite.",
-            "example": "3e393245b91b41ebad0980bc98349c9d"
           }
         }
       }
