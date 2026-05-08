@@ -80,7 +80,7 @@ await build({
 
 </CodeGroup>
 
-### With SST Ion
+### With SST
 
 ```ts sst.config.ts
 export const api = new sst.aws.Function("Api", {
@@ -155,7 +155,7 @@ Create a minimal `layers/libsql/nodejs/package.json`:
 }
 ```
 
-### SST Ion — with embedded replicas
+### SST — with embedded replicas
 
 ```ts sst.config.ts
 export const api = new sst.aws.Function("Api", {
@@ -183,6 +183,6 @@ binary is compiled for the correct architecture.
 | Vercel Functions | `/web` import | Auto-detected via `edge-light` condition |
 | Netlify Functions | `/web` import | Auto-detected via `netlify` condition |
 | Cloudflare Workers | `/web` import | Auto-detected via `workerd` condition |
-| SST Ion (remote DB) | `/web` import | Explicit is safest |
-| SST Ion (embedded replica) | `nodejs.install` | Installs for Lambda arch |
+| SST (remote DB) | `/web` import | Explicit is safest |
+| SST (embedded replica) | `nodejs.install` | Installs for Lambda arch |
 | Deno Deploy | `/web` import | No native NAPI support on Deno Deploy |
