@@ -6,7 +6,7 @@ sidebarTitle: Data Types
 
 # Data Types
 
-Turso uses the same dynamic type system as SQLite, where values have types but columns do not enforce a single type (unless using STRICT tables). Every value stored in Turso belongs to one of five storage classes.
+Turso uses the same dynamic type system as SQLite, where values have types but columns do not enforce a single type (unless using STRICT tables). Every value stored in Turso belongs to one of five storage classes. Turso extends this system with [custom types](#custom-types), [composite types](#composite-types-struct-and-union), and [native array types](#array-types) for STRICT tables.
 
 ## Storage Classes
 
@@ -99,7 +99,7 @@ STRICT tables only allow these base type names:
 | ANY | Any storage class (disables type checking for this column) |
 
 <Info>
-**Turso Extension**: STRICT tables also accept [custom type](/sql-reference/statements/create-type) names. Custom types extend the type system with user-defined encoding, decoding, validation, and operator overloading.
+**Turso Extension**: STRICT tables also accept [custom type](/sql-reference/statements/create-type) names, [composite types](#composite-types-struct-and-union) (STRUCT and UNION), and [array types](#array-types). Any base type can be turned into an array column by appending `[]` to the type name (e.g., `INTEGER[]`, `TEXT[]`). Arrays, custom types, and composite types are Turso-specific features.
 </Info>
 
 ## Custom Types
@@ -165,6 +165,66 @@ INSERT INTO events VALUES (
 
 For the full custom types reference including ENCODE/DECODE, operators, parametric types, and validation, see [CREATE TYPE](/sql-reference/statements/create-type).
 
+### Composite Types: STRUCT and UNION
+
+Turso also supports composite types: **STRUCT** (named product type) and **UNION** (discriminated union). These let you store structured data in a single column and access it with dot notation.
+
+```sql
+-- STRUCT: group related fields, access with col.field
+CREATE TYPE point AS STRUCT(x INT, y INT);
+CREATE TABLE locations(id INT PRIMARY KEY, pos point) STRICT;
+INSERT INTO locations VALUES (1, struct_pack(10, 20));
+SELECT pos.x, pos.y FROM locations WHERE pos.x > 5;
+-- 10|20
+
+-- UNION: tagged variants, access with col.variant
+CREATE TYPE platform_id AS UNION(telegram INT, slack TEXT);
+CREATE TABLE contacts(id INT PRIMARY KEY, platform platform_id) STRICT;
+INSERT INTO contacts VALUES (1, union_value('telegram', 12345));
+INSERT INTO contacts VALUES (2, union_value('slack', 'U0ABC'));
+SELECT id, platform.telegram, platform.slack FROM contacts ORDER BY id;
+-- 1|12345|
+-- 2||U0ABC
+```
+
+For the full composite types reference, see [CREATE TYPE — Composite Types](/sql-reference/statements/create-type#composite-types-struct-and-union).
+
+## Array Types
+
+<Info>
+**Turso Extension**: Array types are a Turso-specific feature not available in SQLite. Array columns work only with STRICT tables.
+</Info>
+
+Array columns store ordered collections of values. Declare them by appending `[]` to any base type name:
+
+```sql
+CREATE TABLE sensors (
+    id INTEGER PRIMARY KEY,
+    readings REAL[],
+    labels TEXT[],
+    flags INTEGER[]
+) STRICT;
+```
+
+Multi-dimensional arrays are supported with multiple bracket pairs:
+
+```sql
+CREATE TABLE matrices (
+    id INTEGER PRIMARY KEY,
+    data INTEGER[][]
+) STRICT;
+```
+
+Arrays can be inserted using the `ARRAY[...]` constructor or as JSON text:
+
+```sql
+INSERT INTO sensors VALUES (1, ARRAY[1.5, 2.5, 3.5], '["a","b"]', '[0, 1, 1]');
+```
+
+Arrays are displayed as JSON arrays on output. Element types are validated against the declared base type — for example, an `INTEGER[]` column rejects non-numeric text elements.
+
+For the full set of array functions, operators, and subscript syntax, see [Array Functions](/sql-reference/functions/array).
+
 ### Inspecting Types
 
 List all available types (built-in and custom):
@@ -204,5 +264,6 @@ SELECT NULL IS NULL;    -- 1 (use IS to test for NULL)
 
 - [CREATE TABLE](/sql-reference/statements/create-table) for column definitions and constraints
 - [CREATE TYPE](/sql-reference/statements/create-type) for custom type definitions
+- [Array Functions](/sql-reference/functions/array) for array construction, manipulation, and operators
 - [Expressions](/sql-reference/expressions) for CAST expressions and type conversions
 - [Compatibility](/sql-reference/compatibility) for differences from SQLite
