@@ -136,12 +136,14 @@ STATEMENTS_ORDER = [
     "create-materialized-view",
     "create-trigger",
     "create-type",
+    "create-domain",
     "create-virtual-table",
     "drop-table",
     "drop-index",
     "drop-view",
     "drop-trigger",
     "drop-type",
+    "drop-domain",
     "select",
     "insert",
     "update",
@@ -153,6 +155,7 @@ STATEMENTS_ORDER = [
     "attach-database",
     "detach-database",
     "analyze",
+    "vacuum",
 ]
 
 FUNCTIONS_ORDER = [
@@ -163,15 +166,24 @@ FUNCTIONS_ORDER = [
     "date-time",
     "json",
     "vector",
+    "array",
     "fts",
 ]
 
 BOTTOM_LEVEL_ORDER = [
+    "multiprocess-access",
     "extensions",
     "pragmas",
     "experimental-features",
 ]
 
+CLI_ORDER = [
+    "getting-started",
+    "command-line-options",
+    "shell-commands",
+]
+
+CLI_REFERENCE_GROUP_NAME = "CLI Reference"
 SQL_REFERENCE_GROUP_NAME = "SQL Reference"
 TURSO_DB_TAB_NAME = "Turso Database (beta)"
 
@@ -220,11 +232,15 @@ def sort_pages(pages: list[str], preferred_order: list[str]) -> list[str]:
     return known + unknown
 
 
-def build_navigation(copied_files: list[str]) -> dict:
-    """Build the SQL Reference navigation group from copied file paths."""
+def build_navigation(copied_files: list[str]) -> tuple[dict | None, dict]:
+    """Build navigation groups from copied file paths.
+
+    Returns (cli_group, sql_group) where cli_group may be None if no CLI files.
+    """
     top_level = []
     statements = []
     functions = []
+    cli = []
 
     for page in copied_files:
         parts = page.split(os.sep)
@@ -234,6 +250,8 @@ def build_navigation(copied_files: list[str]) -> dict:
             statements.append(parts[1])
         elif parts[0] == "functions":
             functions.append(parts[1])
+        elif parts[0] == "cli":
+            cli.append(parts[1])
 
     # Separate into top pages (before subgroups) and bottom pages (after)
     top_pages = sort_pages(
@@ -250,11 +268,22 @@ def build_navigation(copied_files: list[str]) -> dict:
 
     statements = sort_pages(statements, STATEMENTS_ORDER)
     functions = sort_pages(functions, FUNCTIONS_ORDER)
+    cli = sort_pages(cli, CLI_ORDER)
 
     prefix = "sql-reference"
+
+    # CLI Reference group (separate from SQL Reference)
+    cli_group = None
+    if cli:
+        cli_group = {
+            "group": CLI_REFERENCE_GROUP_NAME,
+            "pages": [f"{prefix}/cli/{c}" for c in cli],
+        }
+
+    # SQL Reference group
     pages = []
 
-    # Top-level pages first
+    # Top-level pages
     for p in top_pages:
         pages.append(f"{prefix}/{p}")
 
@@ -276,11 +305,31 @@ def build_navigation(copied_files: list[str]) -> dict:
     for p in bottom_pages:
         pages.append(f"{prefix}/{p}")
 
-    return {"group": SQL_REFERENCE_GROUP_NAME, "pages": pages}
+    sql_group = {"group": SQL_REFERENCE_GROUP_NAME, "pages": pages}
+
+    return cli_group, sql_group
 
 
-def update_docs_json(nav_group: dict) -> None:
-    """Insert or replace the SQL Reference group in docs.json."""
+def _upsert_group(groups: list[dict], nav_group: dict, insert_before: str | None = None) -> None:
+    """Replace an existing group by name, or insert it (before insert_before if given)."""
+    name = nav_group["group"]
+    for i, group in enumerate(groups):
+        if group.get("group") == name:
+            groups[i] = nav_group
+            return
+
+    # Not found — insert before the named group, or append
+    if insert_before:
+        for i, group in enumerate(groups):
+            if group.get("group") == insert_before:
+                groups.insert(i, nav_group)
+                return
+
+    groups.append(nav_group)
+
+
+def update_docs_json(cli_group: dict | None, sql_group: dict) -> None:
+    """Insert or replace the CLI Reference and SQL Reference groups in docs.json."""
     with open(DOCS_JSON, "r") as f:
         docs = json.load(f)
 
@@ -298,16 +347,12 @@ def update_docs_json(nav_group: dict) -> None:
 
     groups = turso_tab.get("groups", [])
 
-    # Replace existing SQL Reference group, or append it
-    replaced = False
-    for i, group in enumerate(groups):
-        if group.get("group") == SQL_REFERENCE_GROUP_NAME:
-            groups[i] = nav_group
-            replaced = True
-            break
+    # SQL Reference first (so CLI can insert before it)
+    _upsert_group(groups, sql_group)
 
-    if not replaced:
-        groups.append(nav_group)
+    # CLI Reference right before SQL Reference
+    if cli_group:
+        _upsert_group(groups, cli_group, insert_before=SQL_REFERENCE_GROUP_NAME)
 
     turso_tab["groups"] = groups
 
@@ -328,15 +373,17 @@ def main():
     print(f"  Copied {len(copied)} files")
 
     print("Building navigation...")
-    nav_group = build_navigation(copied)
+    cli_group, sql_group = build_navigation(copied)
     page_count = sum(
         len(entry["pages"]) if isinstance(entry, dict) else 1
-        for entry in nav_group["pages"]
+        for entry in sql_group["pages"]
     )
+    if cli_group:
+        page_count += len(cli_group["pages"])
     print(f"  {page_count} navigation entries")
 
     print(f"Updating {DOCS_JSON}...")
-    update_docs_json(nav_group)
+    update_docs_json(cli_group, sql_group)
     print("Done.")
 
 

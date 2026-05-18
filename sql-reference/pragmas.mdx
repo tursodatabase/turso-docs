@@ -219,7 +219,7 @@ PRAGMA journal_mode = wal;
 Turso supports WAL (Write-Ahead Logging) mode. Rollback journal modes (DELETE, TRUNCATE, PERSIST, MEMORY) are not supported.
 
 <Info>
-**Turso Extension**: Turso supports an MVCC journal mode for concurrent writes:
+**Turso Extension**: Turso supports an experimental MVCC journal mode for concurrent writes:
 
 ```sql
 PRAGMA journal_mode = mvcc;

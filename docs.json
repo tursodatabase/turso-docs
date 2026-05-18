@@ -87,6 +87,14 @@
             ]
           },
           {
+            "group": "CLI Reference",
+            "pages": [
+              "sql-reference/cli/getting-started",
+              "sql-reference/cli/command-line-options",
+              "sql-reference/cli/shell-commands"
+            ]
+          },
+          {
             "group": "SQL Reference",
             "pages": [
               "sql-reference/compatibility",
@@ -102,12 +110,14 @@
                   "sql-reference/statements/create-materialized-view",
                   "sql-reference/statements/create-trigger",
                   "sql-reference/statements/create-type",
+                  "sql-reference/statements/create-domain",
                   "sql-reference/statements/create-virtual-table",
                   "sql-reference/statements/drop-table",
                   "sql-reference/statements/drop-index",
                   "sql-reference/statements/drop-view",
                   "sql-reference/statements/drop-trigger",
                   "sql-reference/statements/drop-type",
+                  "sql-reference/statements/drop-domain",
                   "sql-reference/statements/select",
                   "sql-reference/statements/insert",
                   "sql-reference/statements/update",
@@ -118,7 +128,8 @@
                   "sql-reference/statements/transactions",
                   "sql-reference/statements/attach-database",
                   "sql-reference/statements/detach-database",
-                  "sql-reference/statements/analyze"
+                  "sql-reference/statements/analyze",
+                  "sql-reference/statements/vacuum"
                 ]
               },
               {
@@ -131,9 +142,11 @@
                   "sql-reference/functions/date-time",
                   "sql-reference/functions/json",
                   "sql-reference/functions/vector",
+                  "sql-reference/functions/array",
                   "sql-reference/functions/fts"
                 ]
               },
+              "sql-reference/multiprocess-access",
               "sql-reference/extensions",
               "sql-reference/pragmas",
               "sql-reference/experimental-features"
