@@ -5,12 +5,12 @@ description: Rust Reference for Turso
 
 Turso offers two Rust crates:
 
-| | `turso` | `libsql` (legacy) |
+| | `turso` | `libsql` |
 | --- | --- | --- |
-| **Use case** | Local / embedded database, sync | Remote access, legacy embedded replicas |
+| **Use case** | Local / embedded database, sync | Remote access, Embedded Replicas (cloud-replicated reads) |
 | **Engine** | Turso Database (rewrite) | libSQL (SQLite fork) |
 | **Concurrent writes** | Yes (MVCC) | Not supported |
-| **Sync** | push/pull (true local-first) | Embedded replicas (writes go to remote) |
+| **Sync** | push/pull (local-first) | Embedded Replicas (writes go to cloud primary) |
 | **C compiler** | Not required | Required for `core`, `replication`, `encryption` features |
 
 **Starting a new project?** Use `turso` for local/embedded use or sync. Use `libsql` with the `remote` feature for over-the-wire access (no C compiler needed).
@@ -186,25 +186,19 @@ let conn = db.connect()?;
 let mut rows = conn.query("SELECT * FROM users WHERE id = ?1", [1]).await?;
 ```
 
-## libsql (Legacy)
+## libsql (libSQL)
 
-The `libsql` crate is built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. It is fully supported — if you run into something that doesn't work yet with the `turso` crate, `libsql` is a reliable fallback.
+The `libsql` crate is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready and battle-tested, and is the right choice when you need Embedded Replicas or are working with an existing `libsql`-based codebase.
 
 <Info>
 
-With `libsql` embedded replicas, reads are local but **writes go to the remote database**. For true local-first writes with push/pull sync, use the `turso` crate with `turso::sync` — see the [quickstart](/sdk/rust/quickstart).
+With `libsql` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. This is fully supported and ideal when the cloud is your source of truth. If you need local-first writes (offline, multi-writer, or bidirectional sync), use the `turso` crate with `turso::sync` — see the [quickstart](/sdk/rust/quickstart).
 
 </Info>
 
 ### Embedded Replicas
 
-<Warning>
-
-**Usage of embedded replicas is strongly discouraged.** Use the `turso` crate with `turso::sync` instead — it is built on the Turso Database engine with better performance, true local-first writes, and concurrent write support.
-
-</Warning>
-
-You can work with [embedded replicas](/features/embedded-replicas) that can sync from the remote database to a local SQLite file, and delegate writes to the remote primary database:
+You can work with [Embedded Replicas](/features/embedded-replicas) that sync from a Turso Cloud database to a local SQLite file. Reads run locally; writes are sent to the cloud primary and then reflected back to the replica:
 
 ```rust
 use libsql::Builder;

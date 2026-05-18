@@ -144,9 +144,9 @@ const row = await stmt.get([1]);
   </Step>
 </Steps>
 
-## @libsql/client (ORM & Legacy)
+## @libsql/client
 
-Use `@libsql/client` for ORM integration (Drizzle, Prisma) or if you have an existing codebase built on it. See the [reference](/sdk/ts/reference#libsql-client-legacy) for full documentation.
+Use `@libsql/client` for ORM integration (Drizzle, Prisma), Embedded Replicas, or if you have an existing codebase built on it. See the [reference](/sdk/ts/reference#libsqlclient) for full documentation.
 
 <Steps>
   <Step title="Install">
@@ -168,7 +168,7 @@ await turso.execute("SELECT * FROM users");
   </Step>
   <Step title="Sync">
 
-If you need to sync your local database with a remote Turso Cloud database (local reads and writes with push/pull to the cloud), use [Turso Sync](/sync/usage). Turso Sync is built on the Turso Database engine and provides true local-first sync with explicit `push()` and `pull()` operations.
+If you need to sync your local database with a remote Turso Cloud database (local reads and writes with push/pull to the cloud), use [Turso Sync](/sync/usage). Turso Sync is built on the Turso Database engine and provides local-first sync with explicit `push()` and `pull()` operations.
 
   </Step>
 </Steps>

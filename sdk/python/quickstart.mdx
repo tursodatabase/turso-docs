@@ -140,8 +140,8 @@ print(rows)
   </Step>
 </Steps>
 
-## Legacy: libsql (Embedded Replicas)
+## Embedded Replicas (libsql)
 
-The `libsql` package also supports embedded replicas, where reads are local but **writes go to the remote database**. For true local-first writes with push/pull sync, use `turso.sync` instead.
+The `libsql` package also supports Embedded Replicas — local reads from a file, with writes sent to the cloud primary and reflected back to the replica. Use this when the cloud is your source of truth and you want fast local reads. For local-first writes with push/pull sync, use `turso.sync` instead.
 
-See the [reference](/sdk/python/reference) for full documentation on embedded replicas, encryption, and periodic sync.
+See the [reference](/sdk/python/reference) for full documentation on Embedded Replicas, encryption, and periodic sync.

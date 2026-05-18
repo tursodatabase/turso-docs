@@ -171,12 +171,14 @@ func main() {
   </Step>
 </Steps>
 
-## Legacy: go-libsql (Embedded Replicas)
+## Embedded Replicas (go-libsql)
 
-<Warning>
+<Info>
 
-**Usage of embedded replicas is strongly discouraged.** With embedded replicas, reads are local but **writes are sent to the remote database** — this means writes fail when offline, have higher latency, and don't support concurrent writes. Use `tursogo` with `NewTursoSyncDb` instead: all reads and writes are local, and you explicitly sync with `Push()` / `Pull()`.
+Embedded Replicas give your Go app a local read copy of a Turso Cloud database. Reads are served locally; writes go to the cloud primary and are reflected back to the replica. This model is fully supported in production and is a good fit for server and VM deployments that want low-latency reads with a single cloud source of truth.
 
-</Warning>
+For workloads that need **offline writes**, **bidirectional sync**, or **multi-writer convergence**, prefer `tursogo` with `NewTursoSyncDb`: both reads and writes are local, you sync explicitly with `Push()` / `Pull()`, and the wire format is logical change-data-capture rather than page frames ([benchmark](https://turso.tech/blog/sync-benchmark)).
 
-See the [reference](/sdk/go/reference) for legacy documentation on embedded replicas if you have an existing `go-libsql` codebase.
+</Info>
+
+See the [reference](/sdk/go/reference) for full documentation on Embedded Replicas with `go-libsql`.

@@ -5,13 +5,13 @@ description: TypeScript Reference for Turso
 
 Turso offers three TypeScript packages:
 
-| | `@tursodatabase/database` | `@tursodatabase/sync` | `@tursodatabase/serverless` | `@libsql/client` (legacy) |
+| | `@tursodatabase/database` | `@tursodatabase/sync` | `@tursodatabase/serverless` | `@libsql/client` |
 | --- | --- | --- | --- | --- |
-| **Use case** | Local / embedded database | Local database + cloud sync | Remote access (servers, containers, serverless, edge) | Legacy — ORM support |
+| **Use case** | Local / embedded database | Local database + cloud sync | Remote access (servers, containers, serverless, edge) | ORM support, Embedded Replicas |
 | **Engine** | Turso Database (rewrite) | Turso Database (rewrite) | Turso Database | libSQL (SQLite fork) |
 | **Dependencies** | Native (Node.js, WASM) | Native (Node.js) | `fetch` only — zero native deps | Requires Node.js or `/web` subpath |
 | **Concurrent writes** | Yes (MVCC) | Yes (MVCC) | Planned | Not supported |
-| **Sync** | — | push/pull (true local-first) | — | Embedded replicas (writes go to remote) |
+| **Sync** | — | push/pull (local-first) | — | Embedded Replicas (writes go to cloud primary) |
 | **ORM support** | Drizzle (beta) | — | — | Drizzle, Prisma, and others |
 
 **Starting a new project?** Use `@tursodatabase/database` for local/embedded use, `@tursodatabase/sync` for local + cloud sync, or `@tursodatabase/serverless` for any application that connects to a remote Turso Cloud database (Node.js servers, Docker containers, serverless functions, edge runtimes). **Using an ORM?** Use `@libsql/client` — it's production-ready and supported by Drizzle, Prisma, and others. Drizzle has [beta support](https://orm.drizzle.team/docs/connect-turso-database) for `@tursodatabase/database` for local/embedded use.
@@ -181,13 +181,13 @@ const stmt2 = await conn.prepare("SELECT * FROM users WHERE id = ?");
 const row = await stmt2.get([1]);
 ```
 
-## @libsql/client (Legacy)
+## @libsql/client
 
-The `@libsql/client` package is built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. It is fully supported and battle-tested — if you run into something that doesn't work yet with the newer Turso packages, `@libsql/client` is a reliable fallback. It's also the right choice if you need ORM integration beyond Drizzle (e.g., Prisma) or are working with an existing `@libsql/client`-based codebase.
+The `@libsql/client` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready, battle-tested, and the right choice when you need ORM integration beyond Drizzle (e.g., Prisma), Embedded Replicas, or are working with an existing `@libsql/client`-based codebase.
 
 <Info>
 
-With `@libsql/client` embedded replicas, reads are local but **writes go to the remote database**. For true local-first writes with push/pull sync, use `@tursodatabase/sync` with [Turso Sync](/sync/usage).
+With `@libsql/client` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. This is fully supported and ideal when the cloud is your source of truth. If you need local-first writes (offline, multi-writer, or bidirectional sync), use `@tursodatabase/sync` with [Turso Sync](/sync/usage).
 
 </Info>
 
@@ -238,11 +238,11 @@ The `@libsql/client/web` does not support local file URLs.
 
 ### Embedded Replicas
 
-<Warning>
+<Info>
 
-For new projects, we recommend [`@tursodatabase/sync`](#tursodatabasesync) for sync use cases — it is built on the Turso Database engine with better performance, true local-first writes, and concurrent write support.
+For workloads that need **offline writes**, **bidirectional sync**, or **multi-writer convergence**, we recommend [`@tursodatabase/sync`](#tursodatabasesync) — both reads and writes are local, and you sync explicitly with `push()` / `pull()`.
 
-</Warning>
+</Info>
 
 You can work with embedded replicas by passing your Turso Database URL to `syncUrl`:
 

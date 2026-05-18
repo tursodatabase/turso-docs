@@ -344,4 +344,4 @@ syncWhenOnline(ctx, db)
 
 </CodeGroup>
 
-This replaces the `offline: true` flag from the legacy [`@libsql/client` embedded replicas](/features/embedded-replicas/introduction) API. With Turso Sync, all reads and writes happen locally by default — you control when to sync with explicit `push()` and `pull()` calls.
+This is the modern equivalent of the `offline: true` flag from [`@libsql/client` Embedded Replicas](/features/embedded-replicas/introduction). With Turso Sync, all reads and writes happen locally by default — you control when to sync with explicit `push()` and `pull()` calls.

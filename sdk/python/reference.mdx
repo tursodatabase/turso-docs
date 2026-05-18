@@ -5,15 +5,15 @@ description: Python Reference for Turso
 
 Turso offers two Python packages:
 
-| | `pyturso` | `libsql` (legacy) |
+| | `pyturso` | `libsql` |
 | --- | --- | --- |
-| **Use case** | Local / embedded database, sync | Legacy — embedded replicas |
+| **Use case** | Local / embedded database, sync | Embedded Replicas (cloud-replicated reads) |
 | **Engine** | Turso Database (rewrite) | libSQL (SQLite fork) |
 | **Concurrent writes** | Yes (MVCC) | Not supported |
-| **Sync** | push/pull (true local-first) | Embedded replicas (writes go to remote) |
+| **Sync** | push/pull (local-first) | Embedded Replicas (writes go to cloud primary) |
 | **API** | Python `sqlite3`-compatible | Python `sqlite3`-compatible |
 
-**Starting a new project?** Use `pyturso` — it is built on the Turso Database engine with better performance, concurrent writes, and true local-first sync.
+**Starting a new project?** Use `pyturso` — it is built on the Turso Database engine with concurrent writes and local-first sync.
 
 ## pyturso
 
@@ -73,23 +73,23 @@ Turso Cloud databases can also be encrypted with bring-your-own-key — [learn m
 
 </Info>
 
-## libsql (Legacy)
+## libsql (libSQL)
 
-The `libsql` package is built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. It is fully supported — if you run into something that doesn't work yet with `pyturso`, `libsql` is a reliable fallback.
+The `libsql` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready and battle-tested, and is the right choice when you need Embedded Replicas or are working with an existing `libsql`-based codebase.
 
 <Info>
 
-With `libsql` embedded replicas, reads are local but **writes go to the remote database**. For true local-first writes with push/pull sync, use `turso.sync` — see the [quickstart](/sdk/python/quickstart).
+With `libsql` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. This is fully supported and ideal when the cloud is your source of truth. If you need local-first writes (offline, multi-writer, or bidirectional sync), use `turso.sync` — see the [quickstart](/sdk/python/quickstart).
 
 </Info>
 
 ## Embedded Replicas
 
-<Warning>
+<Info>
 
-For new projects, we recommend `turso.sync` for sync use cases — it is built on the Turso Database engine with better performance, true local-first writes, and concurrent write support. See the [quickstart](/sdk/python/quickstart).
+For workloads that need **offline writes**, **bidirectional sync**, or **multi-writer convergence**, we recommend `turso.sync` — both reads and writes are local, and you sync explicitly with `push()` / `pull()`. See the [quickstart](/sdk/python/quickstart).
 
-</Warning>
+</Info>
 
 You can work with [embedded replicas](/features/embedded-replicas) that can sync from the remote database to a local SQLite file, and delegate writes to the remote primary database:
 
