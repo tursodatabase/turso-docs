@@ -159,12 +159,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   </Step>
 </Steps>
 
-## Legacy: libsql (Embedded Replicas)
+## Embedded Replicas (libsql)
 
-<Warning>
+<Info>
 
-**Usage of embedded replicas is strongly discouraged.** With embedded replicas, reads are local but **writes are sent to the remote database** — this means writes fail when offline, have higher latency, and don't support concurrent writes. Use the `turso` crate with `turso::sync` instead: all reads and writes are local, and you explicitly sync with `push()` / `pull()`.
+Embedded Replicas give your Rust app a local read copy of a Turso Cloud database. Reads are served locally; writes go to the cloud primary and are reflected back to the replica. Embedded Replicas are fully supported in production.
 
-</Warning>
+For new projects that need sync, we recommend the `turso` crate with `turso::sync`: both reads and writes are local, you sync explicitly with `push()` / `pull()`, and the wire format is logical change-data-capture rather than page frames ([benchmark](https://turso.tech/blog/sync-benchmark)).
 
-See the [reference](/sdk/rust/reference) for legacy documentation on embedded replicas if you have an existing `libsql` codebase.
+</Info>
+
+See the [reference](/sdk/rust/reference) for full documentation on Embedded Replicas with `libsql`.

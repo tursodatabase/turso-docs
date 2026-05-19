@@ -3,9 +3,11 @@ title: Embedded Replicas
 sidebarTitle: Introduction
 ---
 
-<Warning>
-  Embedded Replicas are a legacy Turso Cloud feature built on [libSQL](/libsql). **Writes are sent to the remote primary database, not stored locally.** For new projects that need sync, use [Turso Sync](/sync/usage), which is built on the Turso Database engine and provides true local-first reads and writes with explicit push/pull. For offline-first writes (the equivalent of `offline: true`), see [Offline-first writes](/sync/usage#offline-first-writes).
-</Warning>
+<Info>
+  Embedded Replicas keep a local read replica of a Turso Cloud database: reads run locally from the file in microseconds, and writes are sent to the cloud primary and then reflected back to the replica. Embedded Replicas are fully supported in production.
+
+  For new projects that need sync, we recommend [Turso Sync](/sync/usage). Sync is built on the Turso Database engine and uses logical change-data-capture, providing local-first writes, explicit `push()` / `pull()`, and [significantly less bandwidth and lower latency](https://turso.tech/blog/sync-benchmark) than the page-level replication Embedded Replicas use.
+</Info>
 
 Turso Cloud's embedded replicas let you replicate a database right within your application. This is especially useful for VMs or VPS deployments, and for mobile applications where stable connectivity is a challenge, since they allow uninterrupted access to the local database.
 

@@ -5,12 +5,12 @@ description: Go Reference for Turso
 
 Turso offers two Go packages:
 
-| | `tursogo` | `libsql-client-go` | `go-libsql` (legacy) |
+| | `tursogo` | `libsql-client-go` | `go-libsql` |
 | --- | --- | --- | --- |
-| **Use case** | Local / embedded database, sync | Remote access (over-the-wire) | Legacy — embedded replicas |
+| **Use case** | Local / embedded database, sync | Remote access (over-the-wire) | Existing libSQL codebases |
 | **Engine** | Turso Database (rewrite) | libSQL wire protocol | libSQL (SQLite fork) |
 | **Concurrent writes** | Yes (MVCC) | N/A (remote) | Not supported |
-| **Sync** | push/pull (true local-first) | — | Embedded replicas (writes go to remote) |
+| **Sync** | push/pull (local-first) | — | Embedded Replicas (writes go to cloud primary) |
 | **CGO** | Not required | Not required | Required |
 | **API** | `database/sql` | `database/sql` | `database/sql` |
 
@@ -177,23 +177,23 @@ Uses the standard `database/sql` interface — same as `tursogo`:
 rows, err := db.Query("SELECT * FROM users WHERE id = ?", 1)
 ```
 
-## go-libsql (Legacy)
+## go-libsql (libSQL)
 
-The `go-libsql` package is built on [libSQL](https://github.com/tursodatabase/libsql), our open-source fork of SQLite that predated the Turso Database engine. It is fully supported — if you run into something that doesn't work yet with `tursogo`, `go-libsql` is a reliable fallback.
+The `go-libsql` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready and battle-tested, and is the right choice when you are working with an existing `go-libsql`-based codebase.
 
 <Info>
 
-With `go-libsql` embedded replicas, reads are local but **writes go to the remote database**. For true local-first writes with push/pull sync, use `tursogo` with `NewTursoSyncDb` — see the [quickstart](/sdk/go/quickstart).
+With `go-libsql` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. Embedded Replicas are fully supported. For new projects that need sync, we recommend `tursogo` with `NewTursoSyncDb` — see the [quickstart](/sdk/go/quickstart).
 
 </Info>
 
 ### Embedded Replicas
 
-<Warning>
+<Info>
 
-For new projects, we recommend `tursogo` with `NewTursoSyncDb` for sync use cases — it is built on the Turso Database engine with better performance, true local-first writes, and concurrent write support.
+For workloads that need **offline writes**, **bidirectional sync**, or **multi-writer convergence**, we recommend `tursogo` with `NewTursoSyncDb` — both reads and writes are local, and you sync explicitly with `Push()` / `Pull()`.
 
-</Warning>
+</Info>
 
 You can work with [embedded replicas](/features/embedded-replicas) that can sync from the remote database to a local SQLite file, and delegate writes to the remote primary database:
 
