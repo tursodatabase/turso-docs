@@ -7,7 +7,7 @@ Turso offers three TypeScript packages:
 
 | | `@tursodatabase/database` | `@tursodatabase/sync` | `@tursodatabase/serverless` | `@libsql/client` |
 | --- | --- | --- | --- | --- |
-| **Use case** | Local / embedded database | Local database + cloud sync | Remote access (servers, containers, serverless, edge) | ORM support, Embedded Replicas |
+| **Use case** | Local / embedded database | Local database + cloud sync | Remote access (servers, containers, serverless, edge) | ORM support (Drizzle, Prisma) |
 | **Engine** | Turso Database (rewrite) | Turso Database (rewrite) | Turso Database | libSQL (SQLite fork) |
 | **Dependencies** | Native (Node.js, WASM) | Native (Node.js) | `fetch` only — zero native deps | Requires Node.js or `/web` subpath |
 | **Concurrent writes** | Yes (MVCC) | Yes (MVCC) | Planned | Not supported |
@@ -183,11 +183,11 @@ const row = await stmt2.get([1]);
 
 ## @libsql/client
 
-The `@libsql/client` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready, battle-tested, and the right choice when you need ORM integration beyond Drizzle (e.g., Prisma), Embedded Replicas, or are working with an existing `@libsql/client`-based codebase.
+The `@libsql/client` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready, battle-tested, and the right choice when you need ORM integration beyond Drizzle (e.g., Prisma) or are working with an existing `@libsql/client`-based codebase.
 
 <Info>
 
-With `@libsql/client` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. This is fully supported and ideal when the cloud is your source of truth. If you need local-first writes (offline, multi-writer, or bidirectional sync), use `@tursodatabase/sync` with [Turso Sync](/sync/usage).
+With `@libsql/client` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. Embedded Replicas are fully supported. For new projects that need sync, we recommend `@tursodatabase/sync` with [Turso Sync](/sync/usage).
 
 </Info>
 

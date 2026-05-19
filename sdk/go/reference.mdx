@@ -7,7 +7,7 @@ Turso offers two Go packages:
 
 | | `tursogo` | `libsql-client-go` | `go-libsql` |
 | --- | --- | --- | --- |
-| **Use case** | Local / embedded database, sync | Remote access (over-the-wire) | Embedded Replicas (cloud-replicated reads) |
+| **Use case** | Local / embedded database, sync | Remote access (over-the-wire) | Existing libSQL codebases |
 | **Engine** | Turso Database (rewrite) | libSQL wire protocol | libSQL (SQLite fork) |
 | **Concurrent writes** | Yes (MVCC) | N/A (remote) | Not supported |
 | **Sync** | push/pull (local-first) | — | Embedded Replicas (writes go to cloud primary) |
@@ -179,11 +179,11 @@ rows, err := db.Query("SELECT * FROM users WHERE id = ?", 1)
 
 ## go-libsql (libSQL)
 
-The `go-libsql` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready and battle-tested, and is the right choice when you need Embedded Replicas or are working with an existing `go-libsql`-based codebase.
+The `go-libsql` package is built on [libSQL](https://github.com/tursodatabase/libsql), the open-source fork of SQLite that powers Turso Cloud today. It is production-ready and battle-tested, and is the right choice when you are working with an existing `go-libsql`-based codebase.
 
 <Info>
 
-With `go-libsql` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. This is fully supported and ideal when the cloud is your source of truth. If you need local-first writes (offline, multi-writer, or bidirectional sync), use `tursogo` with `NewTursoSyncDb` — see the [quickstart](/sdk/go/quickstart).
+With `go-libsql` Embedded Replicas, reads are local and writes are sent to the cloud primary, then reflected back to the replica. Embedded Replicas are fully supported. For new projects that need sync, we recommend `tursogo` with `NewTursoSyncDb` — see the [quickstart](/sdk/go/quickstart).
 
 </Info>
 

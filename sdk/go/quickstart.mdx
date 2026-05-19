@@ -175,9 +175,9 @@ func main() {
 
 <Info>
 
-Embedded Replicas give your Go app a local read copy of a Turso Cloud database. Reads are served locally; writes go to the cloud primary and are reflected back to the replica. This model is fully supported in production and is a good fit for server and VM deployments that want low-latency reads with a single cloud source of truth.
+Embedded Replicas give your Go app a local read copy of a Turso Cloud database. Reads are served locally; writes go to the cloud primary and are reflected back to the replica. Embedded Replicas are fully supported in production.
 
-For workloads that need **offline writes**, **bidirectional sync**, or **multi-writer convergence**, prefer `tursogo` with `NewTursoSyncDb`: both reads and writes are local, you sync explicitly with `Push()` / `Pull()`, and the wire format is logical change-data-capture rather than page frames ([benchmark](https://turso.tech/blog/sync-benchmark)).
+For new projects that need sync, we recommend `tursogo` with `NewTursoSyncDb`: both reads and writes are local, you sync explicitly with `Push()` / `Pull()`, and the wire format is logical change-data-capture rather than page frames ([benchmark](https://turso.tech/blog/sync-benchmark)).
 
 </Info>
 

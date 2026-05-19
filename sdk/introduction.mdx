@@ -10,7 +10,7 @@ title: Turso SDKs
 | **Local database** (embedded, on-device, offline) | `@tursodatabase/database` | `pyturso` | `tursogo` | `turso` |
 | **Local database + cloud sync** (push/pull) | `@tursodatabase/sync` | `pyturso` (with sync) | `tursogo` (with sync) | `turso` (with `sync` feature) |
 | **Remote access** (servers, Docker, serverless, edge — any over-the-wire) | `@tursodatabase/serverless` | `libsql` | `libsql-client-go` | `libsql` (with `remote` feature) |
-| **Cloud-replicated (libSQL)** — Embedded Replicas, ORM support (Drizzle, Prisma), battle-tested | `@libsql/client` | `libsql` | `go-libsql` | `libsql` |
+| **libSQL** — ORM support (Drizzle, Prisma), production-ready, battle-tested | `@libsql/client` | `libsql` | `go-libsql` | `libsql` |
 
 **Starting a new project?** Use `@tursodatabase/database` (TypeScript), `pyturso` (Python), `tursogo` (Go), or `turso` (Rust). These are built on the Turso Database engine — the ground-up rewrite of SQLite with concurrent writes, async I/O, and local-first sync.
 
@@ -27,7 +27,7 @@ title: Turso SDKs
 Keeping `@tursodatabase/database` and `@tursodatabase/serverless` separate means minimal bundle size. `@tursodatabase/serverless` uses only `fetch` — zero native dependencies, so it works in Node.js, Docker containers, serverless functions, edge runtimes, and browsers.
 
 <Info>
-  **Need sync?** The libSQL-based SDKs below support Embedded Replicas — reads are local and writes are sent to the cloud primary. If you need local writes as well (offline-first, multi-writer, or bidirectional sync), use [Turso Sync](/sync/usage).
+  **Need sync?** For new projects, use [Turso Sync](/sync/usage) — it gives you local reads and writes with explicit `push()` / `pull()` to the cloud. The libSQL-based SDKs below also support Embedded Replicas, where reads are local and writes are sent to the cloud primary.
 </Info>
 
 ## Official SDKs
