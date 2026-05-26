@@ -624,7 +624,9 @@
                       "api-reference/tokens/create",
                       "api-reference/tokens/validate",
                       "api-reference/tokens/list",
-                      "api-reference/tokens/revoke"
+                      "api-reference/tokens/revoke",
+                      "api-reference/tokens/list-organization",
+                      "api-reference/tokens/revoke-organization"
                     ]
                   }
                 ]

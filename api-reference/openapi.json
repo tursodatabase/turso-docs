@@ -1953,7 +1953,7 @@
     "/v1/auth/api-tokens/{tokenName}": {
       "post": {
         "summary": "Create API Token",
-        "description": "Returns a new API token belonging to a user. You can optionally restrict the token to a single organization by passing the organization slug in the request body. Organization-scoped tokens can only manage resources within that organization.",
+        "description": "Returns a new API token belonging to a user.\n\nThe token can be minted at three levels of restriction, in increasing order of narrowness:\n\n- **Organization-scoped** — pass `organization`. The token can only act on resources inside that organization.\n- **Group-scoped** — pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization.\n- **Unrestricted** *(deprecated)* — no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens.\n\nGroup-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization.",
         "operationId": "createAPIToken",
         "parameters": [
           {
@@ -1961,7 +1961,7 @@
           }
         ],
         "requestBody": {
-          "description": "Optional organization restriction for the token.",
+          "description": "Optional restriction for the token. Omit the body for an unrestricted token, pass `organization` alone for an org-scoped token, or pass `organization` + `group` + `scopes` for a group-scoped token.",
           "required": false,
           "content": {
             "application/json": {
@@ -1970,8 +1970,34 @@
                 "properties": {
                   "organization": {
                     "type": "string",
-                    "description": "The organization slug to restrict this token to. If omitted, the token grants access to all organizations the user belongs to.",
+                    "description": "The organization slug to restrict this token to. Required when `group` is set.",
                     "example": "my-org"
+                  },
+                  "group": {
+                    "type": "string",
+                    "description": "The group name (inside `organization`) to restrict this token to. Requires `organization` and a non-empty `scopes` list.",
+                    "example": "default"
+                  },
+                  "scopes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "read",
+                        "db:create",
+                        "db:delete",
+                        "db:configure",
+                        "db:mint-token",
+                        "db:rotate-creds",
+                        "group:configure",
+                        "group:mint-token",
+                        "group:rotate-creds",
+                        "read-only",
+                        "full-access"
+                      ]
+                    },
+                    "description": "Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database — they are deliberately separate because rotation is destructive.",
+                    "example": ["db:create", "db:configure", "db:mint-token"]
                   }
                 }
               }
@@ -2023,6 +2049,128 @@
                       "type": "string",
                       "description": "The revoked token name.",
                       "example": "..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/organizations/{organizationSlug}/api-tokens": {
+      "get": {
+        "summary": "List Organization API Tokens",
+        "description": "Returns the API tokens scoped to this organization (both organization-scoped and group-scoped). Unrestricted tokens are not returned here — manage those via [`GET /v1/auth/api-tokens`](/api-reference/tokens/list).\n\nAuthorization is symmetric with the revoke endpoint:\n\n- **Admins and owners** see every token scoped to the organization, with the minting user attached in the `owner` field.\n- **Members and viewers** see only tokens they minted themselves.\n\nThis mirrors the personal-access-token model used in GitHub organization settings: admins get the full attribution list; everyone else sees their own access.",
+        "operationId": "listOrganizationAPITokens",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationSlug"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tokens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "The token name.",
+                            "example": "ci-bot"
+                          },
+                          "id": {
+                            "type": "string",
+                            "description": "The token ID. Pass this to the revoke endpoint.",
+                            "example": "clGFZ4STEe6fljpFzIum8A"
+                          },
+                          "organization": {
+                            "type": "string",
+                            "description": "The organization slug. Always equal to the path parameter for tokens returned here.",
+                            "example": "my-org"
+                          },
+                          "group": {
+                            "type": "string",
+                            "description": "The group name. Present only for group-scoped tokens.",
+                            "example": "default"
+                          },
+                          "scopes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "The expanded scope list. Present only for group-scoped tokens.",
+                            "example": ["db:create", "db:configure", "db:mint-token"]
+                          },
+                          "owner": {
+                            "type": "object",
+                            "properties": {
+                              "username": {
+                                "type": "string",
+                                "example": "alice"
+                              },
+                              "email": {
+                                "type": "string",
+                                "example": "alice@example.com"
+                              }
+                            },
+                            "description": "The user who minted the token. Returned to admins and owners so they can see who provisioned each token."
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "description": "The date the token was created.",
+                            "example": "2026-05-21"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/organizations/{organizationSlug}/api-tokens/{tokenId}": {
+      "delete": {
+        "summary": "Revoke Organization API Token",
+        "description": "Revokes a token scoped to this organization.\n\nThe path takes a token **ID**, not a name, because names are unique per user but not across users — an admin revoking a member's token can't disambiguate by name alone.\n\nAuthorization is symmetric with the list endpoint:\n\n- **Admins and owners** can revoke any token scoped to the organization (org-scoped or group-scoped, regardless of who minted it).\n- **Members and viewers** can revoke only tokens they minted themselves.\n\nA token scoped to a different organization returns `404`, not `403`, so the endpoint does not leak the existence of cross-org token IDs. Unrestricted tokens are also unreachable here and must be revoked via [`DELETE /v1/auth/api-tokens/{tokenName}`](/api-reference/tokens/revoke).",
+        "operationId": "revokeOrganizationAPIToken",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationSlug"
+          },
+          {
+            "name": "tokenId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the token to revoke (from the list endpoint).",
+            "example": "clGFZ4STEe6fljpFzIum8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "The ID of the revoked token.",
+                      "example": "clGFZ4STEe6fljpFzIum8A"
                     }
                   }
                 }
@@ -2432,6 +2580,24 @@
             "type": "string",
             "description": "The organization slug this token is restricted to. Omitted if the token has access to all organizations.",
             "example": "my-org"
+          },
+          "group": {
+            "type": "string",
+            "description": "The group name this token is pinned to. Present only for group-scoped tokens.",
+            "example": "default"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form.",
+            "example": ["db:create", "db:configure", "db:mint-token"]
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The date the token was created, in `YYYY-MM-DD` format.",
+            "example": "2026-05-21"
           }
         }
       },
