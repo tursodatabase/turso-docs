@@ -279,6 +279,12 @@
                           "sdk/rust/guides/rocket",
                           "sdk/rust/guides/tauri"
                         ]
+                      },
+                      {
+                        "group": "ORMs",
+                        "pages": [
+                          "sdk/rust/orm/toasty"
+                        ]
                       }
                     ]
                   },

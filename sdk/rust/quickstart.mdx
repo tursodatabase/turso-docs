@@ -159,6 +159,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   </Step>
 </Steps>
 
+## Using an ORM
+
+[Toasty](/sdk/rust/orm/toasty), the async ORM from the Tokio project, has a native Turso driver. It speaks to the `turso` crate directly, so you get a typed model layer (`#[derive(toasty::Model)]`, derived queries, relations) over the same Turso Database engine used in the quickstart above.
+
+```bash
+cargo add toasty --features turso
+```
+
+See the [Toasty + Turso guide](/sdk/rust/orm/toasty) for the full walkthrough.
+
 ## Embedded Replicas (libsql)
 
 <Info>

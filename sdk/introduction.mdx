@@ -16,7 +16,11 @@ title: Turso SDKs
 
 **Need sync?** Use [Turso Sync](/sync/usage) for local reads and writes with explicit `push()` / `pull()` to Turso Cloud.
 
-**Using an ORM (Drizzle, Prisma)?** Use `@libsql/client` — it has production-ready support from all major ORMs in the ecosystem.
+**Using an ORM?**
+
+- **TypeScript** — Drizzle and Prisma run on `@libsql/client` with production-ready support from all major ORMs in the ecosystem.
+- **Rust** — [Toasty](/sdk/rust/orm/toasty), the async ORM from the Tokio project, has a native Turso driver built on the `turso` crate.
+- **Python** — see the [SQLAlchemy guide](/sdk/python/orm/sqlalchemy).
 
 **Migrating from SQLite?** Turso Database is a drop-in replacement. Your existing SQL, schema, and queries work unchanged.
 
