@@ -36,7 +36,7 @@ In this quickstart we will learn how to:
   ```typescript
   import { connect } from "@tursodatabase/serverless";
 
-  const conn = connect({
+  const conn = await connect({
     url: process.env.TURSO_DATABASE_URL,
     authToken: process.env.TURSO_AUTH_TOKEN,
   });
