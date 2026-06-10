@@ -1953,7 +1953,7 @@
     "/v1/auth/api-tokens/{tokenName}": {
       "post": {
         "summary": "Create API Token",
-        "description": "Returns a new API token belonging to a user.\n\nThe token can be minted at three levels of restriction, in increasing order of narrowness:\n\n- **Organization-scoped** — pass `organization`. The token can only act on resources inside that organization.\n- **Group-scoped** — pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization.\n- **Unrestricted** *(deprecated)* — no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens.\n\nGroup-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization.",
+        "description": "Returns a new API token belonging to a user.\n\nThe token can be minted at three levels of restriction, in increasing order of narrowness:\n\n- **Organization-scoped** \u2014 pass `organization`. The token can only act on resources inside that organization.\n- **Group-scoped** \u2014 pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization.\n- **Unrestricted** *(deprecated)* \u2014 no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens.\n\nGroup-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization.",
         "operationId": "createAPIToken",
         "parameters": [
           {
@@ -1996,8 +1996,12 @@
                         "full-access"
                       ]
                     },
-                    "description": "Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database — they are deliberately separate because rotation is destructive.",
-                    "example": ["db:create", "db:configure", "db:mint-token"]
+                    "description": "Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database \u2014 they are deliberately separate because rotation is destructive.",
+                    "example": [
+                      "db:create",
+                      "db:configure",
+                      "db:mint-token"
+                    ]
                   }
                 }
               }
@@ -2061,7 +2065,7 @@
     "/v1/organizations/{organizationSlug}/api-tokens": {
       "get": {
         "summary": "List Organization API Tokens",
-        "description": "Returns the API tokens scoped to this organization (both organization-scoped and group-scoped). Unrestricted tokens are not returned here — manage those via [`GET /v1/auth/api-tokens`](/api-reference/tokens/list).\n\nAuthorization is symmetric with the revoke endpoint:\n\n- **Admins and owners** see every token scoped to the organization, with the minting user attached in the `owner` field.\n- **Members and viewers** see only tokens they minted themselves.\n\nThis mirrors the personal-access-token model used in GitHub organization settings: admins get the full attribution list; everyone else sees their own access.",
+        "description": "Returns the API tokens scoped to this organization (both organization-scoped and group-scoped). Unrestricted tokens are not returned here \u2014 manage those via [`GET /v1/auth/api-tokens`](/api-reference/tokens/list).\n\nAuthorization is symmetric with the revoke endpoint:\n\n- **Admins and owners** see every token scoped to the organization, with the minting user attached in the `owner` field.\n- **Members and viewers** see only tokens they minted themselves.\n\nThis mirrors the personal-access-token model used in GitHub organization settings: admins get the full attribution list; everyone else sees their own access.",
         "operationId": "listOrganizationAPITokens",
         "parameters": [
           {
@@ -2107,7 +2111,11 @@
                               "type": "string"
                             },
                             "description": "The expanded scope list. Present only for group-scoped tokens.",
-                            "example": ["db:create", "db:configure", "db:mint-token"]
+                            "example": [
+                              "db:create",
+                              "db:configure",
+                              "db:mint-token"
+                            ]
                           },
                           "owner": {
                             "type": "object",
@@ -2142,7 +2150,7 @@
     "/v1/organizations/{organizationSlug}/api-tokens/{tokenId}": {
       "delete": {
         "summary": "Revoke Organization API Token",
-        "description": "Revokes a token scoped to this organization.\n\nThe path takes a token **ID**, not a name, because names are unique per user but not across users — an admin revoking a member's token can't disambiguate by name alone.\n\nAuthorization is symmetric with the list endpoint:\n\n- **Admins and owners** can revoke any token scoped to the organization (org-scoped or group-scoped, regardless of who minted it).\n- **Members and viewers** can revoke only tokens they minted themselves.\n\nA token scoped to a different organization returns `404`, not `403`, so the endpoint does not leak the existence of cross-org token IDs. Unrestricted tokens are also unreachable here and must be revoked via [`DELETE /v1/auth/api-tokens/{tokenName}`](/api-reference/tokens/revoke).",
+        "description": "Revokes a token scoped to this organization.\n\nThe path takes a token **ID**, not a name, because names are unique per user but not across users \u2014 an admin revoking a member's token can't disambiguate by name alone.\n\nAuthorization is symmetric with the list endpoint:\n\n- **Admins and owners** can revoke any token scoped to the organization (org-scoped or group-scoped, regardless of who minted it).\n- **Members and viewers** can revoke only tokens they minted themselves.\n\nA token scoped to a different organization returns `404`, not `403`, so the endpoint does not leak the existence of cross-org token IDs. Unrestricted tokens are also unreachable here and must be revoked via [`DELETE /v1/auth/api-tokens/{tokenName}`](/api-reference/tokens/revoke).",
         "operationId": "revokeOrganizationAPIToken",
         "parameters": [
           {
@@ -2592,7 +2600,11 @@
               "type": "string"
             },
             "description": "The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form.",
-            "example": ["db:create", "db:configure", "db:mint-token"]
+            "example": [
+              "db:create",
+              "db:configure",
+              "db:mint-token"
+            ]
           },
           "created_at": {
             "type": "string",
@@ -3007,6 +3019,27 @@
             "type": "boolean",
             "description": "Prevent the database from being deleted.",
             "example": true
+          },
+          "allowed_ips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of allowed IP addresses and CIDR blocks. Only connections from these sources are accepted. Pass an empty array to clear the list. Omit to leave unchanged.",
+            "example": [
+              "203.0.113.7",
+              "10.0.0.0/8"
+            ]
+          },
+          "allowed_aws_vpc_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of allowed AWS VPC endpoint IDs (vpce-...). Only connections arriving through these endpoints are accepted. Pass an empty array to clear the list. Omit to leave unchanged.",
+            "example": [
+              "vpce-0fe6c8807461bba49"
+            ]
           }
         }
       },
@@ -3038,6 +3071,27 @@
             "type": "boolean",
             "description": "Prevent the database from being deleted.",
             "example": true
+          },
+          "allowed_ips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of allowed IP addresses and CIDR blocks. Empty means no IP restriction.",
+            "example": [
+              "203.0.113.7",
+              "10.0.0.0/8"
+            ]
+          },
+          "allowed_aws_vpc_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of allowed AWS VPC endpoint IDs. Empty means no VPC endpoint restriction.",
+            "example": [
+              "vpce-0fe6c8807461bba49"
+            ]
           }
         }
       },
