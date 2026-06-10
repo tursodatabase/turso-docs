@@ -174,6 +174,7 @@
               "cloud/migrate-to-turso",
               "cloud/durability",
               "cloud/private-endpoints",
+              "cloud/allow-rules",
               "cloud/encryption",
               "help/usage-and-billing",
               "features/ai-and-embeddings",
@@ -454,6 +455,14 @@
                         "pages": [
                           "cli/db/tokens/create",
                           "cli/db/tokens/invalidate"
+                        ]
+                      },
+                      {
+                        "group": "config allow-rules",
+                        "pages": [
+                          "cli/db/config/allow-rules/show",
+                          "cli/db/config/allow-rules/set",
+                          "cli/db/config/allow-rules/clear"
                         ]
                       }
                     ]
