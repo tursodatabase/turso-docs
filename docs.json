@@ -248,7 +248,8 @@
                           "sdk/ts/guides/sveltekit",
                           "sdk/ts/guides/quasar",
                           "sdk/ts/guides/elysia",
-                          "sdk/ts/guides/hono"
+                          "sdk/ts/guides/hono",
+                          "sdk/ts/guides/serverless"
                         ]
                       },
                       {
