@@ -83,7 +83,8 @@
               "guides/agent-databases",
               "guides/ai-memory",
               "guides/code-indexing",
-              "guides/content-caching"
+              "guides/content-caching",
+              "guides/secrets-vault"
             ]
           },
           {
