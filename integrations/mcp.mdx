@@ -42,6 +42,22 @@ apart and confirm before doing anything that changes data.
   to approve access (see [Authorize](#authorize-access) below).
 
   </Tab>
+  <Tab title="Codex">
+
+  Install the plugin (it bundles the Turso skill too), then authenticate:
+
+  ```bash
+  codex plugin marketplace add tursodatabase/turso-mcp
+  codex plugin add turso@turso
+  codex mcp login turso
+  ```
+
+  A browser opens to approve access (see [Authorize](#authorize-access) below).
+  MCP-only alternative: add `[mcp_servers.turso]` with
+  `url = "https://mcp.turso.ai/mcp"` to `~/.codex/config.toml`, then
+  `codex mcp login turso`.
+
+  </Tab>
   <Tab title="Claude (web & desktop)">
 
   Add a custom connector pointing at the Turso MCP server:
