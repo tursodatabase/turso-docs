@@ -137,6 +137,7 @@ STATEMENTS_ORDER = [
     "create-trigger",
     "create-type",
     "create-domain",
+    "create-sequence",
     "create-virtual-table",
     "drop-table",
     "drop-index",
@@ -144,6 +145,7 @@ STATEMENTS_ORDER = [
     "drop-trigger",
     "drop-type",
     "drop-domain",
+    "drop-sequence",
     "select",
     "insert",
     "update",
@@ -155,6 +157,7 @@ STATEMENTS_ORDER = [
     "attach-database",
     "detach-database",
     "analyze",
+    "reindex",
     "vacuum",
 ]
 
