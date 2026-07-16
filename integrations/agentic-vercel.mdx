@@ -5,9 +5,9 @@ description: Use and manage Turso databases provisioned through the Vercel Marke
 
 This document is designed as LLM context for AI agents working with **Turso Cloud** databases provisioned through the [Vercel Marketplace](https://vercel.com/marketplace/tursocloud) (integration slug: `tursocloud`). It contains exact commands, safety rules, and the mental model an agent needs to operate autonomously.
 
-**Turso Cloud** is a fully managed SQLite-compatible database platform. It uses **libSQL** under the hood. This is distinct from **tursodb/Limbo** — an embedded database engine for local-only use. Databases provisioned through the Vercel Marketplace are Turso Cloud databases accessed over the network.
+**Turso Cloud** is a fully managed SQLite-compatible database platform. Databases provisioned through the Vercel Marketplace are Turso Cloud databases accessed over the network.
 
-In the most common scenario the user has **already provisioned** a Turso database from the Vercel Marketplace and connected it to their project — the agent's job is to build against it, not to provision it. Start with [Using an already-provisioned database](#using-an-already-provisioned-database).
+If the user has **already provisioned** a Turso database and connected it to their project, go straight to [Using an already-provisioned database](#using-an-already-provisioned-database).
 
 ## Security: never read secrets
 
@@ -19,7 +19,7 @@ In the most common scenario the user has **already provisioned** a Turso databas
 
 Every Vercel project connected to a Turso resource has two environment variables injected by the integration:
 
-- `TURSO_DATABASE_URL` — the database URL (`libsql://` format)
+- `TURSO_DATABASE_URL` — the database connection URL
 - `TURSO_AUTH_TOKEN` — the token used to authenticate requests
 
 A `--prefix` chosen at connect time may have altered the names (e.g. `ANALYTICS_TURSO_DATABASE_URL`) — **always verify with `vercel env ls`** before writing connection code.
@@ -81,7 +81,7 @@ Vercel-specific alternative for read-heavy workloads: database pages are replica
 
 ### Local-first with sync — `@tursodatabase/sync` (BETA)
 
-For apps that need fast local reads, offline support, or embedded replicas that sync with Turso Cloud. Sync is explicit (`push()`/`pull()`), conflict resolution is last-push-wins, and a synced database file must **never** be opened outside the sync SDK. See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
+For apps that need fast local reads, offline support, or embedded replicas that sync with Turso Cloud. Sync is explicit (`push()`/`pull()`), conflict resolution is last-push-wins, and a synced database file must **never** be opened outside the sync SDK. Besides the JavaScript family (`@tursodatabase/sync`, `@tursodatabase/sync-wasm`, `@tursodatabase/sync-react-native`), sync SDKs are available for Python (`pyturso`) and Go (`tursogo`) — all of them work seamlessly with databases provisioned in the cloud. See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
 
 ### SDK quick reference
 
@@ -95,14 +95,15 @@ For apps that need fast local reads, offline support, or embedded replicas that 
 | Local-first + sync (Browser/WASM) | `@tursodatabase/sync-wasm` | `npm i @tursodatabase/sync-wasm` |
 | Local-first + sync (React Native) | `@tursodatabase/sync-react-native` | `npm i @tursodatabase/sync-react-native` |
 
-**Other languages (remote access via libsql):**
+**Other languages:**
 
-| Language | Package | Install |
+| Use case | Package | Install |
 |----------|---------|---------|
-| Python | `libsql` | `pip install libsql` |
-| Go (CGO, full features) | `github.com/tursodatabase/go-libsql` | `go get github.com/tursodatabase/go-libsql` |
-| Go (no CGO, remote-only) | `github.com/tursodatabase/libsql-client-go` | `go get github.com/tursodatabase/libsql-client-go` |
-| Rust | `libsql` | `cargo add libsql` |
+| Local-first + sync (Python) | `pyturso` | `pip install pyturso` |
+| Local-first + sync (Go) | `tursogo` | `go get turso.tech/database/tursogo` |
+| Remote-only (Python, libsql protocol) | `libsql` | `pip install libsql` |
+| Remote-only (Go, libsql protocol) | `github.com/tursodatabase/libsql-client-go` | `go get github.com/tursodatabase/libsql-client-go` |
+| Remote-only (Rust, libsql protocol) | `libsql` | `cargo add libsql` |
 
 ## Inspecting state (safe, autonomous)
 
