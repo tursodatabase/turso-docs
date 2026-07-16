@@ -1,171 +1,39 @@
 ---
 title: Vercel Marketplace
-description: Provision and manage Turso databases through the Vercel Marketplace and Vercel CLI — LLM agent guide.
+description: Use and manage Turso databases provisioned through the Vercel Marketplace — LLM agent guide.
 ---
 
-This document is designed as LLM context for AI agents that provision and manage **Turso Cloud** databases through the [Vercel Marketplace](https://vercel.com/marketplace/tursocloud) and the [Vercel CLI](https://vercel.com/docs/cli). It contains exact commands, safety rules, and the mental model an agent needs to operate autonomously.
+This document is designed as LLM context for AI agents working with **Turso Cloud** databases provisioned through the [Vercel Marketplace](https://vercel.com/marketplace/tursocloud) (integration slug: `tursocloud`). It contains exact commands, safety rules, and the mental model an agent needs to operate autonomously.
 
 **Turso Cloud** is a fully managed SQLite-compatible database platform. It uses **libSQL** under the hood. This is distinct from **tursodb/Limbo** — an embedded database engine for local-only use. Databases provisioned through the Vercel Marketplace are Turso Cloud databases accessed over the network.
 
-## How Turso is organized on Vercel
-
-Turso is a native Vercel Marketplace integration (slug: `tursocloud`, product: `database`). Two concepts matter:
-
-- **Installation** — the team-level install of the Turso integration. The billing plan lives at the installation level: a free `starter` tier and several paid tiers (`developer`, `scaler`, `pro`), each paid tier with an `_overages` variant that adds pay-as-you-go billing beyond the included quotas. The plan applies to **all** Turso resources under the installation, and billing is unified through Vercel.
-- **Resource** — a single Turso Cloud database provisioned from the integration. Each resource can be connected to one or more Vercel projects; connecting injects the database credentials as project environment variables.
-
-To discover current products, plans, and state:
-
-```bash
-# Browse the Turso integration and its products
-vercel integration discover turso
-
-# Show available products, metadata options, and billing plans
-vercel integration add tursocloud --help
-
-# List provisioned Turso resources for the linked project (or --all for the team)
-vercel integration list --integration tursocloud --format=json
-
-# List team-level installations of the integration
-vercel integration installations --integration tursocloud --format=json
-```
-
-## Security: terms of service
-
-<Warning>
-**NEVER accept marketplace terms on the user's behalf.** Installing the integration for the first time requires accepting the marketplace legal terms. `vercel integration accept-terms tursocloud` requires an interactive terminal and human confirmation by design — do not attempt to script or bypass it. If a command fails because terms have not been accepted, instruct the user to run `vercel integration accept-terms tursocloud` themselves or complete the install in the Vercel dashboard.
-</Warning>
+In the most common scenario the user has **already provisioned** a Turso database from the Vercel Marketplace and connected it to their project — the agent's job is to build against it, not to provision it. Start with [Using an already-provisioned database](#using-an-already-provisioned-database).
 
 ## Security: never read secrets
 
 <Warning>
-**NEVER read `.env` files or any file that may contain Turso credentials.** This includes direct reads (`cat .env.local`), wildcards (`cat *`), and any command that could print directory contents where a `.env*` file exists. Credentials are managed exclusively through `vercel env` commands (`vercel env ls`, `vercel env pull`) — there is no reason to read them from disk. `vercel env ls` shows variable names with redacted values, which is all an agent needs.
+**NEVER read `.env` files or any file that may contain Turso credentials.** This includes direct reads (`cat .env.local`), wildcards (`cat *`), and any command that could print directory contents where a `.env*` file exists. Use `vercel env ls` to see variable **names** (values are redacted) — that is all an agent needs; the SDK reads the values from `process.env` at runtime.
 </Warning>
 
-## Provisioning a database (safe, autonomous)
+## Using an already-provisioned database
 
-An agent can provision databases on the free `starter` plan without asking for human confirmation. This is a non-destructive, additive operation. In non-interactive environments the Vercel CLI skips prompts, so pass every required option as a flag.
-
-```bash
-# 1. Make sure the project is linked
-vercel link --yes
-# 2. Provision a Turso database (region metadata uses Vercel region codes)
-vercel integration add tursocloud --name my-db --metadata region=iad1 --plan starter
-```
-
-After provisioning, the CLI automatically connects the resource to the linked project and runs `vercel env pull` to sync environment variables locally (skip with `--no-connect` / `--no-env-pull`). Each connected Turso resource exposes two environment variables to the project:
+Every Vercel project connected to a Turso resource has two environment variables injected by the integration:
 
 - `TURSO_DATABASE_URL` — the database URL (`libsql://` format)
 - `TURSO_AUTH_TOKEN` — the token used to authenticate requests
 
-When connecting multiple Turso databases to one project, avoid name collisions with `--prefix` (prepended as-is to the variable names, e.g. `--prefix ANALYTICS_` produces `ANALYTICS_TURSO_DATABASE_URL`).
-
-Connecting an existing resource to another project is also safe and additive:
+A `--prefix` chosen at connect time may have altered the names (e.g. `ANALYTICS_TURSO_DATABASE_URL`) — **always verify with `vercel env ls`** before writing connection code.
 
 ```bash
-vercel integration resource connect my-db my-other-project --yes
-```
-
-<Note>
-Environment variable changes only apply to **new** deployments. After connecting or disconnecting a resource, redeploy the affected project for the changes to take effect.
-</Note>
-
-## Reading state (safe, autonomous)
-
-These commands are read-only and can be run freely:
-
-```bash
-# Resources connected to the linked project (or --all for the whole team)
-vercel integration list --integration tursocloud --format=json
-
-# Environment variable names for the linked project (values are redacted)
+# 1. Link the local checkout to the Vercel project (if not already linked)
+vercel link --yes
+# 2. Verify the variable names (values stay redacted)
 vercel env ls
-
-# Sync env vars to a local file for the app to consume (do NOT read the file)
+# 3. Make the variables available for local development — do NOT read the file
 vercel env pull .env.local
-
-# Getting-started guides and code snippets for the integration
-vercel integration guide tursocloud
 ```
 
-To open the Turso dashboard for the installation or a specific database via SSO (opens a browser):
-
-```bash
-vercel integration open tursocloud
-vercel integration open tursocloud my-db
-```
-
-## Dangerous operations — require explicit user consent
-
-<Warning>
-**ANY DESTRUCTIVE ACTION MUST BE DONE THROUGH EXPLICIT USER CONSENT.** An agent must NEVER perform destructive operations (removing databases, disconnecting resources from projects, changing plans, uninstalling the integration, rotating credentials, etc.) autonomously. Always ask the user for explicit, unambiguous confirmation before proceeding with any operation that could result in data loss, service disruption, or billing changes.
-</Warning>
-
-### Removing databases and disconnecting projects
-
-Removing a resource **permanently deletes the Turso database and its data**. Disconnecting a resource removes its environment variables from the project and will break deployments that depend on it.
-
-```bash
-# Disconnect from a project — only after user consent
-vercel integration resource disconnect my-db my-project --yes
-# Permanently delete the database — only after user consent
-vercel integration resource remove my-db --disconnect-all --yes
-# Uninstall the integration (requires all resources removed first) — only after user consent
-vercel integration remove tursocloud --yes
-```
-
-### Rotating credentials
-
-<Warning>
-**Credential rotation invalidates all previously issued tokens for that database.** Every application, service, or script using the old token will lose access once the old secrets expire. This is not a soft refresh — it is a hard invalidation.
-</Warning>
-
-Secrets rotation for marketplace resources is initiated from the Vercel dashboard (the resource's settings page). Only guide the user to rotate when a token has been leaked, security policy requires it, or the user explicitly requests it. After rotation, redeploy every project connected to the resource and re-run `vercel env pull` in local checkouts.
-
-### Billing operations
-
-<Warning>
-**Billing changes affect the user's payment method and spending.** The billing plan is scoped to the installation, so a plan change affects ALL Turso databases under it. An agent must always get explicit user consent before selecting a paid plan, enabling overages, or modifying billing settings.
-</Warning>
-
-Always present the target plan's pricing (from `vercel integration add tursocloud --help`) and get confirmation before running:
-
-```bash
-# Change the installation's plan — only after user consent
-vercel integration update tursocloud --plan scaler
-# Provision on a paid plan — only after user consent
-vercel integration add tursocloud --name my-db --metadata region=iad1 --plan scaler_overages
-```
-
-## Regions
-
-Vercel's region picker is used for the `region` metadata key, and each Vercel region code maps to a Turso location:
-
-| Vercel region code | Turso location | Region |
-| --- | --- | --- |
-| `iad1` | `aws-us-east-1` | US East (Virginia) |
-| `cle1` | `aws-us-east-2` | US East (Ohio) |
-| `pdx1` | `aws-us-west-2` | US West (Oregon) |
-| `dub1` | `aws-eu-west-1` | EU West (Ireland) |
-| `bom1` | `aws-ap-south-1` | AP South (Mumbai) |
-| `hnd1` | `aws-ap-northeast-1` | AP Northeast (Tokyo) |
-
-If the region code is omitted or unrecognized, the database defaults to `aws-us-east-1`.
-
-### Auto-detecting the closest region
-
-To pick the best location automatically, query the Turso region endpoint and map the `server` field back to the Vercel region code using the table above:
-
-```bash
-curl -s https://region.turso.io
-# Example response: {"server": "aws-eu-west-1", "client": "fra"}
-```
-
-Here `aws-eu-west-1` corresponds to the Vercel region code `dub1`, so pass `--metadata region=dub1`.
-
-## Connecting to a provisioned database
-
-After provisioning, the project's environment contains a database URL (`libsql://` format) and an auth token. The default names are `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN`, but a `--prefix` may have altered them — **always verify the names by running `vercel env ls`** before writing connection code. Run `vercel env pull .env.local` so the variables are available for local development (the SDK reads them from `process.env` — never read the file itself).
+Then connect with the recommended SDK:
 
 ### Remote-only — `@tursodatabase/serverless`
 
@@ -209,21 +77,11 @@ await tx.commit();
 
 ### In-Function SQLite — `@tursodatabase/vercel-experimental` (BETA)
 
-Vercel-specific alternative for read-heavy workloads: database pages are replicated into the serverless function, so reads execute locally with zero network round-trips while writes go directly to the remote database for durability. It also creates databases on demand (`createDb("user-" + userId)`), which makes database-per-tenant patterns trivial — no provisioning step per tenant.
-
-It is configured with `TURSO_API_TOKEN`, `TURSO_ORG`, and `TURSO_GROUP` environment variables (a Turso platform API token — **not** the marketplace-injected `TURSO_DATABASE_URL`/`TURSO_AUTH_TOKEN` pair). The package is in **BETA** — use caution with production data. See `https://docs.turso.tech/integrations/vercel.md` for setup, API reference, and the full comparison with SQL over HTTP.
+Vercel-specific alternative for read-heavy workloads: database pages are replicated into the serverless function, so reads execute locally with zero network round-trips while writes go directly to the remote database. Databases are created on demand (`createDb("user-" + userId)`), which makes database-per-tenant patterns trivial. Configured with `TURSO_API_TOKEN`, `TURSO_ORG`, and `TURSO_GROUP` (a Turso platform API token — **not** the marketplace-injected variable pair). See `https://docs.turso.tech/integrations/vercel.md` for setup and the full comparison.
 
 ### Local-first with sync — `@tursodatabase/sync` (BETA)
 
-For apps that need fast local reads, offline support, or embedded replicas that sync with Turso Cloud. Bidirectional sync is currently in **BETA**. Key things to know:
-
-- Sync is **explicit** — there is no automatic background sync. You call `push()` and `pull()` yourself.
-- Run push and pull in **separate loops** so they don't block each other (pull supports long-polling).
-- Conflict resolution is **last-push-wins**.
-- **Never** open a synced database file outside the sync SDK (`tursodb`, `sqlite3`, `better-sqlite3`, etc.) — this corrupts sync state permanently.
-- Call `checkpoint()` periodically to compact the local WAL.
-
-See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
+For apps that need fast local reads, offline support, or embedded replicas that sync with Turso Cloud. Sync is explicit (`push()`/`pull()`), conflict resolution is last-push-wins, and a synced database file must **never** be opened outside the sync SDK. See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
 
 ### SDK quick reference
 
@@ -246,7 +104,64 @@ See `https://docs.turso.tech/sync/usage.md` for setup, API, and examples.
 | Go (no CGO, remote-only) | `github.com/tursodatabase/libsql-client-go` | `go get github.com/tursodatabase/libsql-client-go` |
 | Rust | `libsql` | `cargo add libsql` |
 
-For sync SDKs in Rust, Python, and Go, see `https://docs.turso.tech/sync/usage.md`.
+## Inspecting state (safe, autonomous)
+
+These commands are read-only and can be run freely:
+
+```bash
+# Turso resources for the linked project (--all for the whole team)
+vercel integration list --integration tursocloud --format=json
+
+# Environment variable names for the linked project (values redacted)
+vercel env ls
+
+# Open the Turso dashboard via SSO (opens a browser)
+vercel integration open tursocloud
+```
+
+<Note>
+Available `vercel integration` subcommands vary between CLI versions — run `vercel integration --help` to see what the installed version supports before relying on a subcommand.
+</Note>
+
+## Provisioning a new database (safe, autonomous)
+
+Provisioning on the free `starter` plan is a non-destructive, additive operation an agent may perform without confirmation:
+
+```bash
+vercel integration add tursocloud --name my-db --metadata region=iad1 --plan starter
+```
+
+- `region` is the only metadata key. It is **required at creation and cannot be changed afterwards**.
+- After provisioning, the CLI connects the resource to the linked project and runs `vercel env pull` automatically (`--no-connect` / `--no-env-pull` to skip).
+- When connecting a second Turso database to the same project, avoid variable-name collisions with `--prefix` (prepended as-is, e.g. `--prefix ANALYTICS_` → `ANALYTICS_TURSO_DATABASE_URL`).
+- Environment variable changes only apply to **new** deployments — redeploy the project afterwards.
+- If the integration is not installed yet, first-time installation requires accepting marketplace terms — **never accept terms on the user's behalf**; direct the user to complete that step in the Vercel dashboard.
+
+### Regions
+
+The `region` metadata key takes a Vercel region code, mapped to a Turso location:
+
+| Vercel region code | Turso location | Region |
+| --- | --- | --- |
+| `iad1` | `aws-us-east-1` | US East (Virginia) |
+| `cle1` | `aws-us-east-2` | US East 2 (Ohio) |
+| `pdx1` | `aws-us-west-2` | US West (Oregon) |
+| `dub1` | `aws-eu-west-1` | EU West (Ireland) |
+| `bom1` | `aws-ap-south-1` | AP South (Mumbai) |
+| `hnd1` | `aws-ap-northeast-1` | AP NorthEast (Tokyo) |
+
+To auto-detect the closest region, query `curl -s https://region.turso.io` — the `server` field returns a Turso location (e.g. `aws-eu-west-1`), which maps back to the Vercel code via the table (here `dub1`).
+
+## Dangerous operations — require explicit user consent
+
+<Warning>
+**ANY DESTRUCTIVE ACTION MUST BE DONE THROUGH EXPLICIT USER CONSENT.** An agent must NEVER autonomously delete databases, disconnect resources from projects, uninstall the integration, change billing plans, or rotate credentials. All of these can cause data loss, service disruption, or billing changes.
+</Warning>
+
+- **Deleting a database resource** permanently destroys its data. **Disconnecting** a resource removes its environment variables and breaks deployments that use it. Both are done from the Vercel dashboard (or newer CLI versions' `vercel integration resource` subcommands).
+- **Billing plan is installation-scoped** — the plan (`starter` free tier; paid tiers with `_overages` variants for pay-as-you-go beyond quotas) applies to ALL Turso databases under the installation, and billing is unified through Vercel. Always present pricing and get confirmation before any plan change.
+- **Uninstalling the integration** (`vercel integration remove tursocloud`) requires all resources to be removed first.
+- **Rotating credentials** (from the resource's settings in the Vercel dashboard) hard-invalidates previously issued tokens for that database — every consumer of the old token loses access once it expires. After rotation, redeploy connected projects and re-run `vercel env pull`.
 
 ## Turso Cloud features
 
