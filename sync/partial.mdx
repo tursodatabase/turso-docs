@@ -80,6 +80,21 @@ db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
 })
 ```
 
+```rs Rust
+use turso::sync::{Builder, PartialBootstrapStrategy, PartialSyncOpts};
+
+let db = Builder::new_remote("./app.db")
+ .with_remote_url("libsql://...")
+ .with_auth_token(&std::env::var("TURSO_AUTH_TOKEN")?)
+ .with_partial_sync_opts_experimental(PartialSyncOpts {
+   bootstrap_strategy: Some(PartialBootstrapStrategy::Prefix { length: 128 * 1024 /* 128 KiB */ }),
+    segment_size: 0,
+    prefetch: false,
+ })
+ .build()
+ .await?;
+```
+
 </CodeGroup>
 
 ### Query bootstrap
@@ -129,6 +144,23 @@ db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
     BoostrapStrategyQuery: "SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100",
   },
 })
+```
+
+```rs Rust
+use turso::sync::{Builder, PartialBootstrapStrategy, PartialSyncOpts};
+
+let db = Builder::new_remote("./app.db")
+ .with_remote_url("libsql://...")
+ .with_auth_token(&std::env::var("TURSO_AUTH_TOKEN")?)
+ .with_partial_sync_opts_experimental(PartialSyncOpts {
+   bootstrap_strategy: Some(PartialBootstrapStrategy::Query {
+    query: String::from("SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100"),
+   }),
+   segment_size: 0,
+   prefetch: false,
+ })
+ .build()
+ .await?;
 ```
 
 </CodeGroup>
@@ -307,6 +339,18 @@ turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
 })
 ```
 
+```rs Rust
+let db = Builder::new_remote("./app.db")
+ ...
+ .with_partial_sync_opts_experimental(PartialSyncOpts {
+   bootstrap_strategy: Some(PartialBootstrapStrategy::Prefix { length: 128 * 1024 /* 128 KiB */ }),
+    segment_size: 16 * 1024,
+    prefetch: false,
+ })
+ .build()
+ .await?;
+```
+
 </CodeGroup>
 
 ### Prefetch
@@ -447,6 +491,18 @@ turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
     Prefetch: true,
   },
 })
+```
+
+```rs Rust
+let db = Builder::new_remote("./app.db")
+ ...
+ .with_partial_sync_opts_experimental(PartialSyncOpts {
+   bootstrap_strategy: Some(PartialBootstrapStrategy::Prefix { length: 128 * 1024 /* 128 KiB */ }),
+    segment_size: 0, // defaults to 128 KiB
+    prefetch: true,
+ })
+ .build()
+ .await?;
 ```
 
 </CodeGroup>
