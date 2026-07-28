@@ -15,14 +15,14 @@ If you don't have a Turso account, [sign up](https://turso.tech) first.
 Create a database for your agent:
 
 ```bash
-turso db create my-agent-db
+turso db create my-agent-db --tursodb
 ```
 
 Get the database URL:
 
 ```bash
 turso db show my-agent-db --url
-# Output: libsql://my-agent-db-username.turso.io
+# Output: turso://my-agent-db-username.turso.io
 ```
 
 ### 2. Initialize with Sync
@@ -30,7 +30,7 @@ turso db show my-agent-db --url
 Create a new agent filesystem with sync enabled:
 
 ```bash
-agentfs init my-agent --sync-remote-url libsql://my-agent-db-username.turso.io
+agentfs init my-agent --sync-remote-url turso://my-agent-db-username.turso.io
 ```
 
 Or add sync to an existing agent:
@@ -85,7 +85,7 @@ Automatically back up agent state:
 agentfs sync my-agent push
 
 # On a new machine
-agentfs init my-agent --sync-remote-url libsql://...
+agentfs init my-agent --sync-remote-url turso://...
 agentfs sync my-agent pull
 ```
 
@@ -109,7 +109,7 @@ For large filesystems, use partial sync to only fetch what's needed:
 
 ```bash
 agentfs init my-agent \
-  --sync-remote-url libsql://... \
+  --sync-remote-url turso://... \
   --sync-partial-prefetch \
   --sync-partial-segment-size 1000
 ```

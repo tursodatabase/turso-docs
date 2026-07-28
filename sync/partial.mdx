@@ -43,7 +43,7 @@ import { connect } from '@tursodatabase/sync';
 
 const db = await connect({
   path: './app.db',
-  url: 'libsql://...',
+  url: 'turso://...',
   authToken: process.env.TURSO_AUTH_TOKEN,
   partialSyncExperimental: {
     bootstrapStrategy: { kind: 'prefix', length: 128 * 1024 }, // 128 KiB
@@ -57,7 +57,7 @@ import turso.sync
 
 conn = turso.sync.connect(
     path="./app.db",
-    remote_url="libsql://...",
+    remote_url="turso://...",
     remote_auth_token=os.environ["TURSO_AUTH_TOKEN"],
     partial_sync_opts=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncPrefixBootstrap(length=128 * 1024),
@@ -72,7 +72,7 @@ import (
 
 db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
   Path:            "./app.db",
-  RemoteUrl:       "libsql://...",
+  RemoteUrl:       "turso://...",
   RemoteAuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
   PartialSyncConfig: turso.TursoPartialSyncConfig{
     BoostrapStrategyPrefix: 128 * 1024, // 128 KiB
@@ -91,7 +91,7 @@ import { connect } from '@tursodatabase/sync';
 
 const db = await connect({
   path: './app.db',
-  url: 'libsql://...',
+  url: 'turso://...',
   authToken: process.env.TURSO_AUTH_TOKEN,
   partialSyncExperimental: {
     bootstrapStrategy: {
@@ -107,7 +107,7 @@ import turso.sync
 
 conn = turso.sync.connect(
     path=":memory:",
-    remote_url="libsql://...",
+    remote_url="turso://...",
     partial_sync_opts=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncQueryBootstrap(
             query="SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100"
@@ -123,7 +123,7 @@ import (
 
 db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
   Path:            "./app.db",
-  RemoteUrl:       "libsql://...",
+  RemoteUrl:       "turso://...",
   RemoteAuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
   PartialSyncConfig: turso.TursoPartialSyncConfig{
     BoostrapStrategyQuery: "SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100",
