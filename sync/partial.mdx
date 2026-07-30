@@ -300,8 +300,8 @@ turso.sync.connect(
 ```go Go
 turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
   ...
-  PartialSyncConfig: turso.TursoPartialSyncConfig{
-    BoostrapStrategyPrefix: 128 * 1024, // 128 KiB
+  PartialSyncExperimental: turso.TursoPartialSyncConfig{
+    BootstrapStrategyPrefix: 128 * 1024, // 128 KiB
     SegmentSize: 16 * 1024,
   },
 })
@@ -442,8 +442,8 @@ turso.sync.connect(
 ```go Go
 turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
   ...
-  PartialSyncConfig: turso.TursoPartialSyncConfig{
-    BoostrapStrategyPrefix: 128 * 1024, // 128 KiB
+  PartialSyncExperimental: turso.TursoPartialSyncConfig{
+    BootstrapStrategyPrefix: 128 * 1024, // 128 KiB
     Prefetch: true,
   },
 })
