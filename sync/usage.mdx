@@ -65,15 +65,15 @@ conn = turso.sync.connect(
 package main
 
 import (
-	"turso"
+	turso "turso.tech/database/tursogo"
 )
 
 db, err := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
   Path:              "./app.db",                    // local path
   RemoteUrl:         "turso://...",                // remote URL (generated with turso db show <db-name> --url)
-  RemoteAuthToken:   os.Getenv("TURSO_AUTH_TOKEN"), // authentication token (generated with turso db tokens create <db-name>)
+  AuthToken:         os.Getenv("TURSO_AUTH_TOKEN"), // authentication token (generated with turso db tokens create <db-name>)
   // LongPollTimeoutMs: 10_000,                     // optional: server waits before replying to pull
-  // BootstrapIfEmpty: false,                       // set to false to avoid bootstrapping on first run
+  // BootstrapIfEmpty: new(bool),                   // *bool; point at false to avoid bootstrapping on first run
 })
 ```
 
@@ -315,13 +315,14 @@ sync_when_online(conn)
 ```
 
 ```go Go
-// BootstrapIfEmpty: false lets the app start offline without
-// needing to reach the remote on first launch
+// BootstrapIfEmpty pointing at false lets the app start offline
+// without needing to reach the remote on first launch
+noBootstrap := false
 db, err := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
 	Path:             "./local.db",
 	RemoteUrl:        os.Getenv("TURSO_URL"),
-	RemoteAuthToken:  os.Getenv("TURSO_AUTH_TOKEN"),
-	BootstrapIfEmpty: false,
+	AuthToken:        os.Getenv("TURSO_AUTH_TOKEN"),
+	BootstrapIfEmpty: &noBootstrap,
 })
 
 func syncWhenOnline(ctx context.Context, db *turso.TursoSyncDb) {

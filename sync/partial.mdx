@@ -67,15 +67,15 @@ conn = turso.sync.connect(
 
 ```go Go
 import (
-	"turso"
+	turso "turso.tech/database/tursogo"
 )
 
 db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
-  Path:            "./app.db",
-  RemoteUrl:       "turso://...",
-  RemoteAuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
-  PartialSyncConfig: turso.TursoPartialSyncConfig{
-    BoostrapStrategyPrefix: 128 * 1024, // 128 KiB
+  Path:      "./app.db",
+  RemoteUrl: "turso://...",
+  AuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
+  PartialSyncExperimental: turso.TursoPartialSyncConfig{
+    BootstrapStrategyPrefix: 128 * 1024, // 128 KiB
   },
 })
 ```
@@ -118,15 +118,15 @@ conn = turso.sync.connect(
 
 ```go Go
 import (
-	"turso"
+	turso "turso.tech/database/tursogo"
 )
 
 db, err := turso.NewTursoSyncDb(context.Background(), turso.TursoSyncDbConfig{
-  Path:            "./app.db",
-  RemoteUrl:       "turso://...",
-  RemoteAuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
-  PartialSyncConfig: turso.TursoPartialSyncConfig{
-    BoostrapStrategyQuery: "SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100",
+  Path:      "./app.db",
+  RemoteUrl: "turso://...",
+  AuthToken: os.Getenv("TURSO_AUTH_TOKEN"),
+  PartialSyncExperimental: turso.TursoPartialSyncConfig{
+    BootstrapStrategyQuery: "SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100",
   },
 })
 ```
