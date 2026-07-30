@@ -59,7 +59,7 @@ conn = turso.sync.connect(
     path="./app.db",
     remote_url="turso://...",
     auth_token=os.environ["TURSO_AUTH_TOKEN"],
-    partial_sync_opts=turso.sync.PartialSyncOpts(
+    partial_sync_experimental=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncPrefixBootstrap(length=128 * 1024),
     ),
 )
@@ -108,7 +108,7 @@ import turso.sync
 conn = turso.sync.connect(
     path=":memory:",
     remote_url="turso://...",
-    partial_sync_opts=turso.sync.PartialSyncOpts(
+    partial_sync_experimental=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncQueryBootstrap(
             query="SELECT * FROM messages WHERE user_id = 'u_123' LIMIT 100"
         ),
@@ -290,7 +290,7 @@ await connect({
 ```py Python
 turso.sync.connect(
     ...
-    partial_sync_opts=turso.sync.PartialSyncOpts(
+    partial_sync_experimental=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncPrefixBootstrap(length=128 * 1024),
         segment_size=16 * 1024,
     ),
@@ -432,7 +432,7 @@ await connect({
 ```py Python
 turso.sync.connect(
     ...
-    partial_sync_opts=turso.sync.PartialSyncOpts(
+    partial_sync_experimental=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncPrefixBootstrap(length=128 * 1024),
         prefetch=True,
     ),
