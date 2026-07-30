@@ -55,7 +55,7 @@ import turso.sync
 conn = turso.sync.connect(
     path="./app.db",                                  # local path
     remote_url="turso://...",                        # remote URL (generated with turso db show <db-name> --url)
-    remote_auth_token=os.environ["TURSO_AUTH_TOKEN"], # authentication token (generated with turso db tokens create <db-name>)
+    auth_token=os.environ["TURSO_AUTH_TOKEN"],        # authentication token (generated with turso db tokens create <db-name>)
     # long_poll_timeout_ms=10_000,                    # optional: server waits before replying to pull
     # bootstrap_if_empty=False,                       # set to false to avoid bootstrapping on first run
 )
@@ -291,7 +291,7 @@ import turso.sync
 conn = turso.sync.connect(
     path="./local.db",
     remote_url=os.environ["TURSO_URL"],
-    remote_auth_token=os.environ["TURSO_AUTH_TOKEN"],
+    auth_token=os.environ["TURSO_AUTH_TOKEN"],
     bootstrap_if_empty=False,
 )
 

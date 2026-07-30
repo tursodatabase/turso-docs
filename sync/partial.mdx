@@ -58,7 +58,7 @@ import turso.sync
 conn = turso.sync.connect(
     path="./app.db",
     remote_url="turso://...",
-    remote_auth_token=os.environ["TURSO_AUTH_TOKEN"],
+    auth_token=os.environ["TURSO_AUTH_TOKEN"],
     partial_sync_opts=turso.sync.PartialSyncOpts(
         bootstrap_strategy=turso.sync.PartialSyncPrefixBootstrap(length=128 * 1024),
     ),
