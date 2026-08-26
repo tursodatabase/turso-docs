@@ -391,23 +391,38 @@ libSQL supports the same named placeholder characters as SQLite &mdash; `:`, `@`
 
 ### Batch Transactions
 
-A batch consists of multiple SQL statements executed sequentially within an implicit transaction. The backend handles the transaction: success commits all changes, while any failure results in a full rollback with no modifications.
+Use `batch()` to send several SQL statements in a single call. Each item is either a SQL string or a `{ sql, args }` object:
 
 ```ts
-const result = await client.batch(
+const result = await conn.batch([
+  { sql: "INSERT INTO users (name) VALUES (?)", args: ["Iku"] },
+  { sql: "INSERT INTO users (name) VALUES (?)", args: ["Iku 2"] },
+]);
+```
+
+By default a batch is not transactional. Each statement runs in its own autocommit step, so a failure partway through leaves the statements that already succeeded committed.
+
+Pass a `mode` as the second argument to run the batch atomically. The statements are wrapped in `BEGIN <mode>` and `COMMIT` (rolling back on any failure) and dispatched as a single request, so the whole batch completes in one round trip:
+
+```ts
+const result = await conn.batch(
   [
-    {
-      sql: "INSERT INTO users VALUES (?)",
-      args: ["Iku"],
-    },
-    {
-      sql: "INSERT INTO users VALUES (?)",
-      args: ["Iku 2"],
-    },
+    { sql: "INSERT INTO users (name) VALUES (?)", args: ["Iku"] },
+    { sql: "INSERT INTO users (name) VALUES (?)", args: ["Iku 2"] },
   ],
-  "write",
+  "immediate",
 );
 ```
+
+`mode` accepts the same values as `transaction()`: `"deferred"`, `"immediate"`, `"exclusive"`, and `"concurrent"`. Each maps to the matching `BEGIN <mode>` statement. When `batch()` runs inside a `transaction()` callback, the `mode` argument is ignored and the surrounding transaction is reused.
+
+`batch()` resolves to an object with `rowsAffected` (the total number of rows affected across every statement) and `lastInsertRowid` (the rowid of the last successful insert).
+
+<Warning>
+
+When you pass a `mode`, `batch()` manages the surrounding `BEGIN`, `COMMIT`, and `ROLLBACK`. Do not include your own transaction-control statements (`BEGIN`, `COMMIT`, `ROLLBACK`, `SAVEPOINT`, `RELEASE`) in the batch.
+
+</Warning>
 
 ### Interactive Transactions
 
