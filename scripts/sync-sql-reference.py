@@ -137,6 +137,7 @@ STATEMENTS_ORDER = [
     "create-trigger",
     "create-type",
     "create-domain",
+    "create-sequence",
     "create-virtual-table",
     "drop-table",
     "drop-index",
@@ -144,6 +145,7 @@ STATEMENTS_ORDER = [
     "drop-trigger",
     "drop-type",
     "drop-domain",
+    "drop-sequence",
     "select",
     "insert",
     "update",
@@ -155,6 +157,7 @@ STATEMENTS_ORDER = [
     "attach-database",
     "detach-database",
     "analyze",
+    "reindex",
     "vacuum",
 ]
 
@@ -185,7 +188,7 @@ CLI_ORDER = [
 
 CLI_REFERENCE_GROUP_NAME = "CLI Reference"
 SQL_REFERENCE_GROUP_NAME = "SQL Reference"
-TURSO_DB_TAB_NAME = "Turso Database (beta)"
+TURSO_DB_TAB_NAME = "Turso Database"
 
 
 def copy_and_rewrite(src_dir: str, dest_dir: str) -> list[str]:

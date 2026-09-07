@@ -17,12 +17,6 @@ Backups are created automatically at `COMMIT`. Free plan users can restore to an
 2. You update your application to use the new database connection string.
 3. You delete the old database when you no longer need it.
 
-<Info>
-
-The newly created database includes data only from periods prior to the specified timestamp. Additionally, there may be a gap of up to 15 seconds in the data immediately preceding the timestamp, as this depends on the timing of Turso's most recent periodic batch checkpoint.
-
-</Info>
-
 ## Usage
 
 <CodeGroup>

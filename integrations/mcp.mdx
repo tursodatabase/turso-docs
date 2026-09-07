@@ -58,6 +58,32 @@ apart and confirm before doing anything that changes data.
   `codex mcp login turso`.
 
   </Tab>
+  <Tab title="Cursor">
+
+  Install the plugin (it bundles the Turso skill too): open **Customize →
+  Plugins → Add marketplace**, enter `https://github.com/tursodatabase/turso-mcp`,
+  and install **Turso** from it. Then open **Settings → MCP**, select **turso**, and follow
+  the login prompt to approve access (see [Authorize](#authorize-access) below).
+
+  One-click alternative (MCP server only, no skill):
+  <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=turso&config=eyJ1cmwiOiJodHRwczovL21jcC50dXJzby5haS9tY3AifQ==">**Add to Cursor**</a>,
+  or add the server manually to `~/.cursor/mcp.json`:
+
+  ```json
+  {
+    "mcpServers": {
+      "turso": { "url": "https://mcp.turso.ai/mcp" }
+    }
+  }
+  ```
+
+  **Cursor web & cloud agents** don't read plugin or `mcp.json` config — add
+  the server once for your account instead: at
+  [cursor.com/agents](https://cursor.com/agents), open the **“+” menu** next to
+  the model picker → hover **MCP Servers** → **Add MCP**, and enter
+  `https://mcp.turso.ai/mcp`.
+
+  </Tab>
   <Tab title="Claude (web & desktop)">
 
   Add a custom connector pointing at the Turso MCP server:
