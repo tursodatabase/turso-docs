@@ -1279,6 +1279,10 @@
                   "require_mfa": {
                     "type": "boolean",
                     "description": "Require all members of the organization to have multi-factor authentication enabled. The requesting user must have MFA enabled on their own account before enabling this requirement."
+                  },
+                  "restore_enabled": {
+                    "type": "boolean",
+                    "description": "Enable or disable deleted database and group recovery for the organization. Must be updated separately from other organization settings. Requires an admin or owner."
                   }
                 }
               }
@@ -2444,6 +2448,247 @@
           }
         }
       }
+    },
+    "/v3/organizations/{organizationId}/databases": {
+      "get": {
+        "summary": "List Deleted Databases",
+        "description": "Returns databases deleted within the last five days, which can still be restored. Requires a paid plan. Available even while recovery is disabled for the organization.",
+        "operationId": "listDeletedDatabases",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationId"
+          },
+          {
+            "name": "deleted",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Must be `true` to list deleted databases."
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter deleted databases by name."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            },
+            "description": "Page size, from 1 to 1000."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Opaque pagination cursor from the previous page's `pagination.next`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "databases": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DeletedDatabase"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The organization is on the free plan."
+          }
+        }
+      }
+    },
+    "/v3/organizations/{organizationId}/databases/{databaseId}/restore": {
+      "post": {
+        "summary": "Restore Database",
+        "description": "Restore a database deleted within the last five days, exactly as it was at the moment it was deleted. Requires a paid plan, an admin or owner of the organization, and recovery enabled for the organization.",
+        "operationId": "restoreDatabase",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationId"
+          },
+          {
+            "$ref": "#/components/parameters/databaseId"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Optional new name for the restored database. If omitted, the original name is reused. The hostname is re-derived from the name."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "database": {
+                      "$ref": "#/components/schemas/DeletedDatabase",
+                      "description": "The restored database."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Recovery is disabled for the organization, or the request is invalid."
+          },
+          "403": {
+            "description": "The organization is on the free plan, or the caller is not an admin or owner."
+          },
+          "404": {
+            "description": "No deleted database with this UUID exists, or its recovery window has passed."
+          }
+        }
+      }
+    },
+    "/v3/organizations/{organizationId}/deleted-groups": {
+      "get": {
+        "summary": "List Deleted Groups",
+        "description": "Returns groups deleted within the last five days, including empty groups, which can still be restored. Requires a paid plan and an organization-level token. Available even while recovery is disabled for the organization.",
+        "operationId": "listDeletedGroups",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationId"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            },
+            "description": "Page size, from 1 to 1000."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Opaque pagination cursor from the previous page's `pagination.next`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DeletedGroup"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The organization is on the free plan, or the token is group-scoped."
+          }
+        }
+      }
+    },
+    "/v3/organizations/{organizationId}/groups/{groupId}/restore": {
+      "post": {
+        "summary": "Restore Group",
+        "description": "Restore a group deleted within the last five days, along with the member databases that were deleted with it. Requires a paid plan, an admin or owner of the organization, and recovery enabled for the organization. If some databases fail to restore, the group still becomes active: retry the failed database UUIDs individually with Restore Database.",
+        "operationId": "restoreGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/organizationId"
+          },
+          {
+            "$ref": "#/components/parameters/groupId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "$ref": "#/components/schemas/Group",
+                      "description": "The restored group."
+                    },
+                    "databases": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DeletedDatabase"
+                      },
+                      "description": "The member databases restored with the group, in restore order."
+                    },
+                    "failures": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Recovery is disabled for the organization, or the request is invalid."
+          },
+          "403": {
+            "description": "The organization is on the free plan, or the caller is not an admin or owner."
+          },
+          "404": {
+            "description": "No deleted group with this UUID exists, or its recovery window has passed."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2542,6 +2787,10 @@
             "type": "string",
             "description": "The external platform this organization is managed by. Will be empty for Turso managed organizations.",
             "example": "vercel"
+          },
+          "restore_enabled": {
+            "type": "boolean",
+            "description": "Whether deleted database and group recovery is enabled for the organization. Returned when retrieving a single organization."
           }
         }
       },
@@ -3325,6 +3574,95 @@
             "example": "mycompany"
           }
         }
+      },
+      "DeletedDatabase": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "The database name."
+          },
+          "DbId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The database UUID. Use it to restore the database."
+          },
+          "Hostname": {
+            "type": "string",
+            "description": "The DNS hostname the database had, used for client and HTTP connections."
+          },
+          "group": {
+            "type": "string",
+            "description": "The name of the group the database belonged to."
+          },
+          "group_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The UUID of the group the database belonged to."
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The UUID of the organization."
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The regions the database was located in."
+          },
+          "primaryRegion": {
+            "type": "string",
+            "description": "The primary region of the database."
+          },
+          "delete_protection": {
+            "type": "boolean",
+            "description": "Whether delete protection was enabled for the database."
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the database was deleted."
+          },
+          "group_deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Set when the database's group was deleted with it. Restoring the database also restores the group."
+          }
+        }
+      },
+      "DeletedGroup": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The group UUID. Use it to restore the group."
+          },
+          "name": {
+            "type": "string",
+            "description": "The group name."
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the group was deleted."
+          },
+          "cascade_databases": {
+            "type": "integer",
+            "description": "The number of member databases that restoring the group would bring back with it."
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "type": "string",
+            "description": "Opaque cursor for the next page. Pass it back as the `cursor` query parameter. Absent on the last page."
+          }
+        }
       }
     },
     "responses": {
@@ -3435,6 +3773,36 @@
           "type": "integer"
         },
         "description": "The page number to return. Defaults to 1."
+      },
+      "organizationId": {
+        "name": "organizationId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field)."
+      },
+      "databaseId": {
+        "name": "databaseId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "The UUID of the database, as returned when listing deleted databases (the `DbId` field)."
+      },
+      "groupId": {
+        "name": "groupId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "The UUID of the group, as returned when listing deleted groups (the `uuid` field)."
       }
     }
   }

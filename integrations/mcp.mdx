@@ -22,6 +22,9 @@ Once connected, the agent has tools to:
 - **SQL** — run read-only queries, writes, deletes, and schema changes, each as a
   separate tool so the agent uses the least-powerful one for the task.
 - **Insight** — per-database analytics (top queries by frequency and latency).
+- **Recovery** — list and restore databases and groups deleted within the last
+  five days, so an agent can undo its own mistakes (see
+  [Recover Deleted Databases](/features/recover-deleted-databases)).
 
 Read-only and destructive operations are labeled, so the agent can tell them
 apart and confirm before doing anything that changes data.
