@@ -1,0 +1,140 @@
+---
+title: UQL + Turso
+sidebarTitle: UQL
+description: Use UQL, a TypeScript ORM, with Turso Cloud or the embedded Turso Database.
+---
+
+[UQL](https://uql-orm.dev) is a TypeScript ORM that queries with plain JSON objects and generates migrations from your entities. It has two Turso drivers:
+
+- `uql-orm/turso` for Turso Cloud, over `@tursodatabase/serverless`. It only needs `fetch()`, so it also runs on Cloudflare Workers and Vercel Edge.
+- `uql-orm/turso/local` for the embedded Turso Database, over `@tursodatabase/database`.
+
+Entities, queries and migrations are the same on both. Only the pool changes.
+
+## Prerequisites
+
+- Node.js 24 or newer, Bun, or Deno
+- For Turso Cloud: [install the Turso CLI](/cli/installation) and [sign up or log in](/cli/authentication#signup)
+
+<Steps>
+
+<Step title="Install UQL and a Turso driver">
+
+<CodeGroup>
+
+```bash Turso Cloud
+npm i uql-orm @tursodatabase/serverless
+```
+
+```bash Embedded
+npm i uql-orm @tursodatabase/database
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Retrieve database credentials">
+
+Skip this step for an embedded database.
+
+<Snippet file="retrieve-database-credentials.mdx" />
+
+</Step>
+
+<Step title="Define an entity">
+
+UQL uses standard TypeScript decorators, so no `experimentalDecorators` or `reflect-metadata` is needed.
+
+```ts entities.ts
+import { Entity, Field, Id } from "uql-orm";
+
+@Entity()
+export class Todo {
+  @Id({ type: Number })
+  id?: number;
+
+  @Field({ type: String, nullable: false })
+  title?: string;
+
+  @Field({ type: Boolean, defaultValue: false })
+  done?: boolean | null;
+}
+```
+
+</Step>
+
+<Step title="Create a pool">
+
+In `db.ts`:
+
+<CodeGroup>
+
+```ts Turso Cloud
+import { TursoQuerierPool } from "uql-orm/turso";
+
+export const pool = new TursoQuerierPool({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
+
+```ts Embedded
+import { TursoLocalQuerierPool } from "uql-orm/turso/local";
+
+export const pool = new TursoLocalQuerierPool("app.db");
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Create the table">
+
+Point the `uql-migrate` CLI at your pool and entities:
+
+```ts uql.config.ts
+import type { Config } from "uql-orm";
+import { Todo } from "./entities";
+import { pool } from "./db";
+
+export default {
+  pool,
+  entities: [Todo],
+  migrationsPath: "./migrations",
+} satisfies Config;
+```
+
+Generate a migration from the entities, review it, then apply it:
+
+```bash
+npx uql-migrate generate:entities create_todo
+npx uql-migrate up
+```
+
+</Step>
+
+<Step title="Query">
+
+```ts
+import { pool } from "./db";
+import { Todo } from "./entities";
+
+await pool.insertOne(Todo, { title: "Try UQL on Turso" });
+
+const open = await pool.findMany(Todo, {
+  $select: { id: true, title: true },
+  $where: { done: false },
+  $sort: { id: "desc" },
+});
+```
+
+</Step>
+
+</Steps>
+
+## Where to go next
+
+- [UQL on Turso](https://uql-orm.dev/turso) covers libSQL and embedded replicas, vector search, and what each driver supports.
+- [Migrations](https://uql-orm.dev/migrations) explains the generated migrations and `drift:check`.
+- [Query methods](https://uql-orm.dev/querying/methods) and [operators](https://uql-orm.dev/querying/comparison-operators) cover the rest of the API.
