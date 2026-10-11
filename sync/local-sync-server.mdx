@@ -145,7 +145,7 @@ const clientB = await connect({
 const changed = await clientB.pull();
 console.log('changes pulled:', changed);
 
-const rows = await clientB.query("SELECT * FROM notes");
+const rows = await clientB.all("SELECT * FROM notes");
 console.log(rows);
 // [{ id: 'n1', body: 'hello from client A' }]
 ```
