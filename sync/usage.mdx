@@ -90,7 +90,7 @@ You can bootstrap or update it later at any time by explicitly calling `pull()`.
 
 <Step title="3. Push changes">
 
-Push sends your local changes to the Turso Cloud server. Under the hood, logical statements are sent, and on conflicts the strategy is "last push wins".
+Push sends your local changes to the Turso Cloud server. Under the hood, logical statements are sent, and on conflicts the strategy is "last push wins". COMMITTED WRITE transactions which overlap with WRITE transactions that are still open MAY be delayed. To push every committed transaction, make sure no write transaction is open when you push.
 
 <CodeGroup>
 
