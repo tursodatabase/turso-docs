@@ -1,0 +1,188 @@
+---
+title: Using Turso with Serverless & Edge Functions
+sidebarTitle: Serverless / Lambda
+description: Deploy @libsql/client to AWS Lambda, Vercel, Netlify, and other bundled serverless environments.
+---
+
+When bundling with esbuild, tsup, or webpack for serverless runtimes (AWS Lambda, Vercel
+Functions, Netlify Functions, SST), you may encounter this error at runtime:
+
+```
+Runtime.ImportModuleError: Error: Cannot find module '@libsql/linux-x64-gnu'
+```
+
+This happens because `@libsql/client` depends on a native Rust addon (`libsql`) that ships as
+platform-specific NAPI binaries. When esbuild bundles your code, it inlines the `require()` for
+the binary that matches your **build machine** architecture — which is different from the
+**Lambda runtime** architecture.
+
+There are two solutions depending on whether you need embedded replicas.
+
+---
+
+## Solution A — Remote databases (recommended)
+
+If you're connecting to a remote Turso database (a `libsql://` or `https://` URL), use the
+`/web` subpath export. It communicates over HTTP/WebSocket only and has **no native dependencies**.
+
+```ts
+import { createClient } from "@libsql/client/web";
+
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+```
+
+This works out of the box on AWS Lambda, Vercel, Netlify, Cloudflare Workers, and any other
+bundled or edge environment.
+
+### With Drizzle ORM
+
+```ts
+import { createClient } from "@libsql/client/web";
+import { drizzle } from "drizzle-orm/libsql/web";
+
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+export const db = drizzle(client);
+```
+
+### With esbuild alias (when you can't change imports)
+
+If a transitive dependency imports from `@libsql/client` directly, add an alias so all imports
+resolve to the web build without touching source files:
+
+<CodeGroup>
+
+```bash esbuild CLI
+esbuild src/index.ts \
+  --bundle \
+  --platform=node \
+  --alias:@libsql/client=@libsql/client/web
+```
+
+```ts esbuild API
+import { build } from "esbuild";
+
+await build({
+  entryPoints: ["src/index.ts"],
+  bundle: true,
+  platform: "node",
+  alias: {
+    "@libsql/client": "@libsql/client/web",
+  },
+});
+```
+
+</CodeGroup>
+
+### With SST
+
+```ts sst.config.ts
+export const api = new sst.aws.Function("Api", {
+  handler: "src/index.handler",
+  environment: {
+    TURSO_DATABASE_URL: Resource.TursoUrl.value,
+    TURSO_AUTH_TOKEN: Resource.TursoToken.value,
+  },
+});
+```
+
+No extra bundler config needed — SST targets the `browser` condition by default for edge-like
+environments, or use the `/web` import to be explicit.
+
+---
+
+## Solution B — Embedded replicas on Lambda
+
+If you need [embedded replicas](/features/embedded-replicas) (a local SQLite file that syncs
+with Turso Cloud), you must use the native client. Keep it **out of the esbuild bundle** and
+install it for the correct Lambda architecture at deploy time.
+
+### AWS CDK — Lambda Layer
+
+```ts cdk/stack.ts
+import { Architecture, Code, LayerVersion, Runtime } from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+
+const libsqlLayer = new LayerVersion(this, "LibsqlLayer", {
+  compatibleArchitectures: [Architecture.ARM_64],
+  compatibleRuntimes: [Runtime.NODEJS_20_X],
+  code: Code.fromAsset("./layers/libsql/nodejs", {
+    bundling: {
+      // Build the native binary inside the Lambda runtime image
+      image: Runtime.NODEJS_20_X.bundlingImage,
+      command: [
+        "bash",
+        "-xc",
+        [
+          "cd $(mktemp -d)",
+          "cp /asset-input/package* .",
+          "npm --prefix . i @libsql/client",
+          "cp -r node_modules /asset-output/",
+        ].join(" && "),
+      ],
+    },
+  }),
+});
+
+const fn = new NodejsFunction(this, "MyFunction", {
+  architecture: Architecture.ARM_64,
+  runtime: Runtime.NODEJS_20_X,
+  bundling: {
+    // Exclude from the bundle — provided by the layer
+    externalModules: ["@libsql/client"],
+  },
+  layers: [libsqlLayer],
+  environment: {
+    TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL!,
+    TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN!,
+  },
+});
+```
+
+Create a minimal `layers/libsql/nodejs/package.json`:
+
+```json layers/libsql/nodejs/package.json
+{
+  "dependencies": {
+    "@libsql/client": "*"
+  }
+}
+```
+
+### SST — with embedded replicas
+
+```ts sst.config.ts
+export const api = new sst.aws.Function("Api", {
+  handler: "src/index.handler",
+  nodejs: {
+    install: ["@libsql/client"],
+    esbuild: {
+      external: ["@libsql/client"],
+    },
+  },
+});
+```
+
+`install` tells SST to run `npm install` inside the Lambda package after bundling so the native
+binary is compiled for the correct architecture.
+
+---
+
+## Platform quick reference
+
+| Platform | Approach | Notes |
+|---|---|---|
+| AWS Lambda (remote DB) | `/web` import or `--alias` | No native deps |
+| AWS Lambda (embedded replica) | CDK Layer + `externalModules` | Builds native binary in Docker |
+| Vercel Functions | `/web` import | Auto-detected via `edge-light` condition |
+| Netlify Functions | `/web` import | Auto-detected via `netlify` condition |
+| Cloudflare Workers | `/web` import | Auto-detected via `workerd` condition |
+| SST (remote DB) | `/web` import | Explicit is safest |
+| SST (embedded replica) | `nodejs.install` | Installs for Lambda arch |
+| Deno Deploy | `/web` import | No native NAPI support on Deno Deploy |
