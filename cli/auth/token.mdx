@@ -3,8 +3,15 @@ title: auth token
 sidebarTitle: token
 ---
 
-You can obtain your current API token that is used to authenticate with the Turso Platform API by running the following command:
+To print your current login token for the Turso Platform API, run this command:
 
 ```bash
 turso auth token
 ```
+
+<Note>
+This login token also comes from `turso auth login --headless`.
+It is not a named API token, so [`api-tokens list`](/cli/auth/api-tokens/list) does not list it.
+The [`api-tokens revoke`](/cli/auth/api-tokens/revoke) command does not revoke it.
+If you expose it, follow the [logout guidance](/cli/auth/logout).
+</Note>

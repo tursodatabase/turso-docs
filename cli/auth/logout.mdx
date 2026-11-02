@@ -14,3 +14,14 @@ turso auth logout
 | Flag        | Description                                   |
 | ----------- | --------------------------------------------- |
 | `-a, --all` | Invalidate all sessions for the current user. |
+
+If you expose a login token, run this command to invalidate all sessions for your user:
+
+```bash
+turso auth logout --all
+```
+
+<Warning>
+Whether `--all` invalidates a login token that you already printed or copied is unconfirmed.
+Contact [Turso's security team](mailto:security@turso.tech) for help with revocation.
+</Warning>
