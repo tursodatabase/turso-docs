@@ -56,6 +56,16 @@ db, err := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
 })
 ```
 
+```rs Rust
+use turso::sync::Builder;
+
+let db = Builder::new_remote("./local-replica.db")
+  .with_remote_url("http://localhost:8080")
+  .build()
+  .await?;
+
+```
+
 </CodeGroup>
 
 Once connected, all sync operations (`push`, `pull`, `checkpoint`, `stats`) work exactly as described in the [Usage](/sync/usage) guide.
@@ -126,6 +136,22 @@ connA.ExecContext(ctx, "INSERT INTO notes VALUES ('n1', 'hello from client A')")
 clientA.Push(ctx)
 ```
 
+```rs Rust
+use turso::sync::Builder;
+
+let client_a = Builder::new_remote("./client-a.db")
+  .with_remote_url("http://localhost:8080")
+  .build()
+  .await?;
+
+let conn_a = client_a.connect().await?;
+
+conn_a.execute("CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, body TEXT)").await?;
+conn_a.execute("INSERT INTO notes VALUES ( ?, ? )", ( "n1", "hello from client A" )).await?;
+
+client_a.push().await?;
+```
+
 </CodeGroup>
 
 </Step>
@@ -180,6 +206,21 @@ log.Println("changes pulled:", changed)
 
 connB, _ := clientB.Connect(ctx)
 rows, _ := connB.QueryContext(ctx, "SELECT * FROM notes")
+```
+
+```rs Rust
+use turso::sync::Builder;
+
+let client_b = Builder::new_remote("./client-b.db")
+  .with_remote_url("http://localhost:8080")
+  .build()
+  .await?;
+
+let changed = client_b.pull().await?;
+println!("changes pulled: {}", changed);
+
+let conn_b = client_b.connect().await?;
+let rows = conn_b.query("SELECT * FROM notes", ()).await?;
 ```
 
 </CodeGroup>
