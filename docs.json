@@ -260,7 +260,8 @@
                         "group": "ORMs",
                         "pages": [
                           "sdk/ts/orm/drizzle",
-                          "sdk/ts/orm/prisma"
+                          "sdk/ts/orm/prisma",
+                          "sdk/ts/orm/uql"
                         ]
                       },
                       {
