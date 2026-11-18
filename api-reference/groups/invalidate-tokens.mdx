@@ -3,6 +3,12 @@ sidebarTitle: Invalidate Tokens
 openapi: "POST /v1/organizations/{organizationSlug}/groups/{groupName}/auth/rotate"
 ---
 
+<Note>
+
+This invalidates group tokens. On AWS, database-scoped tokens are not invalidated; invalidate them per database with the database endpoint.
+
+</Note>
+
 <RequestExample>
 
 ```bash cURL

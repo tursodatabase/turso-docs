@@ -549,7 +549,7 @@
     "/v1/organizations/{organizationSlug}/databases/{databaseName}/auth/rotate": {
       "post": {
         "summary": "Invalidate All Database Auth Tokens",
-        "description": "Invalidates all authorization tokens for the specified database.",
+        "description": "Invalidates all database-scoped authorization tokens for the specified database. On AWS, only tokens for this database are invalidated; group tokens and tokens for other databases in the group are not affected.",
         "operationId": "invalidateDatabaseTokens",
         "parameters": [
           {
@@ -1130,7 +1130,7 @@
     "/v1/organizations/{organizationSlug}/groups/{groupName}/auth/rotate": {
       "post": {
         "summary": "Invalidate All Group Auth Tokens",
-        "description": "Invalidates all authorization tokens for the specified group.",
+        "description": "Invalidates all group authorization tokens for the specified group. On AWS, database-scoped tokens are not invalidated; invalidate them per database.",
         "operationId": "invalidateGroupTokens",
         "parameters": [
           {
