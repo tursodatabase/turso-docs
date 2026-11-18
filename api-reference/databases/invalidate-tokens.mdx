@@ -5,7 +5,7 @@ openapi: "POST /v1/organizations/{organizationSlug}/databases/{databaseName}/aut
 
 <Warning>
 
-A short downtime is required to complete the changes.
+On AWS, this invalidates only the tokens created for this database. Group tokens and tokens for other databases in the group are not affected.
 
 </Warning>
 

@@ -92,7 +92,7 @@ The platform expands the presets `read-only` and `full-access` to the correspond
 | `db:rotate-creds` | Rotate the database signing key, invalidating every SQL token previously issued for it. |
 | `group:configure` | Configure, rename, update, unarchive the group, or add and remove locations. |
 | `group:mint-token` | Issue a group-level SQL-engine token. |
-| `group:rotate-creds` | Rotate the group signing key, invalidating every SQL token issued against any database in the group. |
+| `group:rotate-creds` | Rotate the group signing key, invalidating group tokens. Database-scoped tokens are not necessarily invalidated. |
 
 <Warning>
 

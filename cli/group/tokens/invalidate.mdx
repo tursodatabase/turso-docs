@@ -3,7 +3,7 @@ title: group tokens invalidate
 sidebarTitle: invalidate
 ---
 
-You can invalidate all tokens for a group by running the command:
+You can invalidate all group tokens for a group by running the command:
 
 ```bash
 turso group tokens invalidate <group-name> [flags]
@@ -14,3 +14,9 @@ turso group tokens invalidate <group-name> [flags]
 | Flag          | Description                                             |
 | ------------- | ------------------------------------------------------- |
 | `-y`, `--yes` | Confirms the invalidation of all existing group tokens. |
+
+<Note>
+
+This rotates the group's credentials and invalidates group tokens. Database-scoped tokens are not necessarily invalidated; to invalidate them, run [`turso db tokens invalidate`](/cli/db/tokens/invalidate) for each database.
+
+</Note>
