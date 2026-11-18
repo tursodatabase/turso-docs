@@ -17,6 +17,6 @@ turso group tokens invalidate <group-name> [flags]
 
 <Note>
 
-This rotates the group's credentials and invalidates group tokens. Database-scoped tokens are not necessarily invalidated; to invalidate them, run [`turso db tokens invalidate`](/cli/db/tokens/invalidate) for each database.
+This rotates the group's credentials and invalidates group tokens. On AWS, database-scoped tokens (created with `turso db tokens create`) are not invalidated and keep working; to invalidate them, run [`turso db tokens invalidate`](/cli/db/tokens/invalidate) for each database.
 
 </Note>

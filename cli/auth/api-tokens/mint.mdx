@@ -91,7 +91,7 @@ turso auth api-tokens mint deploy-bot --org my-org --group default \
 | `db:rotate-creds` | Rotate the database signing key, invalidating every SQL token previously issued for it. |
 | `group:configure` | Configure, rename, update, unarchive the group, or add and remove locations. |
 | `group:mint-token` | Issue a group-level SQL-engine token. |
-| `group:rotate-creds` | Rotate the group signing key, invalidating group tokens. Database-scoped tokens are not necessarily invalidated. |
+| `group:rotate-creds` | Rotate the group signing key, invalidating group tokens. On AWS, database-scoped tokens are not invalidated. |
 
 <Warning>
 

@@ -5,7 +5,7 @@ openapi: "POST /v1/organizations/{organizationSlug}/groups/{groupName}/auth/rota
 
 <Note>
 
-This invalidates group tokens. Database-scoped tokens are not necessarily invalidated; invalidate them per database with the database endpoint.
+This invalidates group tokens. On AWS, database-scoped tokens are not invalidated; invalidate them per database with the database endpoint.
 
 </Note>
 

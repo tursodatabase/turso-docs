@@ -1130,7 +1130,7 @@
     "/v1/organizations/{organizationSlug}/groups/{groupName}/auth/rotate": {
       "post": {
         "summary": "Invalidate All Group Auth Tokens",
-        "description": "Invalidates all group authorization tokens for the specified group. Database-scoped tokens are not necessarily invalidated; invalidate them per database.",
+        "description": "Invalidates all group authorization tokens for the specified group. On AWS, database-scoped tokens are not invalidated; invalidate them per database.",
         "operationId": "invalidateGroupTokens",
         "parameters": [
           {
