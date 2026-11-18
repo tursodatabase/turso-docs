@@ -282,8 +282,8 @@ If using the `blob` type, replace the `value` property with `base64` and encode 
 </Info>
 
 <Note>
-  In JSON, the `value` is a `String` to avoid losing precision, because some
-  JSON implementations treat all numbers as 64-bit floats.
+  Integer values use a JSON string in `value` to avoid losing precision. Float
+  values use a JSON number, and text values use a JSON string.
 </Note>
 
 #### Interactive query
@@ -355,18 +355,43 @@ The response contains the following fields:
 | `base_url` | string | The base URL of the server that handled the request. This URL can be reused for subsequent requests to force routing to that server. |
 | `results`  | array  | The results for each of the requests made in the pipeline.                                                                           |
 
-The `results` array contains the results for each of the requests made in the pipeline. Each result has the following fields:
+For a successful `execute` request, the statement result is at `results[i].response.result` and has the following fields:
 
 | Field                | Type    | Description                                                 |
 | -------------------- | ------- | ----------------------------------------------------------- |
-| `cols`               | array   | The list of columns for the returned rows.                  |
-| `rows`               | array   | The rows returned for the query.                            |
+| `cols`               | array   | Column metadata objects, in the same order as the values in each row. Each object has `name` and `decltype` fields, both a string or `null`. |
+| `rows`               | array   | One array per row. Each entry is a typed value object corresponding to the column at the same index in `cols`. |
 | `affected_row_count` | integer | The number of rows affected by the query.                   |
-| `last_insert_rowid`  | integer | The ID of the last inserted row.                            |
+| `last_insert_rowid`  | string or `null` | The ID of the last inserted row as a decimal string, or `null` if unavailable. |
 | `replication_index`  | string  | The replication timestamp at which this query was executed. |
 | `rows_read`          | integer | The number of rows read by the query.                       |
 | `rows_written`       | integer | The number of rows written by the query.                    |
 | `query_duration_ms`  | float   | The duration of the query in milliseconds.                  |
+
+Each row value has a `type` field: `null`, `integer`, `float`, `text`, or `blob`. Integer values have a decimal string in `value`, float values have a JSON number in `value`, and text values have a string in `value`. Blob values use a base64-encoded string in `base64`; null values have only `type`.
+
+For example, the following shows `cols` and `rows` for `SELECT 9007199254740993 AS id, 1.5 AS score, 'Turso' AS name, X'010203' AS payload, NULL AS optional_value`. Other result fields are omitted. `decltype` is `null` because these columns are expressions rather than declared table columns.
+
+```json
+{
+  "cols": [
+    { "name": "id", "decltype": null },
+    { "name": "score", "decltype": null },
+    { "name": "name", "decltype": null },
+    { "name": "payload", "decltype": null },
+    { "name": "optional_value", "decltype": null }
+  ],
+  "rows": [
+    [
+      { "type": "integer", "value": "9007199254740993" },
+      { "type": "float", "value": 1.5 },
+      { "type": "text", "value": "Turso" },
+      { "type": "blob", "base64": "AQID" },
+      { "type": "null" }
+    ]
+  ]
+}
+```
 
 ### `GET /version`
 
