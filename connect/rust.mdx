@@ -13,6 +13,12 @@ Add the Turso crate to your Rust project:
 cargo add turso
 ```
 
+Add the Tokio crate to your Rust project (for working with async codes):
+
+```bash
+cargo add tokio --features full
+```
+
 </Step>
 
 <Step title="Connect">
@@ -65,8 +71,10 @@ conn.execute("INSERT INTO users (username) VALUES (?)", ("bob",)).await?;
 Query all users from the table:
 
 ```rust
-let res = conn.query("SELECT * FROM users", ()).await?;
-println!("{:?}", res);
+let mut rows = conn.query("SELECT * FROM users", ()).await?;
+while let Ok(Some(row)) = rows.next().await {
+    println!("{:?}", row);
+}
 ```
 
 </Step>
