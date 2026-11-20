@@ -1,6 +1,6 @@
 ---
 title: Usage
-description: How to enable and use sync with Turso across TypeScript, Python, and Go.
+description: How to enable and use sync with Turso across TypeScript, Python, Go and Rust.
 ---
 
 This guide shows how to set up a Turso database and use the sync features from your application.
@@ -77,6 +77,18 @@ db, err := turso.NewTursoSyncDb(ctx, turso.TursoSyncDbConfig{
 })
 ```
 
+```rs Rust
+use turso::sync::Builder;
+
+let db = Builder::new_remote("./app.db")                                // local path
+  .with_remote_url("libsql://...")                                      // remote URL (generated with turso db show <db-name> --url)
+  .with_auth_token(&std::env::var("TURSO_AUTH_TOKEN")?)                 // authentication token (generated with turso db tokens create <db-name>)
+   // .with_long_poll_timeout(std::time::Duration::from_millis(10_000)) // optional: server waits before replying to pull
+   // .bootstrap_if_empty(false)                                        // set to false to avoid bootstrapping on first run
+  .build()
+  .await?;
+```
+
 </CodeGroup>
 
 <Note>
@@ -131,6 +143,21 @@ if err := db.Push(ctx); err != nil {
 }
 ```
 
+```rs Rust
+// create connection instance
+let conn = db.connect().await?;
+
+conn
+  .execute("CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, body TEXT)")
+  .await?;
+
+conn
+  .execute("INSERT INTO notes VALUES ( ?, ? )", ( "n1", "hello" ))
+  .await?;
+
+db.push().await?;
+```
+
 </CodeGroup>
 </Step>
 
@@ -138,7 +165,7 @@ if err := db.Push(ctx); err != nil {
 
 Pull fetches remote changes and applies them locally. It returns a boolean indicating whether anything changed.
 
-- Configure `long_poll_timeout_ms`/`LongPollTimeoutMs` if you want the server to wait for changes and avoid empty replies.
+- Configure `long_poll_timeout_ms`/`LongPollTimeoutMs`/`with_long_poll_timeout` if you want the server to wait for changes and avoid empty replies.
 - If you pushed earlier, a subsequent pull can still return that something changed due to server-side conflict resolution frames.
 
 <CodeGroup>
@@ -162,6 +189,13 @@ if err != nil {
 log.Println("pulled changes:", changed)
 ```
 
+```rs Rust
+// returns true if anything changed locally
+let changed = db.pull().await?;
+
+println!("pulled changes: {}", changed);
+```
+
 </CodeGroup>
 </Step>
 
@@ -183,6 +217,10 @@ conn.checkpoint()
 if err := db.Checkpoint(ctx); err != nil {
 	return err
 }
+```
+
+```rs Rust
+db.checkpoint().await?;
 ```
 
 </CodeGroup>
@@ -237,6 +275,21 @@ log.Printf("stats: cdc=%v, main=%d revert=%d rx=%d tx=%d pull=%d push=%d revisio
   s.LastPushUnixTime,
   s.Revision,
 )
+```
+
+```rs Rust
+let stats = db.stats().await?;
+
+println!("stats: cdc={} main={} revert={} rx={} tx={} pull={:?} push={:?} revision={:?}",
+  stats.cdc_operations,
+  stats.main_wal_size,
+  stats.revert_wal_size,
+  stats.network_received_bytes,
+  stats.network_sent_bytes,
+  stats.last_pull_unix_time,
+  stats.last_push_unix_time,
+  stats.revision,
+);
 ```
 
 </CodeGroup>
@@ -341,6 +394,34 @@ if _, err := db.Pull(ctx); err != nil {
 
 // On a timer or connectivity event
 syncWhenOnline(ctx, db)
+```
+
+```rs Rust
+use turso::sync::{Builder, Database};
+
+// bootstrap_if_empty(false) lets the app start offline without
+// needing to reach the remote on first launch
+let db = Builder::new_remote("./local.db")
+ .with_remote_url(&std::env::var("TURSO_URL")?)
+ .with_auth_token(&std::env::var("TURSO_AUTH_TOKEN")?)
+ .bootstrap_if_empty(false)
+ .build()
+ .await?;
+
+async fn sync_when_online(db: &Database) {
+ if let Err(_) = db.push().await {
+  // No connectivity — changes are safe in the local file
+  // and will sync on the next push() call
+ };
+}
+
+// On app launch, pull the latest state if online
+if let Err(_) = db.pull().await {
+ // Offline — local data is still available for reads and writes
+};
+
+// On a timer or connectivity event
+sync_when_online(&db).await;
 ```
 
 </CodeGroup>

@@ -51,6 +51,16 @@ after, _ := db.Stats(ctx)
 log.Printf("WAL size after: %d", after.MainWalSize)
 ```
 
+```rs Rust
+let before = db.stats().await?;
+println!("WAL size before: {}", before.main_wal_size);
+
+db.checkpoint().await?;
+
+let after = db.stats().await?;
+println!("WAL size after: {}", after.main_wal_size);
+```
+
 </CodeGroup>
 
 
@@ -76,6 +86,10 @@ conn.checkpoint()
 if err := db.Checkpoint(ctx); err != nil {
 	return err
 }
+```
+
+```rs Rust
+db.checkpoint().await?;
 ```
 
 </CodeGroup>
